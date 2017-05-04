@@ -27,7 +27,7 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
-        servletContext.setInitParameter("webAppRootKey", "message-delivery");
+        servletContext.setInitParameter("webAppRootKey", "workOrder");
 
 //        initializeSpringMvcConfig(servletContext);
 
