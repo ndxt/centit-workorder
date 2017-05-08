@@ -29,7 +29,7 @@ public class HelpDoc implements java.io.Serializable {
 	@Id
 	@Column(name = "DOC_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "assigned")
+	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String docId;
 
 	/**
@@ -62,7 +62,7 @@ public class HelpDoc implements java.io.Serializable {
 	 * 文件ID null 
 	 */
 	@Column(name = "DOC_FILE")
-	private String  docFile;
+	private String docFile;
 	/**
 	 * 业务系统ID null 
 	 */
@@ -124,7 +124,7 @@ public class HelpDoc implements java.io.Serializable {
 /** full constructor */
 	public HelpDoc(
 	 String docId		
-	,String  catalogId,String  docTitle,int  docLevel,String  docPath,String  docFile,String  osId,String  optId,String  optMethod,String  updateUser,Date  lastUpdateTime) {
+	,String  catalogId,String  docTitle,int  docLevel,String  docPath,String docFile,String  osId,String  optId,String  optMethod,String  updateUser,Date  lastUpdateTime) {
 	
 	
 		this.docId = docId;		
@@ -258,7 +258,7 @@ public class HelpDoc implements java.io.Serializable {
 	public HelpDocVersion newHelpDocVersion(){
 		HelpDocVersion res = new HelpDocVersion();
   
-		res.setDocId(this.getDocId());
+		res.setHelpDoc(this);
 
 		return res;
 	}
@@ -335,7 +335,7 @@ public class HelpDoc implements java.io.Serializable {
 	public HelpDocComment newHelpDocComment(){
 		HelpDocComment res = new HelpDocComment();
   
-		res.setDocId(this.getDocId());
+		res.setHelpDoc(this);
 
 		return res;
 	}
@@ -412,7 +412,7 @@ public class HelpDoc implements java.io.Serializable {
 	public HelpDocScore newHelpDocScore(){
 		HelpDocScore res = new HelpDocScore();
   
-		res.setDocId(this.getDocId());
+		res.setHelpDoc(this);
 
 		return res;
 	}

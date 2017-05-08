@@ -29,7 +29,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	@Id
 	@Column(name = "CATALOG_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "assigned")
+	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String catalogId;
 
 	/**

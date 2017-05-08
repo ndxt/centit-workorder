@@ -84,16 +84,16 @@ public class HelpDocVersion implements java.io.Serializable {
 		this.cid = id;
 	}
   
-	public String getDocId() {
+	public HelpDoc getHelpDoc() {
 		if(this.cid==null)
 			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		return this.cid.getDocId();
+		return this.cid.getHelpDoc();
 	}
 	
-	public void setDocId(String docId) {
+	public void setHelpDoc(HelpDoc helpDoc) {
 		if(this.cid==null)
 			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		this.cid.setDocId(docId);
+		this.cid.setHelpDoc(helpDoc);
 	}
   
 	public int getDocVersion() {
@@ -148,7 +148,7 @@ public class HelpDocVersion implements java.io.Serializable {
 
 	public HelpDocVersion copy(HelpDocVersion other){
   
-		this.setDocId(other.getDocId());  
+		this.setHelpDoc(other.getHelpDoc());
 		this.setDocVersion(other.getDocVersion());
   
 		this.docFile= other.getDocFile();  
@@ -161,8 +161,8 @@ public class HelpDocVersion implements java.io.Serializable {
 	
 	public HelpDocVersion copyNotNullProperty(HelpDocVersion other){
   
-	if( other.getDocId() != null)
-		this.setDocId(other.getDocId());  
+	if( other.getHelpDoc() != null)
+		this.setHelpDoc(other.getHelpDoc());
 	if( other.getDocVersion() != -1)
 		this.setDocVersion(other.getDocVersion());
   

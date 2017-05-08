@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * HelpDocVersionId  entity.
@@ -19,9 +21,10 @@ public class HelpDocVersionId implements java.io.Serializable {
 	/**
 	 * 文档ID null 
 	 */
-	@Column(name = "DOC_ID")
+	@ManyToOne
+	@JoinColumn(name = "DOC_ID")
 	@NotBlank(message = "字段不能为空")
-	private String docId;
+	private HelpDoc helpDoc;
 
 	/**
 	 * 文档版本号 null 
@@ -35,19 +38,19 @@ public class HelpDocVersionId implements java.io.Serializable {
 	public HelpDocVersionId() {
 	}
 	/** full constructor */
-	public HelpDocVersionId(String docId, int docVersion) {
+	public HelpDocVersionId(HelpDoc helpDoc, int docVersion) {
 
-		this.docId = docId;
+		this.helpDoc = helpDoc;
 		this.docVersion = docVersion;	
 	}
 
   
-	public String getDocId() {
-		return this.docId;
+	public HelpDoc getHelpDoc() {
+		return this.helpDoc;
 	}
 
-	public void setDocId(String docId) {
-		this.docId = docId;
+	public void setHelpDoc(HelpDoc helpDoc) {
+		this.helpDoc = helpDoc;
 	}
   
 	public int getDocVersion() {
@@ -70,9 +73,9 @@ public class HelpDocVersionId implements java.io.Serializable {
 		HelpDocVersionId castOther = (HelpDocVersionId) other;
 		boolean ret = true;
   
-		ret = ret && ( this.getDocId() == castOther.getDocId() ||
-					   (this.getDocId() != null && castOther.getDocId() != null
-							   && this.getDocId().equals(castOther.getDocId())));
+		ret = ret && ( this.getHelpDoc() == castOther.getHelpDoc() ||
+					   (this.getHelpDoc() != null && castOther.getHelpDoc() != null
+							   && this.getHelpDoc().equals(castOther.getHelpDoc())));
   
 		ret = ret && ( this.getDocVersion() == castOther.getDocVersion() ||
 					   (this.getDocVersion() != -1 && castOther.getDocVersion() != -1
@@ -85,7 +88,7 @@ public class HelpDocVersionId implements java.io.Serializable {
 		int result = 17;
   
 		result = 37 * result +
-		 	(this.getDocId() == null ? 0 :this.getDocId().hashCode());
+		 	(this.getHelpDoc() == null ? 0 :this.getHelpDoc().hashCode());
   
 		result = 37 * result +
 		 	(this.getDocVersion() == -1 ? 0 :this.getDocVersion());

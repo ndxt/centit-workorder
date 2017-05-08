@@ -19,7 +19,6 @@ import java.util.Properties;
  */
 @Configuration
 @EnableWebMvc
-//@ComponentScan(basePackages = "com.centit.msgdlvry.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver viewResolver() {

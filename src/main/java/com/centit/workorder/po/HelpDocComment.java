@@ -26,15 +26,16 @@ public class HelpDocComment implements java.io.Serializable {
 	@Id
 	@Column(name = "COMMENT_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "assigned")
+	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String commentId;
 
 	/**
 	 * 文档ID null 
 	 */
-	@Column(name = "DOC_ID")
+	@ManyToOne
+	@JoinColumn(name = "DOC_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private String  docId;
+	private HelpDoc helpDoc;
 	/**
 	 * 评价内容 null 
 	 */
@@ -75,12 +76,12 @@ public class HelpDocComment implements java.io.Serializable {
 /** full constructor */
 	public HelpDocComment(
 	 String commentId		
-	,String  docId,String  docComment,String  userCode,String  userName,Date  createTime) {
+	,HelpDoc  helpDoc,String  docComment,String  userCode,String  userName,Date  createTime) {
 	
 	
 		this.commentId = commentId;		
 	
-		this.docId= docId;
+		this.helpDoc= helpDoc;
 		this.docComment= docComment;
 		this.userCode= userCode;
 		this.userName= userName;
@@ -98,12 +99,12 @@ public class HelpDocComment implements java.io.Serializable {
 	}
 	// Property accessors
   
-	public String getDocId() {
-		return this.docId;
+	public HelpDoc getHelpDoc() {
+		return this.helpDoc;
 	}
 	
-	public void setDocId(String docId) {
-		this.docId = docId;
+	public void setHelpDoc(HelpDoc helpDoc) {
+		this.helpDoc = helpDoc;
 	}
   
 	public String getDocComment() {
@@ -144,7 +145,7 @@ public class HelpDocComment implements java.io.Serializable {
   
 		this.setCommentId(other.getCommentId());
   
-		this.docId= other.getDocId();  
+		this.helpDoc= other.getHelpDoc();  
 		this.docComment= other.getDocComment();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();  
@@ -158,8 +159,8 @@ public class HelpDocComment implements java.io.Serializable {
 	if( other.getCommentId() != null)
 		this.setCommentId(other.getCommentId());
   
-		if( other.getDocId() != null)
-			this.docId= other.getDocId();  
+		if( other.getHelpDoc() != null)
+			this.helpDoc= other.getHelpDoc();  
 		if( other.getDocComment() != null)
 			this.docComment= other.getDocComment();  
 		if( other.getUserCode() != null)
@@ -174,7 +175,7 @@ public class HelpDocComment implements java.io.Serializable {
 
 	public HelpDocComment clearProperties(){
   
-		this.docId= null;  
+		this.helpDoc= null;  
 		this.docComment= null;  
 		this.userCode= null;  
 		this.userName= null;  

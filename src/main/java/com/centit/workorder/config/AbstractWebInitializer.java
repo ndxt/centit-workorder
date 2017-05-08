@@ -20,7 +20,7 @@ public class AbstractWebInitializer extends AbstractAnnotationConfigDispatcherSe
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/*"};
+        return new String[]{"/system/*"};
     }
 
     @Override

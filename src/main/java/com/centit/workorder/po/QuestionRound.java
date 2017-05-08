@@ -27,7 +27,7 @@ public class QuestionRound implements java.io.Serializable {
 	@Id
 	@Column(name = "ROUND_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "assigned")
+	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String roundId;
 
 	/**
