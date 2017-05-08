@@ -6,7 +6,9 @@ import com.centit.framework.core.common.ResponseData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.workorder.po.HelpDoc;
+import com.centit.workorder.service.HelpDocCommentManager;
 import com.centit.workorder.service.HelpDocManager;
+import com.centit.workorder.service.HelpDocScoreManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,11 @@ public class HelpDocController  extends BaseController {
 		//this.setBaseEntityManager(helpDocMag);
 	}*/
 
+    @Resource
+    private HelpDocCommentManager helpDocCommentMag;
+
+    @Resource
+    private HelpDocScoreManager helpDocScoreMag;
     /**
      * 查询所有   系统帮助文档  列表
      *
