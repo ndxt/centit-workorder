@@ -6,9 +6,9 @@ import com.centit.framework.core.common.ResponseData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.workorder.po.HelpDoc;
-import com.centit.workorder.service.HelpDocCommentManager;
+import com.centit.workorder.po.HelpDocComment;
+import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.service.HelpDocManager;
-import com.centit.workorder.service.HelpDocScoreManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -21,8 +21,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
+
 /**
  * HelpDoc  Controller.
  * create by scaffold 2017-05-08 
@@ -32,32 +33,18 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/workorder/helpdoc")
+@RequestMapping("/helpDoc")
 public class HelpDocController  extends BaseController {
 	private static final Log log = LogFactory.getLog(HelpDocController.class);
 	
 	@Resource
-	private HelpDocManager helpDocMag;	
-	/*public void setHelpDocMag(HelpDocManager basemgr)
-	{
-		helpDocMag = basemgr;
-		//this.setBaseEntityManager(helpDocMag);
-	}*/
+	private HelpDocManager helpDocMag;
 
-    @Resource
-    private HelpDocCommentManager helpDocCommentMag;
-
-    @Resource
-    private HelpDocScoreManager helpDocScoreMag;
     /**
      * 查询所有   系统帮助文档  列表
-     *
      * @param field    json中只保存需要的属性名
-     * @param request  {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     * @return {data:[]}
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "search", method = RequestMethod.GET)
     public void list(String[] field, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> searchColumn = convertSearchColumn(request);        
         
@@ -77,71 +64,124 @@ public class HelpDocController  extends BaseController {
     
     /**
      * 查询单个  系统帮助文档 
-	
 	 * @param docId  DOC_ID
-     *
-     * @param response    {@link HttpServletResponse}
-     * @return {data:{}}
      */
-    @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "search/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
     	
-    	HelpDoc helpDoc =     			
-    			helpDocMag.getObjectById( docId);
+    	HelpDoc helpDoc = helpDocMag.getObjectById( docId);
         
         JsonResultUtils.writeSingleDataJson(helpDoc, response);
     }
     
     /**
-     * 新增 系统帮助文档
-     *
+     * 创建 帮助文档条目
      * @param helpDoc  {@link HelpDoc}
-     * @return
      */
-    @RequestMapping(method = {RequestMethod.POST})
+    @RequestMapping(value = "/create", method = {RequestMethod.POST})
     public void createHelpDoc(@RequestBody @Valid HelpDoc helpDoc, HttpServletResponse response) {
-    	Serializable pk = helpDocMag.saveNewObject(helpDoc);
-        JsonResultUtils.writeSingleDataJson(pk,response);
+    	helpDocMag.createHelpDoc(helpDoc);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
-     * 删除单个  系统帮助文档 
-	
-	 * @param docId  DOC_ID
+     * 编辑帮助文档
+     * @param docId  DOC_ID
+     * @param helpDoc  {@link HelpDoc}
      */
-    @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
-    public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
-    	
-    	helpDocMag.deleteObjectById( docId);
-        
-        JsonResultUtils.writeBlankJson(response);
-    } 
-    
-    /**
-     * 新增或保存 系统帮助文档 
-    
-	 * @param docId  DOC_ID
-	 * @param helpDoc  {@link HelpDoc}
-     * @param response    {@link HttpServletResponse}
-     */
-    @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
-    public void updateHelpDoc(@PathVariable String docId, 
-    	@RequestBody @Valid HelpDoc helpDoc, HttpServletResponse response) {
-    	
-    	
-    	HelpDoc dbHelpDoc  =     			
-    			helpDocMag.getObjectById( docId);
-        
-        
+    @RequestMapping(value = "/update/{docId}", method = {RequestMethod.PUT})
+    public void updateHelpDoc(@PathVariable String docId,
+                              @RequestBody @Valid HelpDoc helpDoc, HttpServletResponse response) {
+
+        HelpDoc dbHelpDoc = helpDocMag.getObjectById( docId);
 
         if (null != helpDoc) {
-        	dbHelpDoc .copy(helpDoc);
-        	helpDocMag.mergeObject(dbHelpDoc);
+            dbHelpDoc .copy(helpDoc);
+            helpDocMag.mergeObject(dbHelpDoc);
         } else {
             JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
             return;
         }
-
         JsonResultUtils.writeBlankJson(response);
+    }
+
+    /**
+     * 修改文档内容
+     */
+    @RequestMapping(value = "/editContent/{docId}", method = {RequestMethod.PUT})
+    public void editContent(@PathVariable String docId,
+                            @RequestBody @Valid String content, HttpServletResponse response) {
+        HelpDoc helpDoc = helpDocMag.getObjectById( docId);
+        helpDoc.setDocFile(content);
+        helpDocMag.mergeObject(helpDoc);
+        JsonResultUtils.writeSuccessJson(response);
+    }
+
+    /**
+     * 删除 帮助文档
+	 * @param docId  DOC_ID
+     */
+    @RequestMapping(value = "/delete/{docId}", method = {RequestMethod.DELETE})
+    public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
+
+    	helpDocMag.deleteObjectById( docId);
+
+        JsonResultUtils.writeSuccessJson(response);
+    }
+
+    /**
+     * 帮助文档类别查询接口（按层级查）
+     */
+    @RequestMapping(value="searchTypeByLevel/{level}", method = RequestMethod.GET)
+    public void searchTypeByLevel(@PathVariable String level, HttpServletResponse response) {
+    }
+
+    /**
+     * 帮助文档类别查询接口（按层问题类别）
+     */
+    @RequestMapping(value="searchTypeByType/{type}", method = RequestMethod.GET)
+    public void searchTypeByTye(@PathVariable String type, HttpServletResponse response) {
+    }
+
+    /**
+     * 帮助文档评分接口
+     */
+    @RequestMapping(value = "/score/{docId}", method = RequestMethod.POST)
+    public void score(@PathVariable String docId,
+                      @RequestBody @Valid HelpDocScore helpDocScore, HttpServletResponse response) {
+
+        helpDocMag.score(docId, helpDocScore);
+        JsonResultUtils.writeSuccessJson(response);
+    }
+
+    /**
+     * 帮助文档评价接口
+     */
+    @RequestMapping(value = "/comment/{docId}", method = RequestMethod.POST)
+    public void comment(@PathVariable String docId,
+                        @RequestBody @Valid HelpDocComment helpDocComment, HttpServletResponse response) {
+
+        helpDocMag.comment(docId, helpDocComment);
+        JsonResultUtils.writeSuccessJson(response);
+    }
+
+    /**
+     * 根据文档ID查询所有评分信息
+     */
+    @RequestMapping(value = "/searchScores/{docId}", method = RequestMethod.GET)
+    public void searchScores(@PathVariable String docId, HttpServletResponse response) {
+        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
+        Set<HelpDocScore> scoreSet = helpDoc.getHelpDocScores();
+
+    }
+
+    /**
+     * 根据文档ID查询所有评价信息
+     */
+    @RequestMapping(value = "/searchComments/{docId}", method = RequestMethod.GET)
+    public void searchComments(@PathVariable String docId, HttpServletResponse response) {
+        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
+        Set<HelpDocComment> commentSet = helpDoc.getHelpDocComments();
+
     }
 }

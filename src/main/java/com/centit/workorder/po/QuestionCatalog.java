@@ -163,7 +163,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	public QuestionInfo newQuestionInfo(){
 		QuestionInfo res = new QuestionInfo();
   
-		res.setCatalogId(this.getCatalogId());
+		res.setQuestionCatalog(this);
 
 		return res;
 	}
@@ -240,7 +240,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	public HelpDoc newHelpDoc(){
 		HelpDoc res = new HelpDoc();
   
-		res.setCatalogId(this.getCatalogId());
+		res.setQuestionCatalog(this);
 
 		return res;
 	}

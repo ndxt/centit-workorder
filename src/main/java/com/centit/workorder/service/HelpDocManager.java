@@ -1,10 +1,13 @@
 package com.centit.workorder.service;
 
-import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.core.service.BaseEntityManager;
 import com.centit.workorder.po.HelpDoc;
+import com.centit.workorder.po.HelpDocComment;
+import com.centit.workorder.po.HelpDocScore;
+
+import java.util.Map;
 
 /**
  * HelpDoc  Service.
@@ -19,4 +22,10 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,java.lang.Stri
 	public JSONArray listHelpDocsAsJson(
             String[] fields,
             Map<String, Object> filterMap, PageDesc pageDesc);
+
+	void createHelpDoc(HelpDoc helpDoc);
+
+	void comment(String docId, HelpDocComment helpDocComment);
+
+	void score(String docId, HelpDocScore helpDocScore);
 }

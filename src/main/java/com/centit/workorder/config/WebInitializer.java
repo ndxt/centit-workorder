@@ -29,7 +29,7 @@ public class WebInitializer implements WebApplicationInitializer {
 
         servletContext.setInitParameter("webAppRootKey", "workOrder");
 
-//        initializeSpringMvcConfig(servletContext);
+        initializeSpringMvcConfig(servletContext);
 
         registListener(servletContext);
 
@@ -43,13 +43,13 @@ public class WebInitializer implements WebApplicationInitializer {
     }
 
     private void initializeSpringMvcConfig(ServletContext servletContext) {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(SystemSpringMvcConfig.class);
-        context.setServletContext(servletContext);
-        Dynamic system  = servletContext.addServlet("system", new DispatcherServlet(context));
-        system.addMapping("/*");
-        system.setLoadOnStartup(1);
-        system.setAsyncSupported(true);
+//        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+//        context.register(SystemSpringMvcConfig.class);
+//        context.setServletContext(servletContext);
+//        Dynamic system  = servletContext.addServlet("system", new DispatcherServlet(context));
+//        system.addMapping("/*");
+//        system.setLoadOnStartup(1);
+//        system.setAsyncSupported(true);
 
         AnnotationConfigWebApplicationContext contextSer = new AnnotationConfigWebApplicationContext();
         contextSer.register(NormalSpringMvcConfig.class);

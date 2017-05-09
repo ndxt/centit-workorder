@@ -2,10 +2,7 @@ package com.centit.workorder.po;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * HelpDocVersionId  entity.
@@ -21,7 +18,7 @@ public class HelpDocVersionId implements java.io.Serializable {
 	/**
 	 * 文档ID null 
 	 */
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.LAZY)
 	@JoinColumn(name = "DOC_ID")
 	@NotBlank(message = "字段不能为空")
 	private HelpDoc helpDoc;

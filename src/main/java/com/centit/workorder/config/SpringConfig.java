@@ -23,7 +23,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)//启用注解事物管理
-@ComponentScan(basePackages = {"com.centit.msgdlvry"})
+@ComponentScan(basePackages = {"com.centit.*"})
 @PropertySource("classpath:/system.properties")
 @Import({SpringSecurityDaoConfig.class, SpringSecurityCasConfig.class})
 @EnableAspectJAutoProxy(proxyTargetClass = true)

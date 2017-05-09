@@ -37,7 +37,7 @@ public class QuestionInfo implements java.io.Serializable {
 	 */
 	@Column(name = "CATALOG_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private String  catalogId;
+	private QuestionCatalog  questionCatalog;
 	/**
 	 * 业务系统ID null 
 	 */
@@ -116,12 +116,12 @@ public class QuestionInfo implements java.io.Serializable {
 /** full constructor */
 	public QuestionInfo(
 	 String questionId		
-	,String  catalogId,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime) {
+	,QuestionCatalog  questionCatalog,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime) {
 	
 	
 		this.questionId = questionId;		
 	
-		this.catalogId= catalogId;
+		this.questionCatalog= questionCatalog;
 		this.osId= osId;
 		this.userCode= userCode;
 		this.userName= userName;
@@ -144,12 +144,12 @@ public class QuestionInfo implements java.io.Serializable {
 	}
 	// Property accessors
   
-	public String getCatalogId() {
-		return this.catalogId;
+	public QuestionCatalog getQuestionCatalog() {
+		return this.questionCatalog;
 	}
 	
-	public void setCatalogId(String catalogId) {
-		this.catalogId = catalogId;
+	public void setQuestionCatalog(QuestionCatalog questionCatalog) {
+		this.questionCatalog = questionCatalog;
 	}
   
 	public String getOsId() {
@@ -250,7 +250,7 @@ public class QuestionInfo implements java.io.Serializable {
 	public QuestionRound newQuestionRound(){
 		QuestionRound res = new QuestionRound();
   
-		res.setQuestionId(this.getQuestionId());
+		res.setQuestionInfo(this);
 
 		return res;
 	}
@@ -307,7 +307,7 @@ public class QuestionInfo implements java.io.Serializable {
   
 		this.setQuestionId(other.getQuestionId());
   
-		this.catalogId= other.getCatalogId();  
+		this.questionCatalog= other.getQuestionCatalog();
 		this.osId= other.getOsId();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();  
@@ -327,8 +327,8 @@ public class QuestionInfo implements java.io.Serializable {
 	if( other.getQuestionId() != null)
 		this.setQuestionId(other.getQuestionId());
   
-		if( other.getCatalogId() != null)
-			this.catalogId= other.getCatalogId();  
+		if( other.getQuestionCatalog() != null)
+			this.questionCatalog= other.getQuestionCatalog();
 		if( other.getOsId() != null)
 			this.osId= other.getOsId();  
 		if( other.getUserCode() != null)
@@ -356,7 +356,7 @@ public class QuestionInfo implements java.io.Serializable {
 
 	public QuestionInfo clearProperties(){
   
-		this.catalogId= null;  
+		this.questionCatalog= null;
 		this.osId= null;  
 		this.userCode= null;  
 		this.userName= null;  

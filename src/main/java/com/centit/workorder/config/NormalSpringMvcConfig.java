@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @Import(WebConfig.class)
-@ComponentScan(basePackages = {"com.centit.fileserver.controller","com.centit.filetransfer.controller"},
+@ComponentScan(basePackages = {"com.centit.workorder.controller"},
         includeFilters = {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= org.springframework.stereotype.Controller.class)},
         useDefaultFilters = false)
 public class NormalSpringMvcConfig extends WebMvcConfigurerAdapter {

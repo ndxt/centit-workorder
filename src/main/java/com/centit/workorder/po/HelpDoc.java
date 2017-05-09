@@ -35,9 +35,10 @@ public class HelpDoc implements java.io.Serializable {
 	/**
 	 * 类别ID null 
 	 */
-	@Column(name = "CATALOG_ID")
+	@ManyToOne
+	@JoinColumn(name = "CATALOG_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private String  catalogId;
+	private QuestionCatalog  questionCatalog;
 	/**
 	 * 文档标题 null 
 	 */
@@ -94,7 +95,7 @@ public class HelpDoc implements java.io.Serializable {
 	@Column(name = "last_update_time")
 	private Date  lastUpdateTime;
 	
-	@OneToMany(mappedBy = "helpDoc", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cid.helpDoc", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<HelpDocVersion> helpDocVersions;
 	
 	@OneToMany(mappedBy = "helpDoc", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -124,12 +125,12 @@ public class HelpDoc implements java.io.Serializable {
 /** full constructor */
 	public HelpDoc(
 	 String docId		
-	,String  catalogId,String  docTitle,int  docLevel,String  docPath,String docFile,String  osId,String  optId,String  optMethod,String  updateUser,Date  lastUpdateTime) {
+	,QuestionCatalog  questionCatalog,String  docTitle,int  docLevel,String  docPath,String docFile,String  osId,String  optId,String  optMethod,String  updateUser,Date  lastUpdateTime) {
 	
 	
 		this.docId = docId;		
 	
-		this.catalogId= catalogId;
+		this.questionCatalog= questionCatalog;
 		this.docTitle= docTitle;
 		this.docLevel= docLevel;
 		this.docPath= docPath;
@@ -152,12 +153,12 @@ public class HelpDoc implements java.io.Serializable {
 	}
 	// Property accessors
   
-	public String getCatalogId() {
-		return this.catalogId;
+	public QuestionCatalog getQuestionCatalog() {
+		return this.questionCatalog;
 	}
 	
-	public void setCatalogId(String catalogId) {
-		this.catalogId = catalogId;
+	public void setQuestionCatalog(QuestionCatalog questionCatalog) {
+		this.questionCatalog = questionCatalog;
 	}
   
 	public String getDocTitle() {
@@ -469,7 +470,7 @@ public class HelpDoc implements java.io.Serializable {
   
 		this.setDocId(other.getDocId());
   
-		this.catalogId= other.getCatalogId();  
+		this.questionCatalog= other.getQuestionCatalog();
 		this.docTitle= other.getDocTitle();  
 		this.docLevel= other.getDocLevel();  
 		this.docPath= other.getDocPath();  
@@ -491,8 +492,8 @@ public class HelpDoc implements java.io.Serializable {
 	if( other.getDocId() != null)
 		this.setDocId(other.getDocId());
   
-		if( other.getCatalogId() != null)
-			this.catalogId= other.getCatalogId();  
+		if( other.getQuestionCatalog() != null)
+			this.questionCatalog= other.getQuestionCatalog();
 		if( other.getDocTitle() != null)
 			this.docTitle= other.getDocTitle();  
 		if( other.getDocLevel() != -1)
@@ -526,7 +527,7 @@ public class HelpDoc implements java.io.Serializable {
 
 	public HelpDoc clearProperties(){
   
-		this.catalogId= null;  
+		this.questionCatalog= null;
 		this.docTitle= null;  
 		this.docLevel= -1;
 		this.docPath= null;  
@@ -541,5 +542,17 @@ public class HelpDoc implements java.io.Serializable {
 		this.helpDocComments = new HashSet<HelpDocComment>();	
 		this.helpDocScores = new HashSet<HelpDocScore>();
 		return this;
+	}
+
+	public HelpDocVersion generateVersion(){
+		HelpDocVersion helpDocVersion = new HelpDocVersion();
+		helpDocVersion.setHelpDoc(this);
+		helpDocVersion.setDocVersion(0);
+		helpDocVersion.setDocFile(this.getDocFile());
+		helpDocVersion.setDocTitle(this.getDocTitle());
+		helpDocVersion.setUpdateUser(this.getUpdateUser());
+		helpDocVersion.setLastUpdateTime(this.getLastUpdateTime());
+
+		return helpDocVersion;
 	}
 }
