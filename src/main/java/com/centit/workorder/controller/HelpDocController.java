@@ -82,6 +82,7 @@ public class HelpDocController  extends BaseController {
     public void createHelpDoc(@RequestBody @Valid HelpDoc helpDoc, HttpServletResponse response) {
     	helpDocMag.createHelpDoc(helpDoc);
         JsonResultUtils.writeSuccessJson(response);
+        //返回 主键 docId
     }
 
     /**
@@ -95,6 +96,7 @@ public class HelpDocController  extends BaseController {
 
         helpDocMag.updateHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSuccessJson(response);
+        //不保存 历史版本
     }
 
     /**
@@ -107,6 +109,7 @@ public class HelpDocController  extends BaseController {
         helpDocMag.editContent(docId, content);
 
         JsonResultUtils.writeSuccessJson(response);
+        // 保存 历史版本，
     }
 
     /**
@@ -117,22 +120,27 @@ public class HelpDocController  extends BaseController {
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
 
     	helpDocMag.deleteObjectById( docId);
-
         JsonResultUtils.writeSuccessJson(response);
+        //全部删除 不可恢复 包括历史版本
     }
 
     /**
      * 帮助文档类别查询接口（按层级查）
      */
-    @RequestMapping(value="searchTypeByLevel/{level}", method = RequestMethod.GET)
-    public void searchTypeByLevel(@PathVariable String level, HttpServletResponse response) {
+    @RequestMapping(value="searchCatelogByLevel/{level}", method = RequestMethod.GET)
+    public void searchCatelogByLevel(@PathVariable String level, HttpServletResponse response) {
+        helpDocMag.searchCatelogByLevel(level);
+
     }
 
     /**
      * 帮助文档类别查询接口（按层问题类别）
      */
-    @RequestMapping(value="searchTypeByType/{type}", method = RequestMethod.GET)
-    public void searchTypeByTye(@PathVariable String type, HttpServletResponse response) {
+    @RequestMapping(value="searchCatelogByType/{type}", method = RequestMethod.GET)
+    public void searchCatelogByTye(@PathVariable String type, HttpServletResponse response) {
+        helpDocMag.searchCatelogByType(type);
+
+        //分页， 排序 按照 评分次数高低  或者 评价次数
     }
 
     /**
@@ -144,6 +152,7 @@ public class HelpDocController  extends BaseController {
 
         helpDocMag.score(docId, helpDocScore);
         JsonResultUtils.writeSuccessJson(response);
+        //返回主键
     }
 
     /**
@@ -155,6 +164,7 @@ public class HelpDocController  extends BaseController {
 
         helpDocMag.comment(docId, helpDocComment);
         JsonResultUtils.writeSuccessJson(response);
+        //返回 主键
     }
 
     /**
@@ -164,7 +174,7 @@ public class HelpDocController  extends BaseController {
     public void searchScores(@PathVariable String docId, HttpServletResponse response) {
         HelpDoc helpDoc = helpDocMag.getObjectById(docId);
         Set<HelpDocScore> scoreSet = helpDoc.getHelpDocScores();
-
+        //只返回一个 评价分 和一个 评分次数
     }
 
     /**
@@ -174,6 +184,6 @@ public class HelpDocController  extends BaseController {
     public void searchComments(@PathVariable String docId, HttpServletResponse response) {
         HelpDoc helpDoc = helpDocMag.getObjectById(docId);
         Set<HelpDocComment> commentSet = helpDoc.getHelpDocComments();
-
+        //返回一个评价列表
     }
 }

@@ -11,6 +11,7 @@ import com.centit.workorder.dao.HelpDocVersionDao;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
+import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.HelpDocManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +33,7 @@ import java.util.Map;
 */
 @Service
 public class HelpDocManagerImpl 
-		extends BaseEntityManagerImpl<HelpDoc,java.lang.String,HelpDocDao>
+		extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
 	implements HelpDocManager{
 
 	public static final Log log = LogFactory.getLog(HelpDocManager.class);
@@ -117,6 +120,22 @@ public class HelpDocManagerImpl
 		dbHelpDoc .copy(helpDoc);
 		helpDocDao.mergeObject(dbHelpDoc);
 
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void searchCatelogByLevel(String level) {
+		List<QuestionCatalog> catalogs = new ArrayList<>();
+		List<HelpDoc> list = helpDocDao.listObjectByProperty("docLevel", level);
+		for(HelpDoc helpDoc : list) {
+			catalogs.add(helpDoc.getQuestionCatalog());
+		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void searchCatelogByType(String type) {
 
 	}
 

@@ -16,7 +16,7 @@ import java.util.Map;
  * 系统帮助文档null   
 */
 
-public interface HelpDocManager extends BaseEntityManager<HelpDoc,java.lang.String> 
+public interface HelpDocManager extends BaseEntityManager<HelpDoc,String>
 {
 	
 	public JSONArray listHelpDocsAsJson(
@@ -32,4 +32,8 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,java.lang.Stri
 	void editContent(String docId, String content);
 
 	void updateHelpDoc(String docId, HelpDoc helpDoc);
+
+	void searchCatelogByLevel(String level);
+
+	void searchCatelogByType(String type);
 }
