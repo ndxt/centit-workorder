@@ -100,5 +100,25 @@ public class HelpDocManagerImpl
 		helpDocDao.mergeObject(helpDoc);
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void editContent(String docId, String content) {
+		HelpDoc helpDoc = helpDocDao.getObjectById( docId);
+		helpDoc.setDocFile(content);
+		helpDocDao.mergeObject(helpDoc);
+		helpDocVersionDao.saveNewObject(helpDoc.generateVersion());
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateHelpDoc(String docId, HelpDoc helpDoc) {
+		HelpDoc dbHelpDoc = helpDocDao.getObjectById( docId);
+
+		dbHelpDoc .copy(helpDoc);
+		helpDocDao.mergeObject(dbHelpDoc);
+
+
+	}
+
 }
 

@@ -93,16 +93,8 @@ public class HelpDocController  extends BaseController {
     public void updateHelpDoc(@PathVariable String docId,
                               @RequestBody @Valid HelpDoc helpDoc, HttpServletResponse response) {
 
-        HelpDoc dbHelpDoc = helpDocMag.getObjectById( docId);
-
-        if (null != helpDoc) {
-            dbHelpDoc .copy(helpDoc);
-            helpDocMag.mergeObject(dbHelpDoc);
-        } else {
-            JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
-            return;
-        }
-        JsonResultUtils.writeBlankJson(response);
+        helpDocMag.updateHelpDoc(docId, helpDoc);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -111,9 +103,9 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/editContent/{docId}", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId,
                             @RequestBody @Valid String content, HttpServletResponse response) {
-        HelpDoc helpDoc = helpDocMag.getObjectById( docId);
-        helpDoc.setDocFile(content);
-        helpDocMag.mergeObject(helpDoc);
+
+        helpDocMag.editContent(docId, content);
+
         JsonResultUtils.writeSuccessJson(response);
     }
 

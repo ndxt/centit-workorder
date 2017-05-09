@@ -28,4 +28,8 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,java.lang.Stri
 	void comment(String docId, HelpDocComment helpDocComment);
 
 	void score(String docId, HelpDocScore helpDocScore);
+
+	void editContent(String docId, String content);
+
+	void updateHelpDoc(String docId, HelpDoc helpDoc);
 }
