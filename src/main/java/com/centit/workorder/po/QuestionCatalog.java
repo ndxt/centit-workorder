@@ -57,6 +57,18 @@ public class QuestionCatalog implements java.io.Serializable {
 	 */
 	@Column(name = "create_time")
 	private Date  createTime;
+
+	/**
+	 *
+	 */
+	@Column(name = "DEFAULT_OPERATOR")
+	private String defaultOperator;
+
+	/**
+	 *
+	 */
+	@Column(name = "TIME_LIMIT")
+	private int timeLimit;
 	
 	@OneToMany(mappedBy = "questionCatalog", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<QuestionInfo> questionInfos;
@@ -83,7 +95,7 @@ public class QuestionCatalog implements java.io.Serializable {
 /** full constructor */
 	public QuestionCatalog(
 	 String catalogId		
-	,String  osId,String  catalogName,String  creator,Date  createTime) {
+	,String  osId,String  catalogName,String  creator,Date  createTime, String defaultOperator, int timeLimit) {
 	
 	
 		this.catalogId = catalogId;		
@@ -91,7 +103,9 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.osId= osId;
 		this.catalogName= catalogName;
 		this.creator= creator;
-		this.createTime= createTime;		
+		this.createTime= createTime;
+		this.defaultOperator = defaultOperator;
+		this.timeLimit = timeLimit;
 	}
 	
 
@@ -137,6 +151,21 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
+	public String getDefaultOperator() {
+		return defaultOperator;
+	}
+
+	public void setDefaultOperator(String defaultOperator) {
+		this.defaultOperator = defaultOperator;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
 
 	public Set<QuestionInfo> getQuestionInfos(){
 		if(this.questionInfos==null)
@@ -301,6 +330,8 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.catalogName= other.getCatalogName();  
 		this.creator= other.getCreator();  
 		this.createTime= other.getCreateTime();
+		this.defaultOperator = other.getDefaultOperator();
+		this.timeLimit = other.getTimeLimit();
 	
 		this.questionInfos = other.getQuestionInfos();	
 		this.helpDocs = other.getHelpDocs();
@@ -319,7 +350,11 @@ public class QuestionCatalog implements java.io.Serializable {
 		if( other.getCreator() != null)
 			this.creator= other.getCreator();  
 		if( other.getCreateTime() != null)
-			this.createTime= other.getCreateTime();		
+			this.createTime= other.getCreateTime();
+		if(other.getDefaultOperator()!=null)
+			this.defaultOperator = other.getDefaultOperator();
+		if(other.getTimeLimit() != -1)
+			this.timeLimit = other.getTimeLimit();
 	
 		//this.questionInfos = other.getQuestionInfos();
         replaceQuestionInfos(other.getQuestionInfos());
@@ -336,6 +371,8 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.catalogName= null;  
 		this.creator= null;  
 		this.createTime= null;
+		this.defaultOperator = null;
+		this.timeLimit = -1;
 	
 		this.questionInfos = new HashSet<QuestionInfo>();	
 		this.helpDocs = new HashSet<HelpDoc>();

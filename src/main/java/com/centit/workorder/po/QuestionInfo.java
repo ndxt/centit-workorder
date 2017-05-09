@@ -92,6 +92,12 @@ public class QuestionInfo implements java.io.Serializable {
 	 */
 	@Column(name = "last_update_time")
 	private Date  lastUpdateTime;
+
+	/**
+	 *
+	 */
+	@Column(name="CURRENT_OPERATOR")
+	private String currentOperator;
 	
 	@OneToMany(mappedBy = "questionInfo", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<QuestionRound> questionRounds;
@@ -116,7 +122,7 @@ public class QuestionInfo implements java.io.Serializable {
 /** full constructor */
 	public QuestionInfo(
 	 String questionId		
-	,QuestionCatalog  questionCatalog,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime) {
+	,QuestionCatalog  questionCatalog,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime, String currentOperator) {
 	
 	
 		this.questionId = questionId;		
@@ -130,7 +136,8 @@ public class QuestionInfo implements java.io.Serializable {
 		this.questionState= questionState;
 		this.createTime= createTime;
 		this.editState= editState;
-		this.lastUpdateTime= lastUpdateTime;		
+		this.lastUpdateTime= lastUpdateTime;
+		this.currentOperator = currentOperator;
 	}
 	
 
@@ -224,6 +231,13 @@ public class QuestionInfo implements java.io.Serializable {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
+	public String getCurrentOperator() {
+		return currentOperator;
+	}
+
+	public void setCurrentOperator(String currentOperator) {
+		this.currentOperator = currentOperator;
+	}
 
 	public Set<QuestionRound> getQuestionRounds(){
 		if(this.questionRounds==null)
@@ -317,6 +331,7 @@ public class QuestionInfo implements java.io.Serializable {
 		this.createTime= other.getCreateTime();  
 		this.editState= other.getEditState();  
 		this.lastUpdateTime= other.getLastUpdateTime();
+		this.currentOperator= other.getCurrentOperator();
 	
 		this.questionRounds = other.getQuestionRounds();
 		return this;
@@ -346,7 +361,9 @@ public class QuestionInfo implements java.io.Serializable {
 		if( other.getEditState() != null)
 			this.editState= other.getEditState();  
 		if( other.getLastUpdateTime() != null)
-			this.lastUpdateTime= other.getLastUpdateTime();		
+			this.lastUpdateTime= other.getLastUpdateTime();
+		if(other.getCurrentOperator() != null)
+			this.currentOperator = other.getCurrentOperator();
 	
 		//this.questionRounds = other.getQuestionRounds();
         replaceQuestionRounds(other.getQuestionRounds());
@@ -366,6 +383,7 @@ public class QuestionInfo implements java.io.Serializable {
 		this.createTime= null;  
 		this.editState= null;  
 		this.lastUpdateTime= null;
+		this.currentOperator= null;
 	
 		this.questionRounds = new HashSet<QuestionRound>();
 		return this;
