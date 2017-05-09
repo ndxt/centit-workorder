@@ -252,30 +252,30 @@ public class QuestionCatalog implements java.io.Serializable {
 
 	public void setHelpDocs(Set<HelpDoc> helpDocs) {
 		this.helpDocs = helpDocs;
-	}
+	}	
 
 	public void addHelpDoc(HelpDoc helpDoc ){
 		if (this.helpDocs==null)
 			this.helpDocs = new HashSet<HelpDoc>();
 		this.helpDocs.add(helpDoc);
 	}
-
+	
 	public void removeHelpDoc(HelpDoc helpDoc ){
 		if (this.helpDocs==null)
 			return;
 		this.helpDocs.remove(helpDoc);
 	}
-
+	
 	public HelpDoc newHelpDoc(){
 		HelpDoc res = new HelpDoc();
-
+  
 		res.setQuestionCatalog(this);
 
 		return res;
 	}
 	/**
 	 * 替换子类对象数组，这个函数主要是考虑hibernate中的对象的状态，以避免对象状态不一致的问题
-	 *
+	 * 
 	 */
 	public void replaceHelpDocs(Set<HelpDoc> helpDocs) {
 		Set<HelpDoc> newObjs = new HashSet<HelpDoc>();
@@ -290,7 +290,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		boolean found = false;
 		Set<HelpDoc> oldObjs = new HashSet<HelpDoc>();
 		oldObjs.addAll(getHelpDocs());
-
+		
 		for(Iterator<HelpDoc> it=oldObjs.iterator(); it.hasNext();){
 			HelpDoc odt = it.next();
 			found = false;
@@ -308,7 +308,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		for(HelpDoc newdt :newObjs){
 			found = false;
 			for(Iterator<HelpDoc> it=getHelpDocs().iterator();
-				it.hasNext();){
+			 it.hasNext();){
 				HelpDoc odt = it.next();
 				if(odt.getDocId().equals( newdt.getDocId())){
 					odt.copy(newdt);
@@ -318,63 +318,55 @@ public class QuestionCatalog implements java.io.Serializable {
 			}
 			if(! found)
 				addHelpDoc(newdt);
-		}
-	}
+		} 	
+	}	
 
 
 	public QuestionCatalog copy(QuestionCatalog other){
-
+  
 		this.setCatalogId(other.getCatalogId());
-
-		this.osId= other.getOsId();
-		this.catalogName= other.getCatalogName();
-		this.creator= other.getCreator();
+  
+		this.osId= other.getOsId();  
+		this.catalogName= other.getCatalogName();  
+		this.creator= other.getCreator();  
 		this.createTime= other.getCreateTime();
-		this.defaultOperator = other.getDefaultOperator();
-		this.timeLimit = other.getTimeLimit();
-
-		this.questionInfos = other.getQuestionInfos();
+	
+		this.questionInfos = other.getQuestionInfos();	
 		this.helpDocs = other.getHelpDocs();
 		return this;
 	}
-
+	
 	public QuestionCatalog copyNotNullProperty(QuestionCatalog other){
-
-		if( other.getCatalogId() != null)
-			this.setCatalogId(other.getCatalogId());
-
+  
+	if( other.getCatalogId() != null)
+		this.setCatalogId(other.getCatalogId());
+  
 		if( other.getOsId() != null)
-			this.osId= other.getOsId();
+			this.osId= other.getOsId();  
 		if( other.getCatalogName() != null)
-			this.catalogName= other.getCatalogName();
+			this.catalogName= other.getCatalogName();  
 		if( other.getCreator() != null)
-			this.creator= other.getCreator();
+			this.creator= other.getCreator();  
 		if( other.getCreateTime() != null)
-			this.createTime= other.getCreateTime();
-		if(other.getDefaultOperator()!=null)
-			this.defaultOperator = other.getDefaultOperator();
-		if(other.getTimeLimit() != -1)
-			this.timeLimit = other.getTimeLimit();
-
+			this.createTime= other.getCreateTime();		
+	
 		//this.questionInfos = other.getQuestionInfos();
-		replaceQuestionInfos(other.getQuestionInfos());
-
+        replaceQuestionInfos(other.getQuestionInfos());
+			
 		//this.helpDocs = other.getHelpDocs();
-		replaceHelpDocs(other.getHelpDocs());
-
+        replaceHelpDocs(other.getHelpDocs());
+		
 		return this;
 	}
 
 	public QuestionCatalog clearProperties(){
-
-		this.osId= null;
-		this.catalogName= null;
-		this.creator= null;
+  
+		this.osId= null;  
+		this.catalogName= null;  
+		this.creator= null;  
 		this.createTime= null;
-		this.defaultOperator = null;
-		this.timeLimit = -1;
-
-		this.questionInfos = new HashSet<QuestionInfo>();
+	
+		this.questionInfos = new HashSet<QuestionInfo>();	
 		this.helpDocs = new HashSet<HelpDoc>();
 		return this;
 	}
