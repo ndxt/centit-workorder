@@ -18,10 +18,9 @@ public class HelpDocVersionId implements java.io.Serializable {
 	/**
 	 * 文档ID null 
 	 */
-	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.LAZY)
-	@JoinColumn(name = "DOC_ID")
+	@Column(name = "DOC_ID")
 	@NotBlank(message = "字段不能为空")
-	private HelpDoc helpDoc;
+	private String docId;
 
 	/**
 	 * 文档版本号 null 
@@ -35,19 +34,19 @@ public class HelpDocVersionId implements java.io.Serializable {
 	public HelpDocVersionId() {
 	}
 	/** full constructor */
-	public HelpDocVersionId(HelpDoc helpDoc, int docVersion) {
+	public HelpDocVersionId(String docId, int docVersion) {
 
-		this.helpDoc = helpDoc;
+		this.docId = docId;
 		this.docVersion = docVersion;	
 	}
 
   
-	public HelpDoc getHelpDoc() {
-		return this.helpDoc;
+	public String getDocId() {
+		return this.docId;
 	}
 
-	public void setHelpDoc(HelpDoc helpDoc) {
-		this.helpDoc = helpDoc;
+	public void setDocId(String docId) {
+		this.docId = docId;
 	}
   
 	public int getDocVersion() {
@@ -70,9 +69,9 @@ public class HelpDocVersionId implements java.io.Serializable {
 		HelpDocVersionId castOther = (HelpDocVersionId) other;
 		boolean ret = true;
   
-		ret = ret && ( this.getHelpDoc() == castOther.getHelpDoc() ||
-					   (this.getHelpDoc() != null && castOther.getHelpDoc() != null
-							   && this.getHelpDoc().equals(castOther.getHelpDoc())));
+		ret = ret && ( this.getDocId() == castOther.getDocId() ||
+					   (this.getDocId() != null && castOther.getDocId() != null
+							   && this.getDocId().equals(castOther.getDocId())));
   
 		ret = ret && ( this.getDocVersion() == castOther.getDocVersion() ||
 					   (this.getDocVersion() != -1 && castOther.getDocVersion() != -1
@@ -85,7 +84,7 @@ public class HelpDocVersionId implements java.io.Serializable {
 		int result = 17;
   
 		result = 37 * result +
-		 	(this.getHelpDoc() == null ? 0 :this.getHelpDoc().hashCode());
+		 	(this.getDocId() == null ? 0 :this.getDocId().hashCode());
   
 		result = 37 * result +
 		 	(this.getDocVersion() == -1 ? 0 :this.getDocVersion());

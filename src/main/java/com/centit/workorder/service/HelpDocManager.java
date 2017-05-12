@@ -1,6 +1,7 @@
 package com.centit.workorder.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.core.service.BaseEntityManager;
 import com.centit.workorder.po.HelpDoc;
@@ -19,21 +20,24 @@ import java.util.Map;
 public interface HelpDocManager extends BaseEntityManager<HelpDoc,String>
 {
 	
-	public JSONArray listHelpDocsAsJson(
-            String[] fields,
-            Map<String, Object> filterMap, PageDesc pageDesc);
-
-	void createHelpDoc(HelpDoc helpDoc);
-
-	void comment(String docId, HelpDocComment helpDocComment);
-
-	void score(String docId, HelpDocScore helpDocScore);
-
-	void editContent(String docId, String content);
+	String createHelpDoc(HelpDoc helpDoc);
 
 	void updateHelpDoc(String docId, HelpDoc helpDoc);
 
-	void searchCatelogByLevel(String level);
+	void deleteHelpDoc(String docId);
 
-	void searchCatelogByType(String type);
+	String comment(String docId, HelpDocComment helpDocComment);
+
+	String score(String docId, HelpDocScore helpDocScore);
+
+	void editContent(String docId, String content);
+
+	JSONArray searchHelpdocByLevel(String osId);
+
+	JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+
+	JSONArray searchComments(String docId);
+
+	JSONObject searchScores(String docId);
+
 }

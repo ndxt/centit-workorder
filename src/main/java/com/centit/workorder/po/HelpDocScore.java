@@ -2,7 +2,6 @@ package com.centit.workorder.po;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,15 +32,14 @@ public class HelpDocScore implements java.io.Serializable {
 	/**
 	 * 文档ID null 
 	 */
-	@ManyToOne
-	@JoinColumn(name = "DOC_ID")
+	@Column(name = "DOC_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private HelpDoc  helpDoc;
+	private String  docId;
 	/**
 	 * 文档评分 null 
 	 */
 	@Column(name = "DOC_SCORE")
-	@NotBlank(message = "字段不能为空")
+//	@NotBlank(message = "字段不能为空")
 	private int  docScore;
 	/**
 	 * 用户代码 null 
@@ -79,12 +77,12 @@ public class HelpDocScore implements java.io.Serializable {
 /** full constructor */
 	public HelpDocScore(
 	 String scoreId		
-	,HelpDoc  helpDoc,int  docScore,String  userCode,String  userName,Date  createTime) {
+	,String  docId,int  docScore,String  userCode,String  userName,Date  createTime) {
 	
 	
 		this.scoreId = scoreId;		
 	
-		this.helpDoc= helpDoc;
+		this.docId= docId;
 		this.docScore= docScore;
 		this.userCode= userCode;
 		this.userName= userName;
@@ -102,12 +100,12 @@ public class HelpDocScore implements java.io.Serializable {
 	}
 	// Property accessors
   
-	public HelpDoc getHelpDoc() {
-		return this.helpDoc;
+	public String getDocId() {
+		return this.docId;
 	}
 	
-	public void setHelpDoc(HelpDoc helpDoc) {
-		this.helpDoc = helpDoc;
+	public void setDocId(String docId) {
+		this.docId = docId;
 	}
   
 	public int getDocScore() {
@@ -148,7 +146,7 @@ public class HelpDocScore implements java.io.Serializable {
   
 		this.setScoreId(other.getScoreId());
   
-		this.helpDoc= other.getHelpDoc();  
+		this.docId= other.getDocId();
 		this.docScore= other.getDocScore();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();  
@@ -162,8 +160,8 @@ public class HelpDocScore implements java.io.Serializable {
 	if( other.getScoreId() != null)
 		this.setScoreId(other.getScoreId());
   
-		if( other.getHelpDoc() != null)
-			this.helpDoc= other.getHelpDoc();  
+		if( other.getDocId() != null)
+			this.docId= other.getDocId();
 		if( other.getDocScore() != -1)
 			this.docScore= other.getDocScore();  
 		if( other.getUserCode() != null)
@@ -178,7 +176,7 @@ public class HelpDocScore implements java.io.Serializable {
 
 	public HelpDocScore clearProperties(){
   
-		this.helpDoc= null;  
+		this.docId= null;
 		this.docScore= -1;
 		this.userCode= null;  
 		this.userName= null;  

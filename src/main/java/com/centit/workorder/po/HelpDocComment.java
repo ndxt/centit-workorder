@@ -32,10 +32,9 @@ public class HelpDocComment implements java.io.Serializable {
 	/**
 	 * 文档ID null 
 	 */
-	@ManyToOne
-	@JoinColumn(name = "DOC_ID")
+	@Column(name = "DOC_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private HelpDoc helpDoc;
+	private String docId;
 	/**
 	 * 评价内容 null 
 	 */
@@ -76,12 +75,12 @@ public class HelpDocComment implements java.io.Serializable {
 /** full constructor */
 	public HelpDocComment(
 	 String commentId		
-	,HelpDoc  helpDoc,String  docComment,String  userCode,String  userName,Date  createTime) {
+	,String  docId,String  docComment,String  userCode,String  userName,Date  createTime) {
 	
 	
 		this.commentId = commentId;		
 	
-		this.helpDoc= helpDoc;
+		this.docId= docId;
 		this.docComment= docComment;
 		this.userCode= userCode;
 		this.userName= userName;
@@ -99,12 +98,12 @@ public class HelpDocComment implements java.io.Serializable {
 	}
 	// Property accessors
   
-	public HelpDoc getHelpDoc() {
-		return this.helpDoc;
+	public String getDocId() {
+		return this.docId;
 	}
 	
-	public void setHelpDoc(HelpDoc helpDoc) {
-		this.helpDoc = helpDoc;
+	public void setDocId(String docId) {
+		this.docId = docId;
 	}
   
 	public String getDocComment() {
@@ -145,7 +144,7 @@ public class HelpDocComment implements java.io.Serializable {
   
 		this.setCommentId(other.getCommentId());
   
-		this.helpDoc= other.getHelpDoc();  
+		this.docId= other.getDocId();
 		this.docComment= other.getDocComment();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();  
@@ -159,8 +158,8 @@ public class HelpDocComment implements java.io.Serializable {
 	if( other.getCommentId() != null)
 		this.setCommentId(other.getCommentId());
   
-		if( other.getHelpDoc() != null)
-			this.helpDoc= other.getHelpDoc();  
+		if( other.getDocId() != null)
+			this.docId= other.getDocId();
 		if( other.getDocComment() != null)
 			this.docComment= other.getDocComment();  
 		if( other.getUserCode() != null)
@@ -175,7 +174,7 @@ public class HelpDocComment implements java.io.Serializable {
 
 	public HelpDocComment clearProperties(){
   
-		this.helpDoc= null;  
+		this.docId= null;
 		this.docComment= null;  
 		this.userCode= null;  
 		this.userName= null;  
