@@ -6,9 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 /**
  * create by scaffold 2017-05-08 
@@ -21,8 +19,6 @@ import java.util.Set;
 public class QuestionInfo implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
-
-
 	/**
 	 * 问题ID null 
 	 */
@@ -31,13 +27,12 @@ public class QuestionInfo implements java.io.Serializable {
 	@GeneratedValue(generator = "assignedGenerator")
 	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String questionId;
-
 	/**
 	 * 类别ID null 
 	 */
 	@Column(name = "CATALOG_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private QuestionCatalog  questionCatalog;
+	private String  catalogId;
 	/**
 	 * 业务系统ID null 
 	 */
@@ -48,7 +43,7 @@ public class QuestionInfo implements java.io.Serializable {
 	/**
 	 * 用户代码 null 
 	 */
-	@Column(name = "User_Code")
+	@Column(name = "USER_CODE")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
@@ -68,39 +63,59 @@ public class QuestionInfo implements java.io.Serializable {
 	 * 问题内容 null 
 	 */
 	@Column(name = "QUESTION_CONTENT")
-	@NotBlank(message = "字段不能为空")
 	private String  questionContent;
 	/**
 	 * 问题状态 N : 正常  C: 关闭 
 	 */
 	@Column(name = "QUESTION_STATE")
-	@Length(max = 0, message = "字段长度不能大于{max}")
+	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  questionState;
 	/**
 	 * 创建时间 null 
 	 */
-	@Column(name = "create_time")
+	@Column(name = "CREATE_TIME")
 	private Date  createTime;
 	/**
 	 * 编辑状态 N: 未编辑  U: 已被编辑 
 	 */
-	@Column(name = "edit_state")
-	@Length(max = 0, message = "字段长度不能大于{max}")
+	@Column(name = "EDIT_STATE")
+	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  editState;
 	/**
 	 * 编辑时间 null 
 	 */
-	@Column(name = "last_update_time")
+	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
-
+	/**
+	 *受理时间
+	 */
+	@Column(name = "ACCEPT_TIME")
+	private Date  acceptTime;
+	/**
+	 *处理完成时间
+	 */
+	@Column(name = "COMPLETE_TIME")
+	private Date  completeTime;
+	/**
+	 *关闭时间
+	 */
+	@Column(name = "CLOSED_TIME")
+	private Date  closedTime;
+	/**
+	 *问题评价
+	 */
+	@Column(name = "EVALUATE_SCORE")
+	private int  evaluateScore;
+	/**
+	 *评价时间
+	 */
+	@Column(name = "EVALUATE_TIME")
+	private Date  evaluateTime;
 	/**
 	 *责任人
 	 */
 	@Column(name="CURRENT_OPERATOR")
 	private String currentOperator;
-
-	@OneToMany(mappedBy = "questionInfo", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<QuestionRound> questionRounds;
 
 	// Constructors
 	/** default constructor */
@@ -110,10 +125,7 @@ public class QuestionInfo implements java.io.Serializable {
 	public QuestionInfo(
 			String questionId
 			,String  osId,String  questionTitle,String  questionContent) {
-
-
 		this.questionId = questionId;
-
 		this.osId= osId;
 		this.questionTitle= questionTitle;
 		this.questionContent= questionContent;
@@ -122,12 +134,10 @@ public class QuestionInfo implements java.io.Serializable {
 	/** full constructor */
 	public QuestionInfo(
 			String questionId
-			,QuestionCatalog  questionCatalog,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime, String currentOperator) {
-
-
+			,String  catalogId,String  osId,String  userCode,String  userName,String  questionTitle,String  questionContent,String  questionState,Date  createTime,String  editState,Date  lastUpdateTime, String currentOperator,
+			Date acceptTime,Date completeTime,Date closedTime,int evaluateScore,Date evaluateTime) {
 		this.questionId = questionId;
-
-		this.questionCatalog= questionCatalog;
+		this.catalogId= catalogId;
 		this.osId= osId;
 		this.userCode= userCode;
 		this.userName= userName;
@@ -138,6 +148,11 @@ public class QuestionInfo implements java.io.Serializable {
 		this.editState= editState;
 		this.lastUpdateTime= lastUpdateTime;
 		this.currentOperator = currentOperator;
+		this.acceptTime= acceptTime;
+		this.completeTime= completeTime;
+		this.closedTime= closedTime;
+		this.evaluateScore= evaluateScore;
+		this.evaluateTime= evaluateTime;
 	}
 
 
@@ -149,14 +164,13 @@ public class QuestionInfo implements java.io.Serializable {
 	public void setQuestionId(String questionId) {
 		this.questionId = questionId;
 	}
-	// Property accessors
 
-	public QuestionCatalog getQuestionCatalog() {
-		return this.questionCatalog;
+	public String getCatalogId() {
+		return this.catalogId;
 	}
 
-	public void setQuestionCatalog(QuestionCatalog questionCatalog) {
-		this.questionCatalog = questionCatalog;
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
 	}
 
 	public String getOsId() {
@@ -239,89 +253,56 @@ public class QuestionInfo implements java.io.Serializable {
 		this.currentOperator = currentOperator;
 	}
 
-	public Set<QuestionRound> getQuestionRounds(){
-		if(this.questionRounds==null)
-			this.questionRounds = new HashSet<QuestionRound>();
-		return this.questionRounds;
+	public Date getAcceptTime() {
+		return acceptTime;
 	}
 
-	public void setQuestionRounds(Set<QuestionRound> questionRounds) {
-		this.questionRounds = questionRounds;
+	public void setAcceptTime(Date acceptTime) {
+		this.acceptTime = acceptTime;
 	}
 
-	public void addQuestionRound(QuestionRound questionRound ){
-		if (this.questionRounds==null)
-			this.questionRounds = new HashSet<QuestionRound>();
-		this.questionRounds.add(questionRound);
+	public Date getCompleteTime() {
+		return completeTime;
 	}
 
-	public void removeQuestionRound(QuestionRound questionRound ){
-		if (this.questionRounds==null)
-			return;
-		this.questionRounds.remove(questionRound);
+	public void setCompleteTime(Date completeTime) {
+		this.completeTime = completeTime;
 	}
+
+	public Date getClosedTime() {
+		return closedTime;
+	}
+
+	public void setClosedTime(Date closedTime) {
+		this.closedTime = closedTime;
+	}
+
+	public int getEvaluateScore() {
+		return evaluateScore;
+	}
+
+	public void setEvaluateScore(int evaluateScore) {
+		this.evaluateScore = evaluateScore;
+	}
+
+	public Date getEvaluateTime() {
+		return evaluateTime;
+	}
+
+	public void setEvaluateTime(Date evaluateTime) {
+		this.evaluateTime = evaluateTime;
+	}
+
+
 
 	public QuestionRound newQuestionRound(){
 		QuestionRound res = new QuestionRound();
-
-		res.setQuestionInfo(this);
-
 		return res;
 	}
-	/**
-	 * 替换子类对象数组，这个函数主要是考虑hibernate中的对象的状态，以避免对象状态不一致的问题
-	 *
-	 */
-	public void replaceQuestionRounds(Set<QuestionRound> questionRounds) {
-		Set<QuestionRound> newObjs = new HashSet<QuestionRound>();
-		for(QuestionRound p :questionRounds){
-			if(p==null)
-				continue;
-			QuestionRound newdt = newQuestionRound();
-			newdt.copyNotNullProperty(p);
-			newObjs.add(newdt);
-		}
-		//delete
-		boolean found = false;
-		Set<QuestionRound> oldObjs = new HashSet<QuestionRound>();
-		oldObjs.addAll(getQuestionRounds());
-
-		for(Iterator<QuestionRound> it=oldObjs.iterator(); it.hasNext();){
-			QuestionRound odt = it.next();
-			found = false;
-			for(QuestionRound newdt :newObjs){
-				if(odt.getRoundId().equals( newdt.getRoundId())){
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				removeQuestionRound(odt);
-		}
-		oldObjs.clear();
-		//insert or update
-		for(QuestionRound newdt :newObjs){
-			found = false;
-			for(Iterator<QuestionRound> it=getQuestionRounds().iterator();
-				it.hasNext();){
-				QuestionRound odt = it.next();
-				if(odt.getRoundId().equals( newdt.getRoundId())){
-					odt.copy(newdt);
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				addQuestionRound(newdt);
-		}
-	}
-
 
 	public QuestionInfo copy(QuestionInfo other){
-
 		this.setQuestionId(other.getQuestionId());
-
-		this.questionCatalog= other.getQuestionCatalog();
+		this.catalogId= other.getCatalogId();
 		this.osId= other.getOsId();
 		this.userCode= other.getUserCode();
 		this.userName= other.getUserName();
@@ -332,18 +313,19 @@ public class QuestionInfo implements java.io.Serializable {
 		this.editState= other.getEditState();
 		this.lastUpdateTime= other.getLastUpdateTime();
 		this.currentOperator= other.getCurrentOperator();
-
-		this.questionRounds = other.getQuestionRounds();
+		this.acceptTime= other.getAcceptTime();
+		this.completeTime= other.getCompleteTime();
+		this.closedTime= other.getClosedTime();
+		this.evaluateScore= other.getEvaluateScore();
+		this.evaluateTime= other.getEvaluateTime();
 		return this;
 	}
 
 	public QuestionInfo copyNotNullProperty(QuestionInfo other){
-
 		if( other.getQuestionId() != null)
 			this.setQuestionId(other.getQuestionId());
-
-		if( other.getQuestionCatalog() != null)
-			this.questionCatalog= other.getQuestionCatalog();
+		if( other.getCatalogId() != null)
+			this.catalogId= other.getCatalogId();
 		if( other.getOsId() != null)
 			this.osId= other.getOsId();
 		if( other.getUserCode() != null)
@@ -364,16 +346,21 @@ public class QuestionInfo implements java.io.Serializable {
 			this.lastUpdateTime= other.getLastUpdateTime();
 		if(other.getCurrentOperator() != null)
 			this.currentOperator = other.getCurrentOperator();
-
-		//this.questionRounds = other.getQuestionRounds();
-		replaceQuestionRounds(other.getQuestionRounds());
-
+		if(other.getAcceptTime() != null)
+			this.acceptTime = other.getAcceptTime();
+		if(other.getCompleteTime() != null)
+			this.completeTime = other.getCompleteTime();
+		if(other.getClosedTime() != null)
+			this.closedTime = other.getClosedTime();
+		if(other.getEvaluateScore() != -1)
+			this.evaluateScore = other.getEvaluateScore();
+		if(other.getEvaluateTime() != null)
+			this.evaluateTime = other.getEvaluateTime();
 		return this;
 	}
 
 	public QuestionInfo clearProperties(){
-
-		this.questionCatalog= null;
+		this.catalogId= null;
 		this.osId= null;
 		this.userCode= null;
 		this.userName= null;
@@ -384,8 +371,11 @@ public class QuestionInfo implements java.io.Serializable {
 		this.editState= null;
 		this.lastUpdateTime= null;
 		this.currentOperator= null;
-
-		this.questionRounds = new HashSet<QuestionRound>();
+		this.acceptTime= null;
+		this.completeTime= null;
+		this.closedTime= null;
+		this.evaluateScore= -1;
+		this.evaluateTime= null;
 		return this;
 	}
 }

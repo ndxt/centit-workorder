@@ -1,12 +1,20 @@
 package com.centit.workorder.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.common.JsonResultUtils;
 import com.centit.framework.core.common.ResponseData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.workorder.comRet.QuestionRoundRet;
+import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.po.QuestionInfo;
+import com.centit.workorder.po.QuestionRound;
+import com.centit.workorder.service.QuestionCatalogManager;
 import com.centit.workorder.service.QuestionInfoManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -19,8 +27,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.Serializable;
-import java.util.Map;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.util.*;
+
 /**
  * QuestionInfo  Controller.
  * create by scaffold 2017-05-08 
@@ -30,103 +40,117 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/workorder/questioninfo")
+@RequestMapping("/questioninfo")
 public class QuestionInfoController  extends BaseController {
 	private static final Log log = LogFactory.getLog(QuestionInfoController.class);
 	
 	@Resource
-	private QuestionInfoManager questionInfoMag;	
-	/*public void setQuestionInfoMag(QuestionInfoManager basemgr)
-	{
-		questionInfoMag = basemgr;
-		//this.setBaseEntityManager(questionInfoMag);
-	}*/
+	private QuestionInfoManager questionInfoMag;
+
+    @Resource
+    private QuestionCatalogManager questionCatalogMag;
+
+    private QuestionInfo
+    fetchQuestionInfo(HttpServletRequest request) throws IOException {
+        String contentType = request.getContentType();
+        if(StringUtils.indexOf(contentType,"form")>0){
+            Map<String, String[]>  params = request.getParameterMap();
+            Map<String, String> objMap = new HashMap<>();
+            for(Map.Entry<String, String[]> ent : params.entrySet()){
+                if(ent.getValue()!=null && ent.getValue().length>0)
+                    objMap.put(ent.getKey(),ent.getValue()[0]);
+            }
+            QuestionInfo questionInfo = JSON.parseObject( JSON.toJSONString(objMap),QuestionInfo.class);
+            return questionInfo;
+        }else if(StringUtils.indexOf(contentType,"json")>0){
+            QuestionInfo questionInfo = JSON.parseObject(request.getInputStream(),QuestionCatalog.class);
+            return questionInfo;
+        }
+        return null;
+    }
+
 
     /**
      * 查询所有   系统问题列表  列表
-     *
-     * @param field    json中只保存需要的属性名
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public void list(String[] field, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, Object> searchColumn = convertSearchColumn(request);        
-        
-        JSONArray listObjects = questionInfoMag.listQuestionInfosAsJson(field,searchColumn, pageDesc);
-
-        if (null == pageDesc) {
-            JsonResultUtils.writeSingleDataJson(listObjects, response);
-            return;
-        }
-        
+    @RequestMapping(value = "/getall/{osId}" ,method = RequestMethod.GET)
+    public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        String userName = request.getParameter("userName");
+        String userCode = request.getParameter("userCode");
+        String questionTitle = request.getParameter("questionTitle");
+        String questionContent = request.getParameter("questionContent");
+        String questionState = request.getParameter("questionState");
+        String currentOperator = request.getParameter("currentOperator");
+//        String questionState = request.getParameter("questionState");
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("osId",osId);
+        map.put("userName",userName);
+        map.put("userCode",userCode);
+        map.put("questionTitle",questionTitle);
+        map.put("questionContent",questionContent);
+        map.put("questionState",questionState);
+        map.put("currentOperator",currentOperator);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
         ResponseData resData = new ResponseData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
-
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
     
     /**
-     * 查询单个  系统问题列表 
-	
+     * 查询单个  系统问题列表
 	 * @param questionId  QUESTION_ID
-     *
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/{questionId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/select/{questionId}", method = {RequestMethod.GET})
     public void getQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-    	
-    	QuestionInfo questionInfo =     			
-    			questionInfoMag.getObjectById( questionId);
-        
+    	QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+//        QuestionInfo questionInfo = questionInfoMag.getQuestionInfoWithId(questionId);
         JsonResultUtils.writeSingleDataJson(questionInfo, response);
     }
     
     /**
      * 新增 系统问题列表
-     *
-     * @param questionInfo  {@link QuestionInfo}
      * @return
      */
-    @RequestMapping(method = {RequestMethod.POST})
-    public void createQuestionInfo(@RequestBody @Valid QuestionInfo questionInfo, HttpServletResponse response) {
+    @RequestMapping(value = "/createquestion",method = {RequestMethod.POST})
+    public void createQuestionInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        QuestionInfo questionInfo = fetchQuestionInfo(request);
+        String catalogId = questionInfo.getCatalogId();
+        QuestionCatalog questionCatalog = questionCatalogMag.getObjectById(catalogId);
+        questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
+        questionInfo.setCreateTime(new Date());
     	Serializable pk = questionInfoMag.saveNewObject(questionInfo);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
 
     /**
-     * 删除单个  系统问题列表 
-	
+     * 删除单个  系统问题列表
 	 * @param questionId  QUESTION_ID
      */
-    @RequestMapping(value = "/{questionId}", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/deletequestion/{questionId}", method = {RequestMethod.DELETE})
     public void deleteQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-    	
-    	questionInfoMag.deleteObjectById( questionId);
-        
-        JsonResultUtils.writeBlankJson(response);
+    	questionInfoMag.deleteQuestion(questionId);
+        JsonResultUtils.writeSingleDataJson(questionId,response);
     } 
     
     /**
-     * 新增或保存 系统问题列表 
-    
+     * 新增或保存 系统问题列表
 	 * @param questionId  QUESTION_ID
-	 * @param questionInfo  {@link QuestionInfo}
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/{questionId}", method = {RequestMethod.PUT})
-    public void updateQuestionInfo(@PathVariable String questionId, 
-    	@RequestBody @Valid QuestionInfo questionInfo, HttpServletResponse response) {
-    	
-    	
-    	QuestionInfo dbQuestionInfo  =     			
-    			questionInfoMag.getObjectById( questionId);
-        
-        
-
+    @RequestMapping(value = "/updatequestion/{questionId}", method = {RequestMethod.POST})
+    public void updateQuestionInfo(@PathVariable String questionId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        QuestionInfo questionInfo  = fetchQuestionInfo(request);
+    	QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
         if (null != questionInfo) {
         	dbQuestionInfo .copy(questionInfo);
         	questionInfoMag.mergeObject(dbQuestionInfo);
@@ -135,6 +159,147 @@ public class QuestionInfoController  extends BaseController {
             return;
         }
 
-        JsonResultUtils.writeBlankJson(response);
+        JsonResultUtils.writeSingleDataJson(questionId,response);
     }
+
+    /**
+     * 新增或保存 系统问题列表
+     * @param questionId  QUESTION_ID
+     * @param response    {@link HttpServletResponse}
+     */
+    @RequestMapping(value = "/updateoperator/{questionId}", method = {RequestMethod.POST})
+    public void updateOperator(@PathVariable String questionId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        QuestionInfo questionInfo  = fetchQuestionInfo(request);
+        QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
+        if (null != questionInfo) {
+            dbQuestionInfo .setCurrentOperator(questionInfo.getCurrentOperator());
+            questionInfoMag.mergeObject(dbQuestionInfo);
+        } else {
+            JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
+            return;
+        }
+
+        JsonResultUtils.writeSingleDataJson(questionId,response);
+    }
+
+    /**
+     * 工单追加问题描述
+     * @param questionRound
+     * @param response
+     */
+    @RequestMapping(value = "/supplementalquestion", method = {RequestMethod.PUT})
+    public void supplementalQuestion(@RequestBody @Valid QuestionRound questionRound, HttpServletResponse response){
+        if (questionRound == null){
+            JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
+            return;
+        }
+        questionRound.setOrA("Q");
+        questionRound.setCreateTime(new Date());
+        Serializable pk = questionInfoMag.saveQuestionRound(questionRound);
+        JsonResultUtils.writeSingleDataJson(pk,response);
+    }
+
+    /**
+     * 关闭工单
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/closequestion/{questionId}", method = {RequestMethod.PUT})
+    public void closeQuestionInfo(@PathVariable String questionId, HttpServletResponse response){
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        questionInfo.setQuestionState("C");
+        questionInfo.setClosedTime(new Date());
+        questionInfoMag.mergeObject(questionInfo);
+        JsonResultUtils.writeSingleDataJson(questionId,response);
+    }
+
+    /**
+     * 根据userCode获取工单列表
+     * @param userCode
+     * @param response
+     */
+    @RequestMapping(value = "/selectwithusercode/{userCode}", method = {RequestMethod.GET})
+    public void listWithUserCode(@PathVariable String userCode, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("userCode",userCode);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 根据责任人获取工单列表
+     * @param currentOperator
+     * @param response
+     */
+    @RequestMapping(value = "/selectwithoperator/{currentOperator}", method = {RequestMethod.GET})
+    public void listWithOperator(@PathVariable String currentOperator, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("currentOperator",currentOperator);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 查询工单下面的所有 交流信息
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/selectquestionround/{questionId}", method = {RequestMethod.GET})
+    public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
+        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
+        questionRoundRet.setQuestionRoundList(questionRoundList);
+        questionRoundRet.setQuestionInfo(questionInfo);
+//        questionInfo.setQuestionRoundList(questionRoundList);
+        JsonResultUtils.writeSingleDataJson(questionRoundRet, response);
+    }
+
+
+
+    /**
+     * 获取所有责任人
+     * @param response
+     */
+    @RequestMapping(value = "/getalloperator", method = {RequestMethod.GET})
+    public void getOperator(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BufferedReader reader = null;
+        String lastStr = "";
+        String path = this.getClass().getClassLoader().getResource("").toURI().getPath();
+        System.out.println("path=" + path);
+        FileInputStream fileInputStream = new FileInputStream(path + "static_system_config.json");
+        InputStreamReader inputStreamReader = new InputStreamReader(
+                fileInputStream, "utf-8");
+        reader = new BufferedReader(inputStreamReader);
+        String tempString = null;
+        while ((tempString = reader.readLine()) != null) {
+            lastStr += tempString;
+        }
+        reader.close();
+        JSONObject jo= JSONObject.parseObject(lastStr);
+        String con = jo.get("userInfos").toString();
+        JSONArray jsonArray = JSONObject.parseArray(con);
+        List<String> operator = new ArrayList<>();
+        for (int i = 0; i<jsonArray.size();i++){
+            JSONObject json= JSONObject.parseObject(jsonArray.get(i).toString());
+            operator.add(json.get("loginName").toString());
+        }
+        JsonResultUtils.writeSingleDataJson(operator, response);
+    }
+
+
 }

@@ -53,15 +53,7 @@ public class SpringConfig implements EnvironmentAware {
         return dataSource;
     }
 
-    @Bean(initMethod = "migrate")
-    @Lazy(value = false)
-    public Flyway flyway() {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource());
-        flyway.setBaselineOnMigrate(true);
-        flyway.setLocations(env.getProperty("flyway.sql.dir"));
-        return flyway;
-    }
+
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -77,8 +69,18 @@ public class SpringConfig implements EnvironmentAware {
         return  sessionFactory;
     }
 
+    /*@Bean(initMethod = "migrate")
+    @Lazy(value = false)
+    public Flyway flyway() {
+        Flyway flywayBean = new Flyway();
+        flywayBean.setDataSource(dataSource());
+        flywayBean.setBaselineOnMigrate(true);
+        flywayBean.setLocations(env.getProperty("flyway.sql.dir"),"com.centit.framework.system.update");
+        return flywayBean;
+    }*/
+
     @Bean
-    @DependsOn("flyway")
+    //@DependsOn("flyway")
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
@@ -93,15 +95,6 @@ public class SpringConfig implements EnvironmentAware {
     @Bean
     public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor() {
         return new AutowiredAnnotationBeanPostProcessor();
-    }
-
-    @Bean(initMethod = "migrate")
-    public Flyway flywayMigration() {
-        Flyway flywayMigration = new Flyway();
-        flywayMigration.setDataSource(dataSource());
-        flywayMigration.setBaselineOnMigrate(true);
-        flywayMigration.setLocations(env.getProperty("flyway.sql.dir"),"com.centit.framework.system.update");
-        return flywayMigration;
     }
 
     @Bean(initMethod = "initialEnvironment")

@@ -6,10 +6,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 /**
  * create by scaffold 2017-05-08 
  * @author codefan@sina.com
@@ -21,8 +17,6 @@ import java.util.Set;
 public class QuestionCatalog implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
-
-
 	/**
 	 * 类别ID null 
 	 */
@@ -31,7 +25,6 @@ public class QuestionCatalog implements java.io.Serializable {
 	@GeneratedValue(generator = "assignedGenerator")
 	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String catalogId;
-
 	/**
 	 * 业务系统ID null 
 	 */
@@ -57,24 +50,16 @@ public class QuestionCatalog implements java.io.Serializable {
 	 */
 	@Column(name = "create_time")
 	private Date  createTime;
-
 	/**
 	 *默认责任人
 	 */
 	@Column(name = "DEFAULT_OPERATOR")
 	private String defaultOperator;
-
 	/**
 	 *时效
 	 */
 	@Column(name = "TIME_LIMIT")
 	private int timeLimit;
-
-	@OneToMany(mappedBy = "questionCatalog", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<QuestionInfo> questionInfos;
-
-	@OneToMany(mappedBy = "questionCatalog", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<HelpDoc> helpDocs;
 
 	// Constructors
 	/** default constructor */
@@ -84,10 +69,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	public QuestionCatalog(
 			String catalogId
 			,String  osId,String  catalogName) {
-
-
 		this.catalogId = catalogId;
-
 		this.osId= osId;
 		this.catalogName= catalogName;
 	}
@@ -96,10 +78,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	public QuestionCatalog(
 			String catalogId
 			,String  osId,String  catalogName,String  creator,Date  createTime, String defaultOperator, int timeLimit) {
-
-
 		this.catalogId = catalogId;
-
 		this.osId= osId;
 		this.catalogName= catalogName;
 		this.creator= creator;
@@ -107,8 +86,6 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.defaultOperator = defaultOperator;
 		this.timeLimit = timeLimit;
 	}
-
-
 
 	public String getCatalogId() {
 		return this.catalogId;
@@ -167,172 +144,14 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	public Set<QuestionInfo> getQuestionInfos(){
-		if(this.questionInfos==null)
-			this.questionInfos = new HashSet<QuestionInfo>();
-		return this.questionInfos;
-	}
-
-	public void setQuestionInfos(Set<QuestionInfo> questionInfos) {
-		this.questionInfos = questionInfos;
-	}
-
-	public void addQuestionInfo(QuestionInfo questionInfo ){
-		if (this.questionInfos==null)
-			this.questionInfos = new HashSet<QuestionInfo>();
-		this.questionInfos.add(questionInfo);
-	}
-
-	public void removeQuestionInfo(QuestionInfo questionInfo ){
-		if (this.questionInfos==null)
-			return;
-		this.questionInfos.remove(questionInfo);
-	}
-
-	public QuestionInfo newQuestionInfo(){
-		QuestionInfo res = new QuestionInfo();
-
-		res.setQuestionCatalog(this);
-
-		return res;
-	}
-	/**
-	 * 替换子类对象数组，这个函数主要是考虑hibernate中的对象的状态，以避免对象状态不一致的问题
-	 *
-	 */
-	public void replaceQuestionInfos(Set<QuestionInfo> questionInfos) {
-		Set<QuestionInfo> newObjs = new HashSet<QuestionInfo>();
-		for(QuestionInfo p :questionInfos){
-			if(p==null)
-				continue;
-			QuestionInfo newdt = newQuestionInfo();
-			newdt.copyNotNullProperty(p);
-			newObjs.add(newdt);
-		}
-		//delete
-		boolean found = false;
-		Set<QuestionInfo> oldObjs = new HashSet<QuestionInfo>();
-		oldObjs.addAll(getQuestionInfos());
-
-		for(Iterator<QuestionInfo> it=oldObjs.iterator(); it.hasNext();){
-			QuestionInfo odt = it.next();
-			found = false;
-			for(QuestionInfo newdt :newObjs){
-				if(odt.getQuestionId().equals( newdt.getQuestionId())){
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				removeQuestionInfo(odt);
-		}
-		oldObjs.clear();
-		//insert or update
-		for(QuestionInfo newdt :newObjs){
-			found = false;
-			for(Iterator<QuestionInfo> it=getQuestionInfos().iterator();
-				it.hasNext();){
-				QuestionInfo odt = it.next();
-				if(odt.getQuestionId().equals( newdt.getQuestionId())){
-					odt.copy(newdt);
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				addQuestionInfo(newdt);
-		}
-	}
-
-	public Set<HelpDoc> getHelpDocs(){
-		if(this.helpDocs==null)
-			this.helpDocs = new HashSet<HelpDoc>();
-		return this.helpDocs;
-	}
-
-	public void setHelpDocs(Set<HelpDoc> helpDocs) {
-		this.helpDocs = helpDocs;
-	}	
-
-	public void addHelpDoc(HelpDoc helpDoc ){
-		if (this.helpDocs==null)
-			this.helpDocs = new HashSet<HelpDoc>();
-		this.helpDocs.add(helpDoc);
-	}
-	
-	public void removeHelpDoc(HelpDoc helpDoc ){
-		if (this.helpDocs==null)
-			return;
-		this.helpDocs.remove(helpDoc);
-	}
-	
-	public HelpDoc newHelpDoc(){
-		HelpDoc res = new HelpDoc();
-  
-		res.setQuestionCatalog(this);
-
-		return res;
-	}
-	/**
-	 * 替换子类对象数组，这个函数主要是考虑hibernate中的对象的状态，以避免对象状态不一致的问题
-	 * 
-	 */
-	public void replaceHelpDocs(Set<HelpDoc> helpDocs) {
-		Set<HelpDoc> newObjs = new HashSet<HelpDoc>();
-		for(HelpDoc p :helpDocs){
-			if(p==null)
-				continue;
-			HelpDoc newdt = newHelpDoc();
-			newdt.copyNotNullProperty(p);
-			newObjs.add(newdt);
-		}
-		//delete
-		boolean found = false;
-		Set<HelpDoc> oldObjs = new HashSet<HelpDoc>();
-		oldObjs.addAll(getHelpDocs());
-		
-		for(Iterator<HelpDoc> it=oldObjs.iterator(); it.hasNext();){
-			HelpDoc odt = it.next();
-			found = false;
-			for(HelpDoc newdt :newObjs){
-				if(odt.getDocId().equals( newdt.getDocId())){
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				removeHelpDoc(odt);
-		}
-		oldObjs.clear();
-		//insert or update
-		for(HelpDoc newdt :newObjs){
-			found = false;
-			for(Iterator<HelpDoc> it=getHelpDocs().iterator();
-			 it.hasNext();){
-				HelpDoc odt = it.next();
-				if(odt.getDocId().equals( newdt.getDocId())){
-					odt.copy(newdt);
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				addHelpDoc(newdt);
-		} 	
-	}	
-
-
 	public QuestionCatalog copy(QuestionCatalog other){
-  
 		this.setCatalogId(other.getCatalogId());
-  
 		this.osId= other.getOsId();  
 		this.catalogName= other.getCatalogName();  
 		this.creator= other.getCreator();  
 		this.createTime= other.getCreateTime();
-	
-		this.questionInfos = other.getQuestionInfos();	
-		this.helpDocs = other.getHelpDocs();
+		this.defaultOperator= other.getDefaultOperator();
+		this.timeLimit= other.getTimeLimit();
 		return this;
 	}
 	
@@ -348,26 +167,21 @@ public class QuestionCatalog implements java.io.Serializable {
 		if( other.getCreator() != null)
 			this.creator= other.getCreator();  
 		if( other.getCreateTime() != null)
-			this.createTime= other.getCreateTime();		
-	
-		//this.questionInfos = other.getQuestionInfos();
-        replaceQuestionInfos(other.getQuestionInfos());
-			
-		//this.helpDocs = other.getHelpDocs();
-        replaceHelpDocs(other.getHelpDocs());
-		
+			this.createTime= other.getCreateTime();
+		if( other.getDefaultOperator() != null)
+			this.defaultOperator= other.getDefaultOperator();
+		if( other.getTimeLimit() != -1)
+			this.timeLimit= other.getTimeLimit();
 		return this;
 	}
 
 	public QuestionCatalog clearProperties(){
-  
 		this.osId= null;  
 		this.catalogName= null;  
 		this.creator= null;  
 		this.createTime= null;
-	
-		this.questionInfos = new HashSet<QuestionInfo>();	
-		this.helpDocs = new HashSet<HelpDoc>();
+		this.defaultOperator= null;
+		this.timeLimit= -1;
 		return this;
 	}
 }
