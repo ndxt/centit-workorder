@@ -302,12 +302,12 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(value = "/selectquestionround/{questionId}", method = {RequestMethod.GET})
     public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
-        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
-        questionRoundRet.setQuestionRoundList(questionRoundList);
-        questionRoundRet.setQuestionInfo(questionInfo);
+//        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+//        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
+//        questionRoundRet.setQuestionRoundList(questionRoundList);
+//        questionRoundRet.setQuestionInfo(questionInfo);
 //        questionInfo.setQuestionRoundList(questionRoundList);
-        JsonResultUtils.writeSingleDataJson(questionRoundRet, response);
+        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
     }
 
 

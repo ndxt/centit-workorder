@@ -138,35 +138,37 @@
 </div>
 
 <!--工单回复-->
-<div id="dlg_replay" class="easyui-dialog" style="width:800px"
-     closed="true" buttons="#dlg_replay-buttons">
-    <form id="fm_replay" method="post" novalidate style="margin:0;padding:20px 50px">
-        <div style="margin-bottom:10px" id="Q_title_replay">
-            <label>标题</label>
-            <input id="questionTitle_replay" name="questionTitle" class="easyui-textbox" required="true" label="questionTitle:"  style="width:100%">
-        </div>
-        <div style="margin-bottom:10px" id="Q_content_replay">
-            <label>内容</label>
-            <input id="questionContent_replay" name="questionContent" class="easyui-textbox" required="true"  style="width:100%;height:100px" data-options="label:'内容:',multiline:true">
-        </div>
-        <div style="margin-bottom:10px" id="Q_round_replay">
-            <label>内容</label>
-            <input  name="questionContent" class="easyui-textbox" required="true"  style="width:100%;height:100px" data-options="label:'内容:',multiline:true">
-        </div>
-        <div style="margin-bottom:10px">
-            <label>回复</label>
-            <input id="questionRound_replay" name="roundContent" class="easyui-textbox" required="true"  style="width:100%;height:60px" data-options="label:'回复:',multiline:true">
-        </div>
-        <div style="margin-bottom:10px">
-            <input id="questionId_replay" name="questionId" type="hidden"  label="questionId:" style="width:100%" hidden="true">
-        </div>
-    </form>
+    <div id="dlg_replay" class="easyui-dialog" style="width:800px;overflow:hidden" closed="true" buttons="#dlg_replay-buttons">
+     <div style="overflow:auto; width:800px; height:800px;">
+        <form id="fm_replay" method="post" novalidate style="margin:0;padding:20px 50px">
+            <ui id="ui_question">
+                <li style="margin-bottom: 20px">
+                    <p>
+                        <small>
+                            <i id="askTime"></i>
+                            <span id="userName"></span>
+                            提问:
+                        </small>
+                    </p>
+                    <h3 id="askTitle"></h3>
+                    <p style="text-indent: 24px" id="askContent"></p>
+                </li>
+            </ui>
+            <ul id="ui_replay"></ul>
+            <div style="margin-bottom:10px">
+                <label>回复</label>
+                <input id="questionRound_replay" name="roundContent" class="easyui-textbox" required="true"  style="width:100%;height:60px" data-options="label:'回复:',multiline:true">
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="questionId_replay" name="questionId" type="hidden"  label="questionId:" style="width:100%" hidden="true">
+            </div>
+        </form>
+   </div>
 </div>
 <div id="dlg_replay-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveReplay()" style="width:90px">Save</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_new').dialog('close')" style="width:90px">Cancel</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="close_replay()" style="width:90px">Cancel</a>
 </div>
-
 <script>
     var Core = require('core/core');
     var allPanel;
@@ -186,25 +188,52 @@
 
 
     function replayQuestion(){
+        $('#dlg_replay').dialog({
+            onClose:function(){
+                debugger;
+                $("#ui_replay").html('');
+                $('#dlg_replay').dialog('close');
+                $('#fm_replay').form('clear');
+            }
+        });
         var row = $('#dg').datagrid('getSelected');
         if (row){
-            $('#dlg_replay').dialog('open').dialog('center').dialog('setTitle','修改责任人');
+            $('#dlg_replay').dialog('open').dialog('center').dialog('setTitle','工单回复');
             $('#fm_replay').form('load',row);
         }
+        $("#askTime").html(row.createTime);
+        $("#userName").html(row.userName);
+        $("#askTitle").html(row.questionTitle);
+        $("#askContent").html(row.questionContent);
         var questionId = row.questionId;
         $.ajax({
-            url: '/workorder/service/questioninfo/select/' + questionId,
+            url: '/workorder/service/questioninfo/selectquestionround/' + questionId,
             type: 'GET',
             success: function(result) {
                 var questionRoundArray = [];
-                questionRoundArray = result.data.questionRoundList;
-                debugger;
+                questionRoundArray = result.data;
                 $($('#Q_title_replay>span>input')[0]).attr('disabled','disabled');
                 $($('#Q_content_replay>span>textarea')[0]).attr('disabled','disabled');
-
+                for (var i = 0;i<questionRoundArray.length;i++){
+                    var time = questionRoundArray[i].createTime;
+                    var username = questionRoundArray[i].userName;
+                    var orA = questionRoundArray[i].orA;
+                    if (orA=="A"){
+                        orA="回复";
+                    }else if(orA=="Q"){
+                        orA="追问";
+                    }
+                    var content = questionRoundArray[i].roundContent;
+                    $("#ui_replay").append("<li style='margin-bottom: 20px'><p><small><i>"+time+" "+"</i><span>"+username+"："+orA+"</span></small></p><p>"+content+"</p></li>");
+                }
             }
         });
-
+    }
+    
+    function  close_replay() {
+        $("#ui_replay").html('');
+        $('#dlg_replay').dialog('close');
+        $('#fm_replay').form('clear');
     }
 
     function saveReplay(){
@@ -221,7 +250,8 @@
                         msg: result.errorMsg
                     });
                 } else {
-                    $('#dlg_replay').dialog('close');        // close the dialog
+                    $('#dlg_replay').dialog('close');// close the dialog
+                    $('#fm_replay').form('clear');
                     $('#dg').datagrid('reload');    // reload the user data
                 }
             }

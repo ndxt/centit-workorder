@@ -79,7 +79,7 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 
 		public JSONArray getQuestionInfo(BaseDaoImpl baseDao, Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 			String queryStatement =
-					"select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState "
+					"select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState,h.userName "
 							+" from QuestionInfo h WHERE 1=1 "
 							+ " [ :userCode | and h.userCode = :userCode ]"
 							+ " [ :currentOperator | and h.currentOperator = :currentOperator ]"
