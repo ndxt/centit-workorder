@@ -14,10 +14,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +90,8 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public Serializable saveQuestionRound(QuestionRound questionRound) {
+		questionRound.setOrA("Q");
+		questionRound.setCreateTime(new Date());
 		Serializable pk = questionRoundDao.saveNewObject(questionRound);
 		return pk;
 	}
@@ -112,6 +116,22 @@ public class QuestionInfoManagerImpl
 	public JSONArray getQuestionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 		JSONArray dataList = questionInfoDao.getQuestionInfo(baseDao,queryParamsMap,pageDesc);
 		return dataList;
+	}
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public QuestionRound replayQuestion(QuestionRound questionRound) {
+		questionRound.setEditState("U");
+		questionRound.setRoundState("C");
+		questionRound.setOrA("A");
+		questionRound.setCreateTime(new Date());
+		questionRound.setLastUpdateTime(new Date());
+		questionRoundDao.saveNewObject(questionRound);
+		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
+		questionInfo.setLastUpdateTime(new Date());
+		questionInfo.setEditState("U");
+		questionInfoDao.saveObject(questionInfo);
+		return questionRound;
 	}
 
 }

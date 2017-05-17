@@ -84,7 +84,8 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 							+ " [ :userCode | and h.userCode = :userCode ]"
 							+ " [ :currentOperator | and h.currentOperator = :currentOperator ]"
 							+ " [ :questionState | and h.questionState = :questionState ]"
-//							+ " [ :questionTitle | and h.questionTitle like :%questionTitle% ]"
+							+ " [ :editState | and h.editState = :editState ]"
+							+ " [ :questionTitle | and h.questionTitle like :%questionTitle% ]"
 							+ " [ :begin | and h.createTime > :begin ]"
 							+ " [ :end | and h.createTime < :end ]";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);

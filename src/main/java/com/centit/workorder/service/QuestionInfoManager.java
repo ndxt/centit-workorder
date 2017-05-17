@@ -36,4 +36,6 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 	public QuestionInfo getQuestionInfoWithId(String questionId);
 
 	JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+
+	public QuestionRound replayQuestion(QuestionRound questionRound);
 }

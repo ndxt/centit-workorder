@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.common.JsonResultUtils;
 import com.centit.framework.core.common.ResponseData;
+import com.centit.framework.core.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
+import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.workorder.comRet.QuestionRoundRet;
 import com.centit.workorder.po.QuestionCatalog;
@@ -85,7 +87,6 @@ public class QuestionInfoController  extends BaseController {
         String questionContent = request.getParameter("questionContent");
         String questionState = request.getParameter("questionState");
         String currentOperator = request.getParameter("currentOperator");
-//        String questionState = request.getParameter("questionState");
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
         map.put("osId",osId);
@@ -112,9 +113,16 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/select/{questionId}", method = {RequestMethod.GET})
     public void getQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-    	QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-//        QuestionInfo questionInfo = questionInfoMag.getQuestionInfoWithId(questionId);
-        JsonResultUtils.writeSingleDataJson(questionInfo, response);
+//    	QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+////        QuestionInfo questionInfo = questionInfoMag.getQuestionInfoWithId(questionId);
+//        JsonResultUtils.writeSingleDataJson(questionInfo, response);
+        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
+        System.out.println("questionRoundListSize="+questionRoundList.size());
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
+        questionRoundRet.setQuestionRoundList(questionRoundList);
+        questionRoundRet.setQuestionInfo(questionInfo);
+        JsonResultUtils.writeSingleDataJson(questionRoundRet, response);
     }
     
     /**
@@ -128,6 +136,8 @@ public class QuestionInfoController  extends BaseController {
         QuestionCatalog questionCatalog = questionCatalogMag.getObjectById(catalogId);
         questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
         questionInfo.setCreateTime(new Date());
+        questionInfo.setQuestionState("N");
+        questionInfo.setEditState("N");
     	Serializable pk = questionInfoMag.saveNewObject(questionInfo);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
@@ -184,19 +194,42 @@ public class QuestionInfoController  extends BaseController {
 
     /**
      * 工单追加问题描述
-     * @param questionRound
      * @param response
      */
-    @RequestMapping(value = "/supplementalquestion", method = {RequestMethod.PUT})
-    public void supplementalQuestion(@RequestBody @Valid QuestionRound questionRound, HttpServletResponse response){
-        if (questionRound == null){
+    @RequestMapping(value = "/supplementalquestion", method = {RequestMethod.POST})
+    public void supplementalQuestion(HttpServletRequest request, HttpServletResponse response){
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        String questionId = request.getParameter("questionId");
+        String roundContent = request.getParameter("roundContent");
+        QuestionRound questionRound = new QuestionRound();
+        questionRound.setQuestionId(questionId);
+        questionRound.setRoundContent(roundContent);
+        if (questionId == null || roundContent == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
-        questionRound.setOrA("Q");
-        questionRound.setCreateTime(new Date());
+        questionRound.setUserCode(centitUserDetails.getUserCode());
+        questionRound.setUserName(centitUserDetails.getUserName());
         Serializable pk = questionInfoMag.saveQuestionRound(questionRound);
         JsonResultUtils.writeSingleDataJson(pk,response);
+    }
+
+    /**
+     * 回复工单
+     * @param response
+     */
+    @RequestMapping(value = "/replayquestion", method = {RequestMethod.POST})
+    public void replay(HttpServletRequest request, HttpServletResponse response){
+        String questionId = request.getParameter("questionId");
+        String roundContent = request.getParameter("roundContent");
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        QuestionRound questionRound = new QuestionRound();
+        questionRound.setQuestionId(questionId);
+        questionRound.setRoundContent(roundContent);
+        questionRound.setUserCode(centitUserDetails.getUserCode());
+        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound = questionInfoMag.replayQuestion(questionRound);
+        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
     /**
@@ -220,9 +253,17 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/selectwithusercode/{userCode}", method = {RequestMethod.GET})
     public void listWithUserCode(@PathVariable String userCode, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        String editState = request.getParameter("editState");
+        String questionState = request.getParameter("questionState");
+        String questionTitle = request.getParameter("questionTitle");
+        String currentOperator = request.getParameter("currentOperator");
         Map<String, Object> map = new HashMap<>();
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("currentOperator",currentOperator);
+        map.put("editState",editState);
+        map.put("questionState",questionState);
+        map.put("questionTitle",questionTitle);
         map.put("userCode",userCode);
         map.put("begin",begin);
         map.put("end",end);
