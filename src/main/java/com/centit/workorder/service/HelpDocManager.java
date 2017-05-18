@@ -33,6 +33,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String>
 	void editContent(String docId, String content);
 
 	JSONArray searchHelpdocByLevel(String osId);
+	JSONArray treeSearch(String osId);
 
 	JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 

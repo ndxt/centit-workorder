@@ -89,8 +89,10 @@ public class HelpDocManagerImpl
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void deleteHelpDoc(String docId) {
 		helpDocDao.deleteObjectById(docId);
-		//删除所有历史版本
-		helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", docId);
+
+		helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", docId);//删除所有历史版本
+		helpDocCommentDao.deleteObjectsAsTabulation("docId", docId);//删除评论
+		helpDocScoreDao.deleteObjectsAsTabulation("docId", docId);//删除评分
 	}
 
 	@Override
@@ -145,19 +147,43 @@ public class HelpDocManagerImpl
 		}, "c");
 
 	}
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public JSONArray treeSearch(String osId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("osId", osId);
+		String queryStatement =
+				"select h.DOC_ID as id,h.DOC_TITLE as name, h.DOC_PATH as parentId "
+						+" from f_help_doc h "
+						+" where 1=1 "
+						+ " [ :osId | and h.OS_ID = :osId ]";
+
+		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
+		JSONArray dataList = SysDaoOptUtils.listObjectsBySqlAsJson(baseDao,
+				qap.getQuery(), qap.getParams(),
+				null,
+				null);
+		return dataList;
+
+	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
 		String queryStatement =
-				"select h.docId, h.docTitle, h.docFile "
-						+" from HelpDoc h WHERE 1=1 "
-						+ " [ :catalogId | and h.catalogId = :catalogId ]"
-						+ " [ :osId | and h.osId = :osId ]";
-//						+ " order by size(h.helpDocComments) desc";
+				"select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
+				+" from f_help_doc h left join "
+				+" (select c.DOC_ID,count(c.COMMENT_ID) count"
+				+" from f_help_doc_comment c"
+				+" group by c.DOC_ID) m "
+				+" on h.DOC_ID = m.DOC_ID "
+				+" where 1=1 "
+				+ " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
+				+ " [ :osId | and h.OS_ID = :osId ]"
+				+ " order by count desc";
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-		JSONArray dataList = SysDaoOptUtils.listObjectsByHqlAsJson(baseDao,
+		JSONArray dataList = SysDaoOptUtils.listObjectsBySqlAsJson(baseDao,
 				qap.getQuery(), qap.getParams(),
 				null,
 				pageDesc);

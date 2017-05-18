@@ -70,7 +70,7 @@ public class HelpDocController  extends BaseController {
      */
     @RequestMapping(value = "/update/{docId}", method = {RequestMethod.POST})
     public void updateHelpDoc(@PathVariable String docId,
-                              HelpDoc helpDoc, HttpServletResponse response) {
+                              @Valid HelpDoc helpDoc, HttpServletResponse response) {
         //不保存 历史版本
 
         helpDocMag.updateHelpDoc(docId, helpDoc);
@@ -82,7 +82,7 @@ public class HelpDocController  extends BaseController {
      */
     @RequestMapping(value = "/editContent/{docId}", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId,
-                            @Valid String content, HttpServletResponse response) {
+                            String content, HttpServletResponse response) {
 
         // 保存 历史版本，
         helpDocMag.editContent(docId, content);
@@ -111,13 +111,23 @@ public class HelpDocController  extends BaseController {
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
+    /**
+     * 帮助文档查询接口（按层级查）
+     */
+    @RequestMapping(value="/treeSearch/{osId}", method = RequestMethod.GET)
+    public void treeSearch(@PathVariable String osId,HttpServletResponse response) {
+        JSONArray listObjects = helpDocMag.treeSearch(osId);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        JsonResultUtils.writeSingleDataJson(listObjects, response);
+    }
 
     /**
      * 帮助文档查询接口（按问题类别）
      */
     @RequestMapping(value="/typeSearch", method = RequestMethod.GET)
-    public void typeSearch(@RequestParam(value="catalogId", required = false, defaultValue = "0") String catalogId,
-                            @RequestParam(value="osId") String osId,
+    public void typeSearch(@RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
+                            @RequestParam(value="osId", required = false, defaultValue = "") String osId,
                             PageDesc pageDesc, HttpServletResponse response) {
         //分页， 排序 按照 评分次数高低  或者 评价次数
         Map<String, Object> map = new HashMap<>();
