@@ -1,5 +1,7 @@
 package com.centit.workorder.service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
@@ -19,4 +21,9 @@ public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalo
 	public JSONArray listQuestionCatalogsAsJson(
             String[] fields,
             Map<String, Object> filterMap, PageDesc pageDesc);
+
+	public List<QuestionCatalog> getAll(String osId,String catalogName,Date begin,Date end);
+
+    JSONArray getAllCatalog(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+
 }

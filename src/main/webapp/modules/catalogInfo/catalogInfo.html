@@ -1,0 +1,164 @@
+<div class="easyui-layout" id="userinfo_panel" xmlns:contentType="http://www.w3.org/1999/xhtml"
+     xmlns:contentType="http://www.w3.org/1999/xhtml">
+
+    <div >
+
+        <div class="easyui-panel search-body" cls="search" style="width: 100%;">
+            <form class="clearFromValue">
+                <div class="search-item">
+                    <label>osId</label>
+                    <input class="easyui-combobox" id="selectOsId" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="osId" />
+                </div>
+                <div class="search-item">
+                    <label>问题类别</label>
+                    <input class="easyui-textbox" id="selectCatalogName" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="catalogName" />
+                </div>
+                <div class="search-item">
+                    <label>开始</label>
+                    <input class="easyui-datetimebox" id="timeStart" data-options=""
+                           name="begin"/>
+                </div>
+                <div class="search-item">
+                    <label>结束</label>
+                    <input class="easyui-datetimebox" id="timeEnd" data-options="
+					showSeconds:true"
+                           name="end"/>
+                </div>
+
+                <a class="easyui-linkbutton btn-search" iconCls="icon-search" onclick="search();"><p  id="e@btn.search">搜索</p></a>
+                <a class="easyui-linkbutton" style="margin-top:8px;" iconcls="icon-reload" onclick="javascript:$('.clearFromValue').form('clear');$('.defaultChecked').prop('checked','true');" group="" id="">
+                    <p>重置</p>
+                </a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newQuestionCatalog()">新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editQuestionCatalog()">修改</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyQuestionCatalog()">删除</a>
+            </form>
+
+        </div>
+
+        <table id="dg" url="service/questioncatalog/getall/aa"
+               width="98%"
+               bottom="0"
+               search=".search"
+               layoutH="65"
+        >
+            <thead>
+            <tr>
+                <th data-options="field:'catalogId'" width="10%" sortable="true" hidden=" true">catalogId</th>
+                <th data-options="field:'catalogName'" width="30%" sortable="true">问题类别</th>
+                <th data-options="field:'creator'" width="15%" sortable="true">创建人员</th>
+                <th data-options="field:'timeLimit'" width="15%" sortable="true">处理时效</th>
+                <th data-options="field:'createTime'" width="30%" sortable="true">创建时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <!--<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">新增系统问题类别</div>-->
+        <div style="margin-bottom:10px" id="cataname">
+            <label>问题类别</label>
+            <input  name="catalogName" class="easyui-textbox" required="true" label="catalogName:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input id="osid" name="osId" type="hidden"  label="osId:" style="width:100%" hidden="true">
+        </div>
+        <div style="margin-bottom:10px">
+            <input id="catalogid" name="catalogId" type="hidden"  label="catalogId:" style="width:100%" hidden="true">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveQuestionCatalog()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+
+<script>
+    var Core = require('core/core');
+    $.parser.onComplete = function(panel) {
+        $.parser.onComplete = $.noop;
+        requirejs([
+            'core/filter/filter.dictionary',
+            'modules/catalogInfo/ctrl/catalogInfo'
+        ], function(FilterDictionary, FileAccessLog) {
+            FilterDictionary.add(['YesOrNo']).then(function() {
+                new FileAccessLog('catalogInfo', panel).load(panel);
+            });
+        });
+    };
+    setI18NText("");
+
+    var url;
+    var type;
+    function newQuestionCatalog(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','New QuestionCatalog');
+        $('#fm').form('clear');
+       var osid =  $('#osid').attr('value','aa');
+        url = '/workorder/service/questioncatalog/create';
+    }
+    function editQuestionCatalog(){
+        var row = $('#dg').datagrid('getSelected');
+        $('#catalogid').attr('value',row.catalogId);
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit QuestionCatalog');
+            $('#fm').form('load',row);
+            url = '/workorder/service/questioncatalog/update';
+        }
+    }
+
+
+    function saveQuestionCatalog(){
+        $('#fm').form('submit',{
+            url: url,
+            type: type,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');        // close the dialog
+                    $('#dg').datagrid('reload');    // reload the user data
+                }
+            }
+        });
+    }
+    function destroyQuestionCatalog(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','Are you sure you want to destroy this question catalog?',function(r){
+                if (r){
+                    $.ajax({
+                        url: '/workorder/service/questioncatalog/delete/' + row.catalogId,
+                        type: 'DELETE',
+                        success: function(result) {
+                            if (result.message == 'OK'){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+</script>
