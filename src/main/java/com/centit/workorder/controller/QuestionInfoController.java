@@ -73,7 +73,7 @@ public class QuestionInfoController  extends BaseController {
 
 
     /**
-     * 查询所有   系统问题列表  列表
+     * 查询所有   系统问题列表  列表  客户展示端
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
@@ -86,16 +86,60 @@ public class QuestionInfoController  extends BaseController {
         String questionTitle = request.getParameter("questionTitle");
         String questionContent = request.getParameter("questionContent");
         String questionState = request.getParameter("questionState");
+        String editState = request.getParameter("editState");
         String currentOperator = request.getParameter("currentOperator");
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
         map.put("osId",osId);
         map.put("userName",userName);
         map.put("userCode",userCode);
-        map.put("questionTitle",questionTitle);
+        if (questionTitle != null && !"".equals(questionTitle)){
+            map.put("questionTitle","%"+questionTitle+"%");
+        }
         map.put("questionContent",questionContent);
         map.put("questionState",questionState);
         map.put("currentOperator",currentOperator);
+        map.put("editState",editState);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 查询所有   系统问题列表  列表  维护端
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @return {data:[]}
+     */
+    @RequestMapping(value = "/getalllist" ,method = RequestMethod.GET)
+    public void getlist(PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        String osId = request.getParameter("osId");
+        String userName = request.getParameter("userName");
+        String userCode = request.getParameter("userCode");
+        String questionTitle = request.getParameter("questionTitle");
+        String questionContent = request.getParameter("questionContent");
+        String questionState = request.getParameter("questionState");
+        String editState = request.getParameter("editState");
+        String currentOperator = request.getParameter("currentOperator");
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("osId",osId);
+        map.put("userName",userName);
+        map.put("userCode",userCode);
+        if (questionTitle != null && !"".equals(questionTitle)){
+            map.put("questionTitle","%"+questionTitle+"%");
+        }
+        if (questionContent != null && !"".equals(questionContent)){
+            map.put("questionContent","%"+questionContent+"%");
+        }
+        map.put("questionState",questionState);
+        map.put("currentOperator",currentOperator);
+        map.put("editState",editState);
         map.put("begin",begin);
         map.put("end",end);
         JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
@@ -106,16 +150,13 @@ public class QuestionInfoController  extends BaseController {
     }
     
     /**
-     * 查询单个  系统问题列表
+     * 查询单个  系统问题列表   返回工单信息和所有交流信息
 	 * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
     @RequestMapping(value = "/select/{questionId}", method = {RequestMethod.GET})
     public void getQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-//    	QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-////        QuestionInfo questionInfo = questionInfoMag.getQuestionInfoWithId(questionId);
-//        JsonResultUtils.writeSingleDataJson(questionInfo, response);
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         System.out.println("questionRoundListSize="+questionRoundList.size());
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
@@ -124,6 +165,17 @@ public class QuestionInfoController  extends BaseController {
         questionRoundRet.setQuestionInfo(questionInfo);
         JsonResultUtils.writeSingleDataJson(questionRoundRet, response);
     }
+
+    /**
+     * 查询工单下面的所有 交流信息  只返回所有交流信息
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/selectquestionround/{questionId}", method = {RequestMethod.GET})
+    public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
+        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
+        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
+    }
     
     /**
      * 新增 系统问题列表
@@ -131,14 +183,11 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/createquestion",method = {RequestMethod.POST})
     public void createQuestionInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         QuestionInfo questionInfo = fetchQuestionInfo(request);
-        String catalogId = questionInfo.getCatalogId();
-        QuestionCatalog questionCatalog = questionCatalogMag.getObjectById(catalogId);
-        questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
-        questionInfo.setCreateTime(new Date());
-        questionInfo.setQuestionState("N");
-        questionInfo.setEditState("N");
-    	Serializable pk = questionInfoMag.saveNewObject(questionInfo);
+        questionInfo.setUserCode(centitUserDetails.getUserCode());
+        questionInfo.setUserName(centitUserDetails.getUserName());
+        Serializable pk = questionInfoMag.createQuestion(questionInfo);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
 
@@ -173,22 +222,21 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
-     * 新增或保存 系统问题列表
+     * 修改责任人
      * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
     @RequestMapping(value = "/updateoperator/{questionId}", method = {RequestMethod.POST})
     public void updateOperator(@PathVariable String questionId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         QuestionInfo questionInfo  = fetchQuestionInfo(request);
-        QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
         if (null != questionInfo) {
+            QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
             dbQuestionInfo .setCurrentOperator(questionInfo.getCurrentOperator());
             questionInfoMag.mergeObject(dbQuestionInfo);
         } else {
             JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
             return;
         }
-
         JsonResultUtils.writeSingleDataJson(questionId,response);
     }
 
@@ -201,13 +249,13 @@ public class QuestionInfoController  extends BaseController {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         String questionId = request.getParameter("questionId");
         String roundContent = request.getParameter("roundContent");
-        QuestionRound questionRound = new QuestionRound();
-        questionRound.setQuestionId(questionId);
-        questionRound.setRoundContent(roundContent);
-        if (questionId == null || roundContent == null){
+        if (questionId == null && roundContent == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
+        QuestionRound questionRound = new QuestionRound();
+        questionRound.setQuestionId(questionId);
+        questionRound.setRoundContent(roundContent);
         questionRound.setUserCode(centitUserDetails.getUserCode());
         questionRound.setUserName(centitUserDetails.getUserName());
         Serializable pk = questionInfoMag.saveQuestionRound(questionRound);
@@ -233,17 +281,26 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
+     * 评价并关闭工单
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/evaluatequestion/{questionId}", method = {RequestMethod.PUT})
+    public void evaluateQuestionInfo(@PathVariable String questionId,HttpServletRequest request, HttpServletResponse response){
+        String evaluate = request.getParameter("evaluateScore");
+        String retId = questionInfoMag.evaluateAndCloseQuestion(evaluate,questionId);
+        JsonResultUtils.writeSingleDataJson(retId,response);
+    }
+
+    /**
      * 关闭工单
      * @param questionId
      * @param response
      */
     @RequestMapping(value = "/closequestion/{questionId}", method = {RequestMethod.PUT})
     public void closeQuestionInfo(@PathVariable String questionId, HttpServletResponse response){
-        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        questionInfo.setQuestionState("C");
-        questionInfo.setClosedTime(new Date());
-        questionInfoMag.mergeObject(questionInfo);
-        JsonResultUtils.writeSingleDataJson(questionId,response);
+        String retId = questionInfoMag.closeQuestion(questionId);
+        JsonResultUtils.writeSingleDataJson(retId,response);
     }
 
     /**
@@ -257,9 +314,9 @@ public class QuestionInfoController  extends BaseController {
         String questionState = request.getParameter("questionState");
         String questionTitle = request.getParameter("questionTitle");
         String currentOperator = request.getParameter("currentOperator");
-        Map<String, Object> map = new HashMap<>();
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        Map<String, Object> map = new HashMap<>();
         map.put("currentOperator",currentOperator);
         map.put("editState",editState);
         map.put("questionState",questionState);
@@ -295,51 +352,13 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
-     * 查询工单下面的所有 交流信息
-     * @param questionId
-     * @param response
-     */
-    @RequestMapping(value = "/selectquestionround/{questionId}", method = {RequestMethod.GET})
-    public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
-        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
-//        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-//        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
-//        questionRoundRet.setQuestionRoundList(questionRoundList);
-//        questionRoundRet.setQuestionInfo(questionInfo);
-//        questionInfo.setQuestionRoundList(questionRoundList);
-        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
-    }
-
-
-
-    /**
      * 获取所有责任人
      * @param response
      */
     @RequestMapping(value = "/getalloperator", method = {RequestMethod.GET})
     public void getOperator(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BufferedReader reader = null;
-        String lastStr = "";
-        String path = this.getClass().getClassLoader().getResource("").toURI().getPath();
-        System.out.println("path=" + path);
-        FileInputStream fileInputStream = new FileInputStream(path + "static_system_config.json");
-        InputStreamReader inputStreamReader = new InputStreamReader(
-                fileInputStream, "utf-8");
-        reader = new BufferedReader(inputStreamReader);
-        String tempString = null;
-        while ((tempString = reader.readLine()) != null) {
-            lastStr += tempString;
-        }
-        reader.close();
-        JSONObject jo= JSONObject.parseObject(lastStr);
-        String con = jo.get("userInfos").toString();
-        JSONArray jsonArray = JSONObject.parseArray(con);
-        List<String> operator = new ArrayList<>();
-        for (int i = 0; i<jsonArray.size();i++){
-            JSONObject json= JSONObject.parseObject(jsonArray.get(i).toString());
-            operator.add(json.get("loginName").toString());
-        }
-        JsonResultUtils.writeSingleDataJson(operator, response);
+        List<String> list = questionInfoMag.getAllOperator();
+        JsonResultUtils.writeSingleDataJson(list, response);
     }
 
 

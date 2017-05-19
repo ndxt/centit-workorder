@@ -8,7 +8,7 @@ define(function(require) {
     var Dialog = require('centit/centit.dialog');
     var osId = [
         {
-            label:'YCXMGLPT',
+            label:'aaa',
             value : '壹城平台'
         }
     ];
@@ -16,7 +16,7 @@ define(function(require) {
     // 角色信息列表\
     var planPush = Page.extend(function() {
         var table;
-        this.selectOsId;
+        this.selectOsId_Question;
         this.load = function (panel) {
             var vm = this;
             table = vm.table = panel.find('table');
@@ -25,8 +25,8 @@ define(function(require) {
                 controller: this,
             });
             //读取所有下拉框的ID
-            this.selectOsId = panel.find("#selectOsId");
-            this.selectOsId.combobox('loadData',osId);
+            this.selectOsId_Question = panel.find("#selectOsId_Question");
+            this.selectOsId_Question.combobox('loadData',osId);
         }.bind(this);
     });
 

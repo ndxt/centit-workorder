@@ -126,9 +126,4 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound,java.lang.String
 			return questionRoundList;
 		}
 
-		public QuestionInfo getQuestionInfoWithId(String questionId){
-			QuestionInfo questionInfo = questionInfoDao.getQuestionInfoWithId(questionId);
-			return questionInfo;
-		}
-
 }

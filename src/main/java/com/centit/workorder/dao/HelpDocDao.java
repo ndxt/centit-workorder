@@ -1,9 +1,11 @@
 package com.centit.workorder.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
+import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.centit.workorder.po.HelpDoc;
@@ -55,5 +57,12 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 
 		}
 		return filterField;
-	} 
+	}
+
+	public List<String> getHelpDocIdWithCatalogId(String catalogId){
+		String sql = " SELECT f.DOC_ID FROM f_help_doc f WHERE f.CATALOG_ID ='"+catalogId+"' ";
+		List<String> list = (List<String>) DatabaseOptUtils.findObjectsBySql(this, sql);
+		return list;
+	}
+
 }

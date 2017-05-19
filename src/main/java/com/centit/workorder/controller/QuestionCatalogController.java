@@ -67,13 +67,36 @@ public class QuestionCatalogController  extends BaseController {
     }
 
     /**
-     * 查询所有   系统问题类别  列表
+     * 查询所有   系统问题类别  列表 用户展示端
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
     @RequestMapping(value = "/getall/{osId}",method = RequestMethod.GET)
-    public void list( PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+    public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        String catalogName = request.getParameter("catalogName");
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("osId",osId);
+        map.put("catalogName",catalogName);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionCatalogMag.getAllCatalog(map, pageDesc);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 查询所有   系统问题类别  列表  维护端
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @return {data:[]}
+     */
+    @RequestMapping(value = "/getalllist",method = RequestMethod.GET)
+    public void getlist( PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String osId = request.getParameter("osId");
         String catalogName = request.getParameter("catalogName");
@@ -88,20 +111,6 @@ public class QuestionCatalogController  extends BaseController {
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
-
-//        List<QuestionCatalog> list = questionCatalogMag.getAll(osId,catalogName,begin,end);
-//        JsonResultUtils.writeSingleDataJson(list, response);
-//        Map<String, Object> searchColumn = convertSearchColumn(request);
-//        searchColumn.put("osId",osId);
-//        JSONArray listObjects = questionCatalogMag.listQuestionCatalogsAsJson(field,searchColumn, pageDesc);
-//        if (null == pageDesc) {
-//            JsonResultUtils.writeSingleDataJson(listObjects, response);
-//            return;
-//        }
-//        ResponseData resData = new ResponseData();
-//        resData.addResponseData(OBJLIST, listObjects);
-//        resData.addResponseData(PAGE_DESC, pageDesc);
-//        JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
     
     /**
@@ -139,7 +148,7 @@ public class QuestionCatalogController  extends BaseController {
      */
     @RequestMapping(value = "/delete/{catalogId}", method = {RequestMethod.DELETE})
     public void deleteQuestionCatalog(@PathVariable String catalogId, HttpServletResponse response) {
-    	questionCatalogMag.deleteObjectById(catalogId);
+        questionCatalogMag.deleteCatalog(catalogId);
         JsonResultUtils.writeSingleDataJson(catalogId,response);
     } 
     
@@ -155,10 +164,7 @@ public class QuestionCatalogController  extends BaseController {
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
-        String catalogId = questionCatalog.getCatalogId();
-    	QuestionCatalog dbQuestionCatalog = questionCatalogMag.getObjectById(catalogId);
-        dbQuestionCatalog .copy(questionCatalog);
-        questionCatalogMag.mergeObject(dbQuestionCatalog);
+        String catalogId = questionCatalogMag.updateCatalog(questionCatalog);
         JsonResultUtils.writeSingleDataJson(catalogId,response);
     }
 }

@@ -57,26 +57,6 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 		return filterField;
 	}
 
-	public List<QuestionInfo> getQuestionInfoWithUser(String userCode) {
-		String sql = " SELECT * from f_question_info f WHERE f.User_Code='" + userCode + "' ";
-		List<Object[]> list = (List<Object[]>) DatabaseOptUtils.findObjectsBySql(this, sql);
-		List<QuestionInfo> questionList = new ArrayList<>();
-		if (list != null){
-			questionList = objectToQuestionInfo(list);
-		}
-		return questionList;
-	}
-
-		public List<QuestionInfo> getQuestionInfoWithCurrentOperator(String currentOperator) {
-			String sql = " SELECT * from f_question_info f WHERE f.CURRENT_OPERATOR='" + currentOperator + "' ";
-			List<Object[]> list = (List<Object[]>) DatabaseOptUtils.findObjectsBySql(this, sql);
-			List<QuestionInfo> questionList = new ArrayList<>();
-			if (list != null){
-				questionList = objectToQuestionInfo(list);
-			}
-			return questionList;
-		}
-
 		public JSONArray getQuestionInfo(BaseDaoImpl baseDao, Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 			String queryStatement =
 					"select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState,h.userName "
@@ -85,7 +65,8 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 							+ " [ :currentOperator | and h.currentOperator = :currentOperator ]"
 							+ " [ :questionState | and h.questionState = :questionState ]"
 							+ " [ :editState | and h.editState = :editState ]"
-							+ " [ :questionTitle | and h.questionTitle like :%questionTitle% ]"
+							+ " [ :questionTitle | and h.questionTitle like :questionTitle]"
+							+ " [ :questionContent | and h.questionContent like :questionContent]"
 							+ " [ :begin | and h.createTime > :begin ]"
 							+ " [ :end | and h.createTime < :end ]";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
@@ -97,20 +78,15 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 		}
 
 
-		public QuestionInfo getQuestionInfoWithId(String questionId){
-			String sql = " SELECT * from f_question_info f WHERE f.QUESTION_ID='" + questionId + "' ";
-			List<Object[]> list = (List<Object[]>) DatabaseOptUtils.findObjectsBySql(this, sql);
-			List<QuestionInfo> questionList = new ArrayList<>();
-			if (list != null){
-				questionList = objectToQuestionInfo(list);
-				return questionList.get(0);
-			}
-			return null;
-		}
-
 		public void deleteQuestionInfoWithQuestionId(String questionId){
 			String sql = " DELETE   from f_question_info  WHERE QUESTION_ID='" +  questionId + "' ";
 			DatabaseOptUtils.doExecuteSql(this,sql);
+		}
+
+		public List<String> getQuestionIdWithCatalogId(String catalogId){
+			String sql = " SELECT f.QUESTION_ID from f_question_info f WHERE f.CATALOG_ID='" + catalogId + "' ";
+			List<String> list = (List<String>) DatabaseOptUtils.findObjectsBySql(this, sql);
+			return list;
 		}
 
 
