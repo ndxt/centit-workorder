@@ -56,11 +56,11 @@ public class SpringConfig implements EnvironmentAware {
     @Bean(initMethod = "migrate")
     @Lazy(value = false)
     public Flyway flyway() {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource());
-        flyway.setBaselineOnMigrate(true);
-        flyway.setLocations(env.getProperty("flyway.sql.dir"));
-        return flyway;
+        Flyway flywayMigration = new Flyway();
+        flywayMigration.setDataSource(dataSource());
+        flywayMigration.setBaselineOnMigrate(true);
+        flywayMigration.setLocations(env.getProperty("flyway.sql.dir"),"com.centit.framework.system.update");
+        return flywayMigration;
     }
 
     @Bean
@@ -93,15 +93,6 @@ public class SpringConfig implements EnvironmentAware {
     @Bean
     public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor() {
         return new AutowiredAnnotationBeanPostProcessor();
-    }
-
-    @Bean(initMethod = "migrate")
-    public Flyway flywayMigration() {
-        Flyway flywayMigration = new Flyway();
-        flywayMigration.setDataSource(dataSource());
-        flywayMigration.setBaselineOnMigrate(true);
-        flywayMigration.setLocations(env.getProperty("flyway.sql.dir"),"com.centit.framework.system.update");
-        return flywayMigration;
     }
 
     @Bean(initMethod = "initialEnvironment")
