@@ -1,0 +1,402 @@
+<div class="easyui-layout" id="userinfo_panel" xmlns:contentType="http://www.w3.org/1999/xhtml"
+     xmlns:contentType="http://www.w3.org/1999/xhtml">
+
+    <div >
+
+        <div class="easyui-panel search-body" cls="search" style="width: 100%;">
+            <form class="clearFromValue">
+                <div class="search-item">
+                    <label>业务系统</label>
+                    <input class="easyui-combobox" id="selectOsId_Question" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="osId" />
+                </div>
+                <!--<div class="search-item">-->
+                    <!--<label>问题类别</label>-->
+                    <!--<input class="easyui-textbox" id="selectCatalogName_Question" data-options="-->
+					<!--valueField: 'label',-->
+					<!--textField: 'value',-->
+				<!--"  name="catalogName" />-->
+                <!--</div>-->
+                <div class="search-item">
+                    <label>责任人</label>
+                    <input class="easyui-textbox" id="selectCurrentOperator" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="currentOperator" />
+                </div>
+                <div class="search-item">
+                    <label>标题</label>
+                    <input class="easyui-textbox" id="selectQuestionTitle" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="questionTitle" />
+                </div>
+                <div class="search-item">
+                    <label>内容</label>
+                    <input class="easyui-textbox" id="selectQuestionContent" data-options="
+					valueField: 'label',
+					textField: 'value',
+				"  name="questionContent" />
+                </div>
+                <div class="search-item">
+                    <label>开始</label>
+                    <input class="easyui-datetimebox" id="timeStart_Question" data-options=""
+                           name="begin"/>
+                </div>
+                <div class="search-item">
+                    <label>结束</label>
+                    <input class="easyui-datetimebox" id="timeEnd_Question" data-options="
+					showSeconds:true"
+                           name="end"/>
+                </div>
+                <a class="easyui-linkbutton btn-search" iconCls="icon-search" onclick="search();"><p  id="e@btn.search">搜索</p></a>
+                <a class="easyui-linkbutton" style="margin-top:8px;" iconcls="icon-reload" onclick="javascript:$('.clearFromValue').form('clear');$('.defaultChecked').prop('checked','true');" group="" id="">
+                    <p>重置</p>
+                </a>
+                <div class="search-item">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-top:8px;" iconCls="icon-add" plain="true"  onclick="newQuestion()"><p>新增</p></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-top:8px;" iconCls="icon-edit" plain="true" onclick="replayQuestion()"><p>回复</p></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-top:8px;" iconCls="icon-edit" plain="true" onclick="editOperator()"><p>修改责任人</p></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-top:8px;" iconCls="icon-remove" plain="true" onclick="destroyQuestion()"><p>删除</p></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-top:8px;" iconCls="icon-remove" plain="true" onclick="closeQuestion()"><p>关闭问题</p></a>
+                </div>
+            </form>
+
+        </div>
+
+        <table id="dg_question" url="service/questioninfo/getalllist"
+               width="98%"
+               bottom="0"
+               search=".search"
+               layoutH="65"
+        >
+            <thead>
+            <tr>
+                <th data-options="field:'questionId'" width="1%" sortable="true" hidden=" true">questionId</th>
+                <th data-options="field:'catalogId'" width="1%" sortable="true" hidden=" true">catalogId</th>
+                <th data-options="field:'userName'" width="10%" sortable="true">用户名称</th>
+                <th data-options="field:'questionTitle'" width="15%" sortable="true">标题</th>
+                <th data-options="field:'questionContent'" width="20%" sortable="true">内容</th>
+                <th data-options="field:'editState'" width="10%" sortable="true">编辑状态</th>
+                <th data-options="field:'questionState'" width="10%" sortable="true">问题状态</th>
+                <th data-options="field:'currentOperator'" width="10%" sortable="true">责任人</th>
+                <th data-options="field:'createTime'" width="20%" sortable="true">创建时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!--修改责任人-->
+<div id="dlg_operator" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm_operator" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:10px" id="Q_title">
+            <label>标题</label>
+            <input  name="questionTitle" class="easyui-textbox" required="true" label="catalogName:" readonly="true" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px" id="Q_replay">
+            <label>责任人</label>
+            <input  id="select_opertaor" name="currentOperator" class="easyui-combobox" required="true" label="catalogName:" style="width:100%" data-options="
+					valueField: 'label',
+					textField: 'value'">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveOperator()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_operator').dialog('close')" style="width:90px">Cancel</a>
+</div>
+
+<!--新增工单-->
+<div id="dlg_new" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg_new-buttons">
+    <form id="fm_new" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:10px" id="Q_catalog_new">
+            <label>问题类别</label>
+            <input id="selectCatalogId"  name="catalogId" class="easyui-combobox" required="true" label="catalogId:" style="width:100%" data-options="
+					valueField: 'label',
+					textField: 'value'">
+        </div>
+        <div style="margin-bottom:10px" id="Q_title_new">
+            <label>标题</label>
+            <input id="questionTitle" name="questionTitle" class="easyui-textbox" required="true" label="questionTitle:"  style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <label>内容</label>
+            <input id="questionContent" name="questionContent" class="easyui-textbox" required="true"  style="width:100%;height:60px" data-options="label:'内容:',multiline:true">
+        </div>
+        <div style="margin-bottom:10px">
+            <input id="osId_question" name="osId" type="hidden"  label="osId:" style="width:100%" hidden="true">
+        </div>
+    </form>
+</div>
+<div id="dlg_new-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveQuestion()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_new').dialog('close')" style="width:90px">Cancel</a>
+</div>
+
+<!--工单回复-->
+    <div id="dlg_replay" class="easyui-dialog" style="width:800px;overflow:hidden" closed="true" buttons="#dlg_replay-buttons">
+     <div style="overflow:auto; width:800px; height:800px;">
+        <form id="fm_replay" method="post" novalidate style="margin:0;padding:20px 50px">
+            <ui id="ui_question">
+                <li style="margin-bottom: 20px">
+                    <p>
+                        <small>
+                            <i id="askTime"></i>
+                            <span id="userName"></span>
+                            提问:
+                        </small>
+                    </p>
+                    <h3 id="askTitle"></h3>
+                    <p style="text-indent: 24px" id="askContent"></p>
+                </li>
+            </ui>
+            <ul id="ui_replay"></ul>
+            <div style="margin-bottom:10px">
+                <label>回复</label>
+                <input id="questionRound_replay" name="roundContent" class="easyui-textbox" required="true"  style="width:100%;height:60px" data-options="label:'回复:',multiline:true">
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="questionId_replay" name="questionId" type="hidden"  label="questionId:" style="width:100%" hidden="true">
+            </div>
+        </form>
+   </div>
+</div>
+<div id="dlg_replay-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveReplay()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="close_replay()" style="width:90px">Cancel</a>
+</div>
+<script>
+    var Core = require('core/core');
+    var allPanel;
+    $.parser.onComplete = function(panel) {
+        $.parser.onComplete = $.noop;
+        allPanel = panel;
+        requirejs([
+            'core/filter/filter.dictionary',
+            'modules/questionInfo/ctrl/questionInfo'
+        ], function(FilterDictionary, FileAccessLog) {
+            FilterDictionary.add(['YesOrNo']).then(function() {
+                new FileAccessLog('questionInfo', panel).load(panel);
+            });
+        });
+    };
+    setI18NText("");
+
+
+    function replayQuestion(){
+        $('#dlg_replay').dialog({
+            onClose:function(){
+                $("#ui_replay").html('');
+                $('#dlg_replay').dialog('close');
+                $('#fm_replay').form('clear');
+            }
+        });
+        var row = $('#dg_question').datagrid('getSelected');
+        if (row){
+            $('#dlg_replay').dialog('open').dialog('center').dialog('setTitle','工单回复');
+            $('#fm_replay').form('load',row);
+        }
+        $("#askTime").html(row.createTime);
+        $("#userName").html(row.userName);
+        $("#askTitle").html(row.questionTitle);
+        $("#askContent").html(row.questionContent);
+        var questionId = row.questionId;
+        $.ajax({
+            url: '/workorder/service/questioninfo/selectquestionround/' + questionId,
+            type: 'GET',
+            success: function(result) {
+                var questionRoundArray = [];
+                questionRoundArray = result.data;
+                $($('#Q_title_replay>span>input')[0]).attr('disabled','disabled');
+                $($('#Q_content_replay>span>textarea')[0]).attr('disabled','disabled');
+                for (var i = 0;i<questionRoundArray.length;i++){
+                    var time = questionRoundArray[i].createTime;
+                    var username = questionRoundArray[i].userName;
+                    var orA = questionRoundArray[i].orA;
+                    if (orA=="A"){
+                        orA="回复";
+                    }else if(orA=="Q"){
+                        orA="追问";
+                    }
+                    var content = questionRoundArray[i].roundContent;
+                    $("#ui_replay").append("<li style='margin-bottom: 20px'><p><small><i>"+time+" "+"</i><span>"+username+"："+orA+"</span></small></p><p>"+content+"</p></li>");
+                }
+            }
+        });
+    }
+    
+    function  close_replay() {
+        $("#ui_replay").html('');
+        $('#dlg_replay').dialog('close');
+        $('#fm_replay').form('clear');
+    }
+
+    function saveReplay(){
+        $('#fm_replay').form('submit',{
+            url:  '/workorder/service/questioninfo/replayquestion',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dg_question').datagrid('reload');// reload the user data
+                    $('#fm_replay').form('clear');
+                    $('#dlg_replay').dialog('close');// close the dialog
+
+                }
+            }
+        });
+    }
+
+
+    function newQuestion(){
+        $('#dlg_new').dialog('open').dialog('center').dialog('setTitle','新建工单');
+        $('#fm_new').form('clear');
+        $('#osId_question').attr('value','aa');
+        var osId = $('#osId_question').attr('value');
+        var catalog = [];
+        $.ajax({
+            url: '/workorder/service/questioncatalog/getall/' + osId,
+//            url: '/workorder/service/questioncatalog/getalllist',
+            type: 'GET',
+            success: function(result) {
+                var log = result.data.objList;
+                for(var i=0;i<log.length;i++){
+                    catalog[i] = {};
+                    catalog[i].value=log[i].catalogName;
+                    catalog[i].label=log[i].catalogId;
+                }
+                this.selectCatalogId = $("#selectCatalogId");
+                this.selectCatalogId.combobox('loadData',catalog);
+            }
+        });
+    }
+
+
+    function saveQuestion(){
+        $('#fm_new').form('submit',{
+            url:  '/workorder/service/questioninfo/createquestion',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg_new').dialog('close');        // close the dialog
+                    $('#dg_question').datagrid('reload');    // reload the user data
+                }
+            }
+        });
+    }
+
+    var url;
+    function editOperator(){
+        var row = $('#dg_question').datagrid('getSelected');
+        if (row){
+            $('#dlg_operator').dialog('open').dialog('center').dialog('setTitle','修改责任人');
+            $('#fm_operator').form('load',row);
+            url = '/workorder/service/questioninfo/updateoperator/'+row.questionId;
+        }
+        $.ajax({
+            url: '/workorder/service/questioninfo/getalloperator',
+            type: 'GET',
+            success: function(result) {
+                var operators = result.data;
+                var operator = [];
+                for(var i=0;i<operators.length;i++){
+                    operator[i] = {};
+                    operator[i].value=operators[i];
+                    operator[i].label=operators[i];
+                }
+                this.select_opertaor = $("#select_opertaor");
+                this.select_opertaor.combobox('loadData',operator);
+            }
+        });
+    }
+
+    function saveOperator(){
+        $('#fm_operator').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg_operator').dialog('close');        // close the dialog
+                    $('#dg_question').datagrid('reload');    // reload the user data
+                }
+            }
+        });
+    }
+    function destroyQuestion(){
+        var row = $('#dg_question').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','Are you sure you want to destroy this question?',function(r){
+                if (r){
+                    $.ajax({
+                        url: '/workorder/service/questioninfo/deletequestion/' + row.questionId,
+                        type: 'DELETE',
+                        success: function(result) {
+                            debugger;
+                            if (result.message == 'OK'){
+                                $('#dg_question').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function closeQuestion(){
+        var row = $('#dg_question').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Confirm','Are you sure you want to close this question?',function(r){
+                if (r){
+                    $.ajax({
+                        url: '/workorder/service/questioninfo/closequestion/' + row.questionId,
+                        type: 'PUT',
+                        success: function(result) {
+                            if (result.message == 'OK'){
+                                $('#dg_question').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+</script>

@@ -19,8 +19,6 @@ import java.util.Date;
 public class QuestionRound implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
-
-
 	/**
 	 * 交流ID null 
 	 */
@@ -29,13 +27,12 @@ public class QuestionRound implements java.io.Serializable {
 	@GeneratedValue(generator = "assignedGenerator")
 	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
 	private String roundId;
-
 	/**
 	 * 问题ID null 
 	 */
 	@Column(name = "QUESTION_ID")
 	@Length(max = 32, message = "字段长度不能大于{max}")
-	private QuestionInfo  questionInfo;
+	private String  questionId;
 	/**
 	 * 交流内容 null 
 	 */
@@ -46,19 +43,19 @@ public class QuestionRound implements java.io.Serializable {
 	 * 编辑状态 N: 未编辑  U: 已被编辑 
 	 */
 	@Column(name = "edit_state")
-	@Length(max = 0, message = "字段长度不能大于{max}")
+	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  editState;
 	/**
 	 * 交流状态 N: 未回复  C : 已回复 
 	 */
 	@Column(name = "ROUND_STATE")
-	@Length(max = 0, message = "字段长度不能大于{max}")
+	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  roundState;
 	/**
 	 * 追问还是解答 追问还是解答 
 	 */
 	@Column(name = "Q_OR_A")
-	@Length(max = 0, message = "字段长度不能大于{max}")
+	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  orA;
 	/**
 	 * 创建时间 null 
@@ -91,22 +88,16 @@ public class QuestionRound implements java.io.Serializable {
 	public QuestionRound(
 		String roundId		
 		,String  roundContent) {
-	
-	
-		this.roundId = roundId;		
-	
+		this.roundId = roundId;
 		this.roundContent= roundContent; 		
 	}
 
 /** full constructor */
 	public QuestionRound(
 	 String roundId		
-	,QuestionInfo  questionInfo,String  roundContent,String  editState,String  roundState,String  orA,Date  createTime,Date  lastUpdateTime,String  userCode,String  userName) {
-	
-	
-		this.roundId = roundId;		
-	
-		this.questionInfo= questionInfo;
+	,String  questionId,String  roundContent,String  editState,String  roundState,String  orA,Date  createTime,Date  lastUpdateTime,String  userCode,String  userName) {
+		this.roundId = roundId;
+		this.questionId= questionId;
 		this.roundContent= roundContent;
 		this.editState= editState;
 		this.roundState= roundState;
@@ -116,7 +107,6 @@ public class QuestionRound implements java.io.Serializable {
 		this.userCode= userCode;
 		this.userName= userName;		
 	}
-	
 
   
 	public String getRoundId() {
@@ -126,14 +116,14 @@ public class QuestionRound implements java.io.Serializable {
 	public void setRoundId(String roundId) {
 		this.roundId = roundId;
 	}
-	// Property accessors
+
   
-	public QuestionInfo getQuestionInfo() {
-		return this.questionInfo;
+	public String getQuestionId() {
+		return this.questionId;
 	}
 	
-	public void setQuestionInfo(QuestionInfo questionInfo) {
-		this.questionInfo = questionInfo;
+	public void setQuestionId(String questionId) {
+		this.questionId = questionId;
 	}
   
 	public String getRoundContent() {
@@ -191,7 +181,7 @@ public class QuestionRound implements java.io.Serializable {
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
-  
+
 	public String getUserName() {
 		return this.userName;
 	}
@@ -203,10 +193,8 @@ public class QuestionRound implements java.io.Serializable {
 
 
 	public QuestionRound copy(QuestionRound other){
-  
 		this.setRoundId(other.getRoundId());
-  
-		this.questionInfo= other.getQuestionInfo();  
+		this.questionId= other.getQuestionId();
 		this.roundContent= other.getRoundContent();  
 		this.editState= other.getEditState();  
 		this.roundState= other.getRoundState();  
@@ -215,17 +203,14 @@ public class QuestionRound implements java.io.Serializable {
 		this.lastUpdateTime= other.getLastUpdateTime();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();
-
 		return this;
 	}
 	
 	public QuestionRound copyNotNullProperty(QuestionRound other){
-  
 	if( other.getRoundId() != null)
 		this.setRoundId(other.getRoundId());
-  
-		if( other.getQuestionInfo() != null)
-			this.questionInfo= other.getQuestionInfo();  
+		if( other.getQuestionId() != null)
+			this.questionId= other.getQuestionId();
 		if( other.getRoundContent() != null)
 			this.roundContent= other.getRoundContent();  
 		if( other.getEditState() != null)
@@ -241,14 +226,12 @@ public class QuestionRound implements java.io.Serializable {
 		if( other.getUserCode() != null)
 			this.userCode= other.getUserCode();  
 		if( other.getUserName() != null)
-			this.userName= other.getUserName();		
-
+			this.userName= other.getUserName();
 		return this;
 	}
 
 	public QuestionRound clearProperties(){
-  
-		this.questionInfo= null;  
+		this.questionId= null;
 		this.roundContent= null;  
 		this.editState= null;  
 		this.roundState= null;  
@@ -257,7 +240,6 @@ public class QuestionRound implements java.io.Serializable {
 		this.lastUpdateTime= null;  
 		this.userCode= null;  
 		this.userName= null;
-
 		return this;
 	}
 }

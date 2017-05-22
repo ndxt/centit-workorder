@@ -27,13 +27,17 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
-        servletContext.setInitParameter("webAppRootKey", "workOrder");
+        initParameter(servletContext);
 
         initializeSpringMvcConfig(servletContext);
 
         registListener(servletContext);
 
         registFilter(servletContext);
+    }
+
+    private void initParameter(ServletContext servletContext) {
+        servletContext.setInitParameter("webAppRootKey", "workOrder");
     }
 
     private void initializeSpringConfig(ServletContext servletContext){
@@ -47,7 +51,7 @@ public class WebInitializer implements WebApplicationInitializer {
 //        context.register(SystemSpringMvcConfig.class);
 //        context.setServletContext(servletContext);
 //        Dynamic system  = servletContext.addServlet("system", new DispatcherServlet(context));
-//        system.addMapping("/*");
+//        system.addMapping("/system/*");
 //        system.setLoadOnStartup(1);
 //        system.setAsyncSupported(true);
 

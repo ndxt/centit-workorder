@@ -2,8 +2,6 @@ package com.centit.workorder.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
-
 /**
  * Created by zou_wy on 2017/4/27.
  */
@@ -23,8 +21,4 @@ public class AbstractWebInitializer extends AbstractAnnotationConfigDispatcherSe
         return new String[]{"/system/*"};
     }
 
-    @Override
-    protected Filter[] getServletFilters() {
-        return null;
-    }
 }
