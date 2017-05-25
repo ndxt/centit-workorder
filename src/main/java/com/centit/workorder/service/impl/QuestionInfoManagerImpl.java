@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.SysDaoOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.framework.staticsystem.po.UserInfo;
+import com.centit.framework.staticsystem.service.StaticEnvironmentManager;
 import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
@@ -51,6 +53,9 @@ public class QuestionInfoManagerImpl
 
 	@Resource(name = "questionCatalogDao")
 	private QuestionCatalogDao questionCatalogDao ;
+
+	@Resource
+	protected StaticEnvironmentManager platformEnvironment;
 
 	private QuestionInfoDao questionInfoDao ;
 	
@@ -148,30 +153,10 @@ public class QuestionInfoManagerImpl
 
 	@Override
 	public List<String> getAllOperator() {
-		BufferedReader reader = null;
-		String lastStr = "";
-		String path = home + config;
-		System.out.println("path=" + path);
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(path + "/static_system_config.json");
-			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "utf-8");
-			reader = new BufferedReader(inputStreamReader);
-			String tempString = null;
-			while ((tempString = reader.readLine()) != null) {
-				lastStr += tempString;
-			}
-			reader.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		JSONObject jo= JSONObject.parseObject(lastStr);
-		String con = jo.get("userInfos").toString();
-		JSONArray jsonArray = JSONObject.parseArray(con);
 		List<String> operator = new ArrayList<>();
-		for (int i = 0; i<jsonArray.size();i++){
-			JSONObject json= JSONObject.parseObject(jsonArray.get(i).toString());
-			operator.add(json.get("loginName").toString());
+		List<UserInfo> userInfo = (List<UserInfo>) platformEnvironment.listAllUsers();
+		for (UserInfo user:userInfo){
+			operator.add(user.getName());
 		}
 		return operator;
 	}

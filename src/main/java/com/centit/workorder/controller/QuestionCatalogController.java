@@ -8,10 +8,13 @@ import com.centit.framework.core.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.staticsystem.po.OsInfo;
+import com.centit.framework.staticsystem.service.StaticEnvironmentManager;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.service.QuestionCatalogManager;
+import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,6 +47,9 @@ public class QuestionCatalogController  extends BaseController {
 
 	@Resource
 	private QuestionCatalogManager questionCatalogMag;
+
+    @Resource
+    protected StaticEnvironmentManager platformEnvironment;
 
 
     private QuestionCatalog
@@ -167,4 +173,11 @@ public class QuestionCatalogController  extends BaseController {
         String catalogId = questionCatalogMag.updateCatalog(questionCatalog);
         JsonResultUtils.writeSingleDataJson(catalogId,response);
     }
+
+    @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
+    public void getOsIdList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<OsInfo> list = platformEnvironment.listOsInfos();
+        JsonResultUtils.writeSingleDataJson(list, response);
+    }
+
 }
