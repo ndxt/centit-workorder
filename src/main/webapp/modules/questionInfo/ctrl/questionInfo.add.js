@@ -33,12 +33,13 @@ define(function(require) {
         this.load = function(panel, data) {
             var form = panel.find('form');
             form.form('clear');
-            var osId =  $('#osid').attr('value','aa');
+
             var catalog = [];
             $.ajax({
-                url: '/workorder/service/questioncatalog/getall/' + osId,
+                url: '/workorder/service/questioncatalog/getalllist',
                 type: 'GET',
                 success: function(result) {
+                    console.log(result);
                     var log = result.data.objList;
                     for(var i=0;i<log.length;i++){
                         catalog[i] = {};
@@ -53,29 +54,19 @@ define(function(require) {
 
         this.submit = function(panel, data, closeCallback) {
 
-                var form = panel.find('form');
 
-                form.form('submit',{
-                    url:  '/workorder/service/questioninfo/createquestion',
-                    onSubmit: function(){
-                        return $(this).form('validate');
-                    },
-                    success: function(result){
-                        var result = JSON.parse(result);
-                        if (result.errorMsg){
-                            $.messager.show({
-                                title: 'Error',
-                                msg: result.errorMsg
-                            });
-                        } else {
+            var form = panel.find('form');
 
-                            closeCallback()       // close the dialog
-                                // reload the user data
-                        }
+            var isValid = form.form('enableValidation').form('validate');
+            if(isValid) {
+                form.form('ajax', {
+                    url: '/workorder/service/questioninfo/createquestion',
+                    method: 'post',
+                    data: {name: 123}
+                }).then(closeCallback);
+            }
+            return false;
 
-                    }
-                });
-                return false;
         };
 
         this.onClose = function(table) {
