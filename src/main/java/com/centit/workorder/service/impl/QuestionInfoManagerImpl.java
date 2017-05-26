@@ -170,6 +170,7 @@ public class QuestionInfoManagerImpl
 		questionInfo.setCreateTime(new Date());
 		questionInfo.setQuestionState("N");
 		questionInfo.setEditState("N");
+		questionInfo.setOsId(questionCatalog.getOsId());
 		Serializable pk = questionInfoDao.saveNewObject(questionInfo);
 		return pk;
 	}
