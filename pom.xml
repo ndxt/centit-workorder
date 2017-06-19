@@ -19,8 +19,25 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-base-view-easyui</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+        </dependency>
 
-         <dependency>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-hibernate</artifactId>
+            <version>4.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-staticsystem</artifactId>
+            <version>4.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.4</version>
@@ -32,53 +49,11 @@
             <version>5.1.25</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-base-view-easyui</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-hibernate</artifactId>
-            <version>3.1.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-staticsystem</artifactId>
-            <version>3.1.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.2.4.Final</version>
-        </dependency>
-
         <!-- server runtime library -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -94,7 +69,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-            <version>4.9</version>
+            <version>4.12</version>
         </dependency>
 
         <dependency>
