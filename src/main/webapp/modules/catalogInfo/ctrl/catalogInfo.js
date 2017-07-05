@@ -63,6 +63,7 @@ define(function(require) {
                 controller: this,
             });
             //读取所有下拉框的ID
+
             this.selectPushState  = panel.find("#selectPushState");
             this.selectOsId = panel.find("#selectOsId");
             this.seletOptId = panel.find("#selectOptId");

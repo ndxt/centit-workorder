@@ -1,10 +1,11 @@
 package com.centit.workorder.config;
 
 import com.centit.framework.components.impl.NotificationCenterImpl;
+import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.listener.InitialWebRuntimeEnvironment;
+import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.model.CentitMd5PasswordEncoder;
 import com.centit.framework.staticsystem.service.impl.StaticSystemConfigImpl;
-import com.centit.framework.staticsystem.service.impl.TextOperationLogWriterImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
@@ -103,7 +104,7 @@ public class SpringConfig implements EnvironmentAware {
 
     @Bean(initMethod = "init")
     @Lazy(value = false)
-    public TextOperationLogWriterImpl operationLogWriter() {
+    public OperationLogWriter operationLogWriter() {
         return new TextOperationLogWriterImpl();
     }
 

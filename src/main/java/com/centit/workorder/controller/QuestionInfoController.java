@@ -2,15 +2,13 @@ package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.common.JsonResultUtils;
 import com.centit.framework.core.common.ResponseData;
-import com.centit.framework.core.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
-import com.centit.workorder.comRet.QuestionRoundRet;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
@@ -21,17 +19,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.*;
-import java.net.URISyntaxException;
-import java.util.*;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * QuestionInfo  Controller.
@@ -160,10 +159,10 @@ public class QuestionInfoController  extends BaseController {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         System.out.println("questionRoundListSize="+questionRoundList.size());
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        QuestionRoundRet questionRoundRet = new QuestionRoundRet();
-        questionRoundRet.setQuestionRoundList(questionRoundList);
-        questionRoundRet.setQuestionInfo(questionInfo);
-        JsonResultUtils.writeSingleDataJson(questionRoundRet, response);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData("questionInfo", questionInfo);
+        resData.addResponseData("questionRoundList",questionRoundList );
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
     /**

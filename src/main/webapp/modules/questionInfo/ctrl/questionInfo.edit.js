@@ -14,6 +14,23 @@ define(function(require) {
                 .form('disableValidation')
                 .form('focus');
 
+            var principalList = [];
+            $.ajax({
+                url: '/workorder/service/questioninfo/getalloperator' ,
+                type: 'GET',
+                success: function(result) {
+                    console.log(result);
+                    var principals = result.data;
+                    for(var i=0;i<principals.length;i++){
+                        principalList[i] = {};
+                        principalList[i].value=principals[i];
+                        principalList[i].label=principals[i];
+                    }
+                    this.principal = $("#principal");//panel怎么去获取？
+                    this.principal.combobox('loadData',principalList);
+                }
+            });
+
     };
 
         // 提交表单时调用

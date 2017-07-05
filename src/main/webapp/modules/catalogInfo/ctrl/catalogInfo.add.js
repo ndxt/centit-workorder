@@ -12,13 +12,32 @@ define(function(require) {
     var AddCtrl = Page.extend(function() {
 
         this.load = function(panel) {
-            this.data = null;
 
             var form = panel.find('form');
+            form.form('clear');
+            var catalog = [];
+            $.ajax({
+                url: Config.ContextPath + 'service/questioncatalog/getallosid',
+                type: 'GET',
+                success: function(result) {
+                    console.log(result);
+                    var log = result.data;
+                    var logItem;
+                    for(var i=0;i<log.length;i++){
+                        logItem = {};
 
-            $('#fm').form('clear');
-             var osid =  $('#osid').attr('value','aa');
-            // url = '/workorder/service/questioncatalog/create';
+                        logItem.value=log[i].osId;
+                        logItem.label=log[i].osName;
+                        catalog.push(logItem);
+                    }
+                    console.log(catalog);
+
+
+
+                    $('#osId').combobox({data:catalog});
+
+                }
+            });
         };
 
         this.submit = function(panel, data, closeCallback) {
