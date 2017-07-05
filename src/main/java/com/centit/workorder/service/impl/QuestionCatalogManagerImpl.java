@@ -7,7 +7,9 @@ import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.support.database.QueryAndNamedParams;
 import com.centit.support.database.QueryUtils;
 import com.centit.workorder.dao.*;
+import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.QuestionCatalog;
+import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionCatalogManager;
 import org.apache.commons.logging.Log;
@@ -82,17 +84,17 @@ public class QuestionCatalogManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteCatalog(String catalogId) {
 		questionCatalogDao.deleteObjectById(catalogId);
-		List<String> helpDocIds = helpDocDao.getHelpDocIdWithCatalogId(catalogId);
-		List<String> questionIdList = questionInfoDao.getQuestionIdWithCatalogId(catalogId);
+		List<HelpDoc> helpDocs = helpDocDao.listHelpDocIdWithCatalogId(catalogId);
+		List<QuestionInfo> questionIdList = questionInfoDao.listQuestionIdWithCatalogId(catalogId);
 		helpDocDao.deleteObjectsAsTabulation("catalogId", catalogId);
 		questionInfoDao.deleteObjectsAsTabulation("catalogId", catalogId);
-		for (String helpDocId:helpDocIds){
-			helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", helpDocId);//删除所有历史版本
-			helpDocCommentDao.deleteObjectsAsTabulation("docId", helpDocId);//删除评论
-			helpDocScoreDao.deleteObjectsAsTabulation("docId", helpDocId);//删除评分
+		for (HelpDoc helpDoc:helpDocs){
+			helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", helpDoc.getDocId());//删除所有历史版本
+			helpDocCommentDao.deleteObjectsAsTabulation("docId", helpDoc.getDocId());//删除评论
+			helpDocScoreDao.deleteObjectsAsTabulation("docId", helpDoc.getDocId());//删除评分
 		}
-		for (String questionId:questionIdList){
-			questionRoundDao.deleteObjectsAsTabulation("questionId",questionId);
+		for (QuestionInfo questionInfo:questionIdList){
+			questionRoundDao.deleteObjectsAsTabulation("questionId",questionInfo.getQuestionId());
 		}
 	}
 

@@ -34,7 +34,6 @@ public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,com.centit.wor
 
 			filterField.put("docVersion" , CodeBook.EQUAL_HQL_ID);
 
-
 			filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
