@@ -2,14 +2,14 @@ package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.common.JsonResultUtils;
 import com.centit.framework.core.common.ResponseData;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.staticsystem.po.OsInfo;
-import com.centit.framework.staticsystem.service.StaticEnvironmentManager;
+import com.centit.framework.staticsystem.service.IntegrationEnvironment;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.QuestionCatalogManager;
@@ -48,7 +48,7 @@ public class QuestionCatalogController  extends BaseController {
 	private QuestionCatalogManager questionCatalogMag;
 
     @Resource
-    protected StaticEnvironmentManager platformEnvironment;
+    protected IntegrationEnvironment integrationEnvironment;
 
 
     private QuestionCatalog
@@ -175,7 +175,7 @@ public class QuestionCatalogController  extends BaseController {
 
     @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
     public void getOsIdList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<OsInfo> list = platformEnvironment.listOsInfos();
+        List<OsInfo> list = integrationEnvironment.listOsInfos();
         JsonResultUtils.writeSingleDataJson(list, response);
     }
 

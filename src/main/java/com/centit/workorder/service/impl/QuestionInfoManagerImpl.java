@@ -1,12 +1,10 @@
 package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.dao.PageDesc;
-import com.centit.framework.hibernate.dao.SysDaoOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.staticsystem.po.UserInfo;
-import com.centit.framework.staticsystem.service.StaticEnvironmentManager;
 import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
@@ -20,11 +18,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +52,7 @@ public class QuestionInfoManagerImpl
 	private QuestionCatalogDao questionCatalogDao ;
 
 	@Resource
-	protected StaticEnvironmentManager platformEnvironment;
+	protected PlatformEnvironment platformEnvironment;
 
 	private QuestionInfoDao questionInfoDao ;
 	

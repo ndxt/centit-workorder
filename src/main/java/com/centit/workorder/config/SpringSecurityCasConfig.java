@@ -1,8 +1,8 @@
 package com.centit.workorder.config;
 
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.*;
 import com.centit.framework.security.model.MemorySessionRegistryImpl;
-import com.centit.framework.staticsystem.service.impl.StaticSystemConfigImpl;
 import com.centit.framework.staticsystem.service.impl.UserDetailsServiceImpl;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
@@ -36,7 +36,7 @@ import java.util.List;
 public class SpringSecurityCasConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private StaticSystemConfigImpl platformEnvironment;
+    private PlatformEnvironment platformEnvironment;
 
     @Override
     public void configure(WebSecurity web) throws Exception {

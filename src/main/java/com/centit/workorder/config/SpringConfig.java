@@ -4,8 +4,11 @@ import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.listener.InitialWebRuntimeEnvironment;
 import com.centit.framework.model.adapter.OperationLogWriter;
-import com.centit.framework.security.model.CentitMd5PasswordEncoder;
-import com.centit.framework.staticsystem.service.impl.StaticSystemConfigImpl;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.security.model.CentitPasswordEncoder;
+import com.centit.framework.security.model.CentitPasswordEncoderImpl;
+import com.centit.framework.staticsystem.service.IntegrationEnvironment;
+import com.centit.framework.staticsystem.service.impl.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
@@ -20,6 +23,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -113,17 +118,61 @@ public class SpringConfig implements EnvironmentAware {
         return new NotificationCenterImpl();
     }
 
-    @Bean(initMethod = "init")
+
+    @Bean
+    public CentitPasswordEncoderImpl passwordEncoder() {
+        return  new CentitPasswordEncoderImpl();
+    }
+
+    @Bean
     @Lazy(value = false)
-    public StaticSystemConfigImpl platformEnvironment() {
-        StaticSystemConfigImpl platformEnvironment = new StaticSystemConfigImpl();
-        platformEnvironment.setPasswordEncoder(passwordEncoder());
+    public PlatformEnvironment platformEnvironment(
+            CentitPasswordEncoder passwordEncoder) {
+
+        Boolean ipEnable = env.getProperty("centit.ip.enable",Boolean.class);// = false
+        StaticPlatformEnvironment jsonPlatformEnvironment = new StaticPlatformEnvironment();
+        jsonPlatformEnvironment.setPasswordEncoder(passwordEncoder);
+        jsonPlatformEnvironment.init();
+        if(ipEnable==null || !ipEnable)
+            return jsonPlatformEnvironment;
+
+        IPClientPlatformEnvironment ipPlatformEnvironment = new IPClientPlatformEnvironment();
+        ipPlatformEnvironment.setTopOptId(env.getProperty("centit.ip.topoptid"));
+        ipPlatformEnvironment.setPlatServerUrl(env.getProperty("centit.ip.home"));
+        ipPlatformEnvironment.init();
+
+        List<PlatformEnvironment> evrnMangers = new ArrayList<>();
+        evrnMangers.add(ipPlatformEnvironment);
+        evrnMangers.add(jsonPlatformEnvironment);
+
+        PlatformEnvironmentProxy platformEnvironment = new PlatformEnvironmentProxy();
+        platformEnvironment.setEvrnMangers(evrnMangers);
+
         return platformEnvironment;
     }
 
     @Bean
-    public CentitMd5PasswordEncoder passwordEncoder() {
-        return  new CentitMd5PasswordEncoder();
+    @Lazy(value = false)
+    public IntegrationEnvironment integrationEnvironment() {
+
+        Boolean ipEnable = env.getProperty("centit.ip.enable",Boolean.class);// = false
+        StaticIntegrationEnvironment jsonIntegrationEnvironment = new StaticIntegrationEnvironment();
+        jsonIntegrationEnvironment.init();
+        if(ipEnable==null || !ipEnable)
+            return jsonIntegrationEnvironment;
+
+        IPClientIntegrationEnvironment ipIntegrationEnvironment = new IPClientIntegrationEnvironment();
+        ipIntegrationEnvironment.setPlatServerUrl(env.getProperty("centit.ip.home"));
+        //ipPlatformEnvironment.init();
+
+        List<IntegrationEnvironment> evrnMangers = new ArrayList<>();
+        evrnMangers.add(ipIntegrationEnvironment);
+        evrnMangers.add(jsonIntegrationEnvironment);
+
+        IntegrationEnvironmentProxy integrationEnvironment = new IntegrationEnvironmentProxy();
+        integrationEnvironment.setEvrnMangers(evrnMangers);
+
+        return integrationEnvironment;
     }
 
     @Bean

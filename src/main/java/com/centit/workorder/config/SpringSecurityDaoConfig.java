@@ -1,9 +1,9 @@
 package com.centit.workorder.config;
 
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.*;
-import com.centit.framework.security.model.CentitMd5PasswordEncoder;
+import com.centit.framework.security.model.CentitPasswordEncoder;
 import com.centit.framework.security.model.MemorySessionRegistryImpl;
-import com.centit.framework.staticsystem.service.impl.StaticSystemConfigImpl;
 import com.centit.framework.staticsystem.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +38,10 @@ public class SpringSecurityDaoConfig extends WebSecurityConfigurerAdapter {
     private HttpSessionCsrfTokenRepository csrfTokenRepository;
 
     @Autowired
-    private CentitMd5PasswordEncoder passwordEncoder;
+    private CentitPasswordEncoder passwordEncoder;
 
     @Autowired
-    private StaticSystemConfigImpl platformEnvironment;
+    private PlatformEnvironment platformEnvironment;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
