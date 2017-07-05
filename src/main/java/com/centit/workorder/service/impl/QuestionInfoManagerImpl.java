@@ -91,7 +91,7 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId) {
-		List<QuestionRound> list = questionRoundDao.getQuestionRoundWithQuestionId(questionId);
+		List<QuestionRound> list = questionRoundDao.listQuestionRoundWithQuestionId(questionId);
 		return list;
 	}
 
@@ -114,8 +114,8 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteQuestion(String questionId) {
-		questionRoundDao.deleteQuestionRoundWithQuestionId(questionId);
-		questionInfoDao.deleteQuestionInfoWithQuestionId(questionId);
+		questionRoundDao.deleteObjectsAsTabulation("questionId",questionId);
+		questionInfoDao.deleteObjectsAsTabulation("questionId",questionId);
 	}
 
 //	@Override

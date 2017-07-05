@@ -32,7 +32,6 @@ public class HelpDocCommentDao extends BaseDaoImpl<HelpDocComment,java.lang.Stri
 
 			filterField.put("commentId" , CodeBook.EQUAL_HQL_ID);
 
-
 			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("docComment" , CodeBook.EQUAL_HQL_ID);

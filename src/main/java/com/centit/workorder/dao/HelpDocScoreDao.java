@@ -32,7 +32,6 @@ public class HelpDocScoreDao extends BaseDaoImpl<HelpDocScore,java.lang.String>
 
 			filterField.put("scoreId" , CodeBook.EQUAL_HQL_ID);
 
-
 			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("docScore" , CodeBook.EQUAL_HQL_ID);

@@ -68,37 +68,4 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
             return dataList;
         }
 
-
-
-//		public List<QuestionCatalog> objectToQuestionCatalog(List<Object[]> list){
-//			List<QuestionCatalog> questionList = new ArrayList<>();
-//			for (int i = 0; i < list.size(); i++) {
-//				QuestionCatalog questionCatalog = new QuestionCatalog();
-//				Object[] obj = (Object[]) list.get(i);
-//				if (obj[0] != null && !"".equals(obj[0])) {
-//					questionCatalog.setCatalogId(obj[0].toString());
-//				}
-//				if (obj[1] != null && !"".equals(obj[1])) {
-//					questionCatalog.setOsId(obj[1].toString());
-//				}
-//				if (obj[2] != null && !"".equals(obj[2])) {
-//					questionCatalog.setCatalogName(obj[2].toString());
-//				}
-//				if (obj[3] != null && !"".equals(obj[3])) {
-//					questionCatalog.setCreator(obj[3].toString());
-//				}
-//				if (obj[4] != null && !"".equals(obj[4])) {
-//					questionCatalog.setCreateTime((Date) obj[4]);
-//				}
-//				if (obj[5] != null && !"".equals(obj[5])) {
-//					questionCatalog.setDefaultOperator(obj[5].toString());
-//				}
-//				if (obj[6] != null && !"".equals(obj[6])) {
-//					questionCatalog.setTimeLimit(Integer.valueOf(obj[6].toString()));
-//				}
-//				questionList.add(questionCatalog);
-//			}
-//			return questionList;
-//		}
-
 }
