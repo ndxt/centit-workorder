@@ -12,8 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @Import({SpringConfig.class, DataSourceConfig.class})
 @ComponentScan(basePackages={"com.centit.workorder"},
-        excludeFilters=@ComponentScan.Filter(value=org.springframework.stereotype.Controller.class),
-        useDefaultFilters=false)
+        excludeFilters=@ComponentScan.Filter(value=org.springframework.stereotype.Controller.class))
 public class BeanConfig {
     @Bean(initMethod = "initialEnvironment")
     @Lazy(value = false)
