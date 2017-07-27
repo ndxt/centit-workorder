@@ -16,6 +16,7 @@
         <centit.ui.version>3.0.1-SNAPSHOT</centit.ui.version>
         <centit.ip.version>0.0.2-SNAPSHOT</centit.ip.version>
         <centit.fileserver.version>2.0.1-SNAPSHOT</centit.fileserver.version>
+        <centit.search.version>0.1</centit.search.version>
 
         <ojdbc6.version>11.2.0.4</ojdbc6.version>
         <junit.version>4.12</junit.version>
