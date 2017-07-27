@@ -69,26 +69,26 @@ public class HelpDoc implements java.io.Serializable {
 	/**
 	 * 业务项目模块 模块，或者表 
 	 */
-	@Column(name = "Opt_ID")
+	@Column(name = "OPT_ID")
 	@NotBlank(message = "字段不能为空")
 	@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  optId;
 	/**
 	 * 业务操作方法 方法，或者字段 
 	 */
-	@Column(name = "OPT_Method")
+	@Column(name = "OPT_METHOD")
 	@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  optMethod;
 	/**
 	 * 编辑人员 null 
 	 */
-	@Column(name = "update_user")
+	@Column(name = "UPDATE_USER")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  updateUser;
 	/**
 	 * 编辑时间 null 
 	 */
-	@Column(name = "last_update_time")
+	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
 	
 	// Constructors
