@@ -4,7 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.staticsystem.po.UserInfo;
+
+import com.centit.framework.model.basedata.IUserInfo;
 import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
@@ -63,14 +64,7 @@ public class QuestionInfoManagerImpl
 		this.questionInfoDao = baseDao;
 		setBaseDao(this.questionInfoDao);
 	}
-	
-/*
- 	@PostConstruct
-    public void init() {
-        
-    }
- 	
- */
+
 //	@Override
 //    @Transactional(propagation= Propagation.REQUIRED)
 //	public JSONArray listQuestionInfosAsJson(
@@ -151,9 +145,9 @@ public class QuestionInfoManagerImpl
 	@Override
 	public List<String> getAllOperator() {
 		List<String> operator = new ArrayList<>();
-		List<UserInfo> userInfo = (List<UserInfo>) platformEnvironment.listAllUsers();
-		for (UserInfo user:userInfo){
-			operator.add(user.getName());
+		List<? extends IUserInfo> userInfos =  platformEnvironment.listAllUsers();
+		for (IUserInfo user : userInfos){
+			operator.add(user.getUserName());
 		}
 		return operator;
 	}

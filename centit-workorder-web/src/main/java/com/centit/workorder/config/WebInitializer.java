@@ -2,28 +2,14 @@ package com.centit.workorder.config;
 
 import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
-import com.centit.framework.filter.RequestThreadLocalFilter;
-import com.centit.framework.filter.ResponseCorsFilter;
-import com.centit.framework.staticsystem.config.SpringConfig;
-import com.centit.support.algorithm.StringRegularOpt;
-import com.centit.support.file.PropertiesReader;
-import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
-import javax.servlet.ServletRegistration.Dynamic;
-import java.util.EnumSet;
 
 
 /**

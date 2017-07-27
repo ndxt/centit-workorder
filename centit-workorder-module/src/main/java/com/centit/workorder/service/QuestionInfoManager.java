@@ -6,7 +6,6 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.core.service.BaseEntityManager;
-import com.centit.framework.staticsystem.po.UserInfo;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 
@@ -20,21 +19,21 @@ import com.centit.workorder.po.QuestionRound;
 public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java.lang.String> 
 {
 
-	public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
+	List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
 
-	public Serializable saveQuestionRound(QuestionRound questionRound);
+	Serializable saveQuestionRound(QuestionRound questionRound);
 
-	public void deleteQuestion(String questionId);
+	void deleteQuestion(String questionId);
 
 	JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-	public QuestionRound replayQuestion(QuestionRound questionRound);
+	QuestionRound replayQuestion(QuestionRound questionRound);
 
-	public List<String> getAllOperator();
+	List<String> getAllOperator();
 
-	public Serializable createQuestion(QuestionInfo questionInfo);
+	Serializable createQuestion(QuestionInfo questionInfo);
 
-	public String evaluateAndCloseQuestion(String score,String questionId);
+	String evaluateAndCloseQuestion(String score,String questionId);
 
-	public String closeQuestion(String questionId);
+	String closeQuestion(String questionId);
 }

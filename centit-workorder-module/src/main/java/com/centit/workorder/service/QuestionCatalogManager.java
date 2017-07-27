@@ -20,8 +20,8 @@ public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalo
 
     JSONArray getAllCatalog(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-	public void deleteCatalog(String catalogId);
+	void deleteCatalog(String catalogId);
 
-	public String updateCatalog(QuestionCatalog questionCatalog);
+	String updateCatalog(QuestionCatalog questionCatalog);
 
 }
