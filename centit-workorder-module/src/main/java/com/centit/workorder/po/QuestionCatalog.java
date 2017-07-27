@@ -42,13 +42,13 @@ public class QuestionCatalog implements java.io.Serializable {
 	/**
 	 * 创建人员 null 
 	 */
-	@Column(name = "creator")
+	@Column(name = "CREATOR")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  creator;
 	/**
 	 * 创建时间 null 
 	 */
-	@Column(name = "create_time")
+	@Column(name = "CREATE_TIME")
 	private Date  createTime;
 	/**
 	 *默认责任人

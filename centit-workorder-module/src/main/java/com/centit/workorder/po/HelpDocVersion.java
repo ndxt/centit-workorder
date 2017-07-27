@@ -40,13 +40,13 @@ public class HelpDocVersion implements java.io.Serializable {
 	/**
 	 * 编辑人员 null 
 	 */
-	@Column(name = "update_user")
+	@Column(name = "UPDATE_USER")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  updateUser;
 	/**
 	 * 编辑时间 null 
 	 */
-	@Column(name = "last_update_time")
+	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
 
 	// Constructors
