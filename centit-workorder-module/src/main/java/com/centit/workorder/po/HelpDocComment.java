@@ -43,7 +43,7 @@ public class HelpDocComment implements java.io.Serializable {
 	/**
 	 * 用户代码 null 
 	 */
-	@Column(name = "User_Code")
+	@Column(name = "USER_CODE")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
@@ -55,7 +55,7 @@ public class HelpDocComment implements java.io.Serializable {
 	/**
 	 * 评价时间 null 
 	 */
-	@Column(name = "create_time")
+	@Column(name = "CREATE_TIME")
 	private Date  createTime;
 
 	// Constructors

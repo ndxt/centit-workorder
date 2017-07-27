@@ -42,7 +42,7 @@ public class QuestionRound implements java.io.Serializable {
 	/**
 	 * 编辑状态 N: 未编辑  U: 已被编辑 
 	 */
-	@Column(name = "edit_state")
+	@Column(name = "EDIT_STATE")
 	@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  editState;
 	/**
@@ -60,17 +60,17 @@ public class QuestionRound implements java.io.Serializable {
 	/**
 	 * 创建时间 null 
 	 */
-	@Column(name = "create_time")
+	@Column(name = "CREATE_TIME")
 	private Date  createTime;
 	/**
 	 * 编辑时间 null 
 	 */
-	@Column(name = "last_update_time")
+	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
 	/**
 	 * 用户代码 null 
 	 */
-	@Column(name = "User_Code")
+	@Column(name = "USER_CODE")
 	@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
