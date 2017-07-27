@@ -1,0 +1,85 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form>
+        <div class="col-sm-6">
+          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">2017-1-1 至今</span>
+          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">已回复</span>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group input-group-sm pull-right"
+               ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
+            <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
+                   ng-focus="isQuestionSearchTitleFocus = true"
+                   ng-blur="isQuestionSearchTitleFocus = false">
+            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <table style="width: 100%; margin-top: 10px;">
+              <tbody>
+              <tr style="border-bottom: 1px dashed #ccc;">
+                <td style="width: 100px; padding: 4px;">工单时间：</td>
+                <td style="padding: 4px;">
+                    <input type="text" style="width: 240px;" class="form-control input-sm" placeholder="选择工单创建时间">
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px dashed #ccc;">
+                <td style="width: 100px; padding: 6px;">工单状态：</td>
+                <td style="padding: 6px 4px 4px;">
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> 全部
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 已回复
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 未回复
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 完结
+                  </label>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>标题</th>
+      <th class="text-center" width="180">创建时间</th>
+      <th class="text-center" width="120">状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in vm.questions">
+      <td>
+        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.title}}</a>
+      </td>
+      <td class="text-center">
+        {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+      </td>
+      <td class="text-center">
+        <span class="label label-warning" style="padding: 4px 8px; font-size: 14px;">未回复</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<nav aria-label="Page navigation" class="text-center">
+  <ul style="margin: 0;"
+    uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+</nav>
+
+
+
