@@ -2,70 +2,91 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.centit.product</groupId>
-    <artifactId>workorder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+
+    <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <centit.workorder.version>0.0.1-SNAPSHOT</centit.workorder.version>
+        <jdk.version>1.8</jdk.version>
+
+        <centit.commons.version>2.2.1</centit.commons.version>
+        <centit.framework.version>4.0.0-SNAPSHOT</centit.framework.version>
+        <centit.ui.version>3.0.1-SNAPSHOT</centit.ui.version>
+        <centit.ip.version>0.0.2-SNAPSHOT</centit.ip.version>
+        <centit.fileserver.version>2.0.1-SNAPSHOT</centit.fileserver.version>
+
+        <ojdbc6.version>11.2.0.4</ojdbc6.version>
+        <junit.version>4.12</junit.version>
+        <mysql.version>6.0.6</mysql.version>
+        <aliyun-sdk-oss.version>2.8.1</aliyun-sdk-oss.version>
+        <servlet-api.version>3.1.0</servlet-api.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-base-view-easyui</artifactId>
-            <version>3.0.1-SNAPSHOT</version>
-        </dependency>
+    <groupId>com.centit.product</groupId>
+    <artifactId>centit-workorder</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>centit-workorder-module</module>
+        <module>centit-workorder-view</module>
+        <module>centit-workorder-web</module>
+        <module>centit-workorder-client</module>
+    </modules>
 
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-hibernate</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
-        </dependency>
+    <name>com.centit.product:centit-workorder</name>
+    <packaging>pom</packaging>
+    <description>工单系统用于运维支撑。</description>
+    <url>https://github.com/ndxt/centit-workorder</url>
 
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-static</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
-        </dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.25</version>
-            <scope>runtime</scope>
-        </dependency>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-        <!-- server runtime library -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <developers>
 
-        <!-- test library -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-            <version>4.12</version>
-        </dependency>
+        <developer>
+            <name>杨淮生</name>
+            <email>codefan@sina.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
 
-        <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.8.0</version>
-            <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
+        <developer>
+            <name>张凯</name>
+            <email>zk@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>陆鸿博</name>
+            <email>lu_hb@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>张国栋</name>
+            <email>zhang_gd@centit.com</email>
+            <organization>centit.com</organization>
+            <organizationUrl>http://www.centit.com</organizationUrl>
+        </developer>
 
-        <!-- <systemPath>${java.home}/../lib/tools.jar</systemPath> C:/develop/jvm/jdk1_7_0_60/lib/tools.jar
-            ${JAVA_HOME} /lib/tools.jar ${java.home}/lib/tools.jar ${env.JAVA_HOME}/lib/tools.jar -->
-    </dependencies>
+    </developers>
+
+    <scm>
+        <connection>
+            scm:git:https://github.com/ndxt/centit-workorder.git
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/ndxt/centit-workorder.git
+        </developerConnection>
+        <url>https://github.com/ndxt/centit-workorder</url>
+        <tag>v1.12</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -82,7 +103,7 @@
 
 
     <build>
-        <resources>
+        <!--<resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -97,8 +118,24 @@
                 </excludes>
                 <targetPath>META-INF/resources/</targetPath>
             </resource>
-        </resources>
+        </resources>-->
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <verbose />
+                        <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+
             <!-- 打包时添加源码 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -108,67 +145,11 @@
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-resources-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [2.6,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>testResources</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>
