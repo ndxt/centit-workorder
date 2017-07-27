@@ -1,21 +1,19 @@
 package com.centit.workorder.dao;
 
-import java.util.*;
-
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
-import com.centit.framework.hibernate.dao.SysDaoOptUtils;
 import com.centit.support.database.QueryAndNamedParams;
 import com.centit.support.database.QueryUtils;
-import com.centit.workorder.po.QuestionInfo;
+import com.centit.workorder.po.QuestionCatalog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.centit.workorder.po.QuestionCatalog;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -61,10 +59,8 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
                             + " [ :begin | and h.createTime > :begin ]"
                             + " [ :end | and h.createTime < :end ]";
             QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            JSONArray dataList = SysDaoOptUtils.listObjectsByHqlAsJson(baseDao,
-                    qap.getQuery(), qap.getParams(),
-                    null,
-                    pageDesc);
+            JSONArray dataList = DatabaseOptUtils.findObjectsAsJSonByHql(baseDao,
+                    	qap.getQuery(), qap.getParams(), pageDesc);
             return dataList;
         }
 

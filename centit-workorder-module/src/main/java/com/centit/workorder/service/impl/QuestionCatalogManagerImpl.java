@@ -2,15 +2,11 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
-import com.centit.framework.hibernate.dao.SysDaoOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
-import com.centit.support.database.QueryAndNamedParams;
-import com.centit.support.database.QueryUtils;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.po.QuestionInfo;
-import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionCatalogManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

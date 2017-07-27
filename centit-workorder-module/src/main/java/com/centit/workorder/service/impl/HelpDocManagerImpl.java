@@ -2,8 +2,9 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.core.dao.DictionaryMapUtils;
 import com.centit.framework.core.dao.PageDesc;
-import com.centit.framework.hibernate.dao.SysDaoOptUtils;
+import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.support.algorithm.ListOpt;
 import com.centit.support.database.QueryAndNamedParams;
@@ -131,9 +132,7 @@ public class HelpDocManagerImpl
 //		List<HelpDoc> list = listObjects(map);
 		List<HelpDoc> list = helpDocDao.listObjectByProperty("osId", osId);
 //		List<HelpDoc> list = helpDocDao.getCurrentSession().createQuery("from HelpDoc h where 1=1").list();
-		return ListOpt.srotAsTreeAndToJSON(list, new ListOpt.ParentChild<HelpDoc>() {
-			@Override
-			public boolean parentAndChild(HelpDoc p, HelpDoc c) {
+		return ListOpt.srotAsTreeAndToJSON(list,  ( p,  c) -> {
 				String parent = p.getDocId();
 				String child = c.getDocPath();
 				if(child.lastIndexOf("/") != -1) {
@@ -143,8 +142,7 @@ public class HelpDocManagerImpl
 				}else{
 					return false;
 				}
-			}
-		}, "c");
+			}, "c");
 
 	}
 	@Override
@@ -159,10 +157,9 @@ public class HelpDocManagerImpl
 						+ " [ :osId | and h.OS_ID = :osId ]";
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
-		JSONArray dataList = SysDaoOptUtils.listObjectsBySqlAsJson(baseDao,
-				qap.getQuery(), qap.getParams(),
-				null,
-				null);
+		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
+				DatabaseOptUtils.findObjectsAsJSonBySql(
+						baseDao,qap.getQuery(), qap.getParams(),null);
 		return dataList;
 
 	}
@@ -183,10 +180,9 @@ public class HelpDocManagerImpl
 				+ " order by count desc";
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-		JSONArray dataList = SysDaoOptUtils.listObjectsBySqlAsJson(baseDao,
-				qap.getQuery(), qap.getParams(),
-				null,
-				pageDesc);
+		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
+				DatabaseOptUtils.findObjectsAsJSonBySql(baseDao,
+					qap.getQuery(), qap.getParams(),pageDesc);
 		return dataList;
 	}
 
@@ -194,7 +190,7 @@ public class HelpDocManagerImpl
 	@Transactional(propagation = Propagation.REQUIRED)
 	public JSONArray searchComments(String docId) {
 		List<HelpDocComment> list = helpDocCommentDao.listObjectByProperty("docId", docId);
-		JSONArray array = SysDaoOptUtils.objectsToJSONArray(list);
+		JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
 		return array;
 	}
 
