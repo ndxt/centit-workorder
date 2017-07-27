@@ -1,0 +1,81 @@
+
+
+
+
+<div class="row">
+<div class="side-nav col-lg-3 col-md-3">
+  <h3>全部文档</h3>
+  <ul>
+    <!--通过判断是否有children来渲染文档树-->
+    <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1">
+        <a title={{linkLevel_one.documentId}} ng-click="vm.setHTML(linkLevel_one.description)"> {{linkLevel_one.title}} </a>
+      <!--总觉得这样绑定ng-click的写法不好？-->
+      <ul ng-if="linkLevel_one.children !== undefined">
+        <li ng-repeat="linkLevel2 in linkLevel_one.children" class="level level2" >
+          <a title={{linkLevel2.documentId}} ng-click="vm.setHTML(linkLevel2.description)"> {{linkLevel2.title}} </a>
+          <ul ng-if="linkLevel2.children !== undefined">
+            <li ng-repeat="linkLevel3 in linkLevel2.children" class="level level3">
+              <a title={{linkLevel3.documentId}} ng-click="vm.html = linkLevel3.description"> {{linkLevel3.title}} </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div  class="col-lg-7 col-md-7">
+  <div ng-bind-html="vm.html" class="doc-content">
+          <div class="author-reply">
+            <p><i>作者回复</i>您好，感谢您的反馈。ECS服务器可以更换操作系统的。请参考 更换系统盘 https://help.aliyun.com/document_detail/25448.html</p>
+            <p class="feedback-time">2016-11-29 10:24:52</p>
+          </div>
+      <div class="loading" style="display: none;">加载中......</div>
+    </div>
+    <!-- 反馈list -->
+
+    <!--星级评价-->
+  <div style="width:500px; margin:100px auto;">
+    <div class="demo">
+      <div id="function-demo" class="target-demo"></div>
+      <div id="function-hint" class="hint"></div>
+    </div>
+  </div>
+  <button ng-click="vm.submitRate()">提交评分</button>
+  <div class="ueditor" ng-model="content"></div>
+
+  </div>
+
+
+  </div>
+
+<script>
+
+    function MenuSlide(){
+        $(this).next('ul').toggle();
+    }
+    $('body').on('click','.level a', MenuSlide);
+
+    $(function() {
+      $.fn.raty.defaults.path = 'lib/img';
+      $('#function-demo').raty({
+        number: 5, //多少个星星设置
+        targetType: 'hint', //类型选择，number是数字值，hint，是设置的数组值
+        path: '../../../assets/images',
+        hints: ['差', '一般', '好', '非常好', '全五星'],
+        cancelOff: 'cancel-off-big.png',
+        cancelOn: 'cancel-on-big.png',
+        size: 24,
+        starHalf: 'star-half-big.png',
+        starOff: 'star-off-big.png',
+        starOn: 'star-on-big.png',
+        target: '#function-hint',
+        cancel: false,
+        targetKeep: true,
+        targetText: '请选择评分',
+        click: function(score, evt) {
+          alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt.type);
+        }
+      });
+
+    });
+</script>

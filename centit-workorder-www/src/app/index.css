@@ -1,0 +1,60 @@
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+textarea.form-control {
+  resize: none;
+  height: 128px;
+}
+
+.thumbnail {
+  height: 128px;
+}
+
+.thumbnail i {
+  color: #4cae4c;
+}
+
+.thumbnail h3 {
+  margin-top: 10px;
+}
+
+.thumbnail p {
+  color: #999;
+}
+
+.thumbnail .btn {
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+}
+
+.jumbotron {
+  background: #fff;
+}
+
+.jumbotron .animated i {
+  margin-right: 8px;
+}
+
+.navbar-collapse {
+  overflow: hidden;
+}
+
+.navbar.navbar-static-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.container {
+  padding-top: 72px;
+}
+
+body {
+  background: #eee;
+}

@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+.question-state ul {
+  display: flex;
+  justify-content: space-around;
+  padding-left: 0;
+}
+
+.question-state ul li {
+  height: 32px;
+  line-height: 32px;
+  list-style: none;
+  flex: auto;
+  text-align: center;
+  position: relative;
+
+  background: transparent;
+}
+
+.question-state ul li.current {
+  color: #fff;
+
+}
+.question-state ul li.current:after,
+.question-state ul li.current:before {
+  background: #5cb85c;
+}
+
+.question-state ul li:before,
+.question-state ul li:after {
+  content: ' ';
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+
+  background: #fff;
+  z-index: -1;
+  transform: skewX(45deg);
+}
+
+.question-state ul li:after {
+  bottom: 0;
+  transform: skewX(-45deg);
+}
+
