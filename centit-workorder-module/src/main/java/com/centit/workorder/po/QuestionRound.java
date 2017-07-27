@@ -79,6 +79,12 @@ public class QuestionRound implements java.io.Serializable {
 	@Column(name = "USER_NAME")
 	@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  userName;
+	/**
+	 * 是否给用户看 T/F
+	 */
+	@Column(name = "SHOW_USER")
+	@Length(max = 1, message = "字段长度不能大于{max}")
+	private String  showUser;
 
 	// Constructors
 	/** default constructor */
@@ -95,7 +101,7 @@ public class QuestionRound implements java.io.Serializable {
 /** full constructor */
 	public QuestionRound(
 	 String roundId		
-	,String  questionId,String  roundContent,String  editState,String  roundState,String  orA,Date  createTime,Date  lastUpdateTime,String  userCode,String  userName) {
+	,String  questionId,String  roundContent,String  editState,String  roundState,String  orA,Date  createTime,Date  lastUpdateTime,String  userCode,String  userName,String showUser) {
 		this.roundId = roundId;
 		this.questionId= questionId;
 		this.roundContent= roundContent;
@@ -105,7 +111,8 @@ public class QuestionRound implements java.io.Serializable {
 		this.createTime= createTime;
 		this.lastUpdateTime= lastUpdateTime;
 		this.userCode= userCode;
-		this.userName= userName;		
+		this.userName= userName;
+		this.showUser= showUser;
 	}
 
   
@@ -190,7 +197,13 @@ public class QuestionRound implements java.io.Serializable {
 		this.userName = userName;
 	}
 
+	public String getShowUser() {
+		return showUser;
+	}
 
+	public void setShowUser(String showUser) {
+		this.showUser = showUser;
+	}
 
 	public QuestionRound copy(QuestionRound other){
 		this.setRoundId(other.getRoundId());
@@ -203,6 +216,7 @@ public class QuestionRound implements java.io.Serializable {
 		this.lastUpdateTime= other.getLastUpdateTime();  
 		this.userCode= other.getUserCode();  
 		this.userName= other.getUserName();
+		this.showUser= other.getShowUser();
 		return this;
 	}
 	
@@ -227,6 +241,8 @@ public class QuestionRound implements java.io.Serializable {
 			this.userCode= other.getUserCode();  
 		if( other.getUserName() != null)
 			this.userName= other.getUserName();
+		if( other.getShowUser() != null)
+			this.userName= other.getShowUser();
 		return this;
 	}
 
@@ -240,6 +256,7 @@ public class QuestionRound implements java.io.Serializable {
 		this.lastUpdateTime= null;  
 		this.userCode= null;  
 		this.userName= null;
+		this.showUser= null;
 		return this;
 	}
 }

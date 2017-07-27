@@ -40,7 +40,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/questioncatalog")
+@RequestMapping("/questionCatalog")
 public class QuestionCatalogController  extends BaseController {
 	private static final Log log = LogFactory.getLog(QuestionCatalogController.class);
 
@@ -51,9 +51,7 @@ public class QuestionCatalogController  extends BaseController {
     protected IntegrationEnvironment integrationEnvironment;
 
 
-    private QuestionCatalog
-    fetchQuestionCatalog(HttpServletRequest request) throws IOException {
-
+    private QuestionCatalog fetchQuestionCatalog(HttpServletRequest request) throws IOException {
         String contentType = request.getContentType();
         if(StringUtils.indexOf(contentType,"form")>0){
             Map<String, String[]>  params = request.getParameterMap();
@@ -77,7 +75,7 @@ public class QuestionCatalogController  extends BaseController {
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
-    @RequestMapping(value = "/getall/{osId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectQuestionCatalogList/{osId}",method = RequestMethod.GET)
     public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String catalogName = request.getParameter("catalogName");
@@ -100,7 +98,7 @@ public class QuestionCatalogController  extends BaseController {
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
-    @RequestMapping(value = "/getalllist",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectQuestionCatalogList",method = RequestMethod.GET)
     public void getlist( PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String osId = request.getParameter("osId");
@@ -173,7 +171,7 @@ public class QuestionCatalogController  extends BaseController {
         JsonResultUtils.writeSingleDataJson(catalogId,response);
     }
 
-    @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
+    @RequestMapping(value = "/selectOsIdList", method = {RequestMethod.GET})
     public void getOsIdList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<OsInfo> list = integrationEnvironment.listOsInfos();
         JsonResultUtils.writeSingleDataJson(list, response);

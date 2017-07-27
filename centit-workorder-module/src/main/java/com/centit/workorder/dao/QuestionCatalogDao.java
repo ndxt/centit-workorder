@@ -45,6 +45,12 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
 
 			filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
 
+			filterField.put("defaultOperator" , CodeBook.EQUAL_HQL_ID);
+
+			filterField.put("timeLimit" , CodeBook.EQUAL_HQL_ID);
+
+			filterField.put("catalogKeyWords" , CodeBook.EQUAL_HQL_ID);
+
 		}
 		return filterField;
 	}

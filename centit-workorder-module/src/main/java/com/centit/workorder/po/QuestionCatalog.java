@@ -60,7 +60,20 @@ public class QuestionCatalog implements java.io.Serializable {
 	 */
 	@Column(name = "TIME_LIMIT")
 	private int timeLimit;
+	/**
+	 * 关键字
+	 */
+	@Column(name = "CATALOG_KEY_WORDS")
+	@Length(max = 200, message = "字段长度不能大于{max}")
+	private String  catalogKeyWords;
 
+	public String getCatalogKeyWords() {
+		return catalogKeyWords;
+	}
+
+	public void setCatalogKeyWords(String catalogKeyWords) {
+		this.catalogKeyWords = catalogKeyWords;
+	}
 	// Constructors
 	/** default constructor */
 	public QuestionCatalog() {
@@ -77,7 +90,7 @@ public class QuestionCatalog implements java.io.Serializable {
 	/** full constructor */
 	public QuestionCatalog(
 			String catalogId
-			,String  osId,String  catalogName,String  creator,Date  createTime, String defaultOperator, int timeLimit) {
+			,String  osId,String  catalogName,String  creator,Date  createTime, String defaultOperator, int timeLimit, String catalogKeyWords) {
 		this.catalogId = catalogId;
 		this.osId= osId;
 		this.catalogName= catalogName;
@@ -85,6 +98,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.createTime= createTime;
 		this.defaultOperator = defaultOperator;
 		this.timeLimit = timeLimit;
+		this.catalogKeyWords = catalogKeyWords;
 	}
 
 	public String getCatalogId() {
@@ -152,6 +166,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.createTime= other.getCreateTime();
 		this.defaultOperator= other.getDefaultOperator();
 		this.timeLimit= other.getTimeLimit();
+		this.catalogKeyWords= other.getCatalogKeyWords();
 		return this;
 	}
 	
@@ -172,6 +187,8 @@ public class QuestionCatalog implements java.io.Serializable {
 			this.defaultOperator= other.getDefaultOperator();
 		if( other.getTimeLimit() != -1)
 			this.timeLimit= other.getTimeLimit();
+		if (other.getCatalogKeyWords() != null)
+			this.catalogKeyWords= other.getCatalogKeyWords();
 		return this;
 	}
 
@@ -182,6 +199,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.createTime= null;
 		this.defaultOperator= null;
 		this.timeLimit= -1;
+		this.catalogKeyWords= null;
 		return this;
 	}
 }

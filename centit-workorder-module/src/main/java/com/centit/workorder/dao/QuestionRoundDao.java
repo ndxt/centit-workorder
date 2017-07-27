@@ -59,6 +59,8 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound,java.lang.String
 
 			filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
 
+			filterField.put("showUser" , CodeBook.EQUAL_HQL_ID);
+
 		}
 		return filterField;
 	}
