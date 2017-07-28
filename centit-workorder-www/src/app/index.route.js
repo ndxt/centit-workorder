@@ -102,7 +102,7 @@
         }
       })
 
-    $urlRouterProvider.otherwise('/os/123/catalog?userCode=u000000')//这句话是干嘛？
+    $urlRouterProvider.otherwise('/os/ycxmpt/catalog?userCode=u000000')//这句话是干嘛？
   }
 
 })();

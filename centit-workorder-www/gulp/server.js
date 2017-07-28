@@ -15,7 +15,7 @@ function browserSyncInit(baseDir, browser) {
   browser = browser === undefined ? 'default' : browser;
 
   var routes = null;
-  if(baseDir === conf.paths.src || (util.isArray(baseDir) && baseDir.indexOf(conf.paths.src) !== -1)) {
+  if (baseDir === conf.paths.src || (util.isArray(baseDir) && baseDir.indexOf(conf.paths.src) !== -1)) {
     routes = {
       '/bower_components': 'bower_components'
     };
@@ -26,6 +26,8 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
+  const LocalHost = 'http://localhost:8080/workorder'
+
   /*
    * You can add a proxy to your backend by uncommenting the line below.
    * You just have to configure a context which will we redirected and the target url.
@@ -34,6 +36,14 @@ function browserSyncInit(baseDir, browser) {
    * For more details and option, https://github.com/chimurai/http-proxy-middleware/blob/v0.9.0/README.md
    */
   // server.middleware = proxyMiddleware('/users', {target: 'http://jsonplaceholder.typicode.com', changeOrigin: true});
+
+  server.middleware = proxyMiddleware('/api', {
+    target: LocalHost,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '/service'
+    }
+  })
 
   browserSync.instance = browserSync.init({
     startPath: '/',

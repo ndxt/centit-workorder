@@ -3,7 +3,13 @@
 
   angular
     .module('workorder')
-    .run(mockRun)
+    .run(runBlock)
+    // .run(mockRun)
+
+  /** @ngInject */
+  function runBlock(toastr) {
+    window.$toastr = toastr
+  }
 
   /** @ngInject */
   function mockRun($httpBackend) {

@@ -40,7 +40,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/questionCatalog")
+@RequestMapping("os/{osId}/catalogs")
 public class QuestionCatalogController  extends BaseController {
 	private static final Log log = LogFactory.getLog(QuestionCatalogController.class);
 
@@ -75,7 +75,7 @@ public class QuestionCatalogController  extends BaseController {
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
-    @RequestMapping(value = "/selectQuestionCatalogList/{osId}",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String catalogName = request.getParameter("catalogName");
@@ -93,37 +93,13 @@ public class QuestionCatalogController  extends BaseController {
     }
 
     /**
-     * 查询所有   系统问题类别  列表  维护端
-     * @param request  {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     * @return {data:[]}
-     */
-    @RequestMapping(value = "/selectQuestionCatalogList",method = RequestMethod.GET)
-    public void getlist( PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, Object> map = new HashMap<>();
-        String osId = request.getParameter("osId");
-        String catalogName = request.getParameter("catalogName");
-        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
-        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
-        map.put("osId",osId);
-        map.put("catalogName",catalogName);
-        map.put("begin",begin);
-        map.put("end",end);
-        JSONArray listObjects = questionCatalogMag.getAllCatalog(map, pageDesc);
-        ResponseData resData = new ResponseData();
-        resData.addResponseData(OBJLIST, listObjects);
-        resData.addResponseData(PAGE_DESC, pageDesc);
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
-    }
-    
-    /**
      * 查询单个  系统问题类别
 	 * @param catalogId  CATALOG_ID
      *
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/select/{catalogId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{catalogId}", method = {RequestMethod.GET})
     public void getQuestionCatalog(@PathVariable String catalogId, HttpServletResponse response) {
     	QuestionCatalog questionCatalog = questionCatalogMag.getObjectById(catalogId);
         JsonResultUtils.writeSingleDataJson(questionCatalog, response);
@@ -134,7 +110,7 @@ public class QuestionCatalogController  extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/create",method = {RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.POST})
     public void createQuestionCatalog(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         QuestionCatalog questionCatalog = fetchQuestionCatalog(request);
@@ -149,7 +125,7 @@ public class QuestionCatalogController  extends BaseController {
      * 删除单个  系统问题类别
 	 * @param catalogId  CATALOG_ID
      */
-    @RequestMapping(value = "/delete/{catalogId}", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{catalogId}", method = {RequestMethod.DELETE})
     public void deleteQuestionCatalog(@PathVariable String catalogId, HttpServletResponse response) {
         questionCatalogMag.deleteCatalog(catalogId);
         JsonResultUtils.writeSingleDataJson(catalogId,response);
@@ -160,7 +136,7 @@ public class QuestionCatalogController  extends BaseController {
         修改问题类别
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @RequestMapping(value = "/{catalogId}", method = {RequestMethod.PUT})
     public void updateQuestionCatalog(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QuestionCatalog questionCatalog = fetchQuestionCatalog(request);
         if (questionCatalog == null){
@@ -171,7 +147,7 @@ public class QuestionCatalogController  extends BaseController {
         JsonResultUtils.writeSingleDataJson(catalogId,response);
     }
 
-    @RequestMapping(value = "/selectOsIdList", method = {RequestMethod.GET})
+    @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
     public void getOsIdList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<OsInfo> list = integrationEnvironment.listOsInfos();
         JsonResultUtils.writeSingleDataJson(list, response);

@@ -11,6 +11,9 @@ var _ = require('lodash');
 
 var browserSync = require('browser-sync');
 
+// 是否需要模拟数据
+const isMock = process.argv.slice(2).includes('--mock')
+
 gulp.task('inject-reload', ['inject'], function() {
   browserSync.reload();
 });
@@ -24,7 +27,8 @@ gulp.task('inject', ['scripts'], function () {
     path.join(conf.paths.src, '/app/**/*.module.js'),
     path.join(conf.paths.src, '/app/**/*.js'),
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
-    path.join('!' + conf.paths.src, '/app/**/*.mock.js')
+    path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
+    isMock ? '' : path.join('!' + conf.paths.src, '/app/**/*.*-mock.js')
   ])
     .pipe($.babel({
       presets: ['es2015']
