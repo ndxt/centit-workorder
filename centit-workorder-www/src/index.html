@@ -2,7 +2,7 @@
 <html ng-app="workorder">
   <head>
     <meta charset="utf-8">
-    <title>workorder</title>
+    <title ng-bind="__title">workorder</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -19,7 +19,8 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body>
+  <body ng-cloak ng-class="__class + '-page'">
+
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->

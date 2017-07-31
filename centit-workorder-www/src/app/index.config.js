@@ -6,11 +6,19 @@
     .config(config)
     .config(mockConfig)
     .config(toastConfig)
+    .config(routerHelperConfig)
 
   function toastConfig(toastrConfig) {
     Object.assign(toastrConfig, {
       maxOpened: 1,
       preventDuplicates: false
+    })
+  }
+
+  /** @ngInject */
+  function routerHelperConfig (routerHelperProvider) {
+    routerHelperProvider.configure({
+      mainTitle: '工单系统'
     })
   }
 

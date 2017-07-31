@@ -9,9 +9,10 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
 
+      // 默认布局
       .state('root', {
         abstract: true,
-        url: '/os/:osId?userCode',
+        url: '/os/:osId',
         views: {
           header: {
             templateUrl: 'app/views/commons/header.html'
@@ -19,9 +20,17 @@
         }
       })
 
+      .state('blank', {
+        abstract: true,
+        url: '',
+        views: {
+          header: ''
+        }
+      })
+
       /** 首页 **/
       .state('root.catalog', {
-        url: '/catalog',
+        url: '/catalogs',
         views: {
           'main@': {
             templateUrl: 'app/views/dashboard/dashboard.html',
@@ -102,7 +111,7 @@
         }
       })
 
-    $urlRouterProvider.otherwise('/os/ycxmpt/catalog?userCode=u000000')//这句话是干嘛？
+    $urlRouterProvider.otherwise('/login')
   }
 
 })();
