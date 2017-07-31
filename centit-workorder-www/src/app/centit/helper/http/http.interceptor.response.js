@@ -24,9 +24,10 @@
           }
           else {
             response.data = data.objList
+
+            // 确保分页信息能正确传递
+            setTimeout(() => response.resource.$pageDesc = data.pageDesc)
           }
-
-
         } else {
           let rejection = {
             config,
