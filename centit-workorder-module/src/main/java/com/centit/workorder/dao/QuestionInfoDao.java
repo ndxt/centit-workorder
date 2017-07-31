@@ -72,4 +72,10 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 						qap.getQuery(), qap.getParams(),pageDesc);
 			return dataList;
 		}
+
+		public List<QuestionInfo> unabsorbedQuestion(){
+			String hql = "FROM QuestionInfo f WHERE f.currentOperator  IS NULL";
+			List<QuestionInfo> list = this.listObjects(hql, (Object[]) null);
+			return  list;
+		}
 }

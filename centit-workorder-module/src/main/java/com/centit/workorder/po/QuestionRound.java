@@ -242,7 +242,7 @@ public class QuestionRound implements java.io.Serializable {
 		if( other.getUserName() != null)
 			this.userName= other.getUserName();
 		if( other.getShowUser() != null)
-			this.userName= other.getShowUser();
+			this.showUser= other.getShowUser();
 		return this;
 	}
 

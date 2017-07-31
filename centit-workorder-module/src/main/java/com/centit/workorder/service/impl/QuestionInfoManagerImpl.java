@@ -10,6 +10,7 @@ import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
 import com.centit.workorder.po.*;
 import com.centit.workorder.service.QuestionInfoManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * QuestionInfo  Service.
@@ -70,7 +68,17 @@ public class QuestionInfoManagerImpl
 		return list;
 	}
 
-	@Override
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<QuestionRound> getQuestionRoundShowUser(String questionId) {
+        Map<String,Object> map =new HashMap<String,Object>();
+        map.put("questionId",questionId);
+        map.put("showUser","T");
+        List<QuestionRound> list = questionRoundDao.listObjectByProperties(map);
+        return list;
+    }
+
+    @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId) {
 		List<QuestionInfo> list = questionInfoDao.listObjectByProperty("catalogId",catalogId);
@@ -80,7 +88,7 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionInfo> getUnabsorbedQuestion() {
-		List<QuestionInfo> list = questionInfoDao.listObjectByProperty("editState","N");
+		List<QuestionInfo> list = questionInfoDao.unabsorbedQuestion();
 		return list;
 	}
 
@@ -107,7 +115,19 @@ public class QuestionInfoManagerImpl
 		return dataList;
 	}
 
-	@Override
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<QuestionInfo> getQuestionInfoWithOperator(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        List<AssistOperator> list = assistOperatorDao.getAssistOperator(assistOperatorDao,queryParamsMap,pageDesc);
+        List<QuestionInfo> questionInfoList = new ArrayList<QuestionInfo>(list.size()*2);
+        for (AssistOperator assistOperator : list){
+            queryParamsMap.put("questionId",assistOperator.getAid().getQuestionId());
+            questionInfoList.add(questionInfoDao.getObjectByProperties(queryParamsMap));
+        }
+        return questionInfoList;
+    }
+
+    @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public QuestionRound replayQuestion(QuestionRound questionRound) {
 		questionRound.setEditState("U");
@@ -123,7 +143,20 @@ public class QuestionInfoManagerImpl
 		return questionRound;
 	}
 
-	@Override
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public QuestionRound discussQuestion(QuestionRound questionRound) {
+        questionRound.setEditState("U");
+        questionRound.setOrA("A");
+        String showUser = StringUtils.isBlank(questionRound.getShowUser())?"F":questionRound.getShowUser();
+        questionRound.setShowUser(showUser);
+        questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
+        questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+        questionRoundDao.saveNewObject(questionRound);
+        return null;
+    }
+
+    @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public Serializable createQuestion(QuestionInfo questionInfo) {
 		String catalogId = questionInfo.getCatalogId();
@@ -159,7 +192,24 @@ public class QuestionInfoManagerImpl
 		return questionId;
 	}
 
-	@Override
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public QuestionRound updateShowUserTag(String roundId, String showUser) {
+        QuestionRound dbQuestionRound = questionRoundDao.getObjectById(roundId);
+        dbQuestionRound.setShowUser(showUser);
+        return questionRoundDao.mergeObject(dbQuestionRound);
+    }
+
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public QuestionRound updateDiscuss(QuestionRound questionRound) {
+        QuestionRound dbQuestionRound = questionRoundDao.getObjectById(questionRound.getRoundId());
+        dbQuestionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+        dbQuestionRound.copyNotNullProperty(questionRound);
+        return questionRoundDao.mergeObject(dbQuestionRound);
+    }
+
+    @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public Serializable createAssistOperator(AssistOperator assistOperator) {
 		assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());

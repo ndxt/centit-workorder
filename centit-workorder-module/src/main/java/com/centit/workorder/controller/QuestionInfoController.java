@@ -1,6 +1,5 @@
 package com.centit.workorder.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.common.JsonResultUtils;
@@ -11,8 +10,10 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IUserInfo;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
-import com.centit.workorder.po.*;
-import com.centit.workorder.service.QuestionCatalogManager;
+import com.centit.workorder.po.AssistOperator;
+import com.centit.workorder.po.AssistOperatorId;
+import com.centit.workorder.po.QuestionInfo;
+import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -117,18 +118,45 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
+     * 查询单个  系统问题列表   返回工单信息和所有可以给用户显示的交流信息
+     * @param questionId  QUESTION_ID
+     * @param response    {@link HttpServletResponse}
+     * @return {data:{}}
+     */
+    @RequestMapping(value = "/selectShowUser/{questionId}", method = {RequestMethod.GET})
+    public void getQuestionInfoRoundShowUser(@PathVariable String questionId, HttpServletResponse response) {
+        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData("questionInfo", questionInfo);
+        resData.addResponseData("questionRoundList",questionRoundList );
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
      * 查询工单下面的所有 交流信息  只返回所有交流信息
      * @param questionId
      * @param response
      */
-    @RequestMapping(value = "/selectQuestionRound", method = {RequestMethod.GET})
+    @RequestMapping(value = "/selectQuestionRound/{questionId}", method = {RequestMethod.GET})
     public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         JsonResultUtils.writeSingleDataJson(questionRoundList, response);
     }
 
     /**
-     * 获取未的工单列表
+     * 查询工单下面所有可以给用户查看的交流信息
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/selectQuestionRoundShowUser/{questionId}", method = {RequestMethod.GET})
+    public void getQuestionRoundShowUser(@PathVariable String questionId, HttpServletResponse response) {
+        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
+        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
+    }
+
+    /**
+     * 获取未分配责任人的工单列表
      * @param response
      */
     @RequestMapping(value = "/selectUnabsorbedQuestion", method = {RequestMethod.GET})
@@ -179,6 +207,28 @@ public class QuestionInfoController  extends BaseController {
         dbQuestionInfo.copy(questionInfo);
         questionInfoMag.mergeObject(dbQuestionInfo);
         JsonResultUtils.writeSingleDataJson(questionId,response);
+    }
+
+    /**
+     * 编辑讨论内容
+     * @param roundId  QUESTION_ID
+     * @param response    {@link HttpServletResponse}
+     */
+    @RequestMapping(value = "/editDiscuss/{roundId}", method = {RequestMethod.PUT})
+    public void editDiscussRound(@PathVariable String roundId,
+                                 @RequestBody QuestionRound questionRound,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response) throws IOException {
+        if (questionRound == null){
+            JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
+            return;
+        }
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        questionRound.setUserCode(centitUserDetails.getUserCode());
+        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound.setRoundId(roundId);
+        QuestionRound round  = questionInfoMag.updateDiscuss(questionRound);
+        JsonResultUtils.writeSingleDataJson(round,response);
     }
 
     /**
@@ -235,6 +285,21 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
+     * 工单问题讨论
+     * @param response
+     */
+    @RequestMapping(value = "/discussQuestion", method = {RequestMethod.POST})
+    public void discuss(HttpServletRequest request,
+                       HttpServletResponse response,
+                       @RequestBody QuestionRound questionRound){
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        questionRound.setUserCode(centitUserDetails.getUserCode());
+        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound = questionInfoMag.discussQuestion(questionRound);
+        JsonResultUtils.writeSingleDataJson(questionRound,response);
+    }
+
+    /**
      * 评价并关闭工单
      * @param questionId
      * @param response
@@ -256,6 +321,19 @@ public class QuestionInfoController  extends BaseController {
     public void closeQuestionInfo(@PathVariable String questionId, HttpServletResponse response){
         String retId = questionInfoMag.closeQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(retId,response);
+    }
+
+    /**
+     * 修改showUser标识
+     * @param roundId
+     * @param response
+     */
+    @RequestMapping(value = "/updateShowUser/{roundId}", method = {RequestMethod.PUT})
+    public void closeQuestionInfo(@PathVariable String roundId,
+                                  String showUser,
+                                  HttpServletResponse response){
+        QuestionRound questionRound = questionInfoMag.updateShowUserTag(roundId,showUser);
+        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
     /**
@@ -300,6 +378,29 @@ public class QuestionInfoController  extends BaseController {
         map.put("begin",begin);
         map.put("end",end);
         JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 根据协助处理人code获取工单列表
+     * @param operatorCode
+     * @param response
+     */
+    @RequestMapping(value = "/selectWithOperatorCode/{osId}/{operatorCode}", method = {RequestMethod.GET})
+    public void listWithOperatorCode(@PathVariable String osId,
+                                     @PathVariable String operatorCode,
+                                     PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("osId",osId);
+        map.put("operatorCode",operatorCode);
+        map.put("begin",begin);
+        map.put("end",end);
+        List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfoWithOperator(map, pageDesc);
         ResponseData resData = new ResponseData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);

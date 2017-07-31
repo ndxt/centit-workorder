@@ -24,6 +24,8 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
 
+    List<QuestionRound> getQuestionRoundShowUser(String questionId);
+
 	List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId);
 
 	List<QuestionInfo> getUnabsorbedQuestion();
@@ -34,13 +36,21 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
+    List<QuestionInfo> getQuestionInfoWithOperator(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+
 	QuestionRound replayQuestion(QuestionRound questionRound);
+
+    QuestionRound discussQuestion(QuestionRound questionRound);
 
 	Serializable createQuestion(QuestionInfo questionInfo);
 
 	String evaluateAndCloseQuestion(String score,String questionId);
 
 	String closeQuestion(String questionId);
+
+    QuestionRound updateShowUserTag(String roundId,String showUser);
+
+    QuestionRound updateDiscuss(QuestionRound questionRound);
 
 	Serializable createAssistOperator(AssistOperator assistOperator);
 
