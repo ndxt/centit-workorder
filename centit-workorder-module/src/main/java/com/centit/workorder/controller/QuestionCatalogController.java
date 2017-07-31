@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -50,24 +51,6 @@ public class QuestionCatalogController  extends BaseController {
     @Resource
     protected IntegrationEnvironment integrationEnvironment;
 
-
-    private QuestionCatalog fetchQuestionCatalog(HttpServletRequest request) throws IOException {
-        String contentType = request.getContentType();
-        if(StringUtils.indexOf(contentType,"form")>0){
-            Map<String, String[]>  params = request.getParameterMap();
-            Map<String, String> objMap = new HashMap<>();
-            for(Map.Entry<String, String[]> ent : params.entrySet()){
-                if(ent.getValue()!=null && ent.getValue().length>0)
-                    objMap.put(ent.getKey(),ent.getValue()[0]);
-            }
-            QuestionCatalog questionCatalog = JSON.parseObject( JSON.toJSONString(objMap),QuestionCatalog.class);
-            return questionCatalog;
-        }else if(StringUtils.indexOf(contentType,"json")>0){
-            QuestionCatalog questionCatalog = JSON.parseObject(request.getInputStream(),QuestionCatalog.class);
-            return questionCatalog;
-        }
-        return null;
-    }
 
     /**
      * 查询所有   系统问题类别  列表 用户展示端
@@ -111,10 +94,11 @@ public class QuestionCatalogController  extends BaseController {
      * @return
      */
     @RequestMapping(method = {RequestMethod.POST})
-    public void createQuestionCatalog(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void createQuestionCatalog(@RequestBody QuestionCatalog questionCatalog,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        QuestionCatalog questionCatalog = fetchQuestionCatalog(request);
-        questionCatalog.setCreateTime(new Date());
+        questionCatalog.setCreateTime(DatetimeOpt.currentUtilDate());
         questionCatalog.setCreator(centitUserDetails.getName());
         questionCatalog.setDefaultOperator(centitUserDetails.getName());
     	Serializable pk = questionCatalogMag.saveNewObject(questionCatalog);
@@ -137,18 +121,19 @@ public class QuestionCatalogController  extends BaseController {
      * @param response    {@link HttpServletResponse}
      */
     @RequestMapping(value = "/{catalogId}", method = {RequestMethod.PUT})
-    public void updateQuestionCatalog(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        QuestionCatalog questionCatalog = fetchQuestionCatalog(request);
+    public void updateQuestionCatalog(@PathVariable String catalogId,
+                                      @RequestBody QuestionCatalog questionCatalog,
+                                      HttpServletResponse response) throws IOException {
         if (questionCatalog == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
-        String catalogId = questionCatalogMag.updateCatalog(questionCatalog);
-        JsonResultUtils.writeSingleDataJson(catalogId,response);
+        questionCatalogMag.updateCatalog(catalogId,questionCatalog);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
-    public void getOsIdList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void getOsIdList(HttpServletResponse response) throws Exception {
         List<OsInfo> list = integrationEnvironment.listOsInfos();
         JsonResultUtils.writeSingleDataJson(list, response);
     }

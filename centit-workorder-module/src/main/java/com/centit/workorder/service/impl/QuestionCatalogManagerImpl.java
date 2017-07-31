@@ -95,11 +95,9 @@ public class QuestionCatalogManagerImpl
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public String updateCatalog(QuestionCatalog questionCatalog) {
-		String catalogId = questionCatalog.getCatalogId();
+	public String updateCatalog(String catalogId,QuestionCatalog questionCatalog) {
 		QuestionCatalog dbQuestionCatalog = questionCatalogDao.getObjectById(catalogId);
-		dbQuestionCatalog.setCatalogName(questionCatalog.getCatalogName());
-		dbQuestionCatalog.setTimeLimit(questionCatalog.getTimeLimit());
+        dbQuestionCatalog.copyNotNullProperty(questionCatalog);
 		questionCatalogDao.mergeObject(dbQuestionCatalog);
 		return catalogId;
 	}

@@ -22,6 +22,6 @@ public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalo
 
 	void deleteCatalog(String catalogId);
 
-	String updateCatalog(QuestionCatalog questionCatalog);
+	String updateCatalog(String catalogId,QuestionCatalog questionCatalog);
 
 }
