@@ -131,11 +131,4 @@ public class QuestionCatalogController  extends BaseController {
         questionCatalogMag.updateCatalog(catalogId,questionCatalog);
         JsonResultUtils.writeSuccessJson(response);
     }
-
-    @RequestMapping(value = "/getallosid", method = {RequestMethod.GET})
-    public void getOsIdList(HttpServletResponse response) throws Exception {
-        List<OsInfo> list = integrationEnvironment.listOsInfos();
-        JsonResultUtils.writeSingleDataJson(list, response);
-    }
-
 }

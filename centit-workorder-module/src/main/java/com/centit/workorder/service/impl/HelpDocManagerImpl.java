@@ -158,7 +158,7 @@ public class HelpDocManagerImpl
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
 		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-				DatabaseOptUtils.findObjectsAsJSonBySql(
+				DatabaseOptUtils.findObjectsAsJSONByHql(
 						baseDao,qap.getQuery(), qap.getParams(),null);
 		return dataList;
 
@@ -181,7 +181,7 @@ public class HelpDocManagerImpl
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
 		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-				DatabaseOptUtils.findObjectsAsJSonBySql(baseDao,
+				DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
 					qap.getQuery(), qap.getParams(),pageDesc);
 		return dataList;
 	}

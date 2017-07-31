@@ -7,11 +7,14 @@
       <div class="panel-body">
         <form name="LoginForm" ng-submit="vm.login(vm.user)">
           <div class="form-group" ng-class="{'has-error': LoginForm.$invalid && LoginForm.$dirty}">
-            <label for="input_username">用户名</label>
+            <label for="input_username">用户名 <b uib-tooltip="admin:管理员，user:普通用户" style="cursor: pointer;">[?]</b></label>
             <input class="form-control" id="input_username" name="userName"
                    placeholder="输入用户名登录" required ng-model="vm.user.userName">
           </div>
-          <p class="help-block">输入admin或者user登录</p>
+          <div class="form-group">
+            <label for="select_os">系统名</label>
+            <select name="os" id="select_os" class="form-control" ng-options="item.osId as item.osName for item in vm.os" ng-model="vm.user.osId"></select>
+          </div>
           <button class="btn btn-primary btn-block">登录</button>
         </form>
       </div>

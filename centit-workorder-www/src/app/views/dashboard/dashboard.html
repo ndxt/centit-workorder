@@ -1,9 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
-      <button class="btn btn-primary" style="margin-bottom: 10px;">
-        <i class="glyphicon glyphicon-plus"></i>
-        新建类型
-      </button>
+    <h3 class="glyphicon glyphicon-plus text-primary" style="cursor: pointer;"
+        uib-tooltip="新建类型" tooltip-placement="right"></h3>
   </div>
 </div>
 
@@ -11,10 +9,10 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
        ng-repeat="catalog in vm.catalogs">
     <div class="panel panel-default">
-      <div class="panel-body" style="line-height: 22px; border-left: 16px solid #09c;">
+      <div class="panel-body" style="line-height: 30px; border-left: 16px solid #09c;">
         <i class="glyphicon glyphicon-home" style="color: #09C;"></i>
         {{ catalog.catalogName }}
-        <a class="btn btn-default btn-xs pull-right"
+        <a class="btn btn-default btn-sm pull-right"
            ui-sref=".view({ catalogId: catalog.catalogId })">提问</a>
       </div>
     </div>

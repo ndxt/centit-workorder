@@ -7,9 +7,9 @@
   /** @ngInject */
   function CatalogAPI($resource, config) {
 
-    const baseUrl = `${config.contextPath}/os/:osId/catalogs`
+    const baseUrl = `${config.contextPath}/os/:osId/catalogs/:catalogId`
 
-    return $resource(`${baseUrl}/:catalogId`, null, {})
+    return $resource(baseUrl, null, {})
   }
 })();
 

@@ -10,36 +10,6 @@ textarea.form-control {
   height: 128px;
 }
 
-.thumbnail {
-  height: 128px;
-}
-
-.thumbnail i {
-  color: #4cae4c;
-}
-
-.thumbnail h3 {
-  margin-top: 10px;
-}
-
-.thumbnail p {
-  color: #999;
-}
-
-.thumbnail .btn {
-  position: absolute;
-  right: 10px;
-  bottom: 20px;
-}
-
-.jumbotron {
-  background: #fff;
-}
-
-.jumbotron .animated i {
-  margin-right: 8px;
-}
-
 .navbar-collapse {
   overflow: hidden;
 }
@@ -52,7 +22,7 @@ textarea.form-control {
 }
 
 .container {
-  padding-top: 72px;
+  padding-top: 42px;
 }
 
 body {

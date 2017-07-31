@@ -5,7 +5,7 @@
     .controller('LoginController', LoginController)
 
   /**  @ngInject */
-  function LoginController($state) {
+  function LoginController($state, OsAPI) {
     const vm = this
     const UserNameAdmin = 'admin'
     const UserNameUser = 'user'
@@ -17,8 +17,14 @@
     }
 
     vm.login = login
+    vm.os = queryOs()
 
 
+    /**
+     * 登录
+     * @param user
+     * @returns {boolean}
+     */
     function login(user) {
       const userName = user.userName
 
@@ -37,6 +43,13 @@
           osId: user.osId
         })
       }
+    }
+
+    /**
+     * 查询系统信息
+     */
+    function queryOs() {
+      return OsAPI.query()
     }
   }
 })()
