@@ -13,7 +13,7 @@
 
     vm.user = {
       userName: UserNameUser,
-      osId: 'ycxmglpt'
+      osId: 'FILE_SVR'
     }
 
     vm.login = login
