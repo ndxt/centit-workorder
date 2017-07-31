@@ -79,8 +79,8 @@ public class QuestionCatalogManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteCatalog(String catalogId) {
 		questionCatalogDao.deleteObjectById(catalogId);
-		List<HelpDoc> helpDocs = helpDocDao.listHelpDocIdWithCatalogId(catalogId);
-		List<QuestionInfo> questionIdList = questionInfoDao.listQuestionIdWithCatalogId(catalogId);
+		List<HelpDoc> helpDocs = helpDocDao.listObjectByProperty("catalogId",catalogId);
+		List<QuestionInfo> questionIdList = questionInfoDao.listObjectByProperty("catalogId",catalogId);
 		helpDocDao.deleteObjectsAsTabulation("catalogId", catalogId);
 		questionInfoDao.deleteObjectsAsTabulation("catalogId", catalogId);
 		for (HelpDoc helpDoc:helpDocs){

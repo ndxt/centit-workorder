@@ -30,7 +30,13 @@ public class AssistOperator implements java.io.Serializable {
 
     }
 
+    public AssistOperatorId getAid() {
+        return aid;
+    }
 
+    public void setAid(AssistOperatorId aid) {
+        this.aid = aid;
+    }
 
     public Date getCreateDate() {
         return createDate;

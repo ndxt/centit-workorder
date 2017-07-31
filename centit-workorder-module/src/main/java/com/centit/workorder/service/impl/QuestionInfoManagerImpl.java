@@ -3,15 +3,12 @@ package com.centit.workorder.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
-import com.centit.framework.model.adapter.PlatformEnvironment;
-
-import com.centit.framework.model.basedata.IUserInfo;
+import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.workorder.dao.AssistOperatorDao;
 import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
-import com.centit.workorder.po.QuestionCatalog;
-import com.centit.workorder.po.QuestionInfo;
-import com.centit.workorder.po.QuestionRound;
+import com.centit.workorder.po.*;
 import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,11 +46,11 @@ public class QuestionInfoManagerImpl
 	@Resource(name = "questionRoundDao")
 	private QuestionRoundDao questionRoundDao ;
 
+	@Resource(name = "assistOperatorDao")
+	private AssistOperatorDao assistOperatorDao ;
+
 	@Resource(name = "questionCatalogDao")
 	private QuestionCatalogDao questionCatalogDao ;
-
-	@Resource
-	protected PlatformEnvironment platformEnvironment;
 
 	private QuestionInfoDao questionInfoDao ;
 	
@@ -65,42 +62,33 @@ public class QuestionInfoManagerImpl
 		setBaseDao(this.questionInfoDao);
 	}
 
-//	@Override
-//    @Transactional(propagation= Propagation.REQUIRED)
-//	public JSONArray listQuestionInfosAsJson(
-//            String[] fields,
-//            Map<String, Object> filterMap, PageDesc pageDesc){
-//
-//		return SysDaoOptUtils.listObjectsAsJson(baseDao, fields, QuestionInfo.class,
-//    			filterMap, pageDesc);
-//	}
-
-//	@Override
-//	@Transactional(propagation= Propagation.REQUIRED)
-//	public List<QuestionInfo> getQuestionInfoWithUserCode(String userCode) {
-//		List<QuestionInfo> list = questionInfoDao.getQuestionInfoWithUser(userCode);
-//		return list;
-//	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId) {
-		List<QuestionRound> list = questionRoundDao.listQuestionRoundWithQuestionId(questionId);
+		List<QuestionRound> list = questionRoundDao.listObjectByProperty("questionId",questionId);
 		return list;
 	}
 
-//	@Override
-//	@Transactional(propagation= Propagation.REQUIRED)
-//	public List<QuestionInfo> getQuestionInfoWithOperator(String operator) {
-//		List<QuestionInfo> list = questionInfoDao.getQuestionInfoWithCurrentOperator(operator);
-//		return list;
-//	}
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId) {
+		List<QuestionInfo> list = questionInfoDao.listObjectByProperty("catalogId",catalogId);
+		return list;
+	}
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public List<QuestionInfo> getUnabsorbedQuestion() {
+		List<QuestionInfo> list = questionInfoDao.listObjectByProperty("editState","N");
+		return list;
+	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public Serializable saveQuestionRound(QuestionRound questionRound) {
 		questionRound.setOrA("Q");
-		questionRound.setCreateTime(new Date());
+		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		Serializable pk = questionRoundDao.saveNewObject(questionRound);
 		return pk;
 	}
@@ -111,13 +99,6 @@ public class QuestionInfoManagerImpl
 		questionRoundDao.deleteObjectsAsTabulation("questionId",questionId);
 		questionInfoDao.deleteObjectsAsTabulation("questionId",questionId);
 	}
-
-//	@Override
-//	@Transactional(propagation= Propagation.REQUIRED)
-//	public QuestionInfo getQuestionInfoWithId(String questionId) {
-//		QuestionInfo questionInfo = questionInfoDao.getQuestionInfoWithId(questionId);
-//		return questionInfo;
-//	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
@@ -132,24 +113,14 @@ public class QuestionInfoManagerImpl
 		questionRound.setEditState("U");
 		questionRound.setRoundState("C");
 		questionRound.setOrA("A");
-		questionRound.setCreateTime(new Date());
-		questionRound.setLastUpdateTime(new Date());
+		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
+		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
 		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
-		questionInfo.setLastUpdateTime(new Date());
+		questionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionInfo.setEditState("U");
 		questionInfoDao.saveObject(questionInfo);
 		return questionRound;
-	}
-
-	@Override
-	public List<String> getAllOperator() {
-		List<String> operator = new ArrayList<>();
-		List<? extends IUserInfo> userInfos =  platformEnvironment.listAllUsers();
-		for (IUserInfo user : userInfos){
-			operator.add(user.getUserName());
-		}
-		return operator;
 	}
 
 	@Override
@@ -158,7 +129,7 @@ public class QuestionInfoManagerImpl
 		String catalogId = questionInfo.getCatalogId();
 		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
 		questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
-		questionInfo.setCreateTime(new Date());
+		questionInfo.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionInfo.setQuestionState("N");
 		questionInfo.setEditState("N");
 		questionInfo.setOsId(questionCatalog.getOsId());
@@ -173,7 +144,7 @@ public class QuestionInfoManagerImpl
 		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
 		questionInfo.setEvaluateScore(evaluateScore);
 		questionInfo.setQuestionState("C");
-		questionInfo.setClosedTime(new Date());
+		questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
 		questionInfoDao.mergeObject(questionInfo);
 		return questionId;
 	}
@@ -183,9 +154,22 @@ public class QuestionInfoManagerImpl
 	public String closeQuestion(String questionId) {
 		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
 		questionInfo.setQuestionState("C");
-		questionInfo.setClosedTime(new Date());
+		questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
 		questionInfoDao.mergeObject(questionInfo);
 		return questionId;
+	}
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public Serializable createAssistOperator(AssistOperator assistOperator) {
+		assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
+		return assistOperatorDao.saveNewObject(assistOperator);
+	}
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public void deleteObject(AssistOperatorId assistOperatorId) {
+		assistOperatorDao.deleteObjectForceById(assistOperatorId);
 	}
 
 }

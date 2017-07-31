@@ -6,6 +6,9 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.core.service.BaseEntityManager;
+import com.centit.framework.model.basedata.IUserInfo;
+import com.centit.workorder.po.AssistOperator;
+import com.centit.workorder.po.AssistOperatorId;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 
@@ -21,6 +24,10 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
 
+	List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId);
+
+	List<QuestionInfo> getUnabsorbedQuestion();
+
 	Serializable saveQuestionRound(QuestionRound questionRound);
 
 	void deleteQuestion(String questionId);
@@ -29,11 +36,13 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	QuestionRound replayQuestion(QuestionRound questionRound);
 
-	List<String> getAllOperator();
-
 	Serializable createQuestion(QuestionInfo questionInfo);
 
 	String evaluateAndCloseQuestion(String score,String questionId);
 
 	String closeQuestion(String questionId);
+
+	Serializable createAssistOperator(AssistOperator assistOperator);
+
+	void deleteObject(AssistOperatorId assistOperatorId);
 }

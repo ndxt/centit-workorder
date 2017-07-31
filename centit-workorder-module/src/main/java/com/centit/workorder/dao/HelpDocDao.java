@@ -59,9 +59,4 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 		return filterField;
 	}
 
-	public List<HelpDoc> listHelpDocIdWithCatalogId(String catalogId){
-		String hql = "FROM HelpDoc f WHERE f.catalogId =?";
-		return this.listObjects(hql,catalogId);
-	}
-
 }

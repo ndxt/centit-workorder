@@ -64,10 +64,4 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound,java.lang.String
 		}
 		return filterField;
 	}
-
-		public List<QuestionRound> listQuestionRoundWithQuestionId(String questionId){
-			String hql = "From QuestionRound f WHERE f.questionId=? ";
-			return this.listObjects(hql,questionId);
-		}
-
 }

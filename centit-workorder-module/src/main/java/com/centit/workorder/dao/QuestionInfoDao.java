@@ -72,10 +72,4 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 						qap.getQuery(), qap.getParams(),pageDesc);
 			return dataList;
 		}
-
-		public List<QuestionInfo> listQuestionIdWithCatalogId(String catalogId){
-			String hql = "FROM QuestionInfo f WHERE f.catalogId=?";
-			return this.listObjects(hql,catalogId);
-		}
-
 }
