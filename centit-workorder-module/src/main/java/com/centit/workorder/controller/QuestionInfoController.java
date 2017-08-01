@@ -103,7 +103,7 @@ public class QuestionInfoController  extends BaseController {
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/{questionId}/question", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{questionId}", method = {RequestMethod.GET})
     public void getQuestionInfoWithCatalog(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
@@ -165,7 +165,7 @@ public class QuestionInfoController  extends BaseController {
      * 新增 系统问题列表
      * @return
      */
-    @RequestMapping(value = "/question",method = {RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.POST})
     public void createQuestionInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestBody QuestionInfo questionInfo) throws IOException {
@@ -180,7 +180,7 @@ public class QuestionInfoController  extends BaseController {
      * 删除单个  系统问题列表
 	 * @param questionId  QUESTION_ID
      */
-    @RequestMapping(value = "/{questionId}/question", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{questionId}", method = {RequestMethod.DELETE})
     public void deleteQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
     	questionInfoMag.deleteQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(questionId,response);
@@ -191,7 +191,7 @@ public class QuestionInfoController  extends BaseController {
 	 * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/{questionId}/question", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{questionId}", method = {RequestMethod.PUT})
     public void updateQuestionInfo(@PathVariable String questionId,
                                    @RequestBody QuestionInfo questionInfo,
                                    HttpServletResponse response) throws IOException {

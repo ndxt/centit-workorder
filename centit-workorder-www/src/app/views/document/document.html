@@ -8,14 +8,14 @@
   <ul>
     <!--通过判断是否有children来渲染文档树-->
     <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1">
-        <a title={{linkLevel_one.documentId}} ng-click="vm.setHTML(linkLevel_one.description)"> {{linkLevel_one.title}} </a>
+        <a title={{linkLevel_one.documentId}} ng-click="vm.setHTML(linkLevel_one.description)"> {{linkLevel_one.DOC_TITLE}} </a>
       <!--总觉得这样绑定ng-click的写法不好？-->
       <ul ng-if="linkLevel_one.children !== undefined">
         <li ng-repeat="linkLevel2 in linkLevel_one.children" class="level level2" >
-          <a title={{linkLevel2.documentId}} ng-click="vm.setHTML(linkLevel2.description)"> {{linkLevel2.title}} </a>
+          <a title={{linkLevel2.documentId}} ng-click="vm.setHTML(linkLevel2.description)"> {{linkLevel2.DOC_TITLE}} </a>
           <ul ng-if="linkLevel2.children !== undefined">
             <li ng-repeat="linkLevel3 in linkLevel2.children" class="level level3">
-              <a title={{linkLevel3.documentId}} ng-click="vm.html = linkLevel3.description"> {{linkLevel3.title}} </a>
+              <a title={{linkLevel3.documentId}} ng-click="vm.html = linkLevel3.description"> {{linkLevel3.DOC_TITLE}} </a>
             </li>
           </ul>
         </li>

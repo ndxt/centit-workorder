@@ -1,26 +1,19 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h4>
-      {{vm.catalog.title}}
-      <small>{{vm.catalog.description}}</small>
+      {{vm.catalog.catalogName}}
+      <small>这里是描述，暂时没有这个字段{{vm.catalog.description}}</small>
     </h4>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-6 col-md-4" ng-repeat="doc in vm.documents">
-    <div class="thumbnail">
-      <div class="caption">
-        <h3>{{doc.title}}</h3>
-        <p>{{doc.description}}</p>
-        <p>
-          <a ui-sref="root.document.view({ documentId: doc.documentId })" class="btn btn-link" role="button">查看</a>
-        </p>
-      </div>
-    </div>
-  </div>
+<div>
+  <p ng-if="!!vm.documents.length">你可能需要以下文章：</p>
+  <p ng-if="!vm.documents.length">暂未找到相关文章</p>
+    <ul ng-repeat="doc in vm.documents">
+      <li><a>{{doc.DOC_TITLE}}</a></li>
+    </ul>
 </div>
-
 <button type="button" class="btn btn-primary btn-lg btn-block"
         centit-add-question catalog="vm.catalog">
   <i class="glyphicon glyphicon-question-sign"></i>
