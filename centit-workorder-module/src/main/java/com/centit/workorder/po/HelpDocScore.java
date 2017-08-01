@@ -18,8 +18,6 @@ import java.util.Date;
 public class HelpDocScore implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
-
-
 	/**
 	 * 评分ID null 
 	 */

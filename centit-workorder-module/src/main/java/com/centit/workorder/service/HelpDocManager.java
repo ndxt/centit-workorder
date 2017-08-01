@@ -17,12 +17,11 @@ import java.util.Map;
  * 系统帮助文档null   
 */
 
-public interface HelpDocManager extends BaseEntityManager<HelpDoc,String>
-{
+public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 	
 	String createHelpDoc(HelpDoc helpDoc);
 
-	void updateHelpDoc(String docId, HelpDoc helpDoc);
+	void editHelpDoc(String docId, HelpDoc helpDoc);
 
 	void deleteHelpDoc(String docId);
 
@@ -33,7 +32,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String>
 	void editContent(String docId, String content);
 
 	JSONArray searchHelpdocByLevel(String osId);
-	JSONArray treeSearch(String osId);
+//	JSONArray treeSearch(String osId);
 
 	JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 

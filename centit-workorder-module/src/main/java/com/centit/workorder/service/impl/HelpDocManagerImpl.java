@@ -26,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,25 +67,23 @@ public class HelpDocManagerImpl
 	 * @param helpDoc
 	 */
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public String createHelpDoc(HelpDoc helpDoc) {
 
-		helpDoc.setLastUpdateTime(new Date());
-		saveNewObject(helpDoc);
-		return helpDoc.getDocId();
+		return helpDocDao.saveNewObject(helpDoc);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateHelpDoc(String docId, HelpDoc helpDoc) {
-		HelpDoc dbHelpDoc = helpDocDao.getObjectById( docId);
+	@Transactional
+	public void editHelpDoc(String docId, HelpDoc helpDoc) {
+		HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
 
-		dbHelpDoc .copyNotNullProperty(helpDoc);
-		helpDocDao.mergeObject(dbHelpDoc);
+		dbHelpDoc.copyNotNullProperty(helpDoc);
+		helpDocDao.updateObject(dbHelpDoc);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void deleteHelpDoc(String docId) {
 		helpDocDao.deleteObjectById(docId);
 
@@ -97,7 +93,7 @@ public class HelpDocManagerImpl
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public String comment(String docId, HelpDocComment helpDocComment) {
 
 		helpDocComment.setDocId(docId);
@@ -106,33 +102,29 @@ public class HelpDocManagerImpl
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public String score(String docId, HelpDocScore helpDocScore) {
 
 		helpDocScore.setDocId(docId);
-		helpDocScoreDao.saveNewObject(helpDocScore);
-		return helpDocScore.getScoreId();
+		return helpDocScoreDao.saveNewObject(helpDocScore);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void editContent(String docId, String content) {
-		HelpDoc helpDoc = helpDocDao.getObjectById( docId);
+		HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		//保存旧版本
-		helpDocVersionDao.saveNewObject(helpDoc.generateVersion());
+		int docVersion = DatabaseOptUtils.getNextLongSequence(helpDocVersionDao, "DOC_VERSION").intValue();
+		helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
 		helpDoc.setDocFile(content);
-		helpDocDao.mergeObject(helpDoc);
+		helpDocDao.updateObject(helpDoc);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public JSONArray searchHelpdocByLevel(String osId) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("osId", osId);
-//		List<HelpDoc> list = listObjects(map);
 		List<HelpDoc> list = helpDocDao.listObjectByProperty("osId", osId);
-//		List<HelpDoc> list = helpDocDao.getCurrentSession().createQuery("from HelpDoc h where 1=1").list();
-		return ListOpt.srotAsTreeAndToJSON(list,  ( p,  c) -> {
+		return ListOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
 				String parent = p.getDocId();
 				String child = c.getDocPath();
 				if(child.lastIndexOf("/") != -1) {
@@ -143,26 +135,26 @@ public class HelpDocManagerImpl
 					return false;
 				}
 			}, "c");
-
 	}
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public JSONArray treeSearch(String osId) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("osId", osId);
-		String queryStatement =
-				"select h.DOC_ID as id,h.DOC_TITLE as name, h.DOC_PATH as parentId "
-						+" from f_help_doc h "
-						+" where 1=1 "
-						+ " [ :osId | and h.OS_ID = :osId ]";
 
-		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
-		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-				DatabaseOptUtils.findObjectsAsJSONByHql(
-						baseDao,qap.getQuery(), qap.getParams(),null);
-		return dataList;
-
-	}
+//	@Override
+//	@Transactional
+//	public JSONArray treeSearch(String osId) {
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("osId", osId);
+//		String queryStatement =
+//				"select h.DOC_ID as id,h.DOC_TITLE as name, h.DOC_PATH as parentId "
+//						+" from f_help_doc h "
+//						+" where 1=1 "
+//						+ " [ :osId | and h.OS_ID = :osId ]";
+//
+//		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
+//		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
+//				DatabaseOptUtils.findObjectsAsJSonBySql(
+//						baseDao,qap.getQuery(), qap.getParams(),null);
+//		return dataList;
+//
+//	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
@@ -181,13 +173,13 @@ public class HelpDocManagerImpl
 
 		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
 		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-				DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
-					qap.getQuery(), qap.getParams(),pageDesc);
+				DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
+					qap.getQuery(), qap.getParams(), pageDesc);
 		return dataList;
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public JSONArray searchComments(String docId) {
 		List<HelpDocComment> list = helpDocCommentDao.listObjectByProperty("docId", docId);
 		JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
@@ -195,7 +187,7 @@ public class HelpDocManagerImpl
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public JSONObject searchScores(String docId) {
 		JSONObject obj = new JSONObject();
 		List<HelpDocScore> list = helpDocScoreDao.listObjectByProperty("docId", docId);
