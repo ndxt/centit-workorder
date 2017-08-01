@@ -80,7 +80,14 @@
         }
       })
 
-    $urlRouterProvider.otherwise('/login')
+    $urlRouterProvider.otherwise(function($injector, $location){
+
+      if (!$location.$$path) {
+        return '/login'
+      }
+
+      return '/404'
+    })
   }
 
 })();

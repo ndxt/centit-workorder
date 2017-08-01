@@ -20,6 +20,9 @@
             }
           },
           data: {
+            // 路由缓存不存储
+            doNotCache: true,
+
             // 是否需要登录校验
             requireLogin: false,
 

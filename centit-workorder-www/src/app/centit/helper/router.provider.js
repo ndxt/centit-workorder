@@ -21,7 +21,7 @@
 
     this.$get = RouterHelper
     /** @ngInject */
-    function RouterHelper ($rootScope, $timeout, Authentication) {
+    function RouterHelper ($rootScope, $timeout, $state, Authentication, Error) {
 
       let handlingStateChangeError = false
       let stateCounts = {
@@ -104,6 +104,14 @@
             }
             stateCounts.errors++
             handlingStateChangeError = true
+
+            if (error === Error.ErrorNotAllow) {
+              $state.go('blank.401')
+            } else if (error === Error.ErrorNotLogin) {
+              $state.go('blank.login')
+            } else {
+              $state.go('blank.500')
+            }
           }
         )
       }
@@ -118,6 +126,12 @@
             stateCounts.changes++
             handlingStateChangeError = false
 
+            if (!toState.data.doNotCache) {
+              $state.prev = {
+                name: toState.name,
+                params: toParams
+              }
+            }
             _showLoading(false)
             _updateDocTitle(data.title)
             _updateBodyClass(data.bodyClass)
