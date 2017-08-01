@@ -1,7 +1,10 @@
 {
   "name": "workorder",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-sftp": "^0.1.5",
+    "gulp-ssh": "^0.6.0"
+  },
   "scripts": {
     "test": "gulp test"
   },

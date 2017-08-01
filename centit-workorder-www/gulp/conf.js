@@ -8,6 +8,25 @@
 
 var gutil = require('gulp-util');
 
+exports.paths = {
+  src: 'src',
+  dist: 'dist',
+  tmp: '.tmp',
+  e2e: 'e2e',
+  localWebapp:'/home/zk/Workspaces/java/centit-workorder/centit-workorder-web/target/centit-workorder-web-0.0.1-SNAPSHOT',
+  remoteWebapp: '/opt/websvr/tomcat8/webapps/workorder',
+  remoteWWW: '/opt/www/workorder'
+};
+
+exports.remote = {
+  host: '106.15.39.61',
+  //host:'192.168.131.62',
+  port: 22,
+  username: 'root',
+  password:'centit.1'
+  // password: '1315.com'
+};
+
 /**
  *  The main paths of your project handle these with care
  */
