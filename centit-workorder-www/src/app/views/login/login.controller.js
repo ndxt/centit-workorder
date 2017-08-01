@@ -34,7 +34,7 @@
       if (userName === Constant.UserNameAdmin) {
         // 管理员登录
         user.userType = Constant.UserTypeAdmin
-        $state.go(Constant.RouteUser, {
+        $state.go(Constant.RouteAdmin, {
           osId: user.osId
         })
       } else {

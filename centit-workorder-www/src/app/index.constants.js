@@ -9,6 +9,7 @@
   const UserTypeUser = 'U'
 
   const RouteUser = 'root.catalog'
+  const RouteAdmin = 'root.catalog'
 
   angular
     .module('workorder')
@@ -20,6 +21,7 @@
       UserNameUser,
       UserTypeAdmin,
       UserTypeUser,
-      RouteUser
+      RouteUser,
+      RouteAdmin
     })
 })();
