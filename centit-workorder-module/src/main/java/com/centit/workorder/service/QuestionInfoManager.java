@@ -36,7 +36,7 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-    List<QuestionInfo> getQuestionInfoWithOperator(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+    List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc);
 
 	QuestionRound replayQuestion(QuestionRound questionRound);
 
@@ -52,7 +52,7 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
     QuestionRound updateDiscuss(QuestionRound questionRound);
 
-	Serializable createAssistOperator(AssistOperator assistOperator);
+	List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators);
 
-	void deleteObject(AssistOperatorId assistOperatorId);
+	void deleteObject(AssistOperator[] assistOperators);
 }

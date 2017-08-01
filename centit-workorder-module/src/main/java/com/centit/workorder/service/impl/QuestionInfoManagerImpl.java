@@ -117,12 +117,16 @@ public class QuestionInfoManagerImpl
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
-    public List<QuestionInfo> getQuestionInfoWithOperator(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-        List<AssistOperator> list = assistOperatorDao.getAssistOperator(assistOperatorDao,queryParamsMap,pageDesc);
+    public List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc) {
+		Map<String,Object> queryParamsMap = new HashMap<String,Object>();
+        List<String> list = assistOperatorDao.getList(assistOperatorDao,operatorCode,pageDesc);
         List<QuestionInfo> questionInfoList = new ArrayList<QuestionInfo>(list.size()*2);
-        for (AssistOperator assistOperator : list){
-            queryParamsMap.put("questionId",assistOperator.getAid().getQuestionId());
-            questionInfoList.add(questionInfoDao.getObjectByProperties(queryParamsMap));
+        for (String questionId : list){
+			queryParamsMap.put("osId",osId);
+            queryParamsMap.put("questionId",questionId);
+			QuestionInfo questionInfo = questionInfoDao.getObjectByProperties(queryParamsMap);
+			if (questionInfo != null)
+            	questionInfoList.add(questionInfo);
         }
         return questionInfoList;
     }
@@ -211,15 +215,19 @@ public class QuestionInfoManagerImpl
 
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public Serializable createAssistOperator(AssistOperator assistOperator) {
-		assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
-		return assistOperatorDao.saveNewObject(assistOperator);
+	public List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators) {
+	    for (AssistOperator assistOperator:assistOperators){
+            assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
+        }
+		return  assistOperatorDao.saveNewObjects(assistOperators);
 	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public void deleteObject(AssistOperatorId assistOperatorId) {
-		assistOperatorDao.deleteObjectForceById(assistOperatorId);
+	public void deleteObject(AssistOperator[] assistOperators) {
+	    for(AssistOperator assistOperator : assistOperators){
+            assistOperatorDao.deleteObjectById(assistOperator.getAid());
+        }
 	}
 
 }

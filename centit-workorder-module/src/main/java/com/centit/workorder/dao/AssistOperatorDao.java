@@ -30,25 +30,20 @@ public class AssistOperatorDao extends BaseDaoImpl<AssistOperator,AssistOperator
         if( filterField == null){
             filterField = new HashMap<String, String>();
 
-            filterField.put("questionId" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("aid.questionId" , CodeBook.EQUAL_HQL_ID);
 
-            filterField.put("operatorCode" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("aid.operatorCode" , CodeBook.EQUAL_HQL_ID);
 
             filterField.put("createDate" , CodeBook.EQUAL_HQL_ID);
         }
         return filterField;
     }
 
-    public List<AssistOperator> getAssistOperator(BaseDaoImpl baseDao, Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-        String queryStatement =
-                "select h.questionId, h.operatorCode, h.createDate"
-                        +" from AssistOperator h WHERE 1=1 "
-                        + " [ :operatorCode | and h.operatorCode = :operatorCode ]"
-                        + " [ :begin | and h.createDate > :begin ]"
-                        + " [ :end | and h.createDate < :end ]";
-        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-        List<AssistOperator> dataList = (List<AssistOperator>) DatabaseOptUtils.findObjectsBySql(baseDao,
-                qap.getQuery(), qap.getParams(),pageDesc);
-        return dataList;
+    public List<String> getList(BaseDaoImpl baseDao,String operatorCode, PageDesc pageDesc){
+        String sql = "select f.QUESTION_ID from F_ASSIST_OPERATOR f where f.OPERATOR_CODE=?";
+        List<String> list = (List<String>) DatabaseOptUtils.findObjectsBySql(baseDao, sql,new Object[]{operatorCode}, pageDesc);
+        return list;
     }
+
+
 }
