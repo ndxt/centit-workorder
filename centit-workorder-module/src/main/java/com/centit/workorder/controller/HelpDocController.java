@@ -127,7 +127,7 @@ public class HelpDocController  extends BaseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public void typeSearch(@RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
-                            @RequestParam(value="osId", required = false, defaultValue = "") String osId,
+                            @PathVariable("osId") String osId,
                             PageDesc pageDesc, HttpServletResponse response) {
         //分页， 排序 按照 评分次数高低  或者 评价次数
         Map<String, Object> map = new HashMap<>();
