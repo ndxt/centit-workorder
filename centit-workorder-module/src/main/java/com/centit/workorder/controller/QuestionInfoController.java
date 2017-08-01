@@ -15,14 +15,10 @@ import com.centit.workorder.po.AssistOperatorId;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionInfoManager;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +39,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/questionInfo")
+@RequestMapping("/os/{osId}/questions")
 public class QuestionInfoController  extends BaseController {
 	private static final Log log = LogFactory.getLog(QuestionInfoController.class);
 	
@@ -59,7 +55,7 @@ public class QuestionInfoController  extends BaseController {
      * @param response {@link HttpServletResponse}
      * @return {data:[]}
      */
-    @RequestMapping(value = "/list/{osId}" ,method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String userName = request.getParameter("userName");
@@ -95,7 +91,7 @@ public class QuestionInfoController  extends BaseController {
      * @param catalogId
      * @param response
      */
-    @RequestMapping(value = "/listWithCatalogId/{catalogId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{catalogId}/catalog", method = {RequestMethod.GET})
     public void getQuestionInfo(@PathVariable String catalogId, HttpServletResponse response){
         List<QuestionInfo> questionInfoList = questionInfoMag.getQuestionInfoWithCatalogId(catalogId);
         JsonResultUtils.writeSingleDataJson(questionInfoList, response);
@@ -107,7 +103,7 @@ public class QuestionInfoController  extends BaseController {
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/select/{questionId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{questionId}/question", method = {RequestMethod.GET})
     public void getQuestionInfoWithCatalog(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
@@ -123,7 +119,7 @@ public class QuestionInfoController  extends BaseController {
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/selectShowUser/{questionId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{questionId}/selectShowUser", method = {RequestMethod.GET})
     public void getQuestionInfoRoundShowUser(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
@@ -138,7 +134,7 @@ public class QuestionInfoController  extends BaseController {
      * @param questionId
      * @param response
      */
-    @RequestMapping(value = "/selectQuestionRound/{questionId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{questionId}/selectQuestionRound", method = {RequestMethod.GET})
     public void getQuestionRoundWithQuestionId(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         JsonResultUtils.writeSingleDataJson(questionRoundList, response);
@@ -149,7 +145,7 @@ public class QuestionInfoController  extends BaseController {
      * @param questionId
      * @param response
      */
-    @RequestMapping(value = "/selectQuestionRoundShowUser/{questionId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{questionId}/selectQuestionRoundShowUser", method = {RequestMethod.GET})
     public void getQuestionRoundShowUser(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
         JsonResultUtils.writeSingleDataJson(questionRoundList, response);
@@ -184,7 +180,7 @@ public class QuestionInfoController  extends BaseController {
      * 删除单个  系统问题列表
 	 * @param questionId  QUESTION_ID
      */
-    @RequestMapping(value = "/deleteQuestion/{questionId}", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{questionId}/deleteQuestion", method = {RequestMethod.DELETE})
     public void deleteQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
     	questionInfoMag.deleteQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(questionId,response);
@@ -195,7 +191,7 @@ public class QuestionInfoController  extends BaseController {
 	 * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/updateQuestion/{questionId}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/{questionId}/updateQuestion", method = {RequestMethod.PUT})
     public void updateQuestionInfo(@PathVariable String questionId,
                                    @RequestBody QuestionInfo questionInfo,
                                    HttpServletResponse response) throws IOException {
@@ -204,7 +200,8 @@ public class QuestionInfoController  extends BaseController {
             return;
         }
     	QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
-        dbQuestionInfo.copy(questionInfo);
+        dbQuestionInfo.setQuestionContent(questionInfo.getQuestionContent());
+//        dbQuestionInfo.copy(questionInfo);
         questionInfoMag.mergeObject(dbQuestionInfo);
         JsonResultUtils.writeSingleDataJson(questionId,response);
     }
@@ -214,7 +211,7 @@ public class QuestionInfoController  extends BaseController {
      * @param roundId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/editDiscuss/{roundId}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{roundId}/editDiscuss", method = {RequestMethod.PUT})
     public void editDiscussRound(@PathVariable String roundId,
                                  @RequestBody QuestionRound questionRound,
                                  HttpServletRequest request,
@@ -236,7 +233,7 @@ public class QuestionInfoController  extends BaseController {
      * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
-    @RequestMapping(value = "/updateOperator/{questionId}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/{questionId}/updateOperator", method = {RequestMethod.PUT})
     public void updateOperator(@PathVariable String questionId,
                                HttpServletResponse response,
                                @RequestBody QuestionInfo questionInfo) throws IOException {
@@ -304,9 +301,9 @@ public class QuestionInfoController  extends BaseController {
      * @param questionId
      * @param response
      */
-    @RequestMapping(value = "/evaluateQuestion/{questionId}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{questionId}/evaluateQuestion", method = {RequestMethod.PUT})
     public void evaluateQuestionInfo(@PathVariable String questionId,
-                                     String evaluateScore,
+                                     @RequestParam(value="evaluateScore", required = false, defaultValue = "0") String evaluateScore,
                                      HttpServletResponse response){
         String retId = questionInfoMag.evaluateAndCloseQuestion(evaluateScore,questionId);
         JsonResultUtils.writeSingleDataJson(retId,response);
@@ -317,7 +314,7 @@ public class QuestionInfoController  extends BaseController {
      * @param questionId
      * @param response
      */
-    @RequestMapping(value = "/closeQuestion/{questionId}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{questionId}/closeQuestion", method = {RequestMethod.PUT})
     public void closeQuestionInfo(@PathVariable String questionId, HttpServletResponse response){
         String retId = questionInfoMag.closeQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(retId,response);
@@ -328,7 +325,7 @@ public class QuestionInfoController  extends BaseController {
      * @param roundId
      * @param response
      */
-    @RequestMapping(value = "/updateShowUser/{roundId}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{roundId}/updateShowUser", method = {RequestMethod.PUT})
     public void closeQuestionInfo(@PathVariable String roundId,
                                   String showUser,
                                   HttpServletResponse response){
@@ -341,7 +338,7 @@ public class QuestionInfoController  extends BaseController {
      * @param userCode
      * @param response
      */
-    @RequestMapping(value = "/selectWithUserCode/{userCode}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{userCode}/selectWithUserCode", method = {RequestMethod.GET})
     public void listWithUserCode(@PathVariable String userCode, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         String editState = request.getParameter("editState");
         String questionState = request.getParameter("questionState");
@@ -369,7 +366,7 @@ public class QuestionInfoController  extends BaseController {
      * @param currentOperator
      * @param response
      */
-    @RequestMapping(value = "/selectWithOperator/{currentOperator}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{currentOperator}/selectWithOperator", method = {RequestMethod.GET})
     public void listWithOperator(@PathVariable String currentOperator, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
@@ -389,18 +386,11 @@ public class QuestionInfoController  extends BaseController {
      * @param operatorCode
      * @param response
      */
-    @RequestMapping(value = "/selectWithOperatorCode/{osId}/{operatorCode}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{osId}/{operatorCode}/selectWithOperatorCode", method = {RequestMethod.GET})
     public void listWithOperatorCode(@PathVariable String osId,
                                      @PathVariable String operatorCode,
                                      PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, Object> map = new HashMap<>();
-        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
-        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
-        map.put("osId",osId);
-        map.put("operatorCode",operatorCode);
-        map.put("begin",begin);
-        map.put("end",end);
-        List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfoWithOperator(map, pageDesc);
+        List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfoWithOperator(osId,operatorCode, pageDesc);
         ResponseData resData = new ResponseData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
@@ -423,13 +413,12 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/addAssistOperator",method = {RequestMethod.POST})
     public void addAssistOperator(HttpServletResponse response,
-                                  @RequestBody AssistOperator assistOperator) throws IOException {
-        if (StringUtils.isBlank(assistOperator.getAid().getOperatorCode())
-                || StringUtils.isBlank(assistOperator.getAid().getQuestionId())){
+                                  @RequestBody AssistOperator[] assistOperators) throws IOException {
+        if (assistOperators == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
-        Serializable pk = questionInfoMag.createAssistOperator(assistOperator);
+        List<AssistOperatorId> pk = questionInfoMag.createAssistOperator(assistOperators);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
 
@@ -437,15 +426,14 @@ public class QuestionInfoController  extends BaseController {
      * 删除协助处理人员
      * @return
      */
-    @RequestMapping(value = "/deleteAssistOperator/{questionId}/{operatorCode}",method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/deleteAssistOperator",method = {RequestMethod.DELETE})
     public void deleteAssistOperator(HttpServletResponse response,
-                                     @PathVariable String questionId,
-                                     @PathVariable String operatorCode) throws IOException {
-        if (StringUtils.isBlank(questionId) || StringUtils.isBlank(operatorCode)){
+                                     @RequestBody AssistOperator[] assistOperators) throws IOException {
+        if (assistOperators == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
         }
-        questionInfoMag.deleteObject(new AssistOperatorId(questionId,operatorCode));
+        questionInfoMag.deleteObject(assistOperators);
         JsonResultUtils.writeSuccessJson(response);
     }
 
