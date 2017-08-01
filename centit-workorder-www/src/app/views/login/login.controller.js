@@ -5,7 +5,7 @@
     .controller('LoginController', LoginController)
 
   /**  @ngInject */
-  function LoginController($state, OsAPI, Constant) {
+  function LoginController($state, MockLoginAPI, OsAPI, Authentication, Constant) {
     const vm = this
 
 
@@ -19,31 +19,36 @@
 
 
     /**
-     * 登录
+     * 模拟登录请求
      * @param user
      * @returns {boolean}
      */
     function login(user) {
-      const userName = user.userName
+      return MockLoginAPI.login(user)
 
-      // 没有输入用户名
-      if (!userName) {
-        return false
-      }
+        // 保存用户信息
+        .then(user => Authentication.save(user))
 
-      if (userName === Constant.UserNameAdmin) {
-        // 管理员登录
-        user.userType = Constant.UserTypeAdmin
-        $state.go(Constant.RouteAdmin, {
-          osId: user.osId
+        // 跳转页面
+        .then(function(user) {
+          const userType = user.userType
+
+          switch(userType) {
+            // 管理员
+            case Constant.UserTypeAdmin:
+              $state.go(Constant.RouteAdmin, user)
+              break
+
+            // 普通用户
+            case Constant.UserTypeUser:
+              $state.go(Constant.RouteUser, user)
+              break
+
+            // 默认进普通用户页面
+            default:
+              $state.go(Constant.RouteUser, user)
+          }
         })
-      } else {
-        // 用户登录
-        user.userType = Constant.UserNameUser
-        $state.go(Constant.RouteUser, {
-          osId: user.osId
-        })
-      }
     }
 
     /**
