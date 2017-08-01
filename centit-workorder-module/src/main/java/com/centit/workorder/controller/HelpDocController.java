@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -126,14 +127,14 @@ public class HelpDocController  extends BaseController {
      * 帮助文档查询接口（按问题类别）
      */
     @RequestMapping(method = RequestMethod.GET)
-    public void typeSearch(@RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
-                            @PathVariable("osId") String osId,
+    public void typeSearch(@PathVariable("osId") String osId,
+                            @RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
                             PageDesc pageDesc, HttpServletResponse response) {
         //分页， 排序 按照 评分次数高低  或者 评价次数
         Map<String, Object> map = new HashMap<>();
         map.put("catalogId", catalogId);
         map.put("osId", osId);
-        JSONArray listObjects = helpDocMag.searchHelpdocByType(map, pageDesc);
+        List<HelpDoc> listObjects = helpDocMag.searchHelpdocByType(map, pageDesc);
         ResponseData resData = new ResponseData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
