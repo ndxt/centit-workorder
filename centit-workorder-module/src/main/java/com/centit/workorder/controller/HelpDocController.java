@@ -73,12 +73,12 @@ public class HelpDocController  extends BaseController {
                               @Valid HelpDoc helpDoc, HttpServletResponse response) {
         //不保存 历史版本
 
-        helpDocMag.updateHelpDoc(docId, helpDoc);
+        helpDocMag.editHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
-     * 修改文档内容
+     * 编辑帮助文档内容
      */
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId,
@@ -111,16 +111,16 @@ public class HelpDocController  extends BaseController {
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
-    /**
-     * 帮助文档查询接口（按层级查）
-     */
-    @RequestMapping(value="/treeSearch", method = RequestMethod.GET)
-    public void treeSearch(@PathVariable String osId,HttpServletResponse response) {
-        JSONArray listObjects = helpDocMag.treeSearch(osId);
-        ResponseData resData = new ResponseData();
-        resData.addResponseData(OBJLIST, listObjects);
-        JsonResultUtils.writeSingleDataJson(listObjects, response);
-    }
+//    /**
+//     * 帮助文档查询接口（按层级查）
+//     */
+//    @RequestMapping(value="/treeSearch/{osId}", method = RequestMethod.GET)
+//    public void treeSearch(@PathVariable String osId,HttpServletResponse response) {
+//        JSONArray listObjects = helpDocMag.treeSearch(osId);
+//        ResponseData resData = new ResponseData();
+//        resData.addResponseData(OBJLIST, listObjects);
+//        JsonResultUtils.writeSingleDataJson(listObjects, response);
+//    }
 
     /**
      * 帮助文档查询接口（按问题类别）
@@ -187,5 +187,13 @@ public class HelpDocController  extends BaseController {
         ResponseData resData = new ResponseData();
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+    /**
+     * 帮助文档全文检索
+     */
+    @RequestMapping(value = "/fullTextSearch", method = RequestMethod.GET)
+    public void fullTextSearch() {
+
     }
 }

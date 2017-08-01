@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
-
 /**
  * create by scaffold 2017-05-08 
  * @author codefan@sina.com
@@ -23,7 +22,6 @@ public class HelpDocVersion implements java.io.Serializable {
 
 	@EmbeddedId
 	private com.centit.workorder.po.HelpDocVersionId cid;
-
 
 	/**
 	 * 文件ID null 

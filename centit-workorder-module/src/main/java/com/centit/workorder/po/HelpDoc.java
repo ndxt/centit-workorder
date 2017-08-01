@@ -1,5 +1,6 @@
 package com.centit.workorder.po;
 
+import com.centit.framework.core.po.EntityWithTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -15,10 +16,8 @@ import java.util.Date;
 */
 @Entity
 @Table(name = "F_HELP_DOC")
-public class HelpDoc implements java.io.Serializable {
+public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	private static final long serialVersionUID =  1L;
-
-
 
 	/**
 	 * 文档ID null 
@@ -46,7 +45,7 @@ public class HelpDoc implements java.io.Serializable {
 	 * 文档层级 null 
 	 */
 	@Column(name = "DOC_LEVEL")
-//	@NotBlank(message = "字段不能为空")
+	@NotBlank(message = "字段不能为空")
 	private int  docLevel;
 	/**
 	 * 文档路径 null 
@@ -95,28 +94,21 @@ public class HelpDoc implements java.io.Serializable {
 	/** default constructor */
 	public HelpDoc() {
 	}
+
 	/** minimal constructor */
-	public HelpDoc(
-		String docId		
-		,String  docTitle,int  docLevel,String  docPath,String  optId) {
-	
-	
-		this.docId = docId;		
-	
-		this.docTitle= docTitle; 
+	public HelpDoc(String docId, String docTitle, int docLevel, String docPath, String optId) {
+		this.docId = docId;
+		this.docTitle= docTitle;
 		this.docLevel= docLevel; 
 		this.docPath= docPath; 
 		this.optId= optId; 		
 	}
 
-/** full constructor */
-	public HelpDoc(
-	 String docId		
-	,String  catalogId,String  docTitle,int  docLevel,String  docPath,String docFile,String  osId,String  optId,String  optMethod,String  updateUser,Date  lastUpdateTime) {
-	
-	
+	/** full constructor */
+	public HelpDoc(String docId, String catalogId, String docTitle, int docLevel, String docPath, String docFile,
+				   String osId, String optId, String optMethod, String updateUser, Date lastUpdateTime) {
+
 		this.docId = docId;		
-	
 		this.catalogId= catalogId;
 		this.docTitle= docTitle;
 		this.docLevel= docLevel;
@@ -129,8 +121,6 @@ public class HelpDoc implements java.io.Serializable {
 		this.lastUpdateTime= lastUpdateTime;		
 	}
 	
-
-  
 	public String getDocId() {
 		return this.docId;
 	}
@@ -220,30 +210,37 @@ public class HelpDoc implements java.io.Serializable {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
+	@Override
+	public Date getLastModifyDate() {
+		return this.lastUpdateTime;
+	}
 
+	@Override
+	public void setLastModifyDate(Date date) {
+		this.lastUpdateTime = date;
+	}
 
 	public HelpDoc copy(HelpDoc other){
   
 		this.setDocId(other.getDocId());
-  
-		this.catalogId= other.getCatalogId();
-		this.docTitle= other.getDocTitle();  
-		this.docLevel= other.getDocLevel();  
-		this.docPath= other.getDocPath();  
-		this.docFile= other.getDocFile();  
-		this.osId= other.getOsId();  
-		this.optId= other.getOptId();  
-		this.optMethod= other.getOptMethod();  
-		this.updateUser= other.getUpdateUser();  
-		this.lastUpdateTime= other.getLastUpdateTime();
+		this.catalogId = other.getCatalogId();
+		this.docTitle = other.getDocTitle();
+		this.docLevel = other.getDocLevel();
+		this.docPath = other.getDocPath();
+		this.docFile = other.getDocFile();
+		this.osId = other.getOsId();
+		this.optId = other.getOptId();
+		this.optMethod = other.getOptMethod();
+		this.updateUser = other.getUpdateUser();
+		this.lastUpdateTime = other.getLastUpdateTime();
 	
 		return this;
 	}
 	
 	public HelpDoc copyNotNullProperty(HelpDoc other){
   
-	if( other.getDocId() != null)
-		this.setDocId(other.getDocId());
+		if( other.getDocId() != null)
+			this.setDocId(other.getDocId());
   
 		if( other.getCatalogId() != null)
 			this.catalogId= other.getCatalogId();
@@ -285,10 +282,10 @@ public class HelpDoc implements java.io.Serializable {
 		return this;
 	}
 
-	public HelpDocVersion generateVersion(){
+	public HelpDocVersion generateVersion(int docVersion){
 		HelpDocVersion helpDocVersion = new HelpDocVersion();
 		helpDocVersion.setDocId(this.getDocId());
-		helpDocVersion.setDocVersion(0);
+		helpDocVersion.setDocVersion(docVersion);
 		helpDocVersion.setDocFile(this.getDocFile());
 		helpDocVersion.setDocTitle(this.getDocTitle());
 		helpDocVersion.setUpdateUser(this.getUpdateUser());
