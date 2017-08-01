@@ -5,14 +5,12 @@
     .controller('LoginController', LoginController)
 
   /**  @ngInject */
-  function LoginController($state, OsAPI) {
+  function LoginController($state, OsAPI, Constant) {
     const vm = this
-    const UserNameAdmin = 'admin'
-    const UserNameUser = 'user'
-    const RouteUser = 'root.catalog'
+
 
     vm.user = {
-      userName: UserNameUser,
+      userName: Constant.UserNameUser,
       osId: 'FILE_SVR'
     }
 
@@ -33,13 +31,16 @@
         return false
       }
 
-      // 模拟用户或者管理员登录
-      if (userName === UserNameAdmin) {
-        $state.go(RouteUser, {
+      if (userName === Constant.UserNameAdmin) {
+        // 管理员登录
+        user.userType = Constant.UserTypeAdmin
+        $state.go(Constant.RouteUser, {
           osId: user.osId
         })
       } else {
-        $state.go(RouteUser, {
+        // 用户登录
+        user.userType = Constant.UserNameUser
+        $state.go(Constant.RouteUser, {
           osId: user.osId
         })
       }
