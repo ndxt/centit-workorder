@@ -63,8 +63,9 @@
     <tbody>
     <tr ng-repeat="row in vm.questions">
       <td>
-        <span class="label label-warning" style="padding: 4px 8px; font-size: 14px;">未回复</span>
-        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.title}}</a>
+        <span ng-if="row.questionState=='N'" class="label label-warning" style="padding: 4px 8px; font-size: 14px;">未回复</span>
+        <span ng-if="row.questionState=='C'" class="label label-info" style="padding: 4px 8px; font-size: 14px;">已关闭</span>
+        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a>
       </td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
