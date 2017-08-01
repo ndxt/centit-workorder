@@ -68,7 +68,7 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 							+ " [ :begin | and h.createTime > :begin ]"
 							+ " [ :end | and h.createTime < :end ]";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-			JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
+			JSONArray dataList = DatabaseOptUtils.findObjectsAsJSonByHql(baseDao,
 						qap.getQuery(), qap.getParams(),pageDesc);
 			return dataList;
 		}

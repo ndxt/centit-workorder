@@ -33,7 +33,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/helpDoc")
+@RequestMapping("/os/{osId}/documents")
 public class HelpDocController  extends BaseController {
 	private static final Log log = LogFactory.getLog(HelpDocController.class);
 	
@@ -44,7 +44,7 @@ public class HelpDocController  extends BaseController {
      * 查询单个  系统帮助文档 
 	 * @param docId  DOC_ID
      */
-    @RequestMapping(value = "/search/{docId}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
     	
     	HelpDoc helpDoc = helpDocMag.getObjectById( docId);
@@ -56,7 +56,7 @@ public class HelpDocController  extends BaseController {
      * 创建 帮助文档条目
      * @param helpDoc  {@link HelpDoc}
      */
-    @RequestMapping(value = "/create", method = {RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.POST})
     public void createHelpDoc(@Valid HelpDoc helpDoc, HttpServletResponse response) {
         //返回 主键 docId
         String docId = helpDocMag.createHelpDoc(helpDoc);
@@ -68,7 +68,7 @@ public class HelpDocController  extends BaseController {
      * @param docId  DOC_ID
      * @param helpDoc  {@link HelpDoc}
      */
-    @RequestMapping(value = "/update/{docId}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
     public void updateHelpDoc(@PathVariable String docId,
                               @Valid HelpDoc helpDoc, HttpServletResponse response) {
         //不保存 历史版本
@@ -80,7 +80,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 修改文档内容
      */
-    @RequestMapping(value = "/editContent/{docId}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId,
                             String content, HttpServletResponse response) {
 
@@ -93,7 +93,7 @@ public class HelpDocController  extends BaseController {
      * 删除 帮助文档
 	 * @param docId  DOC_ID
      */
-    @RequestMapping(value = "/delete/{docId}", method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
         //全部删除 不可恢复 包括历史版本
 
@@ -104,7 +104,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档查询接口（按层级查）
      */
-    @RequestMapping(value="/levelSearch/{osId}", method = RequestMethod.GET)
+    @RequestMapping(value="/levelSearch", method = RequestMethod.GET)
     public void levelSearch(@PathVariable String osId,HttpServletResponse response) {
         JSONArray listObjects = helpDocMag.searchHelpdocByLevel(osId);
         ResponseData resData = new ResponseData();
@@ -114,7 +114,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档查询接口（按层级查）
      */
-    @RequestMapping(value="/treeSearch/{osId}", method = RequestMethod.GET)
+    @RequestMapping(value="/treeSearch", method = RequestMethod.GET)
     public void treeSearch(@PathVariable String osId,HttpServletResponse response) {
         JSONArray listObjects = helpDocMag.treeSearch(osId);
         ResponseData resData = new ResponseData();
@@ -125,7 +125,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档查询接口（按问题类别）
      */
-    @RequestMapping(value="/typeSearch", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public void typeSearch(@RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
                             @RequestParam(value="osId", required = false, defaultValue = "") String osId,
                             PageDesc pageDesc, HttpServletResponse response) {
@@ -144,7 +144,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档评分接口
      */
-    @RequestMapping(value = "/score/{docId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{docId}/score", method = RequestMethod.POST)
     public void score(@PathVariable String docId,
                       @Valid HelpDocScore helpDocScore, HttpServletResponse response) {
         //返回主键
@@ -156,7 +156,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档评价接口
      */
-    @RequestMapping(value = "/comment/{docId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{docId}/comment", method = RequestMethod.POST)
     public void comment(@PathVariable String docId,
                         @Valid HelpDocComment helpDocComment, HttpServletResponse response) {
         //返回 主键
@@ -168,7 +168,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 根据文档ID查询所有评分信息
      */
-    @RequestMapping(value = "/searchScores/{docId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{docId}/searchScores", method = RequestMethod.GET)
     public void searchScores(@PathVariable String docId, HttpServletResponse response) {
         //只返回一个 平均分 和一个 评分次数
         JSONObject obj = helpDocMag.searchScores(docId);
@@ -179,7 +179,7 @@ public class HelpDocController  extends BaseController {
     /**
      * 根据文档ID查询所有评价信息
      */
-    @RequestMapping(value = "/searchComments/{docId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{docId}/searchComments", method = RequestMethod.GET)
     public void searchComments(@PathVariable String docId, HttpServletResponse response) {
         //返回一个评价列表
        JSONArray listObjects = helpDocMag.searchComments(docId);
