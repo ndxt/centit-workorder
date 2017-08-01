@@ -2,13 +2,15 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.core.dao.DictionaryMapUtils;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.search.document.FileDocument;
+import com.centit.search.service.Indexer;
+import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.support.algorithm.ListOpt;
-import com.centit.support.database.QueryAndNamedParams;
-import com.centit.support.database.QueryUtils;
 import com.centit.workorder.dao.HelpDocCommentDao;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.dao.HelpDocScoreDao;
@@ -70,7 +72,30 @@ public class HelpDocManagerImpl
 	@Transactional
 	public String createHelpDoc(HelpDoc helpDoc) {
 
-		return helpDocDao.saveNewObject(helpDoc);
+		helpDocDao.saveNewObject(helpDoc);
+		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+				IndexerSearcherFactory.loadESServerConfigFormProperties(
+						SysParametersUtils.loadProperties()), FileDocument.class) ;
+//		FileDocument fileDoc = new FileDocument();
+//		fileDoc.setFileId(helpDoc.getDocId());
+//		fileDoc.setOsId(helpDoc.getOsId());
+//		fileDoc.setOptId(helpDoc.getOptId());
+//		fileDoc.setOptMethod(helpDoc.getOptMethod());
+////		fileDoc.setOptTag(helpDoc.getOptTag());
+//		fileDoc.setFileMD5(helpDoc.getFileMd5());
+//		fileDoc.setFileName(helpDoc.getFileName());
+//		fileDoc.setFileSummary(helpDoc.getFileDesc());
+//		fileDoc.setOptUrl(helpDoc.getFileShowPath());
+//		fileDoc.setUserCode(helpDoc.getFileOwner());
+//		fileDoc.setUserCode(helpDoc.getFileUnit());
+//		//获取文件的文本信息
+//		fileDoc.setContent(TikaTextExtractor.extractInputStreamText(
+//				fs.loadFileStream(fileStoreInfo.getFileMd5(),fileStoreInfo.getFileSize())) );
+////		fileDoc.setCreateTime(helpDoc.get() );
+//		indexer.saveNewDocument(fileDoc);
+//		fileStoreInfo.setIndexState("I");
+
+		return helpDoc.getDocId();
 	}
 
 	@Override
@@ -158,24 +183,25 @@ public class HelpDocManagerImpl
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
-		String queryStatement =
-				"select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
-				+" from f_help_doc h left join "
-				+" (select c.DOC_ID,count(c.COMMENT_ID) count"
-				+" from f_help_doc_comment c"
-				+" group by c.DOC_ID) m "
-				+" on h.DOC_ID = m.DOC_ID "
-				+" where 1=1 "
-				+ " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
-				+ " [ :osId | and h.OS_ID = :osId ]"
-				+ " order by count desc";
+	public List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
+//		String queryStatement =
+//				"select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
+//				+" from f_help_doc h left join "
+//				+" (select c.DOC_ID,count(c.COMMENT_ID) count"
+//				+" from f_help_doc_comment c"
+//				+" group by c.DOC_ID) m "
+//				+" on h.DOC_ID = m.DOC_ID "
+//				+" where 1=1 "
+//				+ " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
+//				+ " [ :osId | and h.OS_ID = :osId ]"
+//				+ " order by count desc";
+//
+//		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+//		JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
+//					qap.getQuery(), qap.getParams(), pageDesc);
 
-		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-				DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
-					qap.getQuery(), qap.getParams(), pageDesc);
-		return dataList;
+        List<HelpDoc> helpDocs = listObjects(queryParamsMap, pageDesc);
+		return helpDocs;
 	}
 
 	@Override

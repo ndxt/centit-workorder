@@ -8,6 +8,7 @@ import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 	JSONArray searchHelpdocByLevel(String osId);
 //	JSONArray treeSearch(String osId);
 
-	JSONArray searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+    List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
 	JSONArray searchComments(String docId);
 
