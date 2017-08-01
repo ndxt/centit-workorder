@@ -8,14 +8,20 @@
   function LoginController($state, MockLoginAPI, OsAPI, Authentication, Constant) {
     const vm = this
 
-
     vm.user = {
       userName: Constant.UserNameUser,
       osId: 'FILE_SVR'
     }
 
     vm.login = login
-    vm.os = queryOs()
+    activate()
+
+    function activate() {
+      // 清空用户缓存
+      Authentication.clear()
+
+      queryOs()
+    }
 
 
     /**
@@ -55,7 +61,7 @@
      * 查询系统信息
      */
     function queryOs() {
-      return OsAPI.query()
+      vm.os = OsAPI.query()
     }
   }
 })()

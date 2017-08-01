@@ -56,7 +56,7 @@
     function canAccess(osId) {
       return hasLogin()
         .then(user => {
-          if (user.osId !== osId) {
+          if (!!osId && user.osId !== osId) {
             return isAdmin(true)
           }
 

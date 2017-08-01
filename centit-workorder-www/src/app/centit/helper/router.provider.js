@@ -21,7 +21,7 @@
 
     this.$get = RouterHelper
     /** @ngInject */
-    function RouterHelper ($rootScope, $timeout) {
+    function RouterHelper ($rootScope, $timeout, Authentication) {
 
       let handlingStateChangeError = false
       let stateCounts = {
@@ -46,10 +46,30 @@
        * @param states
        */
       function addRouterStates (states) {
+        let data
+        let config
         states.forEach(state => {
+          config = state.config
+          config.resolve = config.resolve || {}
+          data = config.data
+          addResolve(data, config.resolve)
 
-          $stateProvider.state(state.state, state.config)
+          $stateProvider.state(state.state, config)
         })
+      }
+
+      function addResolve(data, resolves) {
+        if (data.requireLogin) {
+          resolves.requireLogin = function() {
+            return Authentication.hasLogin()
+          }
+        }
+
+        if (data.requireAuthentication) {
+          resolves.requireAuthentication = ['$stateParams', function($stateParams) {
+            return Authentication.canAccess($stateParams.osId)
+          }]
+        }
       }
 
       /**

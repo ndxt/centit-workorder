@@ -17,6 +17,10 @@
           header: {
             templateUrl: 'app/views/commons/header.html'
           }
+        },
+        data: {
+          requireLogin: true,
+          requireAuthentication: true
         }
       })
 
@@ -25,30 +29,6 @@
         url: '',
         views: {
           header: ''
-        }
-      })
-
-      /** 首页 **/
-      .state('root.catalog', {
-        url: '/catalogs',
-        views: {
-          'main@': {
-            templateUrl: 'app/views/dashboard/dashboard.html',
-            controller: 'DashboardController',
-            controllerAs: 'vm'
-          }
-        }
-      })
-
-      // 首页-分类详情
-      .state('root.catalog.view', {
-        url: '/:catalogId',
-        views: {
-          'main@': {
-            templateUrl: 'app/views/catalog/catalog.html',
-            controller: 'CatalogController',
-            controllerAs: 'vm'
-          }
         }
       })
 
@@ -96,17 +76,6 @@
             templateUrl: 'app/views/document/document-view.html',
             controller: 'DocumentViewController',
             controllerAs: 'vm'
-          }
-        }
-      })
-      //系统客服
-      .state('root.service',{
-        url:'/service',
-        views:{
-          'main@':{
-            templateUrl: 'app/views/service/service.html',
-            controller:'ServiceViewController',
-            controllerAs:'vm'
           }
         }
       })
