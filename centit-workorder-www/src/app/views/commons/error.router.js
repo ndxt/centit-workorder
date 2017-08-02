@@ -20,12 +20,6 @@
             }
           },
           data: {
-            // 路由缓存不存储
-            doNotCache: true,
-
-            // 是否需要登录校验
-            requireLogin: false,
-
             // 切换路由时，如果想改变title显示，可以设置此属性
             title: '401'
           }
@@ -44,12 +38,6 @@
             }
           },
           data: {
-            // 路由缓存不存储
-            doNotCache: true,
-
-            // 是否需要登录校验
-            requireLogin: false,
-
             // 切换路由时，如果想改变title显示，可以设置此属性
             title: '404'
           }
@@ -68,12 +56,6 @@
             }
           },
           data: {
-            // 路由缓存不存储
-            doNotCache: true,
-
-            // 是否需要登录校验
-            requireLogin: false,
-
             // 切换路由时，如果想改变title显示，可以设置此属性
             title: '500'
           }

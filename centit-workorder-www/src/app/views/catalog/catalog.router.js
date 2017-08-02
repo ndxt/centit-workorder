@@ -22,9 +22,7 @@
           },
           data: {
             title: '问题类别',
-            bodyClass: 'catalog',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'catalog'
           }
         }
       },
@@ -43,9 +41,7 @@
           },
           data: {
             title: '问题类别详情',
-            bodyClass: 'catalog-view',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'catalog-view'
           }
         }
       }

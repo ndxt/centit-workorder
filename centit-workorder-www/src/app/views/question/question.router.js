@@ -22,9 +22,7 @@
           },
           data: {
             title: '我的工单',
-            bodyClass: 'question',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'question'
           }
         }
       },
@@ -43,9 +41,7 @@
           },
           data: {
             title: '我的工单详情',
-            bodyClass: 'question-view',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'question-view'
           }
         }
       }

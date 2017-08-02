@@ -22,9 +22,7 @@
           },
           data: {
             title: '系统帮助',
-            bodyClass: 'document',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'document'
           }
         }
       },
@@ -43,9 +41,7 @@
           },
           data: {
             title: '系统帮助详情',
-            bodyClass: 'document-view',
-            requireLogin: true,
-            requireAuthentication: true
+            bodyClass: 'document-view'
           }
         }
       }

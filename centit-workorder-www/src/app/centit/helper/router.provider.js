@@ -49,13 +49,62 @@
         let data
         let config
         states.forEach(state => {
-          config = state.config
+          config = angular.merge({}, getParentConfig(state.state), state.config)
           config.resolve = config.resolve || {}
           data = config.data
           addResolve(data, config.resolve)
 
           $stateProvider.state(state.state, config)
         })
+      }
+
+      /**
+       * 获取节点的父节点名称数组
+       * 例如： root.catalog.view 返回 ['root', 'root.catalog']
+       * @param name
+       * @returns {Array}
+       */
+      function getParentState(name) {
+        let states = name.split('.')
+        states.pop()
+
+        if (!states.length) {
+          return []
+        }
+
+        states = states.reduce(function(last, current) {
+          if (last.length) {
+            let name = last[last.length - 1]
+            last.push([name, current].join('.'))
+          } else {
+            last.push(current)
+          }
+
+          return last
+        }, [])
+
+        return states
+      }
+
+      /**
+       * 自动从父节点继承配置
+       * @param name
+       * @returns {{}}
+       */
+      function getParentConfig(name) {
+        const states = getParentState(name)
+        const result = {}
+        let state
+
+        states.forEach(name => {
+          state = $state.get(name)
+          angular.merge(result, {
+            data: state.data,
+            resolve: state.resolve
+          })
+        })
+
+        return result
       }
 
       function addResolve(data, resolves) {
