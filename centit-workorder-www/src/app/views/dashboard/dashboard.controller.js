@@ -22,8 +22,6 @@
       vm.catalogs = CatalogAPI.query({
         osId
       })
-
-      console.log(vm.catalogs)
     }
   }
 })();

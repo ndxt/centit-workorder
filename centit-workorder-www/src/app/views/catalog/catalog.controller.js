@@ -5,19 +5,16 @@
     .controller('CatalogController', CatalogController)
 
   /** @ngInject */
-  function CatalogController(
-    $stateParams,
-    CatalogAPI,
-    DocAPI
-  ) {
+  function CatalogController($stateParams,$state,CatalogAPI,DocAPI) {
 
-    let vm = this
+    let vm = this;
+    vm.askOthers = askOthers;
 
     activate()
 
     function activate() {
       getCatalog()
-      queryDocument()
+      queryDocument(Object.assign({},$stateParams))
     }
 
     ///////////////////////////////////////
@@ -36,10 +33,15 @@
      * 查询文档信息列表
      * @returns {Promise.<TResult>|*}
      */
-    function queryDocument() {
-      return DocAPI.query($stateParams)
+    function queryDocument(params) {
+      delete params.DocId;
+      return DocAPI.query(params)
         .$promise
         .then(res => vm.documents = res)
+    }
+
+    function askOthers() {
+      $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
     }
   }
 })();
