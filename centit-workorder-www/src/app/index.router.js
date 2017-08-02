@@ -12,7 +12,7 @@
       // 默认布局
       .state('root', {
         abstract: true,
-        url: '/os/:osId',
+        url: '/user/:osId',
         views: {
           header: {
             templateUrl: 'app/views/commons/header.html'
@@ -27,6 +27,58 @@
 
           // 是否需要鉴权
           requireAuthentication: true
+        }
+      })
+
+      // 管理员
+      .state('admin', {
+        abstract: true,
+        url: '/admin/:osId',
+        views: {
+          header: {
+            templateUrl: 'app/views/commons/header.html'
+          }
+        },
+        resolve: {
+          isAdmin: ['Authentication', function (Authentication) {
+            return Authentication.isAdmin()
+          }]
+        },
+        data: {
+          // 路由缓存不存储
+          doNotCache: false,
+
+          // 是否需要登录校验
+          requireLogin: true,
+
+          // 是否需要鉴权
+          requireAuthentication: true
+        }
+      })
+
+      // 超级管理员
+      .state('super', {
+        abstract: true,
+        url: '/manager',
+        views: {
+          header: {
+            templateUrl: 'app/views/commons/header.html'
+          }
+        },
+        resolve: {
+          isAdmin: ['Authentication', function (Authentication) {
+            return Authentication.isAdmin(true)
+          }]
+        },
+        data: {
+          // 路由缓存不存储
+          doNotCache: false,
+
+          // 是否需要登录校验
+          requireLogin: true,
+
+          // 是否需要鉴权
+          requireAuthentication: false
         }
       })
 

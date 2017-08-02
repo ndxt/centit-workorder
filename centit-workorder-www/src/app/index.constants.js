@@ -10,7 +10,7 @@
   const UserTypeUser = 'U'
 
   const RouteUser = 'root.catalog'
-  const RouteAdmin = 'root.catalog'
+  const RouteAdmin = 'admin.catalog'
 
   ///////////////////////////////////////////////////////
 

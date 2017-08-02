@@ -21,7 +21,8 @@
           },
           data: {
             // 切换路由时，如果想改变title显示，可以设置此属性
-            title: '401'
+            title: '401',
+            bodyClass: 'error-401'
           }
         }
       },
@@ -39,7 +40,8 @@
           },
           data: {
             // 切换路由时，如果想改变title显示，可以设置此属性
-            title: '404'
+            title: '404',
+            bodyClass: 'error-404'
           }
         }
       },
@@ -57,7 +59,8 @@
           },
           data: {
             // 切换路由时，如果想改变title显示，可以设置此属性
-            title: '500'
+            title: '500',
+            bodyClass: 'error-500'
           }
         }
       }
