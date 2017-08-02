@@ -22,9 +22,15 @@ textarea.form-control {
 }
 
 .container {
-  padding-top: 50px;
+  padding-top: 64px;
 }
 
 body {
   background: #eee;
+}
+
+.error-401-page .jumbotron,
+.error-404-page .jumbotron,
+.error-500-page .jumbotron {
+  background-color: #fff;
 }
