@@ -21,7 +21,7 @@
 
     this.$get = RouterHelper
     /** @ngInject */
-    function RouterHelper ($rootScope, $timeout, $state, Authentication, Error) {
+    function RouterHelper ($rootScope, $timeout, $state, Authentication, ErrorMessage) {
 
       let handlingStateChangeError = false
       let stateCounts = {
@@ -154,9 +154,9 @@
             stateCounts.errors++
             handlingStateChangeError = true
 
-            if (error === Error.ErrorNotAllow) {
+            if (error === ErrorMessage.ErrorNotAllow) {
               $state.go('blank.401')
-            } else if (error === Error.ErrorNotLogin) {
+            } else if (error === ErrorMessage.ErrorNotLogin) {
               $state.go('blank.login')
             } else {
               $state.go('blank.500')

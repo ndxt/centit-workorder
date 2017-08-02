@@ -21,6 +21,7 @@
     /**
      * 打开新增工单对话框
      * @param catalog
+     * @param question
      */
     function openModal(catalog, question) {
       return $uibModal.open({

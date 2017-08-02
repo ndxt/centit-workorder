@@ -19,9 +19,6 @@
           }
         },
         data: {
-          // 路由缓存不存储
-          doNotCache: false,
-
           // 是否需要登录校验
           requireLogin: true,
 
@@ -45,9 +42,6 @@
           }]
         },
         data: {
-          // 路由缓存不存储
-          doNotCache: false,
-
           // 是否需要登录校验
           requireLogin: true,
 
@@ -71,9 +65,6 @@
           }]
         },
         data: {
-          // 路由缓存不存储
-          doNotCache: false,
-
           // 是否需要登录校验
           requireLogin: true,
 
@@ -91,13 +82,7 @@
         },
         data: {
           // 路由缓存不存储
-          doNotCache: true,
-
-          // 是否需要登录校验
-          requireLogin: false,
-
-          // 是否需要鉴权
-          requireAuthentication: false
+          doNotCache: true
         }
       })
 

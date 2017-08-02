@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">新增&nbsp;类型</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="input_modal_catalog_catalogName">名称</label>
+      <input name="catalogName"
+             class="form-control"
+             id="input_modal_catalog_catalogName"
+             placeholder="名称" ng-model="vm.info.catalogName">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">提交</button>
+  <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>
+</div>

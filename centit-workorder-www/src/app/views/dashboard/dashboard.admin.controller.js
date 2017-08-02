@@ -12,18 +12,35 @@
     const vm = this;
     const osId = $stateParams.osId;
 
-    activate();
+    vm.osId = osId
+    vm.create = create
+    vm.edit = edit
+    vm.remove = remove
+
+    activate()
+
+    ////////////////////////////////////////////////////////////////
 
     function activate() {
       queryCatalogs()
+    }
+
+    function create() {
+
+    }
+
+    function remove(catalog) {
+
+    }
+
+    function edit(catalog) {
+
     }
 
     function queryCatalogs() {
       vm.catalogs = CatalogAPI.query({
         osId
       })
-
-      console.log(vm.catalogs)
     }
   }
 })();
