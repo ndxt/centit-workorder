@@ -37,7 +37,7 @@ public class QuestionRoundController extends BaseController {
 
 
     /**
-     * 查询单个  系统问题列表   返回工单信息和所有交流信息
+     *  查询工单下面的所有 交流信息  只返回所有交流信息
      * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      * @return {data:{}}
@@ -45,11 +45,7 @@ public class QuestionRoundController extends BaseController {
     @RequestMapping(method = {RequestMethod.GET})
     public void getQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
-        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        ResponseData resData = new ResponseData();
-        resData.addResponseData("questionInfo", questionInfo);
-        resData.addResponseData("questionRoundList",questionRoundList );
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
+        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
     }
 
     /**
@@ -69,14 +65,18 @@ public class QuestionRoundController extends BaseController {
     }
 
     /**
-     * 查询工单下面的所有 交流信息  只返回所有交流信息
+     * 查询单个  系统问题列表   返回工单信息和所有交流信息
      * @param questionId
      * @param response
      */
     @RequestMapping(value = "/questionRound", method = {RequestMethod.GET})
     public void getQuestionRound(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
-        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        ResponseData resData = new ResponseData();
+        resData.addResponseData("questionInfo", questionInfo);
+        resData.addResponseData("questionRoundList",questionRoundList );
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
     /**

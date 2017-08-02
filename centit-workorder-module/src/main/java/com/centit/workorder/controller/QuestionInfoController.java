@@ -95,6 +95,17 @@ public class QuestionInfoController  extends BaseController {
         List<QuestionInfo> questionInfoList = questionInfoMag.getQuestionInfoWithCatalogId(catalogId);
         JsonResultUtils.writeSingleDataJson(questionInfoList, response);
     }
+
+    /**
+     * 根据questionID获取工单信息
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/{questionId}", method = {RequestMethod.GET})
+    public void getQuestionInfoWithQuestionId(@PathVariable String questionId, HttpServletResponse response){
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        JsonResultUtils.writeSingleDataJson(questionInfo, response);
+    }
     
     /**
      * 获取未分配责任人的工单列表
