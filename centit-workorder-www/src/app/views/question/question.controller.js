@@ -5,8 +5,12 @@
     .controller('QuestionController', QuestionController)
 
   /** @ngInject */
-  function QuestionController($stateParams, QuestionAPI) {
+  function QuestionController($stateParams,$state, QuestionAPI) {
     let vm = this
+
+    vm.view = view;
+    vm.edit = edit;
+    vm.del = del;
 
     activate()
 
@@ -23,6 +27,18 @@
           vm.questions = res
           vm.totalItems = res.length || 0
         })
+    }
+
+    function view(row) {
+      $state.go("root.question.view",{ questionId: row.questionId });
+
+    }
+    function edit(row) {
+      $state.go("root.question.edit",{ questionId: row.questionId });
+
+    }
+    function del(row) {
+      QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }));
     }
   }
 })();
