@@ -10,15 +10,15 @@ import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.service.HelpDocManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/documents")
 public class HelpDocController  extends BaseController {
-	private static final Log log = LogFactory.getLog(HelpDocController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 	
 	@Resource
 	private HelpDocManager helpDocMag;
@@ -48,7 +48,7 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
     	
-    	HelpDoc helpDoc = helpDocMag.getObjectById( docId);
+    	HelpDoc helpDoc = helpDocMag.getObjectById(docId);
         
         JsonResultUtils.writeSingleDataJson(helpDoc, response);
     }
@@ -58,10 +58,12 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(method = {RequestMethod.POST})
-    public void createHelpDoc(@Valid HelpDoc helpDoc, HttpServletResponse response) {
-        //返回 主键 docId
-        String docId = helpDocMag.createHelpDoc(helpDoc);
-        JsonResultUtils.writeSingleDataJson(docId, response);
+    public void createHelpDoc(@Valid HelpDoc helpDoc, String parentDocId,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+        helpDoc.setUpdateUser(getLoginUserCode(request));
+        helpDocMag.createHelpDoc(helpDoc, parentDocId);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -70,10 +72,10 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
-    public void updateHelpDoc(@PathVariable String docId,
-                              @Valid HelpDoc helpDoc, HttpServletResponse response) {
+    public void updateHelpDoc(@PathVariable String docId, @Valid HelpDoc helpDoc,
+                              HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
-
+        helpDoc.setUpdateUser(getLoginUserCode(request));
         helpDocMag.editHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -82,11 +84,12 @@ public class HelpDocController  extends BaseController {
      * 编辑帮助文档内容
      */
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String docId,
-                            String content, HttpServletResponse response) {
+    public void editContent(@PathVariable String docId, String content,
+                            HttpServletRequest request, HttpServletResponse response) {
 
         // 保存 历史版本，
-        helpDocMag.editContent(docId, content);
+        String userCode = getLoginUserCode(request);
+        helpDocMag.editContent(docId, content, userCode);
         JsonResultUtils.writeSuccessJson(response);
     }
 
@@ -112,24 +115,13 @@ public class HelpDocController  extends BaseController {
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
-//    /**
-//     * 帮助文档查询接口（按层级查）
-//     */
-//    @RequestMapping(value="/treeSearch/{osId}", method = RequestMethod.GET)
-//    public void treeSearch(@PathVariable String osId,HttpServletResponse response) {
-//        JSONArray listObjects = helpDocMag.treeSearch(osId);
-//        ResponseData resData = new ResponseData();
-//        resData.addResponseData(OBJLIST, listObjects);
-//        JsonResultUtils.writeSingleDataJson(listObjects, response);
-//    }
 
     /**
      * 帮助文档查询接口（按问题类别）
      */
     @RequestMapping(method = RequestMethod.GET)
-    public void typeSearch(@PathVariable("osId") String osId,
-                            @RequestParam(value="catalogId", required = false, defaultValue = "") String catalogId,
-                            PageDesc pageDesc, HttpServletResponse response) {
+    public void typeSearch(@PathVariable("osId") String osId,  String catalogId,
+                           PageDesc pageDesc, HttpServletResponse response) {
         //分页， 排序 按照 评分次数高低  或者 评价次数
         Map<String, Object> map = new HashMap<>();
         map.put("catalogId", catalogId);
@@ -148,10 +140,9 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/score", method = RequestMethod.POST)
     public void score(@PathVariable String docId,
                       @Valid HelpDocScore helpDocScore, HttpServletResponse response) {
-        //返回主键
 
-        String scoreId = helpDocMag.score(docId, helpDocScore);
-        JsonResultUtils.writeSingleDataJson(scoreId, response);
+        helpDocMag.score(docId, helpDocScore);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -160,10 +151,9 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/comment", method = RequestMethod.POST)
     public void comment(@PathVariable String docId,
                         @Valid HelpDocComment helpDocComment, HttpServletResponse response) {
-        //返回 主键
 
-        String commentId = helpDocMag.comment(docId, helpDocComment);
-        JsonResultUtils.writeSingleDataJson(commentId, response);
+        helpDocMag.comment(docId, helpDocComment);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -194,7 +184,8 @@ public class HelpDocController  extends BaseController {
      * 帮助文档全文检索
      */
     @RequestMapping(value = "/fullTextSearch", method = RequestMethod.GET)
-    public void fullTextSearch() {
-
+    public void fullTextSearch(String keyWords, PageDesc pageDesc, HttpServletResponse response) {
+        List<Map<String, Object>> result = helpDocMag.fullTextSearch(keyWords, pageDesc);
+        JsonResultUtils.writeSingleDataJson(result, response);
     }
 }
