@@ -128,8 +128,8 @@ public class QuestionInfoController  extends BaseController {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionInfo.setUserCode(centitUserDetails.getUserCode());
         questionInfo.setUserName(centitUserDetails.getUserName());
-        Serializable pk = questionInfoMag.createQuestion(questionInfo);
-        JsonResultUtils.writeSingleDataJson(pk,response);
+        questionInfoMag.createQuestion(questionInfo);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**

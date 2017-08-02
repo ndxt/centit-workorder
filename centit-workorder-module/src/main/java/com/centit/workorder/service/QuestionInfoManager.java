@@ -30,7 +30,7 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
 	List<QuestionInfo> getUnabsorbedQuestion();
 
-	Serializable saveQuestionRound(QuestionRound questionRound);
+	void saveQuestionRound(QuestionRound questionRound);
 
 	void deleteQuestion(String questionId);
 
@@ -42,15 +42,15 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
     QuestionRound discussQuestion(QuestionRound questionRound);
 
-	Serializable createQuestion(QuestionInfo questionInfo);
+	void createQuestion(QuestionInfo questionInfo);
 
 	String evaluateAndCloseQuestion(String score,String questionId);
 
 	String closeQuestion(String questionId);
 
-    QuestionRound updateShowUserTag(String roundId,String showUser);
+    void updateShowUserTag(String roundId,String showUser);
 
-    QuestionRound updateDiscuss(QuestionRound questionRound);
+    void updateDiscuss(QuestionRound questionRound);
 
 	List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators);
 

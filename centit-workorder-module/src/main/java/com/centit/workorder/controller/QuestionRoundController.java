@@ -20,7 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -108,8 +107,8 @@ public class QuestionRoundController extends BaseController {
         questionRound.setUserCode(centitUserDetails.getUserCode());
         questionRound.setUserName(centitUserDetails.getUserName());
         questionRound.setRoundId(roundId);
-        QuestionRound round  = questionInfoMag.updateDiscuss(questionRound);
-        JsonResultUtils.writeSingleDataJson(round,response);
+        questionInfoMag.updateDiscuss(questionRound);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -129,8 +128,8 @@ public class QuestionRoundController extends BaseController {
         questionRound.setUserCode(centitUserDetails.getUserCode());
         questionRound.setUserName(centitUserDetails.getUserName());
         questionRound.setQuestionId(questionId);
-        Serializable pk = questionInfoMag.saveQuestionRound(questionRound);
-        JsonResultUtils.writeSingleDataJson(pk,response);
+        questionInfoMag.saveQuestionRound(questionRound);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
     /**
@@ -176,8 +175,8 @@ public class QuestionRoundController extends BaseController {
     public void updateShowUserTag(@PathVariable String roundId,
                                   String showUser,
                                   HttpServletResponse response){
-        QuestionRound questionRound = questionInfoMag.updateShowUserTag(roundId,showUser);
-        JsonResultUtils.writeSingleDataJson(questionRound,response);
+        questionInfoMag.updateShowUserTag(roundId,showUser);
+        JsonResultUtils.writeSuccessJson(response);
     }
 
 }

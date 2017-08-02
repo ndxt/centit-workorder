@@ -94,12 +94,11 @@ public class QuestionInfoManagerImpl
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public Serializable saveQuestionRound(QuestionRound questionRound) {
+	public void saveQuestionRound(QuestionRound questionRound) {
 		questionRound.setOrA("Q");
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
-		Serializable pk = questionRoundDao.saveNewObject(questionRound);
-		return pk;
+		questionRoundDao.saveNewObject(questionRound);
 	}
 
 	@Override
@@ -163,7 +162,7 @@ public class QuestionInfoManagerImpl
 
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public Serializable createQuestion(QuestionInfo questionInfo) {
+	public void createQuestion(QuestionInfo questionInfo) {
 		String catalogId = questionInfo.getCatalogId();
 		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
 		questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
@@ -171,8 +170,7 @@ public class QuestionInfoManagerImpl
 		questionInfo.setQuestionState("N");
 		questionInfo.setEditState("N");
 		questionInfo.setOsId(questionCatalog.getOsId());
-		Serializable pk = questionInfoDao.saveNewObject(questionInfo);
-		return pk;
+		questionInfoDao.saveNewObject(questionInfo);
 	}
 
 	@Override
@@ -199,19 +197,19 @@ public class QuestionInfoManagerImpl
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
-    public QuestionRound updateShowUserTag(String roundId, String showUser) {
+    public void updateShowUserTag(String roundId, String showUser) {
         QuestionRound dbQuestionRound = questionRoundDao.getObjectById(roundId);
         dbQuestionRound.setShowUser(showUser);
-        return questionRoundDao.mergeObject(dbQuestionRound);
+        questionRoundDao.mergeObject(dbQuestionRound);
     }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
-    public QuestionRound updateDiscuss(QuestionRound questionRound) {
+    public void updateDiscuss(QuestionRound questionRound) {
         QuestionRound dbQuestionRound = questionRoundDao.getObjectById(questionRound.getRoundId());
         dbQuestionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
         dbQuestionRound.copyNotNullProperty(questionRound);
-        return questionRoundDao.mergeObject(dbQuestionRound);
+        questionRoundDao.mergeObject(dbQuestionRound);
     }
 
     @Override

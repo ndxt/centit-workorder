@@ -58,7 +58,7 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
 
         public JSONArray getCatalog(BaseDaoImpl baseDao,Map<String, Object> queryParamsMap, PageDesc pageDesc) {
             String queryStatement =
-					"select h.catalogId, h.catalogName, h.createTime ,h.creator,h.timeLimit,h.defaultOperator"
+					"select h.catalogId, h.catalogName, h.createTime ,h.creator,h.timeLimit,h.defaultOperator,h.catalogKeyWords"
                             +" from QuestionCatalog h WHERE 1=1 "
                             + " [ :osId | and h.osId = :osId ]"
                             + " [ :catalogName | and h.catalogName = :catalogName ]"
