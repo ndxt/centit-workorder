@@ -1,6 +1,7 @@
 package com.centit.workorder.po;
 
 import com.centit.framework.core.po.EntityWithTimestamp;
+import com.centit.search.document.ObjectDocument;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -292,5 +293,16 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 		helpDocVersion.setLastUpdateTime(this.getLastUpdateTime());
 
 		return helpDocVersion;
+	}
+
+	public ObjectDocument generateObjectDocument(){
+		ObjectDocument document = new ObjectDocument();
+        document.setOsId(this.getOsId());
+        document.setOptId(this.getOptId());
+        document.setOptMethod(this.getOptMethod());
+        document.setOptUrl("/os/"+this.getOsId()+"/documents"+this.getDocId());
+        document.setTitle(this.getDocTitle());
+        document.setContent(this.getDocFile());
+        return document;
 	}
 }

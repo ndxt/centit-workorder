@@ -1,16 +1,14 @@
 package com.centit.workorder.dao;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
-import com.centit.framework.hibernate.dao.DatabaseOptUtils;
+import com.centit.workorder.po.HelpDoc;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.centit.workorder.po.HelpDoc;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -34,7 +32,6 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 
 			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
 
-
 			filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
@@ -54,6 +51,8 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 			filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+
+			filterField.put(CodeBook.ORDER_BY_HQL_ID , "select ");
 
 		}
 		return filterField;

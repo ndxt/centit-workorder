@@ -8,8 +8,10 @@ import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.search.document.FileDocument;
+import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.IndexerSearcherFactory;
+import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.ListOpt;
 import com.centit.workorder.dao.HelpDocCommentDao;
 import com.centit.workorder.dao.HelpDocDao;
@@ -19,8 +21,8 @@ import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.service.HelpDocManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +46,7 @@ public class HelpDocManagerImpl
 		extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
 	implements HelpDocManager{
 
-	public static final Log log = LogFactory.getLog(HelpDocManager.class);
+	public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
 	@Resource
 	private HelpDocScoreDao helpDocScoreDao;
@@ -70,32 +74,26 @@ public class HelpDocManagerImpl
 	 */
 	@Override
 	@Transactional
-	public String createHelpDoc(HelpDoc helpDoc) {
+	public void createHelpDoc(HelpDoc helpDoc, String parentDocId) {
 
+        HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
+        if(parentDoc != null){
+            helpDoc.setDocPath(parentDoc.getDocPath().indexOf("/") != -1 ?
+                    parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
+            helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
+        }else{
+            helpDoc.setDocPath("0");
+            helpDoc.setDocLevel(1);
+        }
 		helpDocDao.saveNewObject(helpDoc);
+
 		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
 				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()), FileDocument.class) ;
-//		FileDocument fileDoc = new FileDocument();
-//		fileDoc.setFileId(helpDoc.getDocId());
-//		fileDoc.setOsId(helpDoc.getOsId());
-//		fileDoc.setOptId(helpDoc.getOptId());
-//		fileDoc.setOptMethod(helpDoc.getOptMethod());
-////		fileDoc.setOptTag(helpDoc.getOptTag());
-//		fileDoc.setFileMD5(helpDoc.getFileMd5());
-//		fileDoc.setFileName(helpDoc.getFileName());
-//		fileDoc.setFileSummary(helpDoc.getFileDesc());
-//		fileDoc.setOptUrl(helpDoc.getFileShowPath());
-//		fileDoc.setUserCode(helpDoc.getFileOwner());
-//		fileDoc.setUserCode(helpDoc.getFileUnit());
-//		//获取文件的文本信息
-//		fileDoc.setContent(TikaTextExtractor.extractInputStreamText(
-//				fs.loadFileStream(fileStoreInfo.getFileMd5(),fileStoreInfo.getFileSize())) );
-////		fileDoc.setCreateTime(helpDoc.get() );
-//		indexer.saveNewDocument(fileDoc);
-//		fileStoreInfo.setIndexState("I");
+						SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class) ;
 
-		return helpDoc.getDocId();
+        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
+		indexer.saveNewDocument(objectDocument);
+
 	}
 
 	@Override
@@ -110,39 +108,52 @@ public class HelpDocManagerImpl
 	@Override
 	@Transactional
 	public void deleteHelpDoc(String docId) {
+	    HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		helpDocDao.deleteObjectById(docId);
 
 		helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", docId);//删除所有历史版本
 		helpDocCommentDao.deleteObjectsAsTabulation("docId", docId);//删除评论
 		helpDocScoreDao.deleteObjectsAsTabulation("docId", docId);//删除评分
+
+        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(
+                        SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class);
+        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
+        indexer.deleteDocument(objectDocument);
 	}
 
 	@Override
 	@Transactional
-	public String comment(String docId, HelpDocComment helpDocComment) {
+	public void comment(String docId, HelpDocComment helpDocComment) {
 
 		helpDocComment.setDocId(docId);
 		helpDocCommentDao.saveNewObject(helpDocComment);
-		return helpDocComment.getCommentId();
 	}
 
 	@Override
 	@Transactional
-	public String score(String docId, HelpDocScore helpDocScore) {
+	public void score(String docId, HelpDocScore helpDocScore) {
 
 		helpDocScore.setDocId(docId);
-		return helpDocScoreDao.saveNewObject(helpDocScore);
+		helpDocScoreDao.saveNewObject(helpDocScore);
 	}
 
 	@Override
 	@Transactional
-	public void editContent(String docId, String content) {
+	public void editContent(String docId, String content, String userCode) {
 		HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		//保存旧版本
 		int docVersion = DatabaseOptUtils.getNextLongSequence(helpDocVersionDao, "DOC_VERSION").intValue();
 		helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
 		helpDoc.setDocFile(content);
+        helpDoc.setUpdateUser(userCode);
 		helpDocDao.updateObject(helpDoc);
+
+        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+        IndexerSearcherFactory.loadESServerConfigFormProperties(
+                SysParametersUtils.loadProperties()), FileDocument.class);
+        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
+        indexer.updateDocument(objectDocument);
 	}
 
 	@Override
@@ -161,25 +172,6 @@ public class HelpDocManagerImpl
 				}
 			}, "c");
 	}
-
-//	@Override
-//	@Transactional
-//	public JSONArray treeSearch(String osId) {
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("osId", osId);
-//		String queryStatement =
-//				"select h.DOC_ID as id,h.DOC_TITLE as name, h.DOC_PATH as parentId "
-//						+" from f_help_doc h "
-//						+" where 1=1 "
-//						+ " [ :osId | and h.OS_ID = :osId ]";
-//
-//		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,map);
-//		JSONArray dataList = //DictionaryMapUtils.objectsToJSONArray(
-//				DatabaseOptUtils.findObjectsAsJSonBySql(
-//						baseDao,qap.getQuery(), qap.getParams(),null);
-//		return dataList;
-//
-//	}
 
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
@@ -231,5 +223,26 @@ public class HelpDocManagerImpl
 		}
 		return obj;
 	}
+
+    @Override
+    @Transactional
+	public List<Map<String, Object>> fullTextSearch(String keyWords, PageDesc pageDesc){
+
+        List<HelpDoc> helpDocs = new ArrayList<>();
+        Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(
+                        SysParametersUtils.loadProperties()), FileDocument.class) ;
+
+        List<Map<String, Object>> list = searcher.search(keyWords,pageDesc.getPageNo(),pageDesc.getPageSize());
+        for(int i = 0; i < list.size(); i++){
+            Map<String, Object> map = list.get(i);
+            Map<String, Object> queryMap = new HashMap<>();
+            queryMap.put("osId", map.get("osId"));
+            queryMap.put("title", map.get("title"));
+            HelpDoc helpDoc = helpDocDao.getObjectByProperties(queryMap);
+            helpDocs.add(helpDoc);
+        }
+        return list;
+    }
 }
 
