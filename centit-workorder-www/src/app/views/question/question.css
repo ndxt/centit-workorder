@@ -44,3 +44,6 @@
   transform: skewX(-45deg);
 }
 
+.doc-content{
+  word-break: break-all;
+}

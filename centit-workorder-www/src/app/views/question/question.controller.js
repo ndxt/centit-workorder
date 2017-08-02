@@ -2,25 +2,26 @@
   'use strict'
 
   angular.module('workorder')
-    .controller('QuestionController', QuestionController)
+    .controller('QuestionController', QuestionController);
 
   /** @ngInject */
   function QuestionController($stateParams,$state, QuestionAPI) {
-    let vm = this
+    let vm = this;
 
     vm.view = view;
     vm.edit = edit;
     vm.del = del;
 
-    activate()
+    activate();
 
     function activate() {
-      queryQuestions($stateParams)
+      queryQuestions(Object.assign({},$stateParams))
     }
 
     ////////////////////////////
 
     function queryQuestions(params) {
+      delete params.questionId;
       return QuestionAPI.query(params)
         .$promise
         .then(res => {
@@ -30,11 +31,11 @@
     }
 
     function view(row) {
-      $state.go("root.question.view",{ questionId: row.questionId });
+      $state.go("root.question.view",Object.assign($stateParams,{ questionId: row.questionId }));
 
     }
     function edit(row) {
-      $state.go("root.question.edit",{ questionId: row.questionId });
+      $state.go("root.question.edit",Object.assign($stateParams,{ questionId: row.questionId }));
 
     }
     function del(row) {

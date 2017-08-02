@@ -27,7 +27,7 @@
     function activate() {
       // 如果没有制定类型，查找所有类型供选择
       if (!catalog) {
-        queryCatalogs()
+        queryCatalogs(Object.assign({},$stateParams));
       }
     }
 
@@ -60,8 +60,9 @@
      * 查询分类列表
      * @returns {*|Promise.<TResult>}
      */
-    function queryCatalogs() {
-      return CatalogAPI.query($stateParams)
+    function queryCatalogs(params) {
+      delete params.catalogId;
+      return CatalogAPI.query(params)
         .$promise
         .then(res => vm.catalogs = res)
     }

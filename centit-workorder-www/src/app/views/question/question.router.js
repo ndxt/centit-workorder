@@ -27,11 +27,30 @@
         }
       },
 
+      // 我的工单-编辑
+      {
+        state: 'root.question.edit',
+        config: {
+          url: '/:questionId/edit',
+          views: {
+            'main@': {
+              templateUrl: 'app/views/question/question-edit.html',
+              controller: 'QuestionEditController',
+              controllerAs: 'vm'
+            }
+          },
+          data: {
+            title: '我的工单',
+            bodyClass: 'question-edit'
+          }
+        }
+      },
+
       // 我的工单-详情
       {
         state: 'root.question.view',
         config: {
-          url: '/:questionId',
+          url: '/:questionId/view',
           views: {
             'main@': {
               templateUrl: 'app/views/question/question-view.html',

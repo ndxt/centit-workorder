@@ -31,7 +31,7 @@
       {
         state: 'root.document.view',
         config: {
-          url: '/:documentId',
+          url: '/:docId',
           views: {
             'main@': {
               templateUrl: 'app/views/document/document-view.html',
