@@ -60,6 +60,7 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 					"select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState,h.userName "
 							+" from QuestionInfo h WHERE 1=1 "
 							+ " [ :userCode | and h.userCode = :userCode ]"
+							+ " [ :osId | and h.osId = :osId ]"
 							+ " [ :currentOperator | and h.currentOperator = :currentOperator ]"
 							+ " [ :questionState | and h.questionState = :questionState ]"
 							+ " [ :editState | and h.editState = :editState ]"

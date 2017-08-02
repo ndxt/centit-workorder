@@ -96,6 +96,7 @@ public class QuestionInfoManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public Serializable saveQuestionRound(QuestionRound questionRound) {
 		questionRound.setOrA("Q");
+		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		Serializable pk = questionRoundDao.saveNewObject(questionRound);
 		return pk;
