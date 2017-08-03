@@ -26,7 +26,7 @@
     })
 
     .constant('config', {
-      contextPath: '/api'
+      contextPath: '/workorder'
     })
 
     .constant('Constant', {

@@ -12,6 +12,7 @@
     os
   ) {
     const vm = this
+    const ErrorMessage = '后台请求时发生错误。'
 
     vm.info = angular.extend({}, catalog, {
       osId: os.osId
@@ -31,6 +32,7 @@
       }, info)
         .$promise
         .then(res => $uibModalInstance.close(res))
+        .catch(() => vm.error = ErrorMessage)
     }
 
     /**
@@ -39,13 +41,13 @@
      * @returns {*|Promise.<TResult>}
      */
     function modifyQuestion(info) {
-
-      console.log(info)
-
       return CatalogAPI.update({
         osId: os.osId,
         catalogId: info.catalogId
       }, info)
+        .$promise
+        .then(res => $uibModalInstance.close(res))
+        .catch(() => vm.error = ErrorMessage)
     }
   }
 })();

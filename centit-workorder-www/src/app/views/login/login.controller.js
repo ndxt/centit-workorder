@@ -22,7 +22,6 @@
     function activate() {
       Authentication.get()
         .then(user => vm.user = user ? angular.extend({}, DefaultUser, {userType: user.userType, osId: user.osId}) : DefaultUser)
-        .then(() => Authentication.clear())
 
       queryOs()
     }

@@ -5,5 +5,5 @@
     'ngResource',
     'centit.filter'
   ])
-    .constant('ApiContextPath', '/api')
+    .constant('ApiContextPath', '/workorder')
 })()

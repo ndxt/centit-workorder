@@ -5,7 +5,7 @@
     .factory('Authentication', Authentication)
 
   /** @ngInject */
-  function Authentication($q, $cookies, ErrorMessage, Constant) {
+  function Authentication($q, localStorageService, ErrorMessage, Constant) {
     const name = 'Workorder_User'
     let _user_
 
@@ -26,7 +26,7 @@
       if (!user) return clear()
 
       _user_ = user
-      $cookies.putObject(name, user)
+      localStorageService.set(name, user)
       return $q.resolve(_user_)
     }
 
@@ -35,7 +35,7 @@
      */
     function clear() {
       _user_ = null
-      $cookies.remove(name)
+      localStorageService.remove(name)
       return $q.resolve(_user_)
     }
 
@@ -44,7 +44,7 @@
      */
     function get() {
       if (!_user_) {
-        _user_ = $cookies.getObject(name)
+        _user_ = localStorageService.get(name)
       }
       return $q.resolve(_user_)
     }

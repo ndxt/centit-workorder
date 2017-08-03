@@ -5,6 +5,9 @@
   </h3>
 </div>
 <div class="modal-body" id="modal-body">
+
+  <div uib-alert class="alert-danger" ng-if="vm.error" close="vm.error = null">错误：{{vm.error}}</div>
+
   <form>
     <div class="form-group">
       <label for="input_modal_catalog_catalogName">名称</label>

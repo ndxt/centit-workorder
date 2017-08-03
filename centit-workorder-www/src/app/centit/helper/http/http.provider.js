@@ -33,6 +33,7 @@
         addInterceptor('HttpCsrfInterceptor')
       }
 
+      addInterceptor('HttpAjaxInterceptor')
       addInterceptor('HttpResponseInterceptor')
       addInterceptor('HttpResponseErrorInterceptor')
     }
