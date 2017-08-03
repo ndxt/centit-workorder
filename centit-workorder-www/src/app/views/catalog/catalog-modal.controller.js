@@ -39,8 +39,12 @@
      * @returns {*|Promise.<TResult>}
      */
     function modifyQuestion(info) {
+
+      console.log(info)
+
       return CatalogAPI.update({
-        osId: os.osId
+        osId: os.osId,
+        catalogId: info.catalogId
       }, info)
     }
   }

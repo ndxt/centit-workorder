@@ -9,7 +9,14 @@
 
     const baseUrl = `${config.contextPath}/service/os/:osId/catalogs/:catalogId`
 
-    return $resource(baseUrl, null, {})
+    const update = {
+      method: 'PUT'
+    }
+
+    return $resource(baseUrl, null, {
+      update
+    })
+
   }
 })();
 

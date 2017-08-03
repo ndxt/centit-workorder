@@ -1,5 +1,8 @@
 <div class="modal-header">
-  <h3 class="modal-title" id="modal-title">新增&nbsp;类型</h3>
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="!vm.info.catalogId">新增&nbsp;类型</span>
+    <span ng-if="vm.info.catalogId">编辑&nbsp;类型</span>
+  </h3>
 </div>
 <div class="modal-body" id="modal-body">
   <form>
