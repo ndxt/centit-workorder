@@ -5,7 +5,7 @@
     .factory('Authentication', Authentication)
 
   /** @ngInject */
-  function Authentication($q, $cookies, Error, Constant) {
+  function Authentication($q, $cookies, ErrorMessage, Constant) {
     const name = 'Workorder_User'
     let _user_
 
@@ -71,7 +71,7 @@
       return get()
         .then(user => {
           if (!user) {
-            return $q.reject(Error.ErrorNotLogin)
+            return $q.reject(ErrorMessage.ErrorNotLogin)
           }
 
           return user
@@ -86,9 +86,9 @@
       return hasLogin()
         .then(user => {
           if (isSuper && user.userType !== Constant.UserTypeSuperAdmin) {
-            return $q.reject(Error.ErrorNotAllow)
+            return $q.reject(ErrorMessage.ErrorNotAllow)
           } else if (user.userType !== Constant.UserTypeAdmin) {
-            return $q.reject(Error.ErrorNotAllow)
+            return $q.reject(ErrorMessage.ErrorNotAllow)
           }
 
           return user

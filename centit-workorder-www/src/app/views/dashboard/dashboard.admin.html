@@ -1,7 +1,13 @@
 <div class="row">
   <div class="col-xs-12">
-    <h3 class="glyphicon glyphicon-plus text-primary" style="cursor: pointer;"
-        uib-tooltip="新建类型" tooltip-placement="right"></h3>
+    <i class="glyphicon glyphicon-plus text-primary"
+       style="cursor: pointer; margin:0 0 10px; font-size: 24px;"
+       uib-tooltip="新建类型" tooltip-placement="right"
+       wo-modal-catalog data-os="vm.osId"></i>
+
+    <a href="javascript: void(0);"
+       class="pull-right text-info"
+       style="vertical-align: text-bottom; font-size: 12px; line-height: 32px;">批量操作</a>
   </div>
 </div>
 
@@ -10,10 +16,14 @@
        ng-repeat="catalog in vm.catalogs">
     <div class="panel panel-default">
       <div class="panel-body" style="line-height: 30px; border-left: 16px solid #09c;">
-        <i class="glyphicon glyphicon-home" style="color: #09C;"></i>
-        {{ catalog.catalogName }}
-        <a class="btn btn-default btn-sm pull-right"
-           ui-sref=".view({ catalogId: catalog.catalogId })">提问</a>
+        <i class="glyphicon glyphicon-home" style="color: #09C; font-size: 20px; vertical-align: text-bottom; margin-right: 6px;"></i>
+        <span>{{ catalog.catalogName }}</span>
+        <i class="glyphicon glyphicon-trash pull-right text-danger"
+           style="font-size: 18px; margin: 4px; cursor: pointer"
+           uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>
+        <i class="glyphicon glyphicon-pencil pull-right text-success"
+           style="font-size: 18px; margin: 4px; cursor: pointer"
+           uib-tooltip="编辑" ng-click="vm.edit(catalog)"></i>
       </div>
     </div>
   </div>

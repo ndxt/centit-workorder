@@ -42,8 +42,7 @@
       }
       //查询文档的所有链接标签
       function queryDocLinks(){
-       return DocAPI.query(Object.assign({
-         }, $stateParams))
+       return DocAPI.levelSearch(Object.assign($stateParams))
          .$promise
          .then(res => vm.docLinks = res);
       }

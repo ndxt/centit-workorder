@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
@@ -8,8 +8,6 @@
   function RoundAPI($resource, config) {
     const baseUrl = `${config.contextPath}/questions/:questionId/round`
 
-    return $resource(`${baseUrl}/:roundId`, null, {
-
-    })
+    return $resource(`${baseUrl}/:roundId`, null, {})
   }
 })();

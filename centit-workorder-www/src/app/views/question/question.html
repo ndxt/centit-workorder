@@ -63,8 +63,9 @@
     <tbody>
     <tr ng-repeat="row in vm.questions">
       <td>
-        <span ng-if="row.questionState=='N'" class="label label-warning" style="padding: 4px 8px; font-size: 14px;">未回复</span>
-        <span ng-if="row.questionState=='C'" class="label label-info" style="padding: 4px 8px; font-size: 14px;">已关闭</span>
+        <span ng-if="row.questionState=='B'" class="label label-info" style="padding-bottom: 0.2em">未回复</span>
+        <span ng-if="row.questionState=='N'" class="label label-info" style="padding-bottom: 0.2em">处理中</span>
+        <span ng-if="row.questionState=='C'" class="label label-info"  style="padding-bottom: 0.2em">已关闭</span>
         <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a>
       </td>
       <td class="text-center">
@@ -72,8 +73,8 @@
       </td>
       <td class="text-center">
         <button type="button" class="btn btn-info" ng-click="vm.view(row)">查看</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.edit(row)">编辑</button>
-        <button type="button" class="btn btn-danger" ng-click="vm.del(row)">删除</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.edit(row)" ng-if="row.questionState=='B'">编辑</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='C'">删除</button>
       </td>
     </tr>
     </tbody>

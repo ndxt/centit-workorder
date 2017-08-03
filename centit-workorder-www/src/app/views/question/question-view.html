@@ -15,11 +15,11 @@
           <h4>
             <small>
               <i>{{vm.question.createTime}}</i> &nbsp;
-              <span class="text-success">{{vm.question.currentOperator}}</span>&nbsp; 提问
+              <span class="text-success">{{vm.question.userName}}</span>&nbsp; 提问：
             </small>
           </h4>
           <h3>{{vm.question.questionTitle}}</h3>
-          <p style="text-indent: 24px;color:#a9a7a7">
+          <p style="text-indent: 24px;color:#827f7f">
             {{vm.question.questionContent}}
           </p>
         </li>
@@ -28,7 +28,8 @@
           <h4>
             <small>
               <i>{{round.createTime}}</i> &nbsp;
-              <span class="text-info">管理员</span>&nbsp; 回复
+              <span class="text-info">管理员
+                <span ng-if="round.showUser=='T'">（{{round.userName}}）</span></span>&nbsp; 回复：
             </small>
           </h4>
           <p style="text-indent: 24px;">
@@ -41,13 +42,13 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-6" ng-if="vm.question.questionState=='N'">
     <button type="button" class="btn btn-success btn-lg btn-block">
       满意，评价完结工单
     </button>
   </div>
-  <div class="col-sm-6">
-    <button type="button" class="btn btn-primary btn-lg btn-block" centit-add-question question="vm.question">
+  <div class="col-sm-6" style="float: right;">
+    <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="vm.askOthers()">
       继续提问
     </button>
   </div>

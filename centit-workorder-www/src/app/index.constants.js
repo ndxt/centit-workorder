@@ -20,7 +20,7 @@
   angular
     .module('workorder')
 
-    .constant('Error', {
+    .constant('ErrorMessage', {
       ErrorNotLogin,
       ErrorNotAllow
     })

@@ -7,6 +7,7 @@ import com.centit.framework.ip.service.IntegrationEnvironment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,13 +34,25 @@ public class OsController extends BaseController {
 
     /**
      * 列出系统所有os信息
-     * @param response
+     * @param response response
      * @throws Exception
      */
     @RequestMapping(method = {RequestMethod.GET})
     public void getOsIdList(HttpServletResponse response) throws Exception {
         List<OsInfo> list = integrationEnvironment.listOsInfos();
         JsonResultUtils.writeSingleDataJson(list, response);
+    }
+
+    /**
+     * 列出系统所有os信息
+     * @param osId osId
+     * @param response response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/{osId}", method = {RequestMethod.GET})
+    public void getOs(@PathVariable String osId, HttpServletResponse response) throws Exception {
+        OsInfo os = integrationEnvironment.getOsInfo(osId);
+        JsonResultUtils.writeSingleDataJson(os, response);
     }
 
 }

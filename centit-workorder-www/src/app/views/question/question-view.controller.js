@@ -5,14 +5,15 @@
     .controller('QuestionViewController', QuestionViewController)
 
   /** @ngInject */
-  function QuestionViewController($stateParams, QuestionAPI,RoundAPI) {
-    let vm = this
+  function QuestionViewController($stateParams, $state,QuestionAPI,RoundAPI) {
+    let vm = this;
+    vm.askOthers = askOthers;
 
     activate()
 
     function activate() {
       getQuestion();
-      getRound();
+      getRound(Object.assign({},$stateParams));
     }
 
     //////////////////////////
@@ -20,12 +21,16 @@
     function getQuestion() {
       return QuestionAPI.get($stateParams)
         .$promise
-        .then(res => vm.question = res.questionInfo)
+        .then(res => vm.question = res)
     }
-    function getRound() {
-      return RoundAPI.get($stateParams)
+    function getRound(params) {
+      delete params.roundId;
+      return RoundAPI.query(params)
         .$promise
-        .then(res => vm.rounds)
+        .then(res => vm.rounds= res)
+    }
+    function askOthers() {
+      $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
     }
   }
 })();
