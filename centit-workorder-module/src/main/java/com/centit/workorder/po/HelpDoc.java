@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * create by scaffold 2017-05-08 
@@ -90,6 +91,12 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	 */
 	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
+
+    /**
+     * 评价
+     */
+	@OneToMany(mappedBy="docId",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<HelpDocComment> helpDocComments;
 	
 	// Constructors
 	/** default constructor */
@@ -211,7 +218,15 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	@Override
+    public List<HelpDocComment> getHelpDocComments() {
+        return helpDocComments;
+    }
+
+    public void setHelpDocComments(List<HelpDocComment> helpDocComments) {
+        this.helpDocComments = helpDocComments;
+    }
+
+    @Override
 	public Date getLastModifyDate() {
 		return this.lastUpdateTime;
 	}

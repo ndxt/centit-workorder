@@ -28,7 +28,7 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 	@Override
 	public Map<String, String> getFilterField() {
 		if( filterField == null){
-			filterField = new HashMap<String, String>();
+			filterField = new HashMap<>();
 
 			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
 
@@ -52,7 +52,7 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 
 			filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
 
-//			filterField.put(CodeBook.ORDER_BY_HQL_ID , "select ");
+			filterField.put(CodeBook.ORDER_BY_HQL_ID , "size(helpDocComments)");
 
 		}
 		return filterField;
