@@ -29,7 +29,7 @@
             return osResolve(os)
           },
           catalog: function() {
-            return catalogResolve(catalog)
+            return catalogResolve(os, catalog)
           }
         }
       }).result
@@ -48,9 +48,12 @@
 
     /**
      * 获取系统对象
-     * @param os
+     * @param osId
      */
-    function osResolve(os) {
+    function osResolve(osId) {
+
+      return OsAPI.get({ osId })
+
       if (!os) {
         return $q.reject('os不能为空')
       }
@@ -61,7 +64,7 @@
         }).$promise
           .then(res => {
             if (!res) {
-              throw Error('os不能为空')
+              return $q.reject('os不能为空')
             }
             return res
           })
@@ -70,14 +73,22 @@
       return $q.resolve(os)
     }
 
-    function catalogResolve(catalog) {
-      if (angular.isString(catalog)) {
-        return CatalogAPI.get({
-          catalogId: catalog
-        }).$promise
+    /**
+     * 获取类型对象
+     * @param osId
+     * @param catalogId
+     * @returns {*}
+     */
+    function catalogResolve(osId, catalogId) {
+
+      if (!catalogId) {
+        return $q.resolve({ osId })
       }
 
-      return $q.resolve(catalog)
+      return CatalogAPI.get({
+        osId,
+        catalogId
+      })
     }
   }
 })()
