@@ -5,28 +5,27 @@
     .controller('LoginController', LoginController)
 
   /**  @ngInject */
-  function LoginController($state, MockLoginAPI, OsAPI, Authentication, Constant) {
+  function LoginController($state, LoginAPI, OsAPI, Authentication, Constant) {
     const vm = this
 
     const DefaultUser = {
-      userName: Constant.UserNameUser,
+      username: Constant.UserNameAdmin,
+      password: '000000',
+      userType: Constant.UserTypeUser,
       osId: 'FILE_SVR'
     }
 
     vm.login = login
 
-
     activate()
 
     function activate() {
-
       Authentication.get()
-        .then(user => vm.user = user || DefaultUser)
+        .then(user => vm.user = user ? angular.extend({}, DefaultUser, {userType: user.userType, osId: user.osId}) : DefaultUser)
         .then(() => Authentication.clear())
 
       queryOs()
     }
-
 
     /**
      * 模拟登录请求
@@ -34,31 +33,40 @@
      * @returns {boolean}
      */
     function login(user) {
-      return MockLoginAPI.login(user)
+      const userType = user.userType
+      const osId = user.osId
+
+      return LoginAPI.login(user).$promise
 
         // 保存用户信息
-        .then(user => Authentication.save(user))
+        .then(user => Authentication.save(angular.extend(user.userInfo, {userType, osId})))
 
         // 跳转页面
-        .then(function(user) {
-          const userType = user.userType
+        .then(afterLogin)
+    }
 
-          switch(userType) {
-            // 管理员
-            case Constant.UserTypeAdmin:
-              $state.go(Constant.RouteAdmin, user)
-              break
+    /**
+     * 登录完后的跳转
+     * @param user
+     */
+    function afterLogin(user) {
+      const userType = user.userType
 
-            // 普通用户
-            case Constant.UserTypeUser:
-              $state.go(Constant.RouteUser, user)
-              break
+      switch(userType) {
+        // 管理员
+        case Constant.UserTypeAdmin:
+          $state.go(Constant.RouteAdmin, user)
+          break
 
-            // 默认进普通用户页面
-            default:
-              $state.go(Constant.RouteUser, user)
-          }
-        })
+        // 普通用户
+        case Constant.UserTypeUser:
+          $state.go(Constant.RouteUser, user)
+          break
+
+        // 默认进普通用户页面
+        default:
+          $state.go(Constant.RouteUser, user)
+      }
     }
 
     /**

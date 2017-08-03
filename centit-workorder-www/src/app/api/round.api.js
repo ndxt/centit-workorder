@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function RoundAPI($resource, config) {
-    const baseUrl = `${config.contextPath}/questions/:questionId/round`
+    const baseUrl = `${config.contextPath}/service/questions/:questionId/round`
 
     return $resource(`${baseUrl}/:roundId`, null, {})
   }

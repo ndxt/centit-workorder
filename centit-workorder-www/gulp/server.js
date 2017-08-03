@@ -41,7 +41,7 @@ function browserSyncInit(baseDir, browser) {
     target: LocalHost,
     changeOrigin: true,
     pathRewrite: {
-      '^/api': '/service'
+      '^/api': '/'
     }
   })
 

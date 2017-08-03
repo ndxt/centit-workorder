@@ -5,5 +5,5 @@
     'ngResource',
     'centit.filter'
   ])
-    .constant('ApiContextPath', '/piis')
+    .constant('ApiContextPath', '/api')
 })()

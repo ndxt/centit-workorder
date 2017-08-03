@@ -6,7 +6,7 @@
     .factory('ajaxErrorHelper', ajaxErrorHelper)
 
   /** @ngInject */
-  function ajaxErrorHelper () {
+  function ajaxErrorHelper ($log) {
 
     let handlingAjaxError = false
 
@@ -23,7 +23,7 @@
 
       if (!handlingAjaxError && !isSilent) {
         handlingAjaxError = true
-        $toastr.error(`链接：${url} 发生错误，状态码：${status}，描述：${statusText}`)
+        $log.error(`链接：${url} 发生错误，状态码：${status}，描述：${statusText}`)
         handlingAjaxError = false
       }
     }

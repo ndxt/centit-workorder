@@ -7,7 +7,7 @@
   /** @ngInject */
   function OsAPI($resource, config) {
 
-    const baseUrl = `${config.contextPath}/os/:osId`
+    const baseUrl = `${config.contextPath}/service/os/:osId`
 
     return $resource(baseUrl, null, {})
   }
