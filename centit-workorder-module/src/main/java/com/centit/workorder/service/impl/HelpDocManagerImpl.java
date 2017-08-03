@@ -31,7 +31,6 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +88,7 @@ public class HelpDocManagerImpl
 
 		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
 				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class) ;
+						SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.saveNewDocument(objectDocument);
@@ -234,14 +233,14 @@ public class HelpDocManagerImpl
                         SysParametersUtils.loadProperties()), FileDocument.class) ;
 
         List<Map<String, Object>> list = searcher.search(keyWords,pageDesc.getPageNo(),pageDesc.getPageSize());
-        for(int i = 0; i < list.size(); i++){
-            Map<String, Object> map = list.get(i);
-            Map<String, Object> queryMap = new HashMap<>();
-            queryMap.put("osId", map.get("osId"));
-            queryMap.put("title", map.get("title"));
-            HelpDoc helpDoc = helpDocDao.getObjectByProperties(queryMap);
-            helpDocs.add(helpDoc);
-        }
+//        for(int i = 0; i < list.size(); i++){
+//            Map<String, Object> map = list.get(i);
+//            Map<String, Object> queryMap = new HashMap<>();
+//            queryMap.put("osId", map.get("osId"));
+//            queryMap.put("title", map.get("title"));
+//            HelpDoc helpDoc = helpDocDao.getObjectByProperties(queryMap);
+//            helpDocs.add(helpDoc);
+//        }
         return list;
     }
 }

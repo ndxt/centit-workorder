@@ -46,7 +46,7 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	 * 文档层级 null 
 	 */
 	@Column(name = "DOC_LEVEL")
-	@NotBlank(message = "字段不能为空")
+//	@NotBlank(message = "字段不能为空")
 	private int  docLevel;
 	/**
 	 * 文档路径 null 
@@ -300,7 +300,7 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
         document.setOsId(this.getOsId());
         document.setOptId(this.getOptId());
         document.setOptMethod(this.getOptMethod());
-        document.setOptUrl("/os/"+this.getOsId()+"/documents"+this.getDocId());
+        document.setOptUrl("/os/"+this.getOsId()+"/documents/"+this.getDocId());
         document.setTitle(this.getDocTitle());
         document.setContent(this.getDocFile());
         return document;

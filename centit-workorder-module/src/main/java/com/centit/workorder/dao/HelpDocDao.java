@@ -52,7 +52,7 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 
 			filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
 
-			filterField.put(CodeBook.ORDER_BY_HQL_ID , "select ");
+//			filterField.put(CodeBook.ORDER_BY_HQL_ID , "select ");
 
 		}
 		return filterField;
