@@ -3,7 +3,7 @@ package com.centit.workorder.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.common.JsonResultUtils;
-import com.centit.framework.core.common.ResponseData;
+import com.centit.framework.core.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.model.adapter.PlatformEnvironment;
@@ -17,13 +17,15 @@ import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +81,7 @@ public class QuestionInfoController  extends BaseController {
         map.put("begin",begin);
         map.put("end",end);
         JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
@@ -231,7 +233,7 @@ public class QuestionInfoController  extends BaseController {
         map.put("begin",begin);
         map.put("end",end);
         JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
@@ -256,7 +258,7 @@ public class QuestionInfoController  extends BaseController {
         map.put("begin",begin);
         map.put("end",end);
         JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
@@ -272,7 +274,7 @@ public class QuestionInfoController  extends BaseController {
                                      @PathVariable String operatorCode,
                                      PageDesc pageDesc, HttpServletResponse response) {
         List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfoWithOperator(osId,operatorCode, pageDesc);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);

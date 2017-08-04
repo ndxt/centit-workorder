@@ -3,7 +3,7 @@ package com.centit.workorder.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.common.JsonResultUtils;
-import com.centit.framework.core.common.ResponseData;
+import com.centit.framework.core.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.workorder.po.HelpDoc;
@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -58,7 +59,7 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(method = {RequestMethod.POST})
-    public void createHelpDoc(@Valid HelpDoc helpDoc, String parentDocId,
+    public void createHelpDoc(@RequestBody HelpDoc helpDoc, String parentDocId,
                               HttpServletRequest request, HttpServletResponse response) {
 
         helpDoc.setUpdateUser(getLoginUserCode(request));
@@ -111,7 +112,7 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value="/levelSearch", method = RequestMethod.GET)
     public void levelSearch(@PathVariable String osId,HttpServletResponse response) {
         JSONArray listObjects = helpDocMag.searchHelpdocByLevel(osId);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
@@ -122,12 +123,12 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public void typeSearch(@PathVariable("osId") String osId,  String catalogId,
                            PageDesc pageDesc, HttpServletResponse response) {
-        //分页， 排序 按照 评分次数高低  或者 评价次数
+        //分页， 排序 按照 评价次数
         Map<String, Object> map = new HashMap<>();
         map.put("catalogId", catalogId);
         map.put("osId", osId);
         List<HelpDoc> listObjects = helpDocMag.searchHelpdocByType(map, pageDesc);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
 
@@ -175,7 +176,7 @@ public class HelpDocController  extends BaseController {
         //返回一个评价列表
        JSONArray listObjects = helpDocMag.searchComments(docId);
 
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }

@@ -2,7 +2,7 @@ package com.centit.workorder.controller;
 
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.common.JsonResultUtils;
-import com.centit.framework.core.common.ResponseData;
+import com.centit.framework.core.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.workorder.po.QuestionInfo;
@@ -57,7 +57,7 @@ public class QuestionRoundController extends BaseController {
     public void getQuestionInfoShowUser(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData("questionInfo", questionInfo);
         resData.addResponseData("questionRoundList",questionRoundList );
         JsonResultUtils.writeResponseDataAsJson(resData, response);
@@ -72,7 +72,7 @@ public class QuestionRoundController extends BaseController {
     public void getQuestionRound(@PathVariable String questionId, HttpServletResponse response) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        ResponseData resData = new ResponseData();
+        ResponseMapData resData = new ResponseMapData();
         resData.addResponseData("questionInfo", questionInfo);
         resData.addResponseData("questionRoundList",questionRoundList );
         JsonResultUtils.writeResponseDataAsJson(resData, response);
