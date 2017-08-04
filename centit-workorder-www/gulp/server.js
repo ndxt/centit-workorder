@@ -37,11 +37,12 @@ function browserSyncInit(baseDir, browser) {
    */
   // server.middleware = proxyMiddleware('/users', {target: 'http://jsonplaceholder.typicode.com', changeOrigin: true});
 
-  server.middleware = proxyMiddleware('/api', {
+  server.middleware = proxyMiddleware(['/api', '/workorder'], {
     target: LocalHost,
     changeOrigin: true,
     pathRewrite: {
-      '^/api': '/service'
+      '^/api': '/',
+      '^/workorder': '/'
     }
   })
 

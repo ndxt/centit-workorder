@@ -9,8 +9,16 @@
 
     return $resource('', null, {
       login: login(),
-      logout: logout()
+      logout: logout(),
+      hasLogin: hasLogin()
     })
+
+    function hasLogin() {
+      return {
+        method: 'GET',
+        url: ApiContextPath + '/system/mainframe/hasLogin'
+      }
+    }
 
     /**
      * 登录

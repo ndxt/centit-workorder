@@ -13,7 +13,7 @@
   flex: auto;
   text-align: center;
   position: relative;
-
+  cursor: pointer;
   background: transparent;
 }
 

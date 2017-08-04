@@ -24,14 +24,11 @@
       vm.docLinks = [];
       vm.html = '';
 
-      vm.setHTML = function(html){
-        vm.html = html;
+      vm.setHTML = function(doc,showlevels){
+        vm.html = doc.docFile;
+        if(showlevels)
+        doc[showlevels] = !doc[showlevels];
 
-      }
-
-      vm.submitRate = function(){
-        var score = $('#function-demo').raty('score');
-        alert(score);
       }
 
       activate();
@@ -42,9 +39,7 @@
       }
       //查询文档的所有链接标签
       function queryDocLinks(){
-       return DocAPI.levelSearch(Object.assign($stateParams))
-         .$promise
-         .then(res => vm.docLinks = res);
+       return vm.docLinks = DocAPI.levelSearch($stateParams)
       }
 
   }

@@ -106,7 +106,7 @@ public class QuestionCatalogController  extends BaseController {
     } 
     
     /**
-     * 新增或保存 系统问题类别 
+     * 保存系统问题类别
         修改问题类别
      * @param response    {@link HttpServletResponse}
      */

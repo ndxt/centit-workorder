@@ -4,10 +4,19 @@
   angular
     .module('workorder')
     .config(config)
-    .config(mockConfig)
+    // .config(mockConfig)
     .config(toastConfig)
     .config(routerHelperConfig)
+    .config(localStorageCofnig)
 
+  /** @ngInject */
+  function localStorageCofnig(localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('workorder')
+      .setDefaultToCookie(false)
+  }
+
+  /** @ngInject */
   function toastConfig(toastrConfig) {
     Object.assign(toastrConfig, {
       maxOpened: 1,

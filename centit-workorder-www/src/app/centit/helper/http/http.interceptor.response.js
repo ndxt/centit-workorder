@@ -19,6 +19,8 @@
         if (code === 0) {
           let data = result.data
 
+          if (!data) return {}
+
           if (angular.isUndefined(data.objList)) {
             response.data = data
           }
