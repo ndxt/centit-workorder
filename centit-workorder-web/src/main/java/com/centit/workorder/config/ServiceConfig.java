@@ -1,9 +1,9 @@
 package com.centit.workorder.config;
 
-import com.centit.framework.config.WebBeanConfig;
 import com.centit.framework.hibernate.config.DataSourceConfig;
 import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
 import com.centit.framework.listener.InitialWebRuntimeEnvironment;
+import com.centit.framework.staticsystem.config.SpringSecurityDaoConfig;
 import org.springframework.context.annotation.*;
 
 /**
@@ -11,7 +11,9 @@ import org.springframework.context.annotation.*;
  */
 @ComponentScan(basePackages = "com.centit",
         excludeFilters = @ComponentScan.Filter(value = org.springframework.stereotype.Controller.class))
-@Import({IPAppSystemBeanConfig.class, DataSourceConfig.class, WebBeanConfig.class})
+@Import({IPAppSystemBeanConfig.class,
+        DataSourceConfig.class,
+        SpringSecurityDaoConfig.class})
 @Configuration
 public class ServiceConfig {
 
