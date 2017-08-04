@@ -5,7 +5,7 @@
     .controller('QuestionEditController', QuestionEditController)
 
   /** @ngInject */
-  function QuestionEditController($stateParams, QuestionAPI,CatalogAPI) {
+  function QuestionEditController($stateParams,QuestionAPI,CatalogAPI) {
     let vm = this;
     vm.cancel = cancel;
     vm.ok = $stateParams.questionId ? modifyQuestion : addQuestion;
@@ -35,8 +35,9 @@
     };
 
     function cancel(){
-
+      window.history.back(-1);
     };
+
 
     /**
      * 新增问题

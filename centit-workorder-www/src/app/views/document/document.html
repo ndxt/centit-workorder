@@ -3,34 +3,36 @@
 
 
 <div class="row">
-<div class="side-nav col-lg-3 col-md-3 ">
+<div class="side-nav col-lg-4 col-md-4 ">
   <h3>全部文档</h3>
   <ul>
     <!--通过判断是否有children来渲染文档树-->
     <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1">
-        <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one.docFile)"> {{linkLevel_one.docTitle}} </a>
+        <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one,'showlevel2')"> {{linkLevel_one.docTitle}} </a>
       <!--总觉得这样绑定ng-click的写法不好？-->
-      <ul ng-if="linkLevel_one.c !== undefined">
+      <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2">
         <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2" >
-          <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2.docFile)"> {{linkLevel2.docTitle}} </a>
-          <ul ng-if="linkLevel2.c !== undefined">
+          <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')"> {{linkLevel2.docTitle}} </a>
+          <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3">
             <li ng-repeat="linkLevel3 in linkLevel2.c" class="level level3">
-              <a title={{linkLevel3.docId}} ng-click="vm.html = linkLevel3.docFile"> {{linkLevel3.docTitle}} </a>
+              <a title={{linkLevel3.docId}} ng-click="vm.setHTML(linkLevel3)"> {{linkLevel3.docTitle}} </a>
             </li>
           </ul>
         </li>
       </ul>
     </li>
   </ul>
+
 </div>
-<div  class=" col-lg-7 col-md-7 ">
+<div  class=" col-lg-8 col-md-8 ">
   <div ng-bind-html="vm.html" class="doc-content">
-          <div class="author-reply">
-            <p><i>作者回复</i>您好，感谢您的反馈。ECS服务器可以更换操作系统的。请参考 更换系统盘 https://help.aliyun.com/document_detail/25448.html</p>
-            <p class="feedback-time">2016-11-29 10:24:52</p>
-          </div>
-      <div class="loading" style="display: none;">加载中......</div>
-    </div>
+    <!--<div class="author-reply">-->
+      <!--<p><i>作者回复</i>您好，感谢您的反馈。ECS服务器可以更换操作系统的。请参考 更换系统盘-->
+        <!--https://help.aliyun.com/document_detail/25448.html</p>-->
+      <!--<p class="feedback-time">2016-11-29 10:24:52</p>-->
+    <!--</div>-->
+    <div class="loading" style="display: none;">加载中......</div>
+  </div>
     <!-- 反馈list -->
 
     <!--星级评价-->

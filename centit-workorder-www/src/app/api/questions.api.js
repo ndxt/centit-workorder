@@ -14,9 +14,12 @@
       method: 'GET',
       isArray: true
     }
+    const update = {
+      method: 'PUT'
+    }
 
     return $resource(`${baseUrl}/:questionId`, null, {
-      queryTop
+      queryTop,update
     })
   }
 })();
