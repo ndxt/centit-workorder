@@ -178,6 +178,8 @@ public class QuestionInfoController  extends BaseController {
         }
         QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
         dbQuestionInfo .setCurrentOperator(questionInfo.getCurrentOperator());
+        dbQuestionInfo.setQuestionState("H");
+        dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
         questionInfoMag.mergeObject(dbQuestionInfo);
         JsonResultUtils.writeSingleDataJson(questionId,response);
     }

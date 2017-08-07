@@ -99,6 +99,10 @@ public class QuestionInfoManagerImpl
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
+		QuestionInfo dbQuestionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
+		dbQuestionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+		dbQuestionInfo.setQuestionState("H");
+		questionInfoDao.mergeObject(dbQuestionInfo);
 	}
 
 	@Override
@@ -142,8 +146,10 @@ public class QuestionInfoManagerImpl
 		questionRoundDao.saveNewObject(questionRound);
 		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
 		questionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+		questionInfo.setCompleteTime(DatetimeOpt.currentUtilDate());
 		questionInfo.setEditState("U");
-		questionInfoDao.saveObject(questionInfo);
+		questionInfo.setQuestionState("R");
+		questionInfoDao.mergeObject(questionInfo);
 		return questionRound;
 	}
 
@@ -167,7 +173,7 @@ public class QuestionInfoManagerImpl
 		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
 		questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
 		questionInfo.setCreateTime(DatetimeOpt.currentUtilDate());
-		questionInfo.setQuestionState("N");
+		questionInfo.setQuestionState("U");
 		questionInfo.setEditState("N");
 		questionInfo.setOsId(questionCatalog.getOsId());
 		questionInfoDao.saveNewObject(questionInfo);
