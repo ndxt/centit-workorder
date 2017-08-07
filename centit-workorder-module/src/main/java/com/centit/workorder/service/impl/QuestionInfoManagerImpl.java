@@ -185,6 +185,7 @@ public class QuestionInfoManagerImpl
 		int evaluateScore = Integer.valueOf(score);
 		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
 		questionInfo.setEvaluateScore(evaluateScore);
+		questionInfo.setEvaluateTime(DatetimeOpt.currentUtilDate());
 		questionInfo.setQuestionState("C");
 		questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
 		questionInfoDao.mergeObject(questionInfo);
