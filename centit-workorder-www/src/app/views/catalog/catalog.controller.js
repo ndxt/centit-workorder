@@ -24,9 +24,7 @@
      * @returns {Promise.<TResult>|*}
      */
     function getCatalog() {
-      return CatalogAPI.get($stateParams)
-        .$promise
-        .then(res => vm.catalog = res)
+      return vm.catalog = CatalogAPI.get($stateParams)
     }
 
     /**
@@ -35,13 +33,11 @@
      */
     function queryDocument(params) {
       delete params.DocId;
-      return DocAPI.query(params)
-        .$promise
-        .then(res => vm.documents = res)
+      return vm.documents = DocAPI.query(params)
     }
 
     function askOthers() {
-      $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
+      $state.go('root.question.add',{catalogId:vm.catalog.catalogId})
     }
   }
 })();

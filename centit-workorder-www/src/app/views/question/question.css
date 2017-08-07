@@ -47,3 +47,7 @@
 .doc-content{
   word-break: break-all;
 }
+
+.side-nav a{
+  cursor: pointer;
+}

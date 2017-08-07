@@ -13,6 +13,10 @@
         url: `${config.contextPath}/service/os/:osId/documents/levelSearch`,
         isArray: true,
         method: 'GET'
+      },
+      score:{
+        url:`${config.contextPath}/service/os/:osId/documents/:docId/score`,
+        method:'POST'
       }
     })
   }

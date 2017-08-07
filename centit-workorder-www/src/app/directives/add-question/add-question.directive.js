@@ -6,12 +6,7 @@
     .directive('centitAddQuestion', Directive)
 
   /** @ngInject */
-  function QuestionModal(
-    $stateParams,
-    $uibModal,
-    toastr,
-    CatalogAPI,
-    QuestionAPI
+  function QuestionModal($stateParams,$uibModal,toastr,CatalogAPI,QuestionAPI
   ) {
 
     return {

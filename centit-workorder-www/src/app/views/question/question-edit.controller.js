@@ -1,31 +1,22 @@
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
     .controller('QuestionEditController', QuestionEditController)
 
   /** @ngInject */
-  function QuestionEditController($stateParams,QuestionAPI,CatalogAPI) {
+  function QuestionEditController($stateParams,$state, QuestionAPI, CatalogAPI, question) {
     let vm = this;
     vm.cancel = cancel;
     vm.ok = $stateParams.questionId ? modifyQuestion : addQuestion;
-
+    vm.question = question
     activate();
 
     function activate() {
-      if($stateParams.questionId){
-        getQuestion();
-      }
-      queryCatalogs(Object.assign({},$stateParams));
+      queryCatalogs(Object.assign({}, $stateParams));
     }
 
     //////////////////////////
-
-    function getQuestion() {
-      return QuestionAPI.get($stateParams)
-        .$promise
-        .then(res => vm.question = res)
-    }
 
     function queryCatalogs(params) {
       delete params.catalogId;
@@ -34,7 +25,7 @@
         .then(res => vm.catalogs = res)
     };
 
-    function cancel(){
+    function cancel() {
       window.history.back(-1);
     };
 
@@ -46,6 +37,10 @@
      */
     function addQuestion() {
       return QuestionAPI.save({osId: $stateParams.osId}, vm.question)
+        .$promise
+        .then(function () {
+          $state.go('root.question', $stateParams)
+        })
     }
 
     /**
@@ -58,6 +53,10 @@
         osId: $stateParams.osId,
         questionId: $stateParams.questionId
       }, vm.question)
+        .$promise
+        .then(function () {
+          $state.go('root.question', $stateParams)
+        })
     }
   }
 })();

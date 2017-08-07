@@ -14,12 +14,16 @@
       method: 'GET',
       isArray: true
     }
+    const comment = {
+      url: `${baseUrl}/:questionId/comment?evaluateScore=:evaluateScore`,
+      method: 'PUT'
+    }
     const update = {
       method: 'PUT'
     }
 
     return $resource(`${baseUrl}/:questionId`, null, {
-      queryTop,update
+      queryTop,update,comment
     })
   }
 })();
