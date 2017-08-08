@@ -1,6 +1,9 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <form>
+<div class="modal-header">
+  <h3 class="modal-title">我的工单</h3>
+</div>
+
+
+    <form class="ct-margin-12-auto">
         <div class="col-sm-6">
           <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">2017-1-1 至今</span>
           <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">已回复</span>
@@ -17,17 +20,17 @@
 
         <div class="row">
           <div class="col-sm-12">
-            <table style="width: 100%; margin-top: 10px;">
+            <table>
               <tbody>
-              <tr style="border-bottom: 1px dashed #ccc;">
-                <td style="width: 100px; padding: 4px;">工单时间：</td>
-                <td style="padding: 4px;">
-                    <input type="text" style="width: 240px;" class="form-control input-sm" placeholder="选择工单创建时间">
+              <tr>
+                <td>工单时间：</td>
+                <td>
+                    <input type="text" class="form-control input-sm" placeholder="选择工单创建时间">
                 </td>
               </tr>
-              <tr style="border-bottom: 1px dashed #ccc;">
-                <td style="width: 100px; padding: 6px;">工单状态：</td>
-                <td style="padding: 6px 4px 4px;">
+              <tr>
+                <td>工单状态：</td>
+                <td>
                   <label class="radio-inline">
                     <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> 全部
                   </label>
@@ -47,12 +50,11 @@
           </div>
         </div>
     </form>
-  </div>
-</div>
 
 
-<div class="panel panel-default">
-  <table class="table table-bordered">
+
+<div class="panel">
+  <table class="table table-bordered table-hover">
     <thead>
     <tr>
       <th>标题</th>
@@ -78,14 +80,23 @@
         <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='U' || row.questionState=='C'">删除</button>
       </td>
     </tr>
+    <tr>
+      <td colspan="3" class="no-hover">
+
+        <nav aria-label="Page" class="text-center ct-fr flex">
+          <ul style="margin: 0;"
+              uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+        </nav>
+
+      </td>
+    </tr>
     </tbody>
+
+
+
   </table>
 </div>
 
-<nav aria-label="Page navigation" class="text-center">
-  <ul style="margin: 0;"
-    uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-</nav>
 
 
 

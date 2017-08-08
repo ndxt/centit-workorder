@@ -231,12 +231,44 @@ color: #fff;
 
 
 */
+.table.table-bordered {
+  background: #FFF;
+  font-size: 12px;
+  border-top: 1px solid #E1E6EB;
+  margin-top: 8px;
+  border: 1px solid #E1E6EB;
+}
 
 
 
+.table.table-bordered thead tr th {
+  padding: 8px 8px;
+  font-weight: normal;
+  color: #999;
+  border-bottom: 1px solid #E1E6EB;
+  background-color: #F5F6FA;
+  border: none;
+}
+
+.table.table-bordered tbody tr td {
+  padding: 12px 8px;
+  border-top: 0px;
+  border-bottom: 1px solid #E1E6EB;
+  border: none;
+  vertical-align: middle;
+}
+.table.table-bordered tbody tr {
+  border: 1px solid #E1E6EB;
+}
 
 
+.table-hover tbody tr:hover td {
+  background-color: #F9F9FA;
+}
 
 
+.table-hover tbody tr:hover td.no-hover {
+  background-color: #fff;
+}
 
 

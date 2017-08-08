@@ -76,3 +76,27 @@
 .ct-margin-12-auto {
   margin: 12px auto;
 }
+
+.ct-fl {
+  float: left;
+}
+
+.ct-fr {
+  float: right;
+}
+
+
+.flex {
+  display: flex;
+}
+
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
