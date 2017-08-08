@@ -80,3 +80,163 @@ p.article-date {
 
 
 
+.info-panel {
+  background: #eaedf1;
+  padding: 20px 20px 14px 20px;
+  box-shadow: none;
+  border: none;
+  font-size: 12px;
+}
+
+.info-panel > div.row:first-child {
+  margin-bottom: 4px;
+}
+
+
+.text-explode {
+  color: #999;
+  margin: 0;
+}
+
+
+.message-item {
+  position: relative;
+  padding: 18px;
+}
+
+.user-icon {
+  position: relative;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px #E7F2FA solid;
+  float: left;
+  border-radius: 60px;
+  overflow: hidden;
+}
+
+.item-content {
+  margin-top: 2px;
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  display: flex;
+  color: #999;
+  font-size: 12px;
+}
+
+.item-content p {
+  width: 100%;
+}
+.message-item {
+  position: relative;
+  padding: 18px;
+  border-top: 1px dashed #bcbcbc;
+}
+
+.message-item:last-child {
+  background: #eafbff;
+}
+
+.message-item:first-child {
+  border: none;
+}
+.user-icon.drcloud-icon {
+  line-height: 42px;
+  width: 46px;
+  height: 46px;
+  border-radius: 46px;
+  text-align: center;
+  background: #E7F2FA;
+  color: #3d5c71;
+}
+
+.drcloud-content {
+  border-radius: 4px;
+  margin-left: 16px;
+  border: 1px solid #e5e5e5;
+  padding: 15px 16px;
+  background: #f7f9fa;
+  color: #333;
+}
+
+ .wrap-triangle {
+  position: absolute;
+  left: -12px;
+   top: 14px;
+}
+
+.wrap-triangle:before,
+.wrap-triangle:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '\200B';
+  height: 0;
+  width: 0;
+}
+
+.wrap-triangle:before,
+.wrap-triangle:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '\200B';
+  height: 0;
+  width: 0;
+}
+.wrap-triangle:before {
+  border: 5px solid transparent;
+  border-right-color: #f7f9fa;
+  z-index: 2;
+  left: 2px;
+  top: 1px;
+}
+
+
+.wrap-triangle:after {
+  border: 6px solid transparent;
+  border-right-color: #e5e5e5;
+}
+
+.modal-label {
+  font-weight: normal;
+  font-size: 12px;
+  color: #666;
+}
+
+
+.question-state ul li {
+  height: 24px;
+  line-height: 24px;
+color: #fff;
+}
+
+.question-state ul li:before,
+.question-state ul li:after
+{
+/*  border-left: 4px solid #ffffff;*/
+  background: #cacaca;
+}
+/*
+
+.question-state ul li:first-child {
+  border-left: 4px solid #fff;
+}
+
+.question-state ul li:last-child {
+  border-right: 4px solid #fff;
+}
+
+
+*/
+
+
+
+
+
+
+
+
+
