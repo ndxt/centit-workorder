@@ -4,11 +4,22 @@
 
 
     <form class="ct-margin-12-auto">
-        <div class="col-sm-6">
-          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">2017-1-1 至今</span>
-          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">已回复</span>
+        <div class="col-sm-6 selector-set ct-margin-top-12 ct-padding-left-0">
+
+          <a class="ss-item">
+            <b>时间：</b>
+            <em>2017-1-1 至今</em>
+            <i></i>
+          </a>
+
+          <a class="ss-item">
+            <b>状态：</b>
+            <em>已回复</em>
+            <i></i>
+          </a>
+
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 ct-margin-top-12 ct-padding-right-0">
           <div class="input-group input-group-sm pull-right"
                ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
             <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
@@ -18,9 +29,9 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm-12">
-            <table>
+        <div class="row" >
+          <div class="col-sm-12  ct-margin-top-12">
+            <table class="search-table">
               <tbody>
               <tr>
                 <td>工单时间：</td>
