@@ -524,13 +524,38 @@ ul.help-menu .sub-menu {
 }
 
 
+.operation {
+  padding: 4px 0px;
+  height: 24px;
+  line-height: 14px;
+  position: absolute;
+  top: 14px;
+  right: 20px;
+}
+.wo-content .panel-default .panel-body .operation i {
+  font-size: 16px;
+  margin: 0 4px;
+}
 
 
+.opera-tools {
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+}
 
+.opera-tools i {
+font-size: 14px;
+  height: 24px;
+  line-height: 16px;
+}
+.opera-tools span {
+ position: relative;
+  top:-2px;
+  left: -6px;
+}
 
-
-
-
-
-
+.opera-tools a {
+  height: 24px;
+  line-height: 24px;
+}
 

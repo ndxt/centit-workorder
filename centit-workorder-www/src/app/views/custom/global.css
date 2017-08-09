@@ -99,6 +99,14 @@
   padding: 0 8px;
 }
 
+.ct-padding-24 {
+  padding: 24px;
+}
+
+.ct-padding-12-24 {
+  padding: 12px 24px;
+}
+
 .ct-margin-0-12 {
   margin: 0 12px;
 }
