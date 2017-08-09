@@ -1,19 +1,32 @@
-<div class="row">
+<div class="modal-header ct-no-border">
+  <h3 class="modal-title">系统帮助</h3>
+</div>
+
+
+<div class="modal-viewer-header ct-no-margin ct-border-bottom-0">
+  <span class="modal-viewer-topbar-title">请选择您遇到的问题分类：</span>
+</div>
+<div class="panel panel-default">
+
+  <div class="row ct-no-margin">
   <div class="col-md-4">
-  <div class="panel panel-default">
+  <div class="panel">
     <div class="panel-body">
-      <h3>全部文档</h3>
-      <ul>
+<!--      <h3>全部文档</h3>-->
+      <ul class="help-menu">
         <!--通过判断是否有children来渲染文档树-->
         <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1">
+          <span  ng-class="{'class1':linkLevel_one.c !== undefined,'class2':linkLevel_one.c == undefined}">you</span>
           <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one,'showlevel2')">
             {{linkLevel_one.docTitle}} </a>
           <!--总觉得这样绑定ng-click的写法不好？-->
-          <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2">
+          <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2" class="sub-menu">
             <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2">
+              <span  ng-class="{'class1':linkLevel2.c !== undefined,'class2':linkLevel2.c == undefined}">you</span>
               <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')"> {{linkLevel2.docTitle}} </a>
               <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3">
                 <li ng-repeat="linkLevel3 in linkLevel2.c" class="level level3">
+                  <span  class="class2">you</span>
                   <a title={{linkLevel3.docId}} ng-click="vm.setHTML(linkLevel3)"> {{linkLevel3.docTitle}} </a>
                 </li>
               </ul>
@@ -25,8 +38,8 @@
   </div>
   </div>
 
-  <div class="col-md-8" ng-if="vm.flag">
-  <div class="panel panel-default">
+  <div class="col-md-8 ct-padding-0-8" ng-if="vm.flag">
+  <div class="panel panel-default ct-margin-12-auto">
     <div class="panel-body">
       <h3 style="text-align: center">{{vm.htmlTitle}}</h3>
       <div ng-bind-html="vm.html" class="doc-content"></div>
@@ -53,5 +66,12 @@
   </div>
 </div>
 
+</div>
 
 
+<script>
+
+
+
+
+</script>

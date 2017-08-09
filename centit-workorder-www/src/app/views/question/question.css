@@ -4,17 +4,19 @@
   display: flex;
   justify-content: space-around;
   padding-left: 0;
+  margin-bottom: 22px;
 }
 
 .question-state ul li {
-  height: 32px;
-  line-height: 32px;
+  height: 24px;
+  line-height: 24px;
   list-style: none;
   flex: auto;
   text-align: center;
   position: relative;
   cursor: pointer;
   background: transparent;
+  margin: 0 2px;
 }
 
 .question-state ul li.current {
@@ -33,8 +35,7 @@
   width: 100%;
   height: 50%;
   left: 0;
-
-  background: #fff;
+  background: #cacaca;
   z-index: -1;
   transform: skewX(45deg);
 }

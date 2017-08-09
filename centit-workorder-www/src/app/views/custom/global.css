@@ -94,6 +94,9 @@
   padding: 0;
 }
 
+.ct-padding-0-8 {
+  padding: 0 8px;
+}
 
 .ct-margin-0-12 {
   margin: 0 12px;
@@ -119,7 +122,13 @@
   padding-left: 0;
 }
 
+.ct-no-border {
+  border: none;
+}
 
+.ct-border-bottom-0 {
+  border-bottom: none;
+}
 
 .ct-fl {
   float: left;

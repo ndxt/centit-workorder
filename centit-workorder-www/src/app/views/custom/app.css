@@ -219,18 +219,31 @@ color: #fff;
 /*  border-left: 4px solid #ffffff;*/
   background: #cacaca;
 }
-/*
+
 
 .question-state ul li:first-child {
-  border-left: 4px solid #fff;
+  border-left: 12px solid #FFF;
+  margin: 0 -4px 0 -12px;
 }
 
 .question-state ul li:last-child {
-  border-right: 4px solid #fff;
+  border-right: 12px solid #fff;
+  margin: 0 -12px 0 -4px;
+}
+
+.question-state ul li:first-child:before,
+.question-state ul li:first-child:after {
+  left: -6px;
+}
+
+.question-state ul li:last-child:before,
+.question-state ul li:last-child:after {
+  left: 6px;
 }
 
 
-*/
+
+
 .table.table-bordered {
   background: #FFF;
   font-size: 12px;
@@ -404,6 +417,14 @@ td.no-hover nav {
   position: absolute;
   top: 16px;
   right: 20px;
+}
+
+ul.help-menu li {
+  list-style: none;
+}
+
+ul.help-menu li a {
+  line-height: 36px;
 }
 
 
