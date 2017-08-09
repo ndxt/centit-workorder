@@ -2,27 +2,36 @@
   <h3 class="modal-title">我的工单</h3>
 </div>
 
+
+<div class="modal-viewer-header">
+  <span class="modal-viewer-topbar-title">请选择您遇到的问题分类：</span>
+</div>
 <div class="panel panel-default">
   <div class="panel-body">
-    <h4>
-      {{vm.catalog.catalogName}}
-      <small>这里是描述，暂时没有这个字段{{vm.catalog.description}}</small>
-    </h4>
+    <div class="panel panel-default">
+    <div class="panel-body">
+      <h4>
+        {{vm.catalog.catalogName}}
+
+      </h4>
+      <span class="text-muted">这里是描述，暂时没有这个字段{{vm.catalog.description}}</span>
+    </div>
+    </div>
+
+    <div class="panel-article ct-margin-bottom-20">
+
+      <p ng-if="!!vm.documents.length">你可能需要以下文章：</p>
+      <p ng-if="!vm.documents.length">暂未找到相关文章</p>
+        <ul ng-repeat="doc in vm.documents">
+          <li><a ui-sref="root.document.view({ docId: doc.docId })">{{doc.docTitle}}</a></li>
+        </ul>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="vm.askOthers()">
+      <i class="glyphicon glyphicon-question-sign"></i>
+      我有其他问题
+    </button>
   </div>
 </div>
-
-<div>
-  <p ng-if="!!vm.documents.length">你可能需要以下文章：</p>
-  <p ng-if="!vm.documents.length">暂未找到相关文章</p>
-    <ul ng-repeat="doc in vm.documents">
-      <li><a ui-sref="root.document.view({ docId: doc.docId })">{{doc.docTitle}}</a></li>
-    </ul>
-</div>
-<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="vm.askOthers()">
-  <i class="glyphicon glyphicon-question-sign"></i>
-  我有其他问题
-</button>
-
 
 
 

@@ -139,11 +139,11 @@
         <!--星级评价-->
         <span uib-rating ng-model="vm.rate" max="5" on-hover="vm.hoveringOver(value)"
               aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>
-        <span ng-if="vm.overStar" class="label"
+        <span ng-if="vm.overStar" class="label panel-label"
               ng-class="{'label-warning': vm.overStar<3, 'label-info': vm.overStar>=3 && vm.overStar<5, 'label-success': vm.overStar==5}">
               {{vm.showMsg}}
             </span>
-        <span ng-if="!vm.overStar && vm.rate!=0" class="label"
+        <span ng-if="!vm.overStar && vm.rate!=0" class="label panel-label"
               ng-class="{'label-warning': vm.rate<3, 'label-info': vm.rate>=3 && vm.rate<5, 'label-success': vm.rate==5}">
               {{(vm.rate<3)?'很差':(vm.rate<5?'一般':'很好')}}
             </span>

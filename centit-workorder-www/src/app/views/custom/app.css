@@ -351,14 +351,14 @@ td.no-hover nav {
 }
 
 
-.table-bordered .label {
+.panel-label.label {
   font-weight: 400;
-  padding: 0;
+  padding: 0 6px;
   height: 16px;
   line-height: 16px;
   display: inline-block;
-  width: 46px;
   border-radius: 2px;
+
 }
 
 
@@ -424,17 +424,104 @@ ul.help-menu li {
 }
 
 ul.help-menu li a {
-  line-height: 36px;
+  line-height: 28px;
+  cursor: pointer;
+  color: #4c4c4c;
+  font-size: 14px;
+}
+
+ul.help-menu li a:hover {
+  text-decoration: underline;
+
 }
 
 
 
 
+ul.help-menu li span {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 4px;
+}
+ul.help-menu li li {
+  z-index: 999;
+}
+
+
+ul.help-menu li span.has-child {
+
+}
+
+ul.help-menu li span.no-child {
+  top: -3px;
+}
+
+ul.help-menu li.section-open > span.has-child,
+ul.help-menu li li.section2-open > span.has-child {
+  background: url("../img/icon-section-opened.png") no-repeat center;
+
+}
+ul.help-menu li.section-close > span.has-child,
+ul.help-menu li li.section2-close > span.has-child{
+  background: url("../img/icon-section-closed.png") no-repeat center;
+}
 
 
 
 
+ul.help-menu li span i {
+}
 
+ul.help-menu li span.has-child i {
+  display: none;
+}
+
+ul.help-menu li span.no-child i {
+  height: 4px;
+  width: 4px!important;
+  left: 6px;
+  background: #999;
+  min-width: 0;
+  border-radius: 2px;
+  margin: 6px auto;
+}
+
+ul.help-menu .sub-menu {
+  padding-left: 28px;
+}
+
+
+
+.panel-star {
+  height: 70px;
+  margin-top: 50px;
+  border-top:1px solid #ddd;
+  padding: 20px 0;
+  line-height: 30px;
+}
+
+
+
+.panel-article p {
+  height: 34px;
+  line-height: 32px;
+  background: #F5f6FA;
+  border: 1px solid #e1e6eb;
+  font-size: 12px;
+  padding-left: 12px;
+}
+
+.panel-article ul li a {
+  font-size: 12px;
+  color: #333;
+}
+
+.panel-article ul li a:hover{
+  cursor: pointer;
+  color: #0098ce;
+}
 
 
 

@@ -77,10 +77,10 @@
     <tbody>
     <tr ng-repeat="row in vm.questions">
       <td class="text-center">
-        <span ng-if="row.questionState=='U'" class="label label-danger" >未处理</span>
-        <span ng-if="row.questionState=='H'" class="label label-warning" >处理中</span>
-        <span ng-if="row.questionState=='R'" class="label label-success" >已回复</span>
-        <span ng-if="row.questionState=='C'" class="label label-primary" >已关闭</span>
+        <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >处理中</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已回复</span>
+        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
       </td>
       <td><a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a></td>
       <td class="text-center">

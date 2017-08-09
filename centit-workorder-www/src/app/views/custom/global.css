@@ -84,6 +84,7 @@
 .glyphicon {
   position: relative;
   top: 3px;
+  cursor: pointer;
 }
 
 .ct-no-margin {
@@ -112,6 +113,10 @@
 
 .ct-margin-bottom-12 {
   margin-bottom: 12px;
+}
+
+.ct-margin-bottom-20 {
+  margin-bottom: 20px;
 }
 
 .ct-padding-right-0 {
@@ -164,4 +169,8 @@ a:active{
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn {
   border-radius: 0;
+}
+
+.text-muted {
+  color: #999 !important;
 }
