@@ -104,6 +104,12 @@ p.article-date {
   padding: 18px;
 }
 
+.message-item p {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
 .user-icon {
   position: relative;
   padding: 0;
@@ -129,11 +135,24 @@ p.article-date {
 .item-content p {
   width: 100%;
 }
-.message-item {
+.message-item,
+.question-item {
   position: relative;
   padding: 18px;
   border-top: 1px dashed #bcbcbc;
 }
+
+.question-item {
+  border: none;
+
+}
+.question-item .user-icon {
+  margin: 20px;
+}
+.question-item .item-content {
+  margin: 26px 0;
+}
+
 
 .message-item:last-child {
   background: #eafbff;
@@ -150,6 +169,9 @@ p.article-date {
   text-align: center;
   background: #E7F2FA;
   color: #3d5c71;
+  margin-top: 26px;
+  font-size: 16px;
+  border: 1px solid #3d5c71;
 }
 
 .drcloud-content {
@@ -558,4 +580,13 @@ font-size: 14px;
   height: 24px;
   line-height: 24px;
 }
+
+
+.question-state ul li.down:before,
+.question-state ul li.down:after {
+  background: #8fb888;
+}
+
+
+
 

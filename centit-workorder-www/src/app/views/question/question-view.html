@@ -5,9 +5,9 @@
 
 <nav class="question-state">
   <ul>
-    <li ng-class="{current:vm.question.questionState=='U'}">未处理</li>
-    <li ng-class="{current:vm.question.questionState=='H'}">处理中</li>
-    <li ng-class="{current:vm.question.questionState=='R'}">已回复</li>
+    <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">未处理</li>
+    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">处理中</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">已回复</li>
     <li ng-class="{current:vm.question.questionState=='C'}">已完结</li>
   </ul>
 </nav>
@@ -30,18 +30,19 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="clearfix ng-scope">
-      <div class="row clearfix message-item">
+      <div class="row clearfix question-item">
         <div class="user-icon col-sm-2">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
         <div class="item-content col-sm-8">
-            <p>741***@qq.com :   问题描述 ： 能否在百度上新建一个云实例  </p>
-            <p>2017-08-08 15:19:42</p>
+            <p class="text-left ct-no-margin">741***@qq.com :   问题描述 ： 能否在百度上新建一个云实例  </p>
+
         </div>
       </div>
 
       <div class="col-sm-12 clearfix message-item">
-        <div class="user-icon drcloud-icon">先腾博士</div>
+        <div class="user-icon drcloud-icon">先</div>
+        <p>2017-08-08 15:19:42</p>
         <div class="item-content  col-sm-7 drcloud-content">
           您好，已经为您的问题分配工程师，请耐心等待。
           <div class="wrap-triangle"></div>
@@ -49,7 +50,8 @@
       </div>
 
       <div class="col-sm-12 clearfix message-item">
-        <div class="user-icon drcloud-icon">先腾博士</div>
+        <div class="user-icon drcloud-icon">先</div>
+        <p>2017-08-08 15:19:42</p>
         <div class="item-content  col-sm-7 drcloud-content">
           麻烦您告知您的详细业务需求，以便我们尽快为您核实跟进，请了解，谢谢
           <div class="wrap-triangle"></div>
