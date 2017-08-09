@@ -8,7 +8,7 @@
   <div class="row ct-no-margin ct-padding-24">
     <div class="col-xs-12 opera-tools panel-default">
       <i class="glyphicon glyphicon-plus text-primary"
-         uib-tooltip="新建类型" tooltip-placement="right"
+         uib-tooltip="新建类型" tooltip-placement="right" fresh-data="vm.queryCatalogs"
          wo-modal-catalog data-os="vm.osId">      <span>新增类型</span></i>
 
       <a href="javascript: void(0);"
@@ -27,7 +27,7 @@
           <div class="operation">
             <i class="glyphicon glyphicon-trash pull-right text-danger"
                uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>
-            <i class="glyphicon glyphicon-pencil pull-right text-success"
+            <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
                uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="catalog.catalogId"></i>
           </div>
 

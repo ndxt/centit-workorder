@@ -14,12 +14,21 @@
 
 <div class="panel info-panel">
   <div class="row">
-    <div class="col-sm-12"><span class="text-explode">问题标题 :</span> 能否在百度上</div>
+    <div class="col-sm-12">
+      <span class="text-explode">问题标题 :</span>
+      {{vm.question.questionTitle}}</div>
   </div>
   <div class="row">
-    <div class="col-sm-3"><span class="text-explode">提交时间 : </span>2017-08-08 15:19:41</div>
-    <div class="col-sm-3"><span class="text-explode">状态 : </span>工单已分派</div>
-    <div class="col-sm-6 text-right"><a href="">关闭工单</a></div>
+    <div class="col-sm-3"><span class="text-explode">提交时间 : </span>
+      {{vm.question.createTime}}
+    </div>
+    <div class="col-sm-3"><span class="text-explode">状态 : </span>
+      <span ng-if="vm.question.questionState=='U'">工单未处理</span>
+      <span ng-if="vm.question.questionState=='H'">工单已分派</span>
+      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
+      <span ng-if="vm.question.questionState=='C'">工单已完结</span>
+    </div>
+    <!--<div class="col-sm-6 text-right"><a href="">关闭工单</a></div>-->
   </div>
 </div>
 
@@ -35,76 +44,36 @@
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
         <div class="item-content col-sm-8">
-            <p class="text-left ct-no-margin">741***@qq.com :   问题描述 ： 能否在百度上新建一个云实例  </p>
-
+            <p class="text-left ct-no-margin">{{vm.question.userName}}：问题描述：{{vm.question.questionContent}}</p>
         </div>
       </div>
-
-      <div class="col-sm-12 clearfix message-item">
-        <div class="user-icon drcloud-icon">先</div>
+      <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
+        <div class="user-icon drcloud-icon">腾</div>
         <p>2017-08-08 15:19:42</p>
         <div class="item-content  col-sm-7 drcloud-content">
           您好，已经为您的问题分配工程师，请耐心等待。
           <div class="wrap-triangle"></div>
         </div>
       </div>
-
-      <div class="col-sm-12 clearfix message-item">
-        <div class="user-icon drcloud-icon">先</div>
+      <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
+        <div class="user-icon drcloud-icon">
+          <span ng-if="round.orA=='A' && round.showUser=='F'">腾</span>
+          <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
+          <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        </div>
         <p>2017-08-08 15:19:42</p>
         <div class="item-content  col-sm-7 drcloud-content">
-          麻烦您告知您的详细业务需求，以便我们尽快为您核实跟进，请了解，谢谢
+          {{round.roundContent}}
           <div class="wrap-triangle"></div>
         </div>
       </div>
     </div>
-   <!-- <nav>
-      <ul style="border-left: 2px solid #eaeaea; padding-left: 12px;">
-        <li style="margin-bottom: 30px;">
-          <h4>
-            <small>
-              <i>{{vm.question.createTime}}</i> &nbsp;
-              <span class="text-success">{{vm.question.userName}}</span>&nbsp; 提问：
-            </small>
-          </h4>
-          <h3>{{vm.question.questionTitle}}</h3>
-          <p style="padding-left: 10px;color:#827f7f">
-            {{vm.question.questionContent}}
-          </p>
-        </li>
-
-        <li ng-repeat="round in vm.rounds" style="margin-bottom: 30px;">
-          <h4>
-            <small>
-              <i>{{round.createTime}}</i> &nbsp;
-              <span class="text-info">管理员
-                <span ng-if="round.showUser=='T'">（{{round.userName}}）</span></span>&nbsp; 回复：
-            </small>
-          </h4>
-          <p style="padding-left: 10px;">
-            {{round.roundContent}}
-          </p>
-        </li>
-
-        <li style="margin-bottom: 30px;" ng-if="vm.question.questionState=='C'">
-          <h4>
-            <small>
-              <i>{{vm.question.evaluateTime}}</i> &nbsp;
-              <span class="text-success" style="font-weight: bold;">用户已评价并关闭：</span>
-            </small>
-          </h4>
-          <p >
-            {{vm.question.evaluateScore}}分
-          </p>
-        </li>
-      </ul>
-    </nav>-->
   </div>
 </div>
 
 
 
-<div class="modal-viewer-header">
+<div class="modal-viewer-header" ng-if="vm.question.questionState=='R'">
   <span class="modal-viewer-topbar-title">我要反馈</span>
 </div>
 <div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R'">
@@ -128,15 +97,13 @@
 </div>
 
 
-<div class="modal-viewer-header">
+<div class="modal-viewer-header" ng-if="vm.question.questionState=='R'">
   <span class="modal-viewer-topbar-title">我要评分</span>
 </div>
 <div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R'">
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
-      <label class="col-sm-12 modal-label">
-        评分
-      </label>
+      <label class="col-sm-12 modal-label">评分</label>
       <div class="col-sm-12" >
         <!--星级评价-->
         <span uib-rating ng-model="vm.rate" max="5" on-hover="vm.hoveringOver(value)"
@@ -144,11 +111,11 @@
         <span ng-if="vm.overStar" class="label panel-label"
               ng-class="{'label-warning': vm.overStar<3, 'label-info': vm.overStar>=3 && vm.overStar<5, 'label-success': vm.overStar==5}">
               {{vm.showMsg}}
-            </span>
+        </span>
         <span ng-if="!vm.overStar && vm.rate!=0" class="label panel-label"
               ng-class="{'label-warning': vm.rate<3, 'label-info': vm.rate>=3 && vm.rate<5, 'label-success': vm.rate==5}">
               {{(vm.rate<3)?'很差':(vm.rate<5?'一般':'很好')}}
-            </span>
+        </span>
       </div>
 
     </div>

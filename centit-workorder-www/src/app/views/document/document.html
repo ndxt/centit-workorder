@@ -21,7 +21,8 @@
             {{linkLevel_one.docTitle}} </a>
           <!--总觉得这样绑定ng-click的写法不好？-->
           <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2" class="sub-menu">
-            <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2 section2-open" ng-class="{true: 'section2-open', false: 'section2-close'}[isOpen]" ng-click="isOpen = !isOpen">
+            <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2 section2-open"
+                ng-class="{true: 'section2-open', false: 'section2-close'}[isOpen]" ng-click="isOpen = !isOpen">
               <span  ng-class="{'has-child':linkLevel2.c !== undefined,'no-child':linkLevel2.c == undefined}"><i></i></span>
               <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')"> {{linkLevel2.docTitle}} </a>
               <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3" class="sub-menu">
