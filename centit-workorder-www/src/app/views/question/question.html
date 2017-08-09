@@ -68,6 +68,7 @@
   <table class="table table-bordered table-hover">
     <thead>
     <tr>
+      <th width="80px" class="text-center">状态</th>
       <th>标题</th>
       <th class="text-center" width="180">创建时间</th>
       <th class="text-center" width="250">操作</th>
@@ -75,13 +76,13 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in vm.questions">
-      <td>
-        <span ng-if="row.questionState=='U'" class="label label-info" style="padding-bottom: 0.2em">未处理</span>
-        <span ng-if="row.questionState=='H'" class="label label-info" style="padding-bottom: 0.2em">处理中</span>
-        <span ng-if="row.questionState=='R'" class="label label-info" style="padding-bottom: 0.2em">已回复</span>
-        <span ng-if="row.questionState=='C'" class="label label-info"  style="padding-bottom: 0.2em">已关闭</span>
-        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a>
+      <td class="text-center">
+        <span ng-if="row.questionState=='U'" class="label label-danger" >未处理</span>
+        <span ng-if="row.questionState=='H'" class="label label-warning" >处理中</span>
+        <span ng-if="row.questionState=='R'" class="label label-success" >已回复</span>
+        <span ng-if="row.questionState=='C'" class="label label-primary" >已关闭</span>
       </td>
+      <td><a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
       </td>
@@ -92,13 +93,13 @@
       </td>
     </tr>
     <tr>
-      <td colspan="3" class="no-hover">
-
+      <td colspan="4" class="no-hover">
         <nav aria-label="Page" class="text-center ct-fr flex">
-          <ul style="margin: 0;"
-              uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+          <ul class="ct-no-margin"
+              uib-pagination boundary-links="true" total-items="vm.totalItems"
+              ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;"
+              first-text="&laquo;" last-text="&raquo;"></ul>
         </nav>
-
       </td>
     </tr>
     </tbody>
@@ -107,6 +108,8 @@
 
   </table>
 </div>
+
+
 
 
 

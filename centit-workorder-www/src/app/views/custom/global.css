@@ -69,6 +69,32 @@
 }
 
 
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.glyphicon {
+  position: relative;
+  top: 3px;
+}
+
+.ct-no-margin {
+  margin: 0;
+}
+
+.ct-no-padding {
+  padding: 0;
+}
+
+
 .ct-margin-0-12 {
   margin: 0 12px;
 }
@@ -106,17 +132,6 @@
 
 .flex {
   display: flex;
-}
-
-
-.pagination > li:first-child > a, .pagination > li:first-child > span {
-  margin-left: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.pagination > li:last-child > a, .pagination > li:last-child > span {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 

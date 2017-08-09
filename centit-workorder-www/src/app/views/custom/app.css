@@ -261,6 +261,9 @@ color: #fff;
   border: 1px solid #E1E6EB;
 }
 
+.table.table-bordered tbody tr td:last-child {
+  padding: 0;
+}
 
 .table-hover tbody tr:hover td {
   background-color: #F9F9FA;
@@ -271,6 +274,11 @@ color: #fff;
   background-color: #fff;
 }
 
+td.no-hover nav {
+  margin: 12px 8px;
+}
+
+
 .selector-set .ss-item {
   position: relative;
   display: inline-block;
@@ -280,7 +288,7 @@ color: #fff;
   font-size: 12px;
   vertical-align: top;
   margin: 0 5px 5px 0;
-  padding: 0 26px 0 4px;
+  padding: 0 30px 0 4px;
   cursor: pointer;
 
 }
@@ -328,6 +336,88 @@ color: #fff;
   line-height: 40px;
   height: 40px;
 }
+
+
+.table-bordered .label {
+  font-weight: 400;
+  padding: 0;
+  height: 16px;
+  line-height: 16px;
+  display: inline-block;
+  width: 46px;
+  border-radius: 2px;
+}
+
+
+
+.table-bordered td button.btn {
+  background: none;
+  border: none;
+  padding: 0 6px;
+}
+.table-bordered td button.btn:hover {
+  text-decoration: underline;
+}
+
+.table-bordered td button.btn.btn-info {
+   color: #5bc0de;
+
+ }
+.table-bordered td button.btn.btn-danger {
+  color: #d9534f;
+}
+.table-bordered td button.btn.btn-warning {
+  color: #f0ad4e;
+}
+
+
+.wo-content .panel-default {
+  border: none;
+  margin: 0;
+}
+
+
+.wo-content .panel-default .panel-body {
+  font-size: 12px;
+  position: relative;
+}
+
+.wo-content .panel-default .panel-body span {
+  padding: 0 6px;
+  font-size: 14px;
+  color: #333;
+}
+.wo-content .panel-default .panel-body i {
+  font-size: 18px;
+  color: #00b3ee;
+}
+
+.wo-content .panel-default .panel-body p {
+  color: #999;
+  margin-top: 12px;
+}
+
+.wo-content .panel-default .panel-body .btn-sm {
+  padding: 4px 8px;
+  height: 24px;
+  line-height: 14px;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
