@@ -182,15 +182,17 @@ p.article-date {
 
 
 .user-icon.drcloud-icon.cut-letter {
-  padding-left: 11px;
   overflow: hidden;
   text-overflow: initial;
   white-space: nowrap;
   color: #e7f2fa;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px;
+  line-height: 16px;
+  text-indent: 1px;
 }
 
 .user-icon.drcloud-icon.cut-letter:first-letter {
