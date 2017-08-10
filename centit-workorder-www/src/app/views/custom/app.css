@@ -107,15 +107,21 @@ p.article-date {
 .message-item p {
   font-size: 12px;
   color: #999;
-  text-align: center;
+  text-align: left;
+  padding-left: 15px;
+  /* padding-top: 8px; */
+  margin-top: 4px;
+  display: inline-block;
 }
+
+
 
 .user-icon {
   position: relative;
   padding: 0;
   width: 40px;
   height: 40px;
-  border: 2px #E7F2FA solid;
+  border: 2px #3d5c71 solid;
   float: left;
   border-radius: 60px;
   overflow: hidden;
@@ -123,11 +129,7 @@ p.article-date {
 
 .item-content {
   margin-top: 2px;
-  white-space: -moz-pre-wrap;
-  white-space: -o-pre-wrap;
-  white-space: pre-wrap;
   word-wrap: break-word;
-  display: flex;
   color: #999;
   font-size: 12px;
 }
@@ -146,12 +148,11 @@ p.article-date {
   border: none;
 
 }
+
 .question-item .user-icon {
   margin: 20px;
 }
-.question-item .item-content {
-  margin: 26px 0;
-}
+
 
 
 .message-item:last-child {
@@ -162,31 +163,51 @@ p.article-date {
   border: none;
 }
 .user-icon.drcloud-icon {
-  line-height: 42px;
-  width: 46px;
-  height: 46px;
-  border-radius: 46px;
+  line-height: 38px;
+  width: 40px;
+  height: 40px;
+  border: 2px #3d5c71 solid;
+  border-radius: 40px;
   text-align: center;
   background: #E7F2FA;
   color: #3d5c71;
-  margin-top: 26px;
+  margin: 16px 10px;
   font-size: 16px;
-  border: 1px solid #3d5c71;
+}
+
+
+.question-item span {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 96px;
+  height: 24px;
+  text-align: center;
 }
 
 .drcloud-content {
   border-radius: 4px;
-  margin-left: 16px;
-  border: 1px solid #e5e5e5;
-  padding: 15px 16px;
-  background: #f7f9fa;
+  margin-left: 4px;
+/*  border: 1px solid #e5e5e5;*/
+  padding: 14px 6px;
+/*  background: #f7f9fa;*/
   color: #333;
+
 }
+
+.message-item .drcloud-content > div {
+  font-weight: 600;
+}
+.message-item.question-item .drcloud-content > div {
+  font-weight: 100;
+}
+
 
  .wrap-triangle {
   position: absolute;
   left: -12px;
    top: 14px;
+   display: none;
 }
 
 .wrap-triangle:before,
@@ -584,9 +605,13 @@ font-size: 14px;
 
 .question-state ul li.down:before,
 .question-state ul li.down:after {
-  background: #8fb888;
+  background: #99dcf3;
 }
 
+.question-state ul li.current:after,
+.question-state ul li.current:before {
+  background: #00a0c7;
+}
 
 
 

@@ -25,7 +25,7 @@
 }
 .question-state ul li.current:after,
 .question-state ul li.current:before {
-  background: #5cb85c;
+  background: #00a0c7;
 }
 
 .question-state ul li:before,

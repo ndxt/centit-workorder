@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+}
+body {
+  font-size: 12px;
+  line-height: 1.428571429;
+  color: #333333;
+}
+
 .form-control {
   display: block;
   width: 100%;
@@ -125,6 +134,10 @@
 
 .ct-margin-bottom-20 {
   margin-bottom: 20px;
+}
+
+.ct-margin-bottom-0 {
+  margin-bottom: 0;
 }
 
 .ct-padding-right-0 {
