@@ -23,13 +23,14 @@
         <div class="panel-body">
           <i class="glyphicon glyphicon-home"></i>
           <span>{{ catalog.catalogName }}</span>
-          <p>换绑手机/邮箱、账号实名认证、找回用户名/密码等相关问题</p>
           <div class="operation">
             <i class="glyphicon glyphicon-trash pull-right text-danger"
                uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>
             <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
                uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="catalog.catalogId"></i>
           </div>
+          <p>换绑手机/邮箱、账号实名认证、找回用户名/密码等相关问题</p>
+
 
         </div>
       </div>

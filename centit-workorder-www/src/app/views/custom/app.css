@@ -111,6 +111,7 @@ p.article-date {
   padding-left: 15px;
   /* padding-top: 8px; */
   margin-top: 4px;
+  margin-bottom: 0;
   display: inline-block;
 }
 
@@ -217,7 +218,7 @@ p.article-date {
   border-radius: 4px;
   margin-left: 4px;
 /*  border: 1px solid #e5e5e5;*/
-  padding: 14px 6px;
+  padding: 14px 6px 0 6px;
 /*  background: #f7f9fa;*/
   color: #333;
 
@@ -599,9 +600,7 @@ ul.help-menu .sub-menu {
   padding: 4px 0px;
   height: 24px;
   line-height: 14px;
-  position: absolute;
-  top: 14px;
-  right: 20px;
+float: right;
 }
 .wo-content .panel-default .panel-body .operation i {
   font-size: 16px;
