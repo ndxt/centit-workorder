@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
-        <div class="user-icon drcloud-icon">腾博士</div>
+        <div class="user-icon drcloud-icon">腾</div>
         <div class="item-content  col-sm-7 drcloud-content">
           您好，已经为您的问题分配工程师，请耐心等待。
           <div class="wrap-triangle"></div>
@@ -57,7 +57,7 @@
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
         <div class="user-icon drcloud-icon">
-          <span ng-if="round.showUser=='F'">腾博士</span>
+          <span ng-if="round.showUser=='F'">腾</span>
           <span ng-if="round.showUser=='T'">{{round.userName}}</span>
         </div>
         <div class="item-content  col-sm-7 drcloud-content">

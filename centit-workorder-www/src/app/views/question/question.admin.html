@@ -87,7 +87,6 @@
       </td>
       <td class="text-center">
         <button type="button" class="btn btn-info" ng-click="vm.view(row)">查看</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.view(row)" ng-if="row.questionState!='C'">回复</button>
         <button type="button" class="btn btn-warning" ng-click="vm.assign(row)" ng-if="row.questionState=='U'">分配</button>
         <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='C'">删除</button>
       </td>
