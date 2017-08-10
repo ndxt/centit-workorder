@@ -1,12 +1,29 @@
 <div class="modal-header">
-  <h3 class="modal-title" id="modal-title">评价工单</h3>
+  <h3 class="modal-title" id="modal-title">分配工单</h3>
 </div>
 <div class="modal-body" id="modal-body">
   <form>
-      分配人员：
-      张三
-      李四
-      王二麻
+    <div class="form-group">
+      <label for="questionsModalTitle">主负责人</label>
+      <select ng-if="!vm.catalog" class="form-control" id="questionsModalCatalog"
+              name="catalogId"
+              ng-model="vm.question.catalogId"
+              >
+        <option value="">-- 请选择 --</option>
+        <option value="">张三</option>
+        <option value="">李四</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="questionsModalCatalog">协助人员</label>
+
+      <input ng-model="vm.question.questionTitle"
+             type="text"
+             name="title"
+             class="form-control"
+             id="questionsModalTitle"
+             placeholder="协助人员" ng-model="vm.info.title"/>
+    </div>
 
   </form>
 

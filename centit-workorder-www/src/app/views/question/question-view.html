@@ -45,40 +45,37 @@
       <div class="col-sm-12 clearfix message-item question-item">
         <div class="user-icon drcloud-icon">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
-
         </div>
         <span>{{vm.question.userName}}</span>
         <div class="item-content  col-sm-7 drcloud-content text-muted">
-
-
             <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
-
-            <p>2017-08-08 15:19:42</p>
-
-
+            <p>{{vm.question.createTime}}</p>
         </div>
       </div>
 
 
       <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
-        <div class="user-icon drcloud-icon cut-letter">{{vm.question.userName}}</div>
-        <span>{{vm.question.userName}}</span>
+        <div class="user-icon drcloud-icon">腾</div>
+        <span>售后工程师</span>
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
-          <p>2017-08-08 15:19:42</p>
           <div class="wrap-triangle"></div>
         </div>
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon">
-          <span ng-if="round.orA=='A' && round.showUser=='F'">腾</span>
-          <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
-          <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        <div class="user-icon drcloud-icon" ng-if="round.orA=='A'">腾
         </div>
+        <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
+          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+        </div>
+        <span ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</span>
+        <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
+        <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">{{round.roundContent}}</div>
-          <p>2017-08-08 15:19:42</p>
+          <br>
+          <p>{{round.createTime}}</p>
           <div class="wrap-triangle"></div>
         </div>
 

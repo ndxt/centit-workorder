@@ -26,25 +26,25 @@
           }
         }
       },
-
-      // 系统帮助-详情
-      {
-        state: 'admin.document.view',
-        config: {
-          url: '/:docId',
-          views: {
-            'main@': {
-              templateUrl: 'app/views/document/document-view.html',
-              controller: 'DocumentViewController',
-              controllerAs: 'vm'
-            }
-          },
-          data: {
-            title: '系统帮助详情',
-            bodyClass: 'document-view'
-          }
-        }
-      }
+      //
+      // // 系统帮助-详情
+      // {
+      //   state: 'admin.document.view',
+      //   config: {
+      //     url: '/:docId',
+      //     views: {
+      //       'main@': {
+      //         templateUrl: 'app/views/document/document-view.html',
+      //         controller: 'DocumentViewController',
+      //         controllerAs: 'vm'
+      //       }
+      //     },
+      //     data: {
+      //       title: '系统帮助详情',
+      //       bodyClass: 'document-view'
+      //     }
+      //   }
+      // }
     ]
 
     routerHelper.addRouterStates(states)
