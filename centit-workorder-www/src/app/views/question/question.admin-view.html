@@ -28,7 +28,7 @@
       <span ng-if="vm.question.questionState=='R'">工单已回复</span>
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
-    <!--<div class="col-sm-6 text-right"><a href="">关闭工单</a></div>-->
+
   </div>
 </div>
 
@@ -51,6 +51,8 @@
           <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
           <p>{{vm.question.createTime}}</p>
         </div>
+
+        <div class="col-sm-12 text-right ct-no-padding ct-margin-bottom-0 send-wo"><a href="">分配给用户</a></div>
       </div>
 
 
