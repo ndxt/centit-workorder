@@ -68,7 +68,6 @@
   <table class="table table-bordered table-hover">
     <thead>
     <tr>
-      <th width="80px" class="text-center">状态</th>
       <th>标题</th>
       <th class="text-center" width="180">创建时间</th>
       <th class="text-center" width="250">操作</th>
@@ -76,30 +75,30 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in vm.questions">
-      <td class="text-center">
+      <td>
         <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
         <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >处理中</span>
         <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已回复</span>
         <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
+        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a>
       </td>
-      <td><a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
       </td>
       <td class="text-center">
         <button type="button" class="btn btn-info" ng-click="vm.view(row)">查看</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.edit(row)" ng-if="row.questionState=='U'">编辑</button>
-        <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='U' || row.questionState=='C'">删除</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.assign(row)" ng-if="row.questionState=='U'">分配</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='C'">删除</button>
       </td>
     </tr>
     <tr>
-      <td colspan="4" class="no-hover">
+      <td colspan="3" class="no-hover">
+
         <nav aria-label="Page" class="text-center ct-fr flex">
-          <ul class="ct-no-margin"
-              uib-pagination boundary-links="true" total-items="vm.totalItems"
-              ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;"
-              first-text="&laquo;" last-text="&raquo;"></ul>
+          <ul style="margin: 0;"
+              uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
         </nav>
+
       </td>
     </tr>
     </tbody>
@@ -108,8 +107,6 @@
 
   </table>
 </div>
-
-
 
 
 

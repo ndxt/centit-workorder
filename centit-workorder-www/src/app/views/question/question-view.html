@@ -1,87 +1,142 @@
+<div class="modal-header ct-margin-bottom-24">
+  <h3 class="modal-title">工单详情</h3>
+</div>
+
 
 <nav class="question-state">
   <ul>
-    <li ng-class="{current:vm.question.questionState=='U'}">未处理</li>
-    <li ng-class="{current:vm.question.questionState=='H'}">处理中</li>
-    <li ng-class="{current:vm.question.questionState=='R'}">已回复</li>
+    <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">未处理</li>
+    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">处理中</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">已回复</li>
     <li ng-class="{current:vm.question.questionState=='C'}">已完结</li>
   </ul>
 </nav>
 
+<div class="panel info-panel">
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="text-explode">问题标题 :</span>
+      {{vm.question.questionTitle}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"><span class="text-explode">提交时间 : </span>
+      {{vm.question.createTime}}
+    </div>
+    <div class="col-sm-3"><span class="text-explode">状态 : </span>
+      <span ng-if="vm.question.questionState=='U'">工单未处理</span>
+      <span ng-if="vm.question.questionState=='H'">工单已分派</span>
+      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
+      <span ng-if="vm.question.questionState=='C'">工单已完结</span>
+    </div>
+    <div class="col-sm-6 text-right">评分：<i class="assess-star"></i></div>
+  </div>
+</div>
+
+
+<div class="modal-viewer-header">
+  <span class="modal-viewer-topbar-title">沟通记录</span>
+</div>
 <div class="panel panel-default">
+  <div class="panel-body ct-padding-top-0">
+    <div class="clearfix ng-scope">
+      <div class="col-sm-12 clearfix message-item question-item">
+        <div class="user-icon drcloud-icon">
+          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+        </div>
+        <span>{{vm.question.userName}}</span>
+        <div class="item-content  col-sm-7 drcloud-content text-muted">
+            <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
+            <p>{{vm.question.createTime}}</p>
+        </div>
+      </div>
+
+
+      <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
+        <div class="user-icon drcloud-icon cut-letter">腾</div>
+        <span>售后工程师</span>
+        <div class="item-content  col-sm-7 drcloud-content">
+          <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
+          <p>{{round.createTime}}</p>
+          <div class="wrap-triangle"></div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</div>
+        <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
+          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+        </div>
+        <span ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</span>
+        <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
+        <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+
+        <div class="item-content  col-sm-7 drcloud-content">
+          <div class="col-sm-12">{{round.roundContent}}</div>
+          <p>{{round.createTime}}</p>
+          <div class="wrap-triangle"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-viewer-header" ng-if="vm.question.questionState=='R'">
+  <span class="modal-viewer-topbar-title">我要反馈</span>
+</div>
+<div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R'">
   <div class="panel-body">
-    <nav>
-      <ul style="border-left: 2px solid #eaeaea; padding-left: 12px;">
-        <li style="margin-bottom: 30px;">
-          <h4>
-            <small>
-              <i>{{vm.question.createTime}}</i> &nbsp;
-              <span class="text-success">{{vm.question.userName}}</span>&nbsp; 提问：
-            </small>
-          </h4>
-          <h3>{{vm.question.questionTitle}}</h3>
-          <p style="padding-left: 10px;color:#827f7f">
-            {{vm.question.questionContent}}
-          </p>
-        </li>
-
-        <li ng-repeat="round in vm.rounds" style="margin-bottom: 30px;">
-          <h4>
-            <small>
-              <i>{{round.createTime}}</i> &nbsp;
-              <span class="text-info">管理员
-                <span ng-if="round.showUser=='T'">（{{round.userName}}）</span></span>&nbsp; 回复：
-            </small>
-          </h4>
-          <p style="padding-left: 10px;">
-            {{round.roundContent}}
-          </p>
-        </li>
-
-        <li style="margin-bottom: 30px;" ng-if="vm.question.questionState=='C'">
-          <h4>
-            <small>
-              <i>{{vm.question.evaluateTime}}</i> &nbsp;
-              <span class="text-success" style="font-weight: bold;">用户已评价并关闭：</span>
-            </small>
-          </h4>
-          <p >
-            {{vm.question.evaluateScore}}分
-          </p>
-        </li>
-      </ul>
-    </nav>
+    <div class="row ct-margin-12-auto">
+      <label class="modal-label">
+        留言
+      </label>
+      <div class="">
+        <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
+      </div>
+    </div>
+    <div class="row ct-margin-12-auto ct-margin-bottom-0">
+      <div class="">
+        <button type="button" class="btn btn-primary" ng-click="vm.continueAsk();">
+          追加提问
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="row" ng-if="vm.question.questionState=='R'">
-  <div class="col-sm-8">
-    <textarea  class="form-control" placeholder="追问..." ng-model="vm.questionRound.roundContent"></textarea>
-  </div>
-  <div class="col-sm-2">
-    <button type="button" class="btn btn-success btn-md" ng-click="vm.continueAsk();">
-      追加提问
-    </button>
-  </div>
+
+<div class="modal-viewer-header" ng-if="vm.question.questionState=='R'">
+  <span class="modal-viewer-topbar-title">我要评分</span>
 </div>
-<div class="row" style="margin-top: 20px;" ng-if="vm.question.questionState=='R'">
-  <div class="col-sm-8" >
-    <!--星级评价-->
-    <span uib-rating ng-model="vm.rate" max="5" on-hover="vm.hoveringOver(value)"
-          aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>
-    <span ng-if="vm.overStar" class="label"
-          ng-class="{'label-warning': vm.overStar<3, 'label-info': vm.overStar>=3 && vm.overStar<5, 'label-success': vm.overStar==5}">
-          {{vm.showMsg}}
+<div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R'">
+  <div class="panel-body">
+    <div class="row ct-margin-12-auto">
+      <label class="modal-label">评分</label>
+      <div class="" >
+        <!--星级评价-->
+        <span uib-rating ng-model="vm.rate" max="5" on-hover="vm.hoveringOver(value)"
+              aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>
+        <span ng-if="vm.overStar" class="label panel-label"
+              ng-class="{'label-warning': vm.overStar<3, 'label-info': vm.overStar>=3 && vm.overStar<5, 'label-success': vm.overStar==5}">
+              {{vm.showMsg}}
         </span>
-    <span ng-if="!vm.overStar && vm.rate!=0" class="label"
-          ng-class="{'label-warning': vm.rate<3, 'label-info': vm.rate>=3 && vm.rate<5, 'label-success': vm.rate==5}">
-          {{(vm.rate<3)?'很差':(vm.rate<5?'一般':'很好')}}
+        <span ng-if="!vm.overStar && vm.rate!=0" class="label panel-label"
+              ng-class="{'label-warning': vm.rate<3, 'label-info': vm.rate>=3 && vm.rate<5, 'label-success': vm.rate==5}">
+              {{(vm.rate<3)?'很差':(vm.rate<5?'一般':'很好')}}
         </span>
-  </div>
-  <div class="col-sm-2">
-    <button type="button" class="btn btn-success btn-md" ng-click="vm.submitScore();">
-      评价完结
-    </button>
+      </div>
+
+    </div>
+    <div class="row ct-margin-12-auto ct-margin-bottom-0">
+      <div class="">
+        <button type="button" class="btn btn-primary" ng-click="vm.submitScore();">
+          评价完结
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

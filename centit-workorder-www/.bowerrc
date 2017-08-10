@@ -1,0 +1,8 @@
+{
+  "registry" : {
+    "search" : [ 
+"http://develop.centit.com:8081/nexus3/repository/bower-centit/"
+]
+   },
+ "resolvers" : [ "bower-nexus3-resolver" ]
+}
