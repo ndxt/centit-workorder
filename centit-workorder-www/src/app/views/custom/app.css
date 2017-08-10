@@ -665,3 +665,8 @@ font-size: 14px;
   margin: 0;
 }
 
+.modal-header .close {
+  font-size: 28px;
+  margin-top: -8px;
+  font-weight: normal;
+}
