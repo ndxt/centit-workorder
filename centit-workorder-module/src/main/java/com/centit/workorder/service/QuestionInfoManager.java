@@ -55,4 +55,6 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 	List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators);
 
 	void deleteObject(AssistOperator[] assistOperators);
+
+	void addDefaultReplay(String questionId);
 }
