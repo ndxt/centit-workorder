@@ -210,4 +210,6 @@ a:active{
   white-space: nowrap;
 }
 
-
+.modal-content {
+  border-radius: 0;
+}

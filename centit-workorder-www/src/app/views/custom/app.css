@@ -641,4 +641,16 @@ font-size: 14px;
 }
 
 
+.modal-dialog .modal-header {
+  padding: 15px;
+  border-bottom: none;
+}
+
+.modal-dialog .modal-footer {
+  border-top: 1px solid #e5e5e5;
+}
+
+.modal-dialog .modal-header .modal-title {
+  margin: 0;
+}
 
