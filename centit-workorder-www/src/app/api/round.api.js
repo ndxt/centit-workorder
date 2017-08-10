@@ -12,6 +12,10 @@
       supplemental:{
         url:`${baseUrl}/supplemental`,
         method:'POST'
+      },
+      reply:{
+        url:`${baseUrl}/reply`,
+        method:'POST'
       }
     })
   }

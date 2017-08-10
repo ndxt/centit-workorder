@@ -7,7 +7,7 @@
   /** @ngInject */
   function QuestionAdminViewController($stateParams,QuestionAPI,RoundAPI) {
     let vm = this;
-    vm.apply = apply;
+    vm.reply = reply;
 
     activate()
 
@@ -25,10 +25,10 @@
       delete params.roundId;
       return RoundAPI.query(params)
     }
-    function apply(){
+    function reply(showUser){
 
       RoundAPI
-        .supplemental({questionId:$stateParams.questionId},{questionRound:vm.questionRound})
+        .reply({questionId:$stateParams.questionId},Object.assign(vm.questionRound,{showUser:showUser}))
         .$promise
         .then(function(){
           vm.questionRound.roundContent='';

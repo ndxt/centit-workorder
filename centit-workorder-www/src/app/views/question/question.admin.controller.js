@@ -34,9 +34,6 @@
     function view(row) {
       $state.go("admin.question.view",Object.assign($stateParams,{ questionId: row.questionId }));
     }
-    function edit(row) {
-      $state.go("admin.question.view",Object.assign($stateParams,{ questionId: row.questionId }));
-    }
     function del(row) {
       QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
         .$promise
@@ -52,7 +49,7 @@
         controllerAs: 'vm',
       }).result
         .then(function() {
-          toastr.success(`评论成功`)
+          toastr.success(`分配成功`)
         })
 
     }

@@ -5,10 +5,10 @@
 
 <nav class="question-state">
   <ul>
-    <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">未处理</li>
-    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">处理中</li>
-    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">已回复</li>
-    <li ng-class="{current:vm.question.questionState=='C'}">已完结</li>
+    <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
+    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">工单已分派</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单已回复</li>
+    <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
   </ul>
 </nav>
 
@@ -28,7 +28,10 @@
       <span ng-if="vm.question.questionState=='R'">工单已回复</span>
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
-    <div class="col-sm-6 text-right">评分：<i class="assess-star"></i></div>
+    <div class="col-sm-6 text-right" ng-if="vm.question.questionState=='C'">评分：{{vm.question.evaluateScore}}分
+      <!--<i class="assess-star" ng-repeat="i in vm.range(vm.question.evaluateScore)">-->
+      <!--</i>-->
+    </div>
   </div>
 </div>
 
@@ -49,26 +52,15 @@
             <p>{{vm.question.createTime}}</p>
         </div>
       </div>
-
-
-      <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
-        <div class="user-icon drcloud-icon">腾</div>
-        <span>售后工程师</span>
-        <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
-          <p>{{round.createTime}}</p>
-          <div class="wrap-triangle"></div>
-        </div>
-      </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon" ng-if="round.orA=='A'">腾
-        </div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
         <span ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</span>
         <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
-        <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">{{round.roundContent}}</div>
