@@ -198,8 +198,19 @@ p.article-date {
   text-align: center;
 }
 
+.assess-star {
+  position: relative;
+  top: 2px;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
 
-
+.assess-star:after {
+  content: "\e006";
+}
 
 
 .drcloud-content {
