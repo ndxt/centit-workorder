@@ -176,6 +176,19 @@ p.article-date {
 }
 
 
+.user-icon.drcloud-icon.cut-letter {
+  padding-left: 11px;
+  overflow: hidden;
+  text-overflow: initial;
+  white-space: nowrap;
+  color: #e7f2fa;
+}
+
+.user-icon.drcloud-icon.cut-letter:first-letter {
+  color: #3d5c71;
+}
+
+
 .message-item span {
   position: absolute;
   top: 80px;
@@ -184,6 +197,10 @@ p.article-date {
   height: 24px;
   text-align: center;
 }
+
+
+
+
 
 .drcloud-content {
   border-radius: 4px;

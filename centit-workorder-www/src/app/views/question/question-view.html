@@ -61,7 +61,8 @@
 
 
       <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
-        <div class="user-icon drcloud-icon">腾</div>
+        <div class="user-icon drcloud-icon cut-letter">{{vm.question.userName}}</div>
+        <span>{{vm.question.userName}}</span>
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
           <p>2017-08-08 15:19:42</p>
@@ -76,9 +77,8 @@
         </div>
 
         <div class="item-content  col-sm-7 drcloud-content">
-          {{rou{d.roundContent}}
-          <br>
-          2017-08-08 15:19:42
+          <div class="col-sm-12">{{round.roundContent}}</div>
+          <p>2017-08-08 15:19:42</p>
           <div class="wrap-triangle"></div>
         </div>
 
