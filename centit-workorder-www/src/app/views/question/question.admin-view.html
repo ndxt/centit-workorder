@@ -94,12 +94,12 @@
 <div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R' || vm.question.questionState=='H'">
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
-      <div class="col-sm-12">
+      <div class="">
         <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
       </div>
     </div>
-    <div class="row ct-margin-12-auto">
-      <div class="col-sm-12">
+    <div class="row ct-margin-12-auto ct-margin-bottom-0">
+      <div class="">
         <button type="button" class="btn btn-primary" ng-click="vm.reply('T');">
           答复
         </button>
