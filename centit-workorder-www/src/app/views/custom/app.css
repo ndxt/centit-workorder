@@ -160,6 +160,10 @@ p.article-date {
   background: #eafbff;
 }
 
+.message-item.question-item {
+  background: #fff;
+}
+
 .message-item:first-child {
   border: none;
 }
@@ -178,11 +182,17 @@ p.article-date {
 
 
 .user-icon.drcloud-icon.cut-letter {
-  padding-left: 11px;
   overflow: hidden;
   text-overflow: initial;
   white-space: nowrap;
   color: #e7f2fa;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px;
+  line-height: 16px;
+  text-indent: 1px;
 }
 
 .user-icon.drcloud-icon.cut-letter:first-letter {
@@ -641,4 +651,22 @@ font-size: 14px;
 }
 
 
+.modal-dialog .modal-header {
+  padding: 15px;
+  border-bottom: none;
+}
 
+.modal-dialog .modal-footer {
+  border-top: 1px solid #e5e5e5;
+  text-align: right;
+}
+
+.modal-dialog .modal-header .modal-title {
+  margin: 0;
+}
+
+.modal-header .close {
+  font-size: 28px;
+  margin-top: -8px;
+  font-weight: normal;
+}

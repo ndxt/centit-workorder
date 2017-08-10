@@ -181,6 +181,7 @@ public class QuestionInfoController  extends BaseController {
         dbQuestionInfo.setQuestionState("H");
         dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
         questionInfoMag.mergeObject(dbQuestionInfo);
+        questionInfoMag.addDefaultReplay(questionId);
         JsonResultUtils.writeSingleDataJson(questionId,response);
     }
 

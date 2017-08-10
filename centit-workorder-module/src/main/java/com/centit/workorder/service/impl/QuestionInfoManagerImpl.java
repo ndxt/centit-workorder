@@ -236,5 +236,18 @@ public class QuestionInfoManagerImpl
         }
 	}
 
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public void addDefaultReplay(String questionId) {
+		QuestionRound round = new QuestionRound();
+		round.setOrA("A");
+		round.setQuestionId(questionId);
+		round.setCreateTime(DatetimeOpt.currentUtilDate());
+		round.setUserCode("system");
+		round.setUserName("system");
+		questionRoundDao.saveNewObject(round);
+
+	}
+
 }
 
