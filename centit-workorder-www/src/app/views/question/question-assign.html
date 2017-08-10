@@ -4,25 +4,15 @@
 <div class="modal-body" id="modal-body">
   <form>
     <div class="form-group">
-      <label for="questionsModalTitle">主负责人</label>
-      <select ng-if="!vm.catalog" class="form-control" id="questionsModalCatalog"
-              name="catalogId"
-              ng-model="vm.question.catalogId"
-              >
+      <label for="currentOperator">主负责人</label>
+      <select  class="form-control" id="currentOperator" name="currentOperator" ng-model="vm.currentOperator">
         <option value="">-- 请选择 --</option>
         <option value="">张三</option>
         <option value="">李四</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="questionsModalCatalog">协助人员</label>
-
-      <!--<input ng-model="vm.question.questionTitle"-->
-             <!--type="text"-->
-             <!--name="title"-->
-             <!--class="form-control"-->
-             <!--id="questionsModalTitle"-->
-             <!--placeholder="协助人员" ng-model="vm.info.title"/>-->
+      <label>协助人员</label>
       <input type="checkbox" name="operateUser" value="u001"/>张三
       <input type="checkbox" name="operateUser" value="u002"/>李苏
       <input type="checkbox" name="operateUser" value="u003"/>王子俊

@@ -9,7 +9,6 @@
     let vm = this;
 
     vm.view = view;
-    vm.edit = edit;
     vm.del = del;
     vm.assign = assign
 
