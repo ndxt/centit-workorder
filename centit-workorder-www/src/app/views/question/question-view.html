@@ -1,4 +1,4 @@
-<div class="modal-header ct-no-border">
+<div class="modal-header ct-margin-bottom-24">
   <h3 class="modal-title">工单详情</h3>
 </div>
 
@@ -59,6 +59,7 @@
         <span>售后工程师</span>
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
+          <p>{{round.createTime}}</p>
           <div class="wrap-triangle"></div>
         </div>
       </div>
@@ -74,7 +75,6 @@
 
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">{{round.roundContent}}</div>
-          <br>
           <p>{{round.createTime}}</p>
           <div class="wrap-triangle"></div>
         </div>
