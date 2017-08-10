@@ -60,9 +60,10 @@
           <div class="wrap-triangle"></div>
         </div>
       </div>
+
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon" ng-if="round.orA=='A'">腾
-        </div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>

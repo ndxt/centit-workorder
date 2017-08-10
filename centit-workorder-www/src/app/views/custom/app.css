@@ -160,6 +160,10 @@ p.article-date {
   background: #eafbff;
 }
 
+.message-item.question-item {
+  background: #fff;
+}
+
 .message-item:first-child {
   border: none;
 }
@@ -183,6 +187,10 @@ p.article-date {
   text-overflow: initial;
   white-space: nowrap;
   color: #e7f2fa;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
 
 .user-icon.drcloud-icon.cut-letter:first-letter {
@@ -648,6 +656,7 @@ font-size: 14px;
 
 .modal-dialog .modal-footer {
   border-top: 1px solid #e5e5e5;
+  text-align: right;
 }
 
 .modal-dialog .modal-header .modal-title {
