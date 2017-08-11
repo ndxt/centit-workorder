@@ -108,6 +108,22 @@ public class QuestionInfoController  extends BaseController {
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
         JsonResultUtils.writeSingleDataJson(questionInfo, response);
     }
+
+    /**
+     * 根据questionID获取工单信息和当前用户是责任人还是协助处理人标识
+     * @param questionId
+     * @param response
+     */
+    @RequestMapping(value = "/questionInfo/{questionId}", method = {RequestMethod.GET})
+    public void questionInfo(@PathVariable String questionId,HttpServletRequest request, HttpServletResponse response){
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),centitUserDetails.getUserName());
+        QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
+        ResponseMapData resData = new ResponseMapData();
+        resData.addResponseData(OBJLIST, questionInfo);
+        resData.addResponseData("ROLE", role);
+        JsonResultUtils.writeSingleDataJson(resData, response);
+    }
     
     /**
      * 获取未分配责任人的工单列表
@@ -282,6 +298,31 @@ public class QuestionInfoController  extends BaseController {
         resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
+
+    /**
+     * 工单维护人员所属的工单集合（责任人或协助处理人）
+     * @param osId
+     * @param pageDesc
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/questionsList", method = {RequestMethod.GET})
+    public void listQuestions(@PathVariable String osId,
+                     PageDesc pageDesc,
+                     HttpServletRequest request,
+                     HttpServletResponse response){
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        Map<String, Object> map = new HashMap<>();
+        map.put("osId",osId);
+        map.put("operator",centitUserDetails.getUserName());
+        map.put("operatorCode",centitUserDetails.getUserCode());
+        JSONArray listObjects = questionInfoMag.getQuestionInfoList(map, pageDesc);
+        ResponseMapData resData = new ResponseMapData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
 
     /**
      * 获取所有责任人

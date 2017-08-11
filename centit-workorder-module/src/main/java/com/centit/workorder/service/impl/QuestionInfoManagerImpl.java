@@ -96,6 +96,7 @@ public class QuestionInfoManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void saveQuestionRound(QuestionRound questionRound) {
 		questionRound.setOrA("Q");
+		questionRound.setShowUser("T");
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
@@ -119,7 +120,14 @@ public class QuestionInfoManagerImpl
 		return dataList;
 	}
 
-    @Override
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public JSONArray getQuestionInfoList(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+		JSONArray dataList = questionInfoDao.questionInfo(baseDao,queryParamsMap,pageDesc);
+		return dataList;
+	}
+
+	@Override
     @Transactional(propagation= Propagation.REQUIRED)
     public List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc) {
 		Map<String,Object> queryParamsMap = new HashMap<String,Object>();
@@ -141,6 +149,7 @@ public class QuestionInfoManagerImpl
 		questionRound.setEditState("U");
 		questionRound.setRoundState("C");
 		questionRound.setOrA("A");
+		questionRound.setShowUser("T");
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
@@ -158,8 +167,8 @@ public class QuestionInfoManagerImpl
     public QuestionRound discussQuestion(QuestionRound questionRound) {
         questionRound.setEditState("U");
         questionRound.setOrA("A");
-        String showUser = StringUtils.isBlank(questionRound.getShowUser())?"F":questionRound.getShowUser();
-        questionRound.setShowUser(showUser);
+//        String showUser = StringUtils.isBlank(questionRound.getShowUser())?"F":questionRound.getShowUser();
+        questionRound.setShowUser("F");
         questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
         questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
         questionRoundDao.saveNewObject(questionRound);
@@ -245,9 +254,26 @@ public class QuestionInfoManagerImpl
 		round.setCreateTime(DatetimeOpt.currentUtilDate());
 		round.setUserCode("system");
 		round.setUserName("system");
+		round.setShowUser("T");
 		questionRoundDao.saveNewObject(round);
-
 	}
+
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public String loginRole(String questionId, String userCode, String userName) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("questionId",questionId);
+        map.put("currentOperator",userName);
+        QuestionInfo questionInfo = questionInfoDao.getObjectByProperties(map);
+        if (questionInfo != null){
+            return "O";
+        }
+        AssistOperator assistOperator = assistOperatorDao.getObjectById(new AssistOperatorId(questionId,userCode));
+        if (assistOperator != null){
+            return "A";
+        }
+        return null;
+    }
 
 }
 
