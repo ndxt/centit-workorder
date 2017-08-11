@@ -16,6 +16,10 @@
       reply:{
         url:`${baseUrl}/reply`,
         method:'POST'
+      },
+      listT:{
+        url:'${baseUrl}/questionRoundShowUser',
+        mrthod:'GET'
       }
     })
   }

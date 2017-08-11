@@ -52,26 +52,18 @@
           <p>{{vm.question.createTime}}</p>
         </div>
 
-        <div class="col-sm-12 text-right ct-no-padding ct-margin-bottom-0 send-wo"><a href="">分配给用户</a></div>
-      </div>
-
-
-      <div class="col-sm-12 clearfix message-item" ng-if="vm.question.questionState!='U'">
-        <div class="user-icon drcloud-icon cut-letter">售后工程师</div>
-        <span>售后工程师</span>
-        <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12">您好，已经为您的问题分配工程师，请耐心等待。</div>
-          <div class="wrap-triangle"></div>
+        <div class="col-sm-12 text-right ct-no-padding ct-margin-bottom-0 send-wo">
+          <a href="#" ng-if="round.showUser=='T'">用户可见</a>
+          <a href="#" ng-if="round.showUser=='F'">用户不可见</a>
         </div>
       </div>
+
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</div>
-        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">腾</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
-        <span ng-if="round.orA=='A' && round.showUser=='F'">售后工程师</span>
-        <span ng-if="round.orA=='A' && round.showUser=='T'">{{round.userName}}</span>
+        <span ng-if="round.orA=='A'">售</span>
         <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
@@ -100,7 +92,7 @@
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">
       <div>
-        <label class="">是否显示：</label>
+        <label class="">是否公示用户：</label>
         <label class="radio-inline">
           <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked=""> 是
         </label>

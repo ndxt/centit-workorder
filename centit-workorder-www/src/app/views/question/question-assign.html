@@ -13,9 +13,9 @@
     </div>
     <div class="form-group">
       <label>协助人员</label>
-      <input type="checkbox" name="operateUser" value="u001"/>张三
-      <input type="checkbox" name="operateUser" value="u002"/>李苏
-      <input type="checkbox" name="operateUser" value="u003"/>王子俊
+      <div ng-repeat="user in vm.users">
+        <input type="checkbox" name="operatorCode" ng-model="user.ischecked" ng-checked="vm.isSelected(user)" />{{user.username}}
+      </div>
     </div>
 
   </form>
