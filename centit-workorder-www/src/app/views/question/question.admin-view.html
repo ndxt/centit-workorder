@@ -37,7 +37,7 @@
   <span class="modal-viewer-topbar-title">沟通记录</span>
 </div>
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-body ct-padding-top-0">
     <div class="clearfix ng-scope">
 
 
@@ -99,6 +99,16 @@
       </div>
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">
+      <div>
+        <label class="">是否显示：</label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked=""> 是
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked=""> 否
+
+        </label>
+      </div>
       <div class="">
         <button type="button" class="btn btn-primary" ng-click="vm.reply('T');">
           答复
