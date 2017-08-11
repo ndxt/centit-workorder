@@ -284,6 +284,31 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
+     * 工单维护人员所属的工单集合（责任人或协助处理人）
+     * @param osId
+     * @param pageDesc
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/questionsList", method = {RequestMethod.GET})
+    public void listQuestions(@PathVariable String osId,
+                     PageDesc pageDesc,
+                     HttpServletRequest request,
+                     HttpServletResponse response){
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        Map<String, Object> map = new HashMap<>();
+        map.put("osId",osId);
+        map.put("operator",centitUserDetails.getUserName());
+        map.put("operatorCode",centitUserDetails.getUserCode());
+        JSONArray listObjects = questionInfoMag.getQuestionInfoList(map, pageDesc);
+        ResponseMapData resData = new ResponseMapData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
+
+    /**
      * 获取所有责任人
      * @param response
      */
