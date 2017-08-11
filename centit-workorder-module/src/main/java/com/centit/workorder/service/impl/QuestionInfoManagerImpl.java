@@ -258,5 +258,22 @@ public class QuestionInfoManagerImpl
 		questionRoundDao.saveNewObject(round);
 	}
 
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public String loginRole(String questionId, String userCode, String userName) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("questionId",questionId);
+        map.put("currentOperator",userName);
+        QuestionInfo questionInfo = questionInfoDao.getObjectByProperties(map);
+        if (questionInfo != null){
+            return "O";
+        }
+        AssistOperator assistOperator = assistOperatorDao.getObjectById(new AssistOperatorId(questionId,userCode));
+        if (assistOperator != null){
+            return "A";
+        }
+        return null;
+    }
+
 }
 

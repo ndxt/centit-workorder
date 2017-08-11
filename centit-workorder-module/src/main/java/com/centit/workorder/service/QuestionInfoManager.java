@@ -59,4 +59,6 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 	void deleteObject(AssistOperator[] assistOperators);
 
 	void addDefaultReplay(String questionId);
+
+    String loginRole(String questionId,String userCode,String userName);
 }
