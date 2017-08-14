@@ -30,4 +30,4 @@
 
     routerHelper.addRouterStates(states)
   }
-})()
+})();
