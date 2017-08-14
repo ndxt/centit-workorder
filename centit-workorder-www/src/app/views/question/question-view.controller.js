@@ -36,7 +36,7 @@
     }
     function getRound(params) {
       delete params.roundId;
-      return RoundAPI.query(params)
+      return RoundAPI.listT(params)
     }
     function continueAsk(){
 

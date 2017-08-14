@@ -38,4 +38,4 @@
       addInterceptor('HttpResponseErrorInterceptor')
     }
   }
-})()
+})();
