@@ -1,11 +1,25 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <form>
-        <div class="col-sm-6">
-          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">2017-1-1 至今</span>
-          <span class="label label-info" style="font-size: 14px; line-height: 30px; padding: 6px; margin-right: 8px; cursor: pointer;">已回复</span>
+<div class="modal-header">
+  <h3 class="modal-title">我的工单</h3>
+</div>
+
+
+    <form class="ct-margin-12-auto">
+        <div class="col-sm-6 selector-set ct-margin-top-12 ct-padding-left-0">
+
+          <a class="ss-item">
+            <b>时间：</b>
+            <em>2017-1-1 至今</em>
+            <i></i>
+          </a>
+
+          <a class="ss-item">
+            <b>状态：</b>
+            <em>已回复</em>
+            <i></i>
+          </a>
+
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 ct-margin-top-12 ct-padding-right-0">
           <div class="input-group input-group-sm pull-right"
                ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
             <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
@@ -15,19 +29,19 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm-12">
-            <table style="width: 100%; margin-top: 10px;">
+        <div class="row" >
+          <div class="col-sm-12  ct-margin-top-12">
+            <table class="search-table">
               <tbody>
-              <tr style="border-bottom: 1px dashed #ccc;">
-                <td style="width: 100px; padding: 4px;">工单时间：</td>
-                <td style="padding: 4px;">
-                    <input type="text" style="width: 240px;" class="form-control input-sm" placeholder="选择工单创建时间">
+              <tr>
+                <td>工单时间：</td>
+                <td>
+                    <input type="text" class="form-control input-sm" placeholder="选择工单创建时间">
                 </td>
               </tr>
-              <tr style="border-bottom: 1px dashed #ccc;">
-                <td style="width: 100px; padding: 6px;">工单状态：</td>
-                <td style="padding: 6px 4px 4px;">
+              <tr>
+                <td>工单状态：</td>
+                <td>
                   <label class="radio-inline">
                     <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> 全部
                   </label>
@@ -47,14 +61,14 @@
           </div>
         </div>
     </form>
-  </div>
-</div>
 
 
-<div class="panel panel-default">
-  <table class="table table-bordered">
+
+<div class="panel">
+  <table class="table table-bordered table-hover">
     <thead>
     <tr>
+      <th width="80px" class="text-center">状态</th>
       <th>标题</th>
       <th class="text-center" width="180">创建时间</th>
       <th class="text-center" width="250">操作</th>
@@ -62,29 +76,41 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in vm.questions">
-      <td>
-        <span ng-if="row.questionState=='B'" class="label label-info" style="padding-bottom: 0.2em">未回复</span>
-        <span ng-if="row.questionState=='N'" class="label label-info" style="padding-bottom: 0.2em">处理中</span>
-        <span ng-if="row.questionState=='C'" class="label label-info"  style="padding-bottom: 0.2em">已关闭</span>
-        <a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a>
+      <td class="text-center">
+        <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >处理中</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已回复</span>
+        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
       </td>
+      <td><a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
       </td>
       <td class="text-center">
         <button type="button" class="btn btn-info" ng-click="vm.view(row)">查看</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.edit(row)" ng-if="row.questionState=='B'">编辑</button>
-        <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='C'">删除</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.edit(row)" ng-if="row.questionState=='U'">编辑</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='U' || row.questionState=='C'">删除</button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" class="no-hover">
+        <nav aria-label="Page" class="text-center ct-fr flex">
+          <ul class="ct-no-margin"
+              uib-pagination boundary-links="true" total-items="vm.totalItems"
+              ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;"
+              first-text="&laquo;" last-text="&raquo;"></ul>
+        </nav>
       </td>
     </tr>
     </tbody>
+
+
+
   </table>
 </div>
 
-<nav aria-label="Page navigation" class="text-center">
-  <ul style="margin: 0;"
-    uib-pagination boundary-links="true" total-items="vm.totalItems" ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-</nav>
+
+
 
 
 

@@ -1,83 +1,79 @@
+<div class="modal-header">
+  <h3 class="modal-title">系统帮助</h3>
+</div>
 
 
+<div class="modal-viewer-header ct-border-bottom-0">
+  <span class="modal-viewer-topbar-title">请选择您遇到的问题分类：</span>
+</div>
+<div class="panel panel-default">
 
-
-<div class="row">
-<div class="side-nav col-lg-4 col-md-4 ">
-  <h3>全部文档</h3>
-  <ul>
-    <!--通过判断是否有children来渲染文档树-->
-    <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1">
-        <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one,'showlevel2')"> {{linkLevel_one.docTitle}} </a>
-      <!--总觉得这样绑定ng-click的写法不好？-->
-      <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2">
-        <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2" >
-          <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')"> {{linkLevel2.docTitle}} </a>
-          <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3">
-            <li ng-repeat="linkLevel3 in linkLevel2.c" class="level level3">
-              <a title={{linkLevel3.docId}} ng-click="vm.setHTML(linkLevel3)"> {{linkLevel3.docTitle}} </a>
+  <div class="row ct-no-margin">
+    <div class="col-md-2">
+      <div class="panel">
+        <div class="panel-body ct-padding-left-0">
+          <!--      <h3>全部文档</h3>-->
+          <ul class="help-menu ct-no-padding">
+            <!--通过判断是否有children来渲染文档树-->
+            <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1 section-open"
+                ng-class="{true: 'section-open', false: 'section-close'}[isFirst]" ng-click="isFirst = !isFirst">
+              <span
+                ng-class="{'has-child':linkLevel_one.c !== undefined,'no-child':linkLevel_one.c == undefined}"><i></i></span>
+              <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one,'showlevel2')">
+                {{linkLevel_one.docTitle}} </a>
+              <!--总觉得这样绑定ng-click的写法不好？-->
+              <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2" class="sub-menu">
+                <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2 section2-open"
+                    ng-class="{true: 'section2-open', false: 'section2-close'}[isOpen]" ng-click="isOpen = !isOpen">
+                  <span ng-class="{'has-child':linkLevel2.c !== undefined,'no-child':linkLevel2.c == undefined}"><i></i></span>
+                  <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')">
+                    {{linkLevel2.docTitle}} </a>
+                  <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3" class="sub-menu">
+                    <li ng-repeat="linkLevel3 in linkLevel2.c" class="level level3">
+                      <span class="no-child"><i></i></span>
+                      <a title={{linkLevel3.docId}} ng-click="vm.setHTML(linkLevel3)"> {{linkLevel3.docTitle}} </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </li>
           </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
+        </div>
+      </div>
+    </div>
 
-</div>
-<div  class=" col-lg-8 col-md-8 ">
-  <div ng-bind-html="vm.html" class="doc-content">
-    <!--<div class="author-reply">-->
-      <!--<p><i>作者回复</i>您好，感谢您的反馈。ECS服务器可以更换操作系统的。请参考 更换系统盘-->
-        <!--https://help.aliyun.com/document_detail/25448.html</p>-->
-      <!--<p class="feedback-time">2016-11-29 10:24:52</p>-->
-    <!--</div>-->
-    <div class="loading" style="display: none;">加载中......</div>
-  </div>
-    <!-- 反馈list -->
-
-    <!--星级评价-->
-  <div style="width:500px; margin:100px auto;">
-    <div class="demo">
-      <div id="function-demo" class="target-demo"></div>
-      <div id="function-hint" class="hint"></div>
+    <div class="col-md-10 ct-padding-0-8" ng-if="vm.flag">
+      <div class="panel panel-default ct-margin-12-auto">
+        <div class="panel-body">
+          <h3 style="text-align: center">{{vm.htmlTitle}}</h3>
+          <div ng-bind-html="vm.html" class="doc-content"></div>
+          <div class="panel-star">
+            <!--星级评价-->
+            <span uib-rating ng-model="vm.rate" max="10" on-hover="vm.hoveringOver(value)"
+                  aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>
+            <span ng-if="vm.overStar" class="label panel-label"
+                  ng-class="{'label-warning': vm.overStar<5, 'label-info': vm.overStar>=5 && vm.overStar<8, 'label-success': vm.overStar>=8}">
+              {{vm.showMsg}}
+            </span>
+            <span ng-if="!vm.overStar && vm.rate!=0" class="label panel-label"
+                  ng-class="{'label-warning': vm.rate<5, 'label-info': vm.rate>=5 && vm.rate<8, 'label-success': vm.rate>=8}">
+              {{(vm.rate<5)?'很差':(vm.rate<8?'一般':'很好')}}
+            </span>
+            <!--<div class="ueditor" ng-model="content"></div>-->
+          </div>
+          <div class="col-sm-12 ct-no-padding">
+            <button ng-click="vm.submitRate()" class="btn btn-primary btn-sm">提交
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <button ng-click="vm.submitRate()">提交评分</button>
-  <div class="ueditor" ng-model="content"></div>
 
-  </div>
+</div>
 
-
-  </div>
 
 <script>
 
-    function MenuSlide(){
-        $(this).next('ul').toggle();
-    }
-    $('body').on('click','.level a', MenuSlide);
 
-    $(function() {
-      $.fn.raty.defaults.path = 'lib/img';
-      $('#function-demo').raty({
-        number: 5, //多少个星星设置
-        targetType: 'hint', //类型选择，number是数字值，hint，是设置的数组值
-        path: '../../../assets/images',
-        hints: ['差', '一般', '好', '非常好', '全五星'],
-        cancelOff: 'cancel-off-big.png',
-        cancelOn: 'cancel-on-big.png',
-        size: 24,
-        starHalf: 'star-half-big.png',
-        starOff: 'star-off-big.png',
-        starOn: 'star-on-big.png',
-        target: '#function-hint',
-        cancel: false,
-        targetKeep: true,
-        targetText: '请选择评分',
-        click: function(score, evt) {
-          alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt.type);
-        }
-      });
-
-    });
 </script>

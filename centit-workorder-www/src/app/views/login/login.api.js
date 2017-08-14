@@ -25,5 +25,5 @@
       return $q.resolve(user)
     }
   }
-})()
+})();
 

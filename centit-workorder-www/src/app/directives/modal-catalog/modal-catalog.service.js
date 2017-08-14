@@ -19,7 +19,7 @@
 
     ///////////////////////////////////////////////
 
-    function openModal(os, catalog) {
+    function openModal(os, catalog,freshData) {
       return $uibModal.open({
         templateUrl: 'app/views/catalog/catalog-modal.html',
         controller: 'CatalogModalController',
@@ -42,6 +42,8 @@
             toastr.success(`类型【${obj.catalogName}】修改成功`)
           }
 
+          if(freshData)
+            freshData();
           return obj
         })
     }
@@ -51,26 +53,12 @@
      * @param osId
      */
     function osResolve(osId) {
-
-      return OsAPI.get({ osId })
-
-      if (!os) {
+      if (!osId) {
         return $q.reject('os不能为空')
       }
-
-      if (angular.isString(os)) {
-        return OsAPI.get({
-          osId: os
-        }).$promise
-          .then(res => {
-            if (!res) {
-              return $q.reject('os不能为空')
-            }
-            return res
-          })
-      }
-
-      return $q.resolve(os)
+      return OsAPI.get({
+        osId
+      }).$promise
     }
 
     /**
@@ -88,7 +76,7 @@
       return CatalogAPI.get({
         osId,
         catalogId
-      })
+      }).$promise
     }
   }
-})()
+})();

@@ -11,5 +11,5 @@
 
     return $resource(baseUrl, null, {})
   }
-})()
+})();
 

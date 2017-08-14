@@ -65,7 +65,7 @@ public class QuestionInfo implements java.io.Serializable {
 	@Column(name = "QUESTION_CONTENT")
 	private String  questionContent;
 	/**
-	 * 问题状态 N : 正常  C: 关闭 
+	 * 问题状态：U:未处理，H:处理状态，R:回复，C:关闭
 	 */
 	@Column(name = "QUESTION_STATE")
 	@Length(max = 1, message = "字段长度不能大于{max}")

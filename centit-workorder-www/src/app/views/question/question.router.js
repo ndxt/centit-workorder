@@ -29,6 +29,30 @@
 
       // 我的工单-编辑
       {
+        state: 'root.question.add',
+        config: {
+          url: '/new/:catalogId',
+          views: {
+            'main@': {
+              templateUrl: 'app/views/question/question-edit.html',
+              controller: 'QuestionEditController',
+              controllerAs: 'vm'
+            }
+          },
+          resolve: {
+            question: ['$stateParams',function($stateParams) {
+              return {catalogId:$stateParams.catalogId}
+            }]
+          },
+          data: {
+            title: '我的工单',
+            bodyClass: 'question-edit'
+          }
+        }
+      },
+
+      // 我的工单-编辑
+      {
         state: 'root.question.edit',
         config: {
           url: '/:questionId/edit',
@@ -38,6 +62,16 @@
               controller: 'QuestionEditController',
               controllerAs: 'vm'
             }
+          },
+          resolve: {
+            question: ['$stateParams', 'QuestionAPI', function($stateParams, QuestionAPI) {
+              const questionId = $stateParams.questionId
+              const osId = $stateParams.osId
+              return QuestionAPI.get({
+                osId,
+                questionId
+              })
+            }]
           },
           data: {
             title: '我的工单',
@@ -68,4 +102,4 @@
 
     routerHelper.addRouterStates(states)
   }
-})()
+})();

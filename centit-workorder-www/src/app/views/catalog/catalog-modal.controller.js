@@ -32,7 +32,9 @@
         osId: os.osId
       }, info)
         .$promise
-        .then(res => $uibModalInstance.close(res))
+        .then(function (res) {
+          $uibModalInstance.close(res);
+        })
         .catch(() => vm.error = ErrorMessage)
     }
 
@@ -42,14 +44,13 @@
      * @returns {*|Promise.<TResult>}
      */
     function modifyQuestion(info) {
-      info.$save()
-      // return CatalogAPI.update({
-      //   osId: os.osId,
-      //   catalogId: info.catalogId
-      // }, info)
-      //   .$promise
-      //   .then(res => $uibModalInstance.close(res))
-      //   .catch(() => vm.error = ErrorMessage)
+      return CatalogAPI.update({
+        osId: os.osId,
+        catalogId: info.catalogId
+      }, info)
+        .$promise
+        .then(res => $uibModalInstance.close(res))
+        .catch(() => vm.error = ErrorMessage)
     }
   }
 })();

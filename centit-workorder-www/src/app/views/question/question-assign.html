@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">分配工单</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="currentOperator">主负责人</label>
+      <select  class="form-control" id="currentOperator" name="currentOperator" ng-model="vm.currentOperator">
+        <option value="">-- 请选择 --</option>
+        <option value="">张三</option>
+        <option value="">李四</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>协助人员</label>
+      <div ng-repeat="user in vm.users">
+        <input type="checkbox" name="operatorCode" ng-model="user.ischecked" ng-checked="vm.isSelected(user)" />{{user.username}}
+      </div>
+    </div>
+
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="vm.ok()">提交</button>
+  <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>
+</div>

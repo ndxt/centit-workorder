@@ -3,11 +3,12 @@
     <span ng-if="!vm.info.catalogId">新增&nbsp;类型</span>
     <span ng-if="vm.info.catalogId">编辑&nbsp;类型</span>
   </h3>
+
+
+  <button type="button" class="close" data-dismiss="modal" ng-click="vm.cancel()">×</button>
 </div>
 <div class="modal-body" id="modal-body">
-
   <div uib-alert class="alert-danger" ng-if="vm.error" close="vm.error = null">错误：{{vm.error}}</div>
-
   <form>
     <div class="form-group">
       <label for="text_modal_catalog_osName">所属系统</label>
@@ -24,5 +25,5 @@
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">提交</button>
-  <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>
+<!--  <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>-->
 </div>

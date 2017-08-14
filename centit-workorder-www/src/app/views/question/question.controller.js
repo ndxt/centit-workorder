@@ -39,7 +39,12 @@
 
     }
     function del(row) {
-      QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }));
+      QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
+        .$promise
+        .then(function(){
+          queryQuestions(Object.assign({},$stateParams))
+        })
+
     }
   }
 })();

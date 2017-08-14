@@ -6,4 +6,4 @@
     'centit.filter'
   ])
     .constant('ApiContextPath', '/workorder')
-})()
+})();

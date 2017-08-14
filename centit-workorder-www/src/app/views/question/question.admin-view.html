@@ -1,0 +1,115 @@
+<div class="modal-header ct-margin-bottom-24">
+  <h3 class="modal-title">工单详情</h3>
+</div>
+
+
+<nav class="question-state">
+  <ul>
+    <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
+    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">工单已分派</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单已回复</li>
+    <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
+  </ul>
+</nav>
+
+<div class="panel info-panel">
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="text-explode">问题标题 :</span>
+      {{vm.question.questionTitle}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"><span class="text-explode">提交时间 : </span>
+      {{vm.question.createTime}}
+    </div>
+    <div class="col-sm-3"><span class="text-explode">状态 : </span>
+      <span ng-if="vm.question.questionState=='U'">工单未处理</span>
+      <span ng-if="vm.question.questionState=='H'">工单已分派</span>
+      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
+      <span ng-if="vm.question.questionState=='C'">工单已完结</span>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal-viewer-header">
+  <span class="modal-viewer-topbar-title">沟通记录</span>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body ct-padding-top-0">
+    <div class="clearfix ng-scope">
+
+
+
+      <div class="col-sm-12 clearfix message-item question-item">
+        <div class="user-icon drcloud-icon">
+          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+        </div>
+        <span>{{vm.question.userName}}</span>
+        <div class="item-content  col-sm-7 drcloud-content text-muted">
+          <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
+          <p>{{vm.question.createTime}}</p>
+        </div>
+
+        <div class="col-sm-12 text-right ct-no-padding ct-margin-bottom-0 send-wo">
+          <a href="#" ng-if="round.showUser=='T'">用户可见</a>
+          <a href="#" ng-if="round.showUser=='F'">用户不可见</a>
+        </div>
+      </div>
+
+      <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">腾</div>
+        <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
+          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+        </div>
+        <span ng-if="round.orA=='A'">售</span>
+        <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+
+        <div class="item-content  col-sm-7 drcloud-content">
+          <div class="col-sm-12">{{round.roundContent}}</div>
+          <br>
+          <p>{{round.createTime}}</p>
+          <div class="wrap-triangle"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-viewer-header" ng-if="vm.question.questionState=='R' || vm.question.questionState=='H'">
+  <span class="modal-viewer-topbar-title">我要答复</span>
+</div>
+<div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R' || vm.question.questionState=='H'">
+  <div class="panel-body">
+    <div class="row ct-margin-12-auto">
+      <div class="">
+        <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
+      </div>
+    </div>
+    <div class="row ct-margin-12-auto ct-margin-bottom-0">
+      <div>
+        <label class="">是否公示用户：</label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked=""> 是
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked=""> 否
+
+        </label>
+      </div>
+      <div class="">
+        <button type="button" class="btn btn-primary" ng-click="vm.reply('T');">
+          答复
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="vm.reply('F');">
+          讨论
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

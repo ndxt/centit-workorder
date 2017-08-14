@@ -27,6 +27,7 @@ function browserSyncInit(baseDir, browser) {
   };
 
   const LocalHost = 'http://localhost:8080/workorder'
+  const LSHHost = 'http://192.168.132.42:8080/workorder'
 
   /*
    * You can add a proxy to your backend by uncommenting the line below.

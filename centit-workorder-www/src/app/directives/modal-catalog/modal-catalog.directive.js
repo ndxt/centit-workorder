@@ -12,7 +12,8 @@
         os: '=',
         catalog: '=',
         onSuccess: '&',
-        onError: '&'
+        onError: '&',
+        freshData:'='
       },
 
       link: function(scope, btn) {
@@ -20,7 +21,7 @@
           .on('click.wo-modal-catalog', function(e) {
             e.preventDefault()
 
-            CatalogModalService.openModal(scope.os, scope.catalog)
+            CatalogModalService.openModal(scope.os, scope.catalog,scope.freshData)
               .then(console.log)
               // .then(obj => scope.onSuccess({$catalog: obj}))
               .catch(console.error)
@@ -28,4 +29,4 @@
       }
     }
   }
-})()
+})();

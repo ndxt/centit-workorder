@@ -7,7 +7,7 @@
   /** @ngInject */
   function DashboardController(
     $stateParams,
-    CatalogAPI
+    CatalogAPI,isAdmin
   ) {
     const vm = this;
     const osId = $stateParams.osId;
@@ -16,6 +16,8 @@
     vm.create = create
     vm.edit = edit
     vm.remove = remove
+    vm.queryCatalogs = queryCatalogs
+    vm.isAdmin = isAdmin
 
     activate()
 
@@ -30,6 +32,11 @@
     }
 
     function remove(catalog) {
+      CatalogAPI.delete({osId:$stateParams.osId,catalogId:catalog.catalogId})
+        .$promise
+        .then(function(){
+          queryCatalogs()
+        });
 
     }
 

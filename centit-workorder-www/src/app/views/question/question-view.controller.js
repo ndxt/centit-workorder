@@ -5,33 +5,86 @@
     .controller('QuestionViewController', QuestionViewController)
 
   /** @ngInject */
-  function QuestionViewController($stateParams, $state,QuestionAPI,RoundAPI) {
+  function QuestionViewController($stateParams,QuestionAPI,RoundAPI) {
     let vm = this;
-    vm.askOthers = askOthers;
+    vm.hoveringOver = hoveringOver;
+    // vm.askOthers = askOthers;
+    // vm.score = score;
+    vm.continueAsk = continueAsk;
+    vm.submitScore = submitScore;
+
+    vm.range = function(n) {
+      return new Array(n);
+    }
 
     activate()
 
     function activate() {
-      getQuestion();
-      getRound(Object.assign({},$stateParams));
+      vm.question = getQuestion();
+
+      vm.rounds = getRound(Object.assign({},$stateParams));
     }
 
     //////////////////////////
 
     function getQuestion() {
       return QuestionAPI.get($stateParams)
-        .$promise
-        .then(res => vm.question = res)
+        .$promise.then(function (res) {
+          vm.question = res;
+
+        })
     }
     function getRound(params) {
       delete params.roundId;
-      return RoundAPI.query(params)
+      return RoundAPI.listT(params)
+    }
+    function continueAsk(){
+
+      RoundAPI
+        .supplemental({questionId:$stateParams.questionId},vm.questionRound)
         .$promise
-        .then(res => vm.rounds= res)
+        .then(function(){
+          vm.questionRound.roundContent='';
+          vm.rounds = getRound(Object.assign({},$stateParams));
+        })
     }
-    function askOthers() {
-      $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
+    function submitScore(){
+      QuestionAPI.comment(Object.assign({evaluateScore:vm.rate},$stateParams),{})
+        .$promise
+        .then(function(){
+          activate();
+        });
     }
+
+    // function askOthers() {
+    //   $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
+    // }
+
+    // function score() {
+    //   $uibModal.open({
+    //     templateUrl: 'app/views/question/question-score.html',
+    //     controller: 'QuestionScoreController',
+    //     controllerAs: 'vm',
+    //   }).result
+    //     .then(function() {
+    //       toastr.success(`评论成功`)
+    //     })
+    //
+    // }
+
+    //评分
+    vm.rate =0;
+
+    function hoveringOver (value) {
+      vm.overStar = value;
+      if(vm.overStar<3)
+        vm.showMsg='很差';
+      else if(vm.overStar<5)
+        vm.showMsg = '一般';
+      else
+        vm.showMsg='很好';
+    };
+
   }
 })();
 
