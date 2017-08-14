@@ -13,13 +13,11 @@ import com.centit.search.service.Indexer;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.ListOpt;
-import com.centit.workorder.dao.HelpDocCommentDao;
-import com.centit.workorder.dao.HelpDocDao;
-import com.centit.workorder.dao.HelpDocScoreDao;
-import com.centit.workorder.dao.HelpDocVersionDao;
+import com.centit.workorder.dao.*;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
+import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.HelpDocManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +52,9 @@ public class HelpDocManagerImpl
 
 	@Resource
 	private HelpDocVersionDao helpDocVersionDao;
+
+	@Resource
+	private QuestionCatalogDao questionCatalogDao;
 	
 	private HelpDocDao helpDocDao ;
 	
@@ -225,23 +225,20 @@ public class HelpDocManagerImpl
 
     @Override
     @Transactional
-	public List<Map<String, Object>> fullTextSearch(String keyWords, PageDesc pageDesc){
+	public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc){
 
-        List<HelpDoc> helpDocs = new ArrayList<>();
-        Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(
-                        SysParametersUtils.loadProperties()), FileDocument.class) ;
+		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
+		if(questionCatalog != null){
 
-        List<Map<String, Object>> list = searcher.search(keyWords,pageDesc.getPageNo(),pageDesc.getPageSize());
-//        for(int i = 0; i < list.size(); i++){
-//            Map<String, Object> map = list.get(i);
-//            Map<String, Object> queryMap = new HashMap<>();
-//            queryMap.put("osId", map.get("osId"));
-//            queryMap.put("title", map.get("title"));
-//            HelpDoc helpDoc = helpDocDao.getObjectByProperties(queryMap);
-//            helpDocs.add(helpDoc);
-//        }
-        return list;
+			Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+					IndexerSearcherFactory.loadESServerConfigFormProperties(
+							SysParametersUtils.loadProperties()), FileDocument.class) ;
+
+			List<Map<String, Object>> list = searcher.search(
+					questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
+			return list;
+		}
+		return null;
     }
 }
 
