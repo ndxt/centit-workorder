@@ -39,4 +39,4 @@
       RouteUser,
       RouteAdmin
     })
-})()
+})();

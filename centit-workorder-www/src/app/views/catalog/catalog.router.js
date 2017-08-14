@@ -1,4 +1,4 @@
-(function() {
+;(function() {
   'use strict'
 
   angular.module('workorder')
@@ -49,4 +49,4 @@
 
     routerHelper.addRouterStates(states)
   }
-})()
+})();

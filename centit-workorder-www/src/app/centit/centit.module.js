@@ -7,4 +7,4 @@
     'centit.helper',
     'centit.service'
   ])
-})()
+})();

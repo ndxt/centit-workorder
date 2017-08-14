@@ -41,6 +41,6 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
 	JSONObject searchScores(String docId);
 
-	List<Map<String, Object>> fullTextSearch(String keyWords, PageDesc pageDesc);
+	List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc);
 
 }
