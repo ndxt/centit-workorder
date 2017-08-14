@@ -255,6 +255,7 @@ public class QuestionInfoManagerImpl
 		round.setUserCode("system");
 		round.setUserName("system");
 		round.setShowUser("T");
+		round.setRoundContent("你好，已经为您的问题分配工程师，请耐心等待");
 		questionRoundDao.saveNewObject(round);
 	}
 
