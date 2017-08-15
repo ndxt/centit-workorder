@@ -65,6 +65,23 @@ public class QuestionCatalogController  extends BaseController {
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
+    @RequestMapping(value = "/rankList",method = RequestMethod.GET)
+    public void listLog(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        String catalogName = request.getParameter("catalogName");
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        map.put("osId",osId);
+        map.put("catalogName",catalogName);
+        map.put("begin",begin);
+        map.put("end",end);
+        JSONArray listObjects = questionCatalogMag.getCatalog(map, pageDesc);
+        ResponseMapData resData = new ResponseMapData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
+    }
+
     /**
      * 查询单个  系统问题类别
 	 * @param catalogId  CATALOG_ID

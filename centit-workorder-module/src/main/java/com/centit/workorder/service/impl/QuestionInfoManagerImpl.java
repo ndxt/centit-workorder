@@ -100,10 +100,10 @@ public class QuestionInfoManagerImpl
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
-		QuestionInfo dbQuestionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
-		dbQuestionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
-		dbQuestionInfo.setQuestionState("H");
-		questionInfoDao.mergeObject(dbQuestionInfo);
+//		QuestionInfo dbQuestionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
+//		dbQuestionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+//		dbQuestionInfo.setQuestionState("H");
+//		questionInfoDao.mergeObject(dbQuestionInfo);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.centit.workorder.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.support.algorithm.ListOpt;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.QuestionCatalog;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * QuestionCatalog  Service.
@@ -73,6 +75,17 @@ public class QuestionCatalogManagerImpl
 	public JSONArray getAllCatalog(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 		JSONArray dataArray = questionCatalogDao.getCatalog(baseDao,queryParamsMap,pageDesc);
 		return dataArray;
+	}
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+	public JSONArray getCatalog(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+		List<QuestionCatalog> list = questionCatalogDao.listObjects(queryParamsMap,pageDesc);
+		return ListOpt.srotAsTreeAndToJSON(list, (p, c) -> {
+			String parent = p.getCatalogId();
+			String child = c.getParentId();
+			return Objects.equals(parent,child);
+		}, "c");
 	}
 
 	@Override
