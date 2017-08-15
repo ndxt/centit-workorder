@@ -202,6 +202,27 @@ public class QuestionInfoController  extends BaseController {
     }
 
     /**
+     * 工单分配给我自己(抢单)
+     * @param questionId
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping(value = "/{questionId}/grab", method = {RequestMethod.PUT})
+    public void allotToMyself(@PathVariable String questionId,
+                              HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
+        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserName());
+        dbQuestionInfo.setQuestionState("H");
+        dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
+        questionInfoMag.mergeObject(dbQuestionInfo);
+        questionInfoMag.addDefaultReplay(questionId);
+        JsonResultUtils.writeSingleDataJson(questionId,response);
+    }
+
+
+    /**
      * 评价并关闭工单
      * @param questionId
      * @param response

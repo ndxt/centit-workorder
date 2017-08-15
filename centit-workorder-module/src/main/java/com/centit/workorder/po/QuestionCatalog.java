@@ -67,6 +67,36 @@ public class QuestionCatalog implements java.io.Serializable {
 	@Length(max = 200, message = "字段长度不能大于{max}")
 	private String  catalogKeyWords;
 
+	/**
+	 * 父节点ID
+	 */
+	@Column(name = "PARENT_ID")
+	@Length(max = 32, message = "字段长度不能大于{max}")
+	private String  parentId;
+
+	/**
+	 *排序
+	 */
+	@Column(name = "SORT")
+	private int sort;
+
+	/**
+	 * 图标
+	 */
+	@Column(name = "ICON")
+	@Length(max = 100, message = "字段长度不能大于{max}")
+	private String  icon;
+
+	/**
+	 * 描述
+	 */
+	@Column(name = "DESCRIBE")
+	@Length(max = 200, message = "字段长度不能大于{max}")
+	private String  describe;
+
+
+
+
 	public String getCatalogKeyWords() {
 		return catalogKeyWords;
 	}
@@ -90,7 +120,9 @@ public class QuestionCatalog implements java.io.Serializable {
 	/** full constructor */
 	public QuestionCatalog(
 			String catalogId
-			,String  osId,String  catalogName,String  creator,Date  createTime, String defaultOperator, int timeLimit, String catalogKeyWords) {
+			,String  osId,String  catalogName,String  creator,Date  createTime,
+			String defaultOperator, int timeLimit, String catalogKeyWords,
+			String parentId,int sort,String icon,String describe) {
 		this.catalogId = catalogId;
 		this.osId= osId;
 		this.catalogName= catalogName;
@@ -99,6 +131,10 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.defaultOperator = defaultOperator;
 		this.timeLimit = timeLimit;
 		this.catalogKeyWords = catalogKeyWords;
+		this.parentId = parentId;
+		this.sort = sort;
+		this.icon = icon;
+		this.describe = describe;
 	}
 
 	public String getCatalogId() {
@@ -158,6 +194,38 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.timeLimit = timeLimit;
 	}
 
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+
 	public QuestionCatalog copy(QuestionCatalog other){
 		this.setCatalogId(other.getCatalogId());
 		this.osId= other.getOsId();  
@@ -167,6 +235,10 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.defaultOperator= other.getDefaultOperator();
 		this.timeLimit= other.getTimeLimit();
 		this.catalogKeyWords= other.getCatalogKeyWords();
+		this.parentId= other.getParentId();
+		this.sort= other.getSort();
+		this.icon= other.getIcon();
+		this.describe= other.getDescribe();
 		return this;
 	}
 	
@@ -189,6 +261,14 @@ public class QuestionCatalog implements java.io.Serializable {
 			this.timeLimit= other.getTimeLimit();
 		if (other.getCatalogKeyWords() != null)
 			this.catalogKeyWords= other.getCatalogKeyWords();
+		if (other.getParentId() != null)
+			this.parentId= other.getParentId();
+		if (other.getSort() != -1)
+			this.sort= other.getSort();
+		if (other.getIcon() != null)
+			this.icon= other.getIcon();
+		if (other.getDescribe() != null)
+			this.describe= other.getDescribe();
 		return this;
 	}
 
@@ -200,6 +280,10 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.defaultOperator= null;
 		this.timeLimit= -1;
 		this.catalogKeyWords= null;
+		this.parentId= null;
+		this.sort= -1;
+		this.icon= null;
+		this.describe= null;
 		return this;
 	}
 }
