@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -69,5 +70,18 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
                     	qap.getQuery(), qap.getParams(), pageDesc);
             return dataList;
         }
+
+        public List<QuestionCatalog> list(BaseDaoImpl baseDao,Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+			String queryStatement = " from QuestionCatalog h WHERE 1=1 "
+							+ " [ :osId | and h.osId = :osId ]"
+							+ " [ :catalogName | and h.catalogName = :catalogName ]"
+							+ " [ :begin | and h.createTime > :begin ]"
+							+ " [ :end | and h.createTime < :end ]"
+							+" order by h.sort ";
+			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+			List<QuestionCatalog> dataList = (List<QuestionCatalog>) DatabaseOptUtils.findObjectsByHql(baseDao,
+					qap.getQuery(), qap.getParams(), pageDesc);
+			return dataList;
+		}
 
 }

@@ -80,7 +80,7 @@ public class QuestionCatalogManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public JSONArray getCatalog(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-		List<QuestionCatalog> list = questionCatalogDao.listObjects(queryParamsMap,pageDesc);
+		List<QuestionCatalog> list = questionCatalogDao.list(baseDao,queryParamsMap,pageDesc);
 		return ListOpt.srotAsTreeAndToJSON(list, (p, c) -> {
 			String parent = p.getCatalogId();
 			String child = c.getParentId();
