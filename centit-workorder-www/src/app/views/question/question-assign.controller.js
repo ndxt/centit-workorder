@@ -25,20 +25,37 @@
     }]
 
     function submit() {
-      //主负责人数据
-      QuestionAPI.updateOperator(Object.assign({questionId:vm.questionId},$stateParams),{questionId:vm.questionId,currentOperator:vm.currentOperator});
+      Promise.all([new Promise(function(resolve,reject){
+          //主负责人数据
+          QuestionAPI.updateOperator(Object.assign({questionId:vm.questionId},$stateParams),{questionId:vm.questionId,currentOperator:vm.currentOperator})
+            .$promise
+            .then(function(res){
+              resolve(res)
+            });
+        }),
+        new Promise(function (resolve,reject) {
+          //协助负责人数据
+          var asistOperator = vm.users.filter(function(val){
+            if(val.ischecked){
+              val.aid = {
+                questionId:vm.questionId,
+                operatorCode:val.usercode
+              }
+              return val;
+            }
+          });
+          QuestionAPI.assistOperator({osId:$stateParams.osId},asistOperator)
+            .$promise
+            .then(function(res){
+              resolve(res)
+            });
 
-      //协助负责人数据
-      var asistOperator = vm.users.filter(function(val){
-        if(val.ischecked){
-          val.aid = {
-            questionId:vm.questionId,
-            operatorCode:val.usercode
-          }
-          return val;
-        }
-      });
-      QuestionAPI.assistOperator({osId:$stateParams.osId},asistOperator);
+        })])
+        .then(function (res) {
+          $uibModalInstance.close(res)
+
+        })
+
     }
     function isSelected(user) {
       user.isChecked = !user.isChecked;

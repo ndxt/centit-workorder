@@ -34,7 +34,7 @@ gulp.task('deploy:all', function () {
 });
 
 gulp.task('deploy:war', function () {
-  const war = '/home/zk/Workspaces/java/centit-workorder/centit-workorder-web/target/workorder.war'
+  const war = 'D:/IdeaProjects/centit-workorder/centit-workorder-web/target/workorder.war'
   const war2 = '/home/zk/.deepinwine/Deepin-QQ/dosdevices/c:/users/zk/My Documents/Tencent Files/896974091/FileRecv/workorder.war'
   return gulp.src([war])
     .pipe(sftp({

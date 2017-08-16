@@ -84,10 +84,10 @@
 
 
 
-<div class="modal-viewer-header" ng-if="vm.question.questionState=='R' || vm.question.questionState=='H'">
+<div class="modal-viewer-header" ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
   <span class="modal-viewer-topbar-title">我要答复</span>
 </div>
-<div class="panel panel-default ng-scope" ng-if="vm.question.questionState=='R' || vm.question.questionState=='H'">
+<div class="panel panel-default ng-scope" ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
       <div class="">
@@ -95,7 +95,7 @@
       </div>
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">
-      <div>
+      <div ng-if="vm.isOperate=='O'">
         <label class="">是否公示用户：</label>
         <label class="radio-inline">
           <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="vm.showUser" value="T" > 是
@@ -105,7 +105,7 @@
 
         </label>
       </div>
-      <div class="">
+      <div>
         <button type="button" class="btn btn-primary" ng-click="vm.reply();" ng-if="vm.isOperate=='O'">
           答复
         </button>

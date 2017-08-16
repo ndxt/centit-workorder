@@ -6,7 +6,7 @@
 </div>
 <div ng-repeat="catalog in vm.catalogs">
   <div class="modal-viewer-header">
-    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.describe}}）</span>
+    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.catalogDescribe}}）</span>
   </div>
   <div class="panel panel-default">
 
@@ -24,7 +24,7 @@
               <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
                  uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="c.catalogId" data-parent-id="c.parentId"></i>
             </div>
-            <p>{{ c.describe }}</p>
+            <p>{{ c.catalogDescribe }}</p>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@
     .controller('QuestionAdminController', QuestionAdminController);
 
   /** @ngInject */
-  function QuestionAdminController($stateParams,$state,$uibModal, QuestionAPI) {
+  function QuestionAdminController($stateParams,$state,$uibModal,toastr, QuestionAPI) {
     let vm = this;
 
     vm.view = view;
@@ -52,8 +52,9 @@
           }
         }
       }).result
-        .then(function() {
-          toastr.success(`分配成功`)
+        .then(function(res) {
+          toastr.success(`分配成功`);
+          row.questionState = 'H';
         })
 
     }
