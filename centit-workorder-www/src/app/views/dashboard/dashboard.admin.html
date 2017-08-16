@@ -9,7 +9,7 @@
 </div>
 <div ng-repeat="catalog in vm.catalogs">
   <div class="modal-viewer-header">
-    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.catalogDescribe}}）</span>
+    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}<span class="text-muted ct-text-size-12 ct-margin-0-12">{{catalog.catalogDescribe}}</span></span>
 
       <div class="add-wo ct-fr"
            tooltip-placement="right" data-fresh-data="vm.queryCatalogs"
