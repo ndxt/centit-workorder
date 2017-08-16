@@ -90,9 +90,9 @@ public class QuestionCatalog implements java.io.Serializable {
 	/**
 	 * 描述
 	 */
-	@Column(name = "DESCRIBE")
+	@Column(name = "CATALOG_DESCRIBE")
 	@Length(max = 200, message = "字段长度不能大于{max}")
-	private String  describe;
+	private String  catalogDescribe;
 
 
 
@@ -122,7 +122,7 @@ public class QuestionCatalog implements java.io.Serializable {
 			String catalogId
 			,String  osId,String  catalogName,String  creator,Date  createTime,
 			String defaultOperator, int timeLimit, String catalogKeyWords,
-			String parentId,int sort,String icon,String describe) {
+			String parentId,int sort,String icon,String catalogDescribe) {
 		this.catalogId = catalogId;
 		this.osId= osId;
 		this.catalogName= catalogName;
@@ -134,7 +134,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.parentId = parentId;
 		this.sort = sort;
 		this.icon = icon;
-		this.describe = describe;
+		this.catalogDescribe = catalogDescribe;
 	}
 
 	public String getCatalogId() {
@@ -218,12 +218,12 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.icon = icon;
 	}
 
-	public String getDescribe() {
-		return describe;
+	public String getCatalogDescribe() {
+		return catalogDescribe;
 	}
 
-	public void setDescribe(String describe) {
-		this.describe = describe;
+	public void setCatalogDescribe(String catalogDescribe) {
+		this.catalogDescribe = catalogDescribe;
 	}
 
 	public QuestionCatalog copy(QuestionCatalog other){
@@ -238,7 +238,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.parentId= other.getParentId();
 		this.sort= other.getSort();
 		this.icon= other.getIcon();
-		this.describe= other.getDescribe();
+		this.catalogDescribe= other.getCatalogDescribe();
 		return this;
 	}
 	
@@ -267,8 +267,8 @@ public class QuestionCatalog implements java.io.Serializable {
 			this.sort= other.getSort();
 		if (other.getIcon() != null)
 			this.icon= other.getIcon();
-		if (other.getDescribe() != null)
-			this.describe= other.getDescribe();
+		if (other.getCatalogDescribe() != null)
+			this.catalogDescribe= other.getCatalogDescribe();
 		return this;
 	}
 
@@ -283,7 +283,7 @@ public class QuestionCatalog implements java.io.Serializable {
 		this.parentId= null;
 		this.sort= -1;
 		this.icon= null;
-		this.describe= null;
+		this.catalogDescribe= null;
 		return this;
 	}
 }
