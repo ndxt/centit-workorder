@@ -149,7 +149,7 @@ public class QuestionInfoManagerImpl
 		questionRound.setEditState("U");
 		questionRound.setRoundState("C");
 		questionRound.setOrA("A");
-		questionRound.setShowUser("T");
+//		questionRound.setShowUser("T");
 		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
 		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
 		questionRoundDao.saveNewObject(questionRound);
