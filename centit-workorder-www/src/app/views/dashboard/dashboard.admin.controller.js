@@ -45,7 +45,7 @@
     }
 
     function queryCatalogs() {
-      vm.catalogs = CatalogAPI.query({
+      vm.catalogs = CatalogAPI.rankList({
         osId
       })
     }

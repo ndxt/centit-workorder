@@ -11,6 +11,7 @@
       scope: {
         os: '=',
         catalog: '=',
+        parentId: '=',
         onSuccess: '&',
         onError: '&',
         freshData:'='
@@ -21,7 +22,7 @@
           .on('click.wo-modal-catalog', function(e) {
             e.preventDefault()
 
-            CatalogModalService.openModal(scope.os, scope.catalog,scope.freshData)
+            CatalogModalService.openModal(scope.os, scope.catalog,scope.parentId,scope.freshData)
               .then(console.log)
               // .then(obj => scope.onSuccess({$catalog: obj}))
               .catch(console.error)

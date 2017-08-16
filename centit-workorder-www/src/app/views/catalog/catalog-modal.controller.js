@@ -9,15 +9,18 @@
     $uibModalInstance,
     CatalogAPI,
     catalog,
-    os
+    os,
+    parentId
   ) {
     const vm = this
     const ErrorMessage = '后台请求时发生错误。'
 
     vm.os = os
     vm.info = angular.extend({}, catalog, {
-      osId: os.osId
+      osId: os.osId,
+      parentId : parentId
     })
+    queryCatalogs({osId: os.osId});
 
     vm.cancel = $uibModalInstance.dismiss
     vm.ok = vm.info.catalogId ? modifyQuestion : addQuestion
@@ -52,6 +55,13 @@
         .then(res => $uibModalInstance.close(res))
         .catch(() => vm.error = ErrorMessage)
     }
+
+    function queryCatalogs(params) {
+      delete params.catalogId;
+      CatalogAPI.query(params)
+        .$promise
+        .then(res => vm.catalogs = res)
+    };
   }
 })();
 

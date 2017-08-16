@@ -7,7 +7,7 @@
   <ul>
     <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
     <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">工单已分派</li>
-    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单已回复</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单处理中</li>
     <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
   </ul>
 </nav>
@@ -25,7 +25,7 @@
     <div class="col-sm-3"><span class="text-explode">状态 : </span>
       <span ng-if="vm.question.questionState=='U'">工单未处理</span>
       <span ng-if="vm.question.questionState=='H'">工单已分派</span>
-      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
+      <span ng-if="vm.question.questionState=='R'">工单处理中</span>
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
     <div class="col-sm-6 text-right" ng-if="vm.question.questionState=='C'">评分：{{vm.question.evaluateScore}}分

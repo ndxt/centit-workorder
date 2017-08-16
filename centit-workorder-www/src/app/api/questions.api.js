@@ -14,12 +14,29 @@
       method: 'GET',
       isArray: true
     }
+    const allQuestionInfo = {
+      url: `${baseUrl}/questionInfo/:questionId`,
+      method: 'GET'
+    }
+    //给工单打分
     const comment = {
       url: `${baseUrl}/:questionId/comment?evaluateScore=:evaluateScore`,
       method: 'PUT'
     }
+    //添加或修改主负责人
     const updateOperator = {
       url: `${baseUrl}/:questionId/operator`,
+      method: 'PUT'
+    }
+    //添加或修改主负责人
+    const assistOperator = {
+      url: `${baseUrl}/assistOperator`,
+      method: 'POST',
+      isArray: true
+    }
+    //分配给自己
+    const grab = {
+      url: `${baseUrl}/:questionId/grab`,
       method: 'PUT'
     }
     const update = {
@@ -27,7 +44,7 @@
     }
 
     return $resource(`${baseUrl}/:questionId`, null, {
-      queryTop,update,comment,updateOperator
+      queryTop,allQuestionInfo,update,comment,updateOperator,assistOperator,grab
     })
   }
 })();

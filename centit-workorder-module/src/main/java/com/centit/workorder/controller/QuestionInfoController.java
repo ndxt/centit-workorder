@@ -120,8 +120,8 @@ public class QuestionInfoController  extends BaseController {
         String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),centitUserDetails.getUserName());
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
         ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData(OBJLIST, questionInfo);
-        resData.addResponseData("ROLE", role);
+        resData.addResponseData(OBJECT, questionInfo);
+        resData.addResponseData("role", role);
         JsonResultUtils.writeSingleDataJson(resData, response);
     }
     
