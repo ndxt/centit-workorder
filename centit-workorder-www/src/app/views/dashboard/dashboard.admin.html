@@ -1,12 +1,22 @@
 <div class="modal-header">
   <h3 class="modal-title">提交工单</h3>
 </div>
-<div class="modal-viewer-header">
-  <span class="modal-viewer-topbar-title"><i class="glyphicon glyphicon-plus text-primary"></i>新增一级工单类别</span>
+<div class="modal-viewer-header ">
+  <div class="add-wo wo-father">
+    <i class="glyphicon glyphicon-plus text-primary"></i>
+    <span>新增一级工单类别</span>
+  </div>
 </div>
 <div ng-repeat="catalog in vm.catalogs">
   <div class="modal-viewer-header">
     <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.catalogDescribe}}）</span>
+
+      <div class="add-wo ct-fr"
+           tooltip-placement="right" data-fresh-data="vm.queryCatalogs"
+           wo-modal-catalog data-os="vm.osId" data-parent-id="catalog.catalogId">
+          <i class="glyphicon glyphicon-plus text-primary"></i>
+          <span>新增子类别</span>
+      </div>
   </div>
   <div class="panel panel-default">
 
@@ -28,16 +38,9 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <i class="glyphicon glyphicon-plus text-primary"
-               uib-tooltip="新建类型" tooltip-placement="right" data-fresh-data="vm.queryCatalogs"
-               wo-modal-catalog data-os="vm.osId" data-parent-id="catalog.catalogId"></i>
-            <span>新增子类别</span>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>
+
+

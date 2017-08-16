@@ -681,3 +681,35 @@ font-size: 14px;
 .send-wo {
   margin-top: -18px;
 }
+
+.wo-father {
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.add-wo {
+  margin-right: 24px;
+  cursor: pointer;
+}
+
+.add-wo i {
+  color: #6d7781;
+  top: 1px;
+  margin: 0 4px;
+}
+
+.add-wo:hover,
+.add-wo:hover i {
+  color: #00b3ee;
+}
+
+
+
+
+
+
+
+
+
+
+
