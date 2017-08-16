@@ -2,37 +2,40 @@
   <h3 class="modal-title">提交工单</h3>
 </div>
 <div class="modal-viewer-header">
-  <span class="modal-viewer-topbar-title">咨询类工单问题</span>
+  <span class="modal-viewer-topbar-title"><i class="glyphicon glyphicon-plus text-primary"></i>新增一级工单类别</span>
 </div>
-<div class="panel panel-default">
-  <div class="row ct-no-margin ct-padding-24">
-    <div class="col-xs-12 opera-tools panel-default">
-      <i class="glyphicon glyphicon-plus text-primary"
-         uib-tooltip="新建类型" tooltip-placement="right" fresh-data="vm.queryCatalogs"
-         wo-modal-catalog data-os="vm.osId">      <span>新增类型</span></i>
-
-      <a href="javascript: void(0);"
-         class="pull-right text-info">批量操作</a>
-    </div>
+<div ng-repeat="catalog in vm.catalogs">
+  <div class="modal-viewer-header">
+    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.describe}}）</span>
   </div>
+  <div class="panel panel-default">
 
-  <div class="row ct-no-margin wo-content">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
-         ng-repeat="catalog in vm.catalogs">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <i class="glyphicon glyphicon-home"></i>
-          <span>{{ catalog.catalogName }}</span>
-          <div class="operation">
-            <i class="glyphicon glyphicon-trash pull-right text-danger"
-               uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>
+    <div class="row ct-no-margin wo-content">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+           ng-repeat="c in catalog.c">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <i class="glyphicon {{c.icon}}"></i>
+            <span>{{ c.catalogName }}</span>
+            <div class="operation">
+              <i class="glyphicon glyphicon-trash pull-right text-danger"
+                 uib-tooltip="删除" ng-click="vm.remove(c)"></i>
 
-            <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
-               uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="catalog.catalogId"></i>
+              <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
+                 uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="c.catalogId" data-parent-id="c.parentId"></i>
+            </div>
+            <p>{{ c.describe }}</p>
           </div>
-          <p>换绑手机/邮箱、账号实名认证、找回用户名/密码等相关问题</p>
-
-
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <i class="glyphicon glyphicon-plus text-primary"
+               uib-tooltip="新建类型" tooltip-placement="right" data-fresh-data="vm.queryCatalogs"
+               wo-modal-catalog data-os="vm.osId" data-parent-id="catalog.catalogId"></i>
+            <span>新增子类别</span>
+          </div>
         </div>
       </div>
     </div>

@@ -9,8 +9,8 @@
   const UserTypeAdmin = 'A'
   const UserTypeUser = 'U'
 
-  const RouteUser = 'root.catalog'
-  const RouteAdmin = 'admin.catalog'
+  const RouteUser = 'root.document'
+  const RouteAdmin = 'admin.document'
 
   ///////////////////////////////////////////////////////
 

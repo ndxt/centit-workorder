@@ -7,16 +7,20 @@
   <ul>
     <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
     <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">工单已分派</li>
-    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单已回复</li>
+    <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单处理中</li>
     <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
   </ul>
 </nav>
 
 <div class="panel info-panel">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-10">
       <span class="text-explode">问题标题 :</span>
-      {{vm.question.questionTitle}}</div>
+      {{vm.question.questionTitle}}
+    </div>
+    <div class="col-sm-2">
+      <button  class="btn btn-sm btn-default" ng-if="vm.question.questionState=='U'" ng-click="vm.assignMe()">分配给我</button>
+    </div>
   </div>
   <div class="row">
     <div class="col-sm-3"><span class="text-explode">提交时间 : </span>
@@ -25,7 +29,7 @@
     <div class="col-sm-3"><span class="text-explode">状态 : </span>
       <span ng-if="vm.question.questionState=='U'">工单未处理</span>
       <span ng-if="vm.question.questionState=='H'">工单已分派</span>
-      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
+      <span ng-if="vm.question.questionState=='R'">工单处理中</span>
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
 
@@ -63,7 +67,7 @@
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
-        <span ng-if="round.orA=='A'">售</span>
+        <span ng-if="round.orA=='A'">售后工程师</span>
         <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
@@ -94,19 +98,19 @@
       <div>
         <label class="">是否公示用户：</label>
         <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked=""> 是
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="vm.showUser" value="T" > 是
         </label>
         <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked=""> 否
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="vm.showUser" value="F" > 否
 
         </label>
       </div>
       <div class="">
-        <button type="button" class="btn btn-primary" ng-click="vm.reply('T');">
+        <button type="button" class="btn btn-primary" ng-click="vm.reply();" ng-if="vm.isOperate=='O'">
           答复
         </button>
-        <button type="button" class="btn btn-primary" ng-click="vm.reply('F');">
-          讨论
+        <button type="button" class="btn btn-primary" ng-click="vm.reply('F');" ng-if="vm.isOperate=='A'">
+          答复
         </button>
       </div>
     </div>

@@ -12,9 +12,14 @@
     const update = {
       method: 'PUT'
     }
+    const rankList = {
+      url:`${baseUrl}/rankList`,
+      method: 'GET',
+      isArray:true
+    }
 
     return $resource(baseUrl, null, {
-      update
+      update,rankList
     })
 
   }

@@ -19,7 +19,7 @@
 
     ///////////////////////////////////////////////
 
-    function openModal(os, catalog,freshData) {
+    function openModal(os, catalog,parentId,freshData) {
       return $uibModal.open({
         templateUrl: 'app/views/catalog/catalog-modal.html',
         controller: 'CatalogModalController',
@@ -30,6 +30,9 @@
           },
           catalog: function() {
             return catalogResolve(os, catalog)
+          },
+          parentId: function() {
+            return parentId
           }
         }
       }).result

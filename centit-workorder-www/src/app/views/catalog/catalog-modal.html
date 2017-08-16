@@ -15,11 +15,40 @@
       <p class="form-control-static" id="text_modal_catalog_osName">{{vm.os.osName}}</p>
     </div>
     <div class="form-group">
+      <label>所属父类别</label>
+      <select ng-if="!vm.catalog" class="form-control" id="questionsModalCatalog"
+              name="catalogId"
+              ng-model="vm.info.parentId"
+              ng-options="catalog.catalogId as catalog.catalogName for catalog in vm.catalogs" disabled>
+      </select>
+    </div>
+    <div class="form-group">
       <label for="input_modal_catalog_catalogName">名称</label>
       <input name="catalogName"
              class="form-control"
              id="input_modal_catalog_catalogName"
              placeholder="名称" ng-model="vm.info.catalogName">
+    </div>
+    <div class="form-group">
+      <label for="input_modal_catalog_icon">图标</label>
+      <input name="catalogName"
+             class="form-control"
+             id="input_modal_catalog_icon"
+             placeholder="图标" ng-model="vm.info.icon">
+    </div>
+    <div class="form-group">
+      <label for="input_modal_catalog_sort">排序</label>
+      <input name="catalogName"
+             class="form-control"
+             id="input_modal_catalog_sort"
+             placeholder="排序" ng-model="vm.info.sort">
+    </div>
+    <div class="form-group">
+      <label for="input_modal_catalog_describe">描述</label>
+      <textarea name="catalogName"
+                class="form-control"
+                id="input_modal_catalog_describe"
+                placeholder="描述" ng-model="vm.info.describe"> </textarea>
     </div>
   </form>
 </div>
