@@ -4,7 +4,7 @@
           ng-show="!!vm.showEditBtn" ng-click="vm.editing = true"></span>
     <h3 class="article-title text-center">{{vm.document.docTitle}}</h3>
     <p class="article-date text-center">更新时间：{{vm.document.lastModifyDate}}</p>
-    <div class="rich-text" ng-bind-html="vm.document.docFile | trustedHtml"></div>
+    <div class="rich-text ql-editor" ng-bind-html="vm.document.docFile | trustedHtml"></div>
   </div>
 </div>
 
