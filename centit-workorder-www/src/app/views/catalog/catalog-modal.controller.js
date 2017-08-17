@@ -17,6 +17,7 @@
 
     vm.os = os
     vm.info = angular.extend({}, catalog, {
+      icon:"glyphicon-home",
       osId: os.osId,
       parentId : parentId
     })

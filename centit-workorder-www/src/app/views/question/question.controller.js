@@ -8,6 +8,7 @@
   function QuestionController($stateParams,$state, QuestionAPI) {
     let vm = this;
 
+    vm.osId = $stateParams.osId;
     vm.view = view;
     vm.edit = edit;
     vm.del = del;

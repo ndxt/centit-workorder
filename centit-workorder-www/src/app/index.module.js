@@ -16,7 +16,7 @@
 
       // 第三方插件
       'toastr',
-      'angular-loading-bar',
+      // 'angular-loading-bar',
       'LocalStorageModule',
 
       // 公司前端框架模块

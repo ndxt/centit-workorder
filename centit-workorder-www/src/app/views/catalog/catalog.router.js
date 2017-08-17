@@ -21,7 +21,7 @@
             }
           },
           data: {
-            title: '问题类别',
+            title: '提交工单',
             bodyClass: 'catalog'
           }
         }
@@ -40,7 +40,7 @@
             }
           },
           data: {
-            title: '问题类别详情',
+            title: '工单类别详情',
             bodyClass: 'catalog-view'
           }
         }

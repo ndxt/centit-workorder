@@ -1,6 +1,6 @@
-<div class="modal-header">
-  <h3 class="modal-title">我的工单</h3>
-</div>
+<!--<div class="modal-header">-->
+  <!--<h3 class="modal-title">我的工单</h3>-->
+<!--</div>-->
 
 
     <form class="ct-margin-12-auto">
@@ -82,7 +82,7 @@
         <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
         <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
       </td>
-      <td><a ui-sref="root.question.view({ questionId: row.questionId })">{{row.questionTitle}}</a></td>
+      <td><a ui-sref="root.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
       </td>

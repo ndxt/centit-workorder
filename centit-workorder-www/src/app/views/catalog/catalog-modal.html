@@ -10,13 +10,13 @@
 <div class="modal-body" id="modal-body">
   <div uib-alert class="alert-danger" ng-if="vm.error" close="vm.error = null">错误：{{vm.error}}</div>
   <form>
-    <div class="form-group">
-      <label for="text_modal_catalog_osName">所属系统</label>
-      <p class="form-control-static" id="text_modal_catalog_osName">{{vm.os.osName}}</p>
-    </div>
-    <div class="form-group">
+    <!--<div class="form-group">-->
+      <!--<label for="text_modal_catalog_osName">所属系统</label>-->
+      <!--<p class="form-control-static" id="text_modal_catalog_osName">{{vm.os.osName}}</p>-->
+    <!--</div>-->
+    <div class="form-group" ng-if="vm.info.parentId">
       <label>所属父类别</label>
-      <select ng-if="!vm.catalog" class="form-control" id="questionsModalCatalog"
+      <select  class="form-control" id="questionsModalCatalog"
               name="catalogId"
               ng-model="vm.info.parentId"
               ng-options="catalog.catalogId as catalog.catalogName for catalog in vm.catalogs" disabled>
@@ -29,7 +29,7 @@
              id="input_modal_catalog_catalogName"
              placeholder="名称" ng-model="vm.info.catalogName">
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-if="vm.info.parentId">
       <label for="input_modal_catalog_icon">图标</label>
       <input name="catalogName"
              class="form-control"
@@ -53,6 +53,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">提交</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">保存</button>
 <!--  <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>-->
 </div>

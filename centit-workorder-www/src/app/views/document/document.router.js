@@ -21,7 +21,7 @@
             }
           },
           data: {
-            title: '系统帮助',
+            title: '知识库',
             bodyClass: 'document'
           }
         }

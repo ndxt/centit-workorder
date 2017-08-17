@@ -45,7 +45,7 @@
             }]
           },
           data: {
-            title: '我的工单',
+            title: '新增工单',
             bodyClass: 'question-edit'
           }
         }
@@ -74,7 +74,7 @@
             }]
           },
           data: {
-            title: '我的工单',
+            title: '编辑工单',
             bodyClass: 'question-edit'
           }
         }

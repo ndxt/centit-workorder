@@ -8,6 +8,8 @@
   function QuestionAdminController($stateParams,$state,$uibModal,toastr, QuestionAPI) {
     let vm = this;
 
+    vm.osId = $stateParams.osId;
+
     vm.view = view;
     vm.del = del;
     vm.assign = assign
