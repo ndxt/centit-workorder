@@ -16,6 +16,7 @@
       // 第三方插件
       'toastr',
       'angularBootstrapNavTree',
+      'ngQuill',
       'LocalStorageModule',
 
       // 公司前端框架模块

@@ -1,23 +1,29 @@
-
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
     .controller('DocumentViewController', DocumentViewController)
 
   /** @ngInject */
-  function DocumentViewController($scope, $stateParams,DocAPI) {
-    var vm = this;
+  function DocumentViewController($scope, $stateParams, DocAPI) {
+    let vm = this
+    vm.save = save
+    vm.cancelEditing = cancelEditing
 
+    active()
 
-    function active(){
-      DocAPI.get(Object.assign({},$stateParams))
-        .$promise
-        .then(res=>vm.document = res)
+    function active() {
+      vm.document = DocAPI.get(Object.assign({}, $stateParams))
     }
-    active();
 
-    console.log($scope.doc)
+    function cancelEditing() {
+      vm.editing = false
+    }
 
+    function save(content) {
+      return DocAPI.editContent($stateParams, {
+        content
+      }).$promise.then(cancelEditing)
+    }
   }
 })();

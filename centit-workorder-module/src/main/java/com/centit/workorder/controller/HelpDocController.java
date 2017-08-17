@@ -85,7 +85,7 @@ public class HelpDocController  extends BaseController {
      * 编辑帮助文档内容
      */
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String docId, String content,
+    public void editContent(@PathVariable String docId, @RequestBody String content,
                             HttpServletRequest request, HttpServletResponse response) {
 
         // 保存 历史版本，

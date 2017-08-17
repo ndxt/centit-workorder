@@ -15,6 +15,7 @@
 
     activate();
 
+
     function activate() {
       queryDocLinks();
     }

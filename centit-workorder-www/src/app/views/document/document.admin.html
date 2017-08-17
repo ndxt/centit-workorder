@@ -8,12 +8,9 @@
                 tree-control="vm.treeInstance" on-select="vm.selectNode(branch)"
                 expand-level="5"></abn-tree>
     </div>
-    <div class="col-md-9 col-lg-10 ct-padding-0-8">
-      <div class="panel panel-default ct-margin-12-auto">
-        <div class="panel-body" ui-view="doc">
-            <h5>请选择一个文档</h5>
-        </div>
-      </div>
+    <div class="col-md-9 col-lg-10 ct-padding-0-8" ui-view="doc">
+      <h5>请选择一个文档</h5>
+
     </div>
   </div>
 </div>
