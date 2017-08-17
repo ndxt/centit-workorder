@@ -59,8 +59,13 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
-        String userName = request.getParameter("userName");
-        String userCode = request.getParameter("userCode");
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        List<String> userRoles = centitUserDetails.getUserRoleCodes();
+        if (userRoles.isEmpty() || (!userRoles.contains("G-SYSADMIN"))) {
+            //当前用户不是管理员时添加只能看到自己提的工单的过滤条件
+            map.put("userName",centitUserDetails.getUserName());
+            map.put("userCode",centitUserDetails.getUserCode());
+        }
         String questionTitle = request.getParameter("questionTitle");
         String questionContent = request.getParameter("questionContent");
         String questionState = request.getParameter("questionState");
@@ -69,8 +74,6 @@ public class QuestionInfoController  extends BaseController {
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
         map.put("osId",osId);
-        map.put("userName",userName);
-        map.put("userCode",userCode);
         if (questionTitle != null && !"".equals(questionTitle)){
             map.put("questionTitle","%"+questionTitle+"%");
         }
