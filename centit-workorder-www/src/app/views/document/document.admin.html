@@ -1,6 +1,6 @@
-<div class="modal-header">
-  <h3 class="modal-title">系统帮助</h3>
-</div>
+<!--<div class="modal-header">-->
+  <!--<h3 class="modal-title">系统帮助</h3>-->
+<!--</div>-->
 
 
 <div class="modal-viewer-header ct-border-bottom-0">
@@ -35,6 +35,15 @@
               </ul>
             </li>
           </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-10 ct-padding-0-8" ng-if="vm.flag">
+      <div class="panel panel-default ct-margin-12-auto">
+        <div class="panel-body">
+          <h3 style="text-align: center">{{vm.htmlTitle}}</h3>
+          <div ng-bind-html="vm.html" class="doc-content"></div>
         </div>
       </div>
     </div>

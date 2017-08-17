@@ -1,11 +1,11 @@
-<div class="modal-header">
-  <h3 class="modal-title" ng-if="!vm.question.questionId">新增</h3>
-  <h3 class="modal-title" ng-if="!!vm.question.questionId">编辑</h3>
-</div>
+<!--<div class="modal-header">-->
+  <!--<h3 class="modal-title" ng-if="!vm.question.questionId">新增</h3>-->
+  <!--<h3 class="modal-title" ng-if="!!vm.question.questionId">编辑</h3>-->
+<!--</div>-->
 
-<div class="modal-viewer-header">
-  <span class="modal-viewer-topbar-title">提交工单</span>
-</div>
+<!--<div class="modal-viewer-header">-->
+  <!--<span class="modal-viewer-topbar-title">提交工单</span>-->
+<!--</div>-->
 
 <div class="modal-body" id="modal-body">
   <form>
@@ -23,7 +23,7 @@
       <select ng-if="!vm.catalog" class="form-control" id="questionsModalCatalog"
               name="catalogId"
               ng-model="vm.question.catalogId"
-              ng-options="catalog.catalogId as catalog.catalogName for catalog in vm.catalogs">
+              ng-options="catalog.catalogId as catalog.catalogName for catalog in vm.catalogs" disabled>
         <option value="">-- 请选择 --</option>
       </select>
     </div>

@@ -27,7 +27,10 @@
 
     <div class="container">
       <div ui-view="header"></div>
-      <div ui-view="main"></div>
+      <div>
+        <div ui-view="breadcrumb"></div>
+        <div ui-view="main"></div>
+      </div>
     </div>
 
     <!-- build:js(src) scripts/vendor.js -->

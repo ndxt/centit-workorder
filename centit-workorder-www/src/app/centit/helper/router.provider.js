@@ -32,7 +32,8 @@
       init()
 
       return {
-        addRouterStates
+        addRouterStates,
+        getParentState
       }
 
       function init () {
@@ -174,6 +175,8 @@
             let data = toState.data || {}
             stateCounts.changes++
             handlingStateChangeError = false
+
+            $rootScope.$emit('changeRoute', toState, toParams)
 
             if (!toState.data.doNotCache) {
               $state.prev = {

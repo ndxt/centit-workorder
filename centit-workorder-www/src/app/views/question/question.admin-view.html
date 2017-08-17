@@ -1,6 +1,6 @@
-<div class="modal-header ct-margin-bottom-24">
-  <h3 class="modal-title">工单详情</h3>
-</div>
+<!--<div class="modal-header ct-margin-bottom-24">-->
+  <!--<h3 class="modal-title">工单详情</h3>-->
+<!--</div>-->
 
 
 <nav class="question-state">
@@ -54,11 +54,7 @@
         <div class="item-content  col-sm-7 drcloud-content text-muted">
           <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
           <p>{{vm.question.createTime}}</p>
-        </div>
 
-        <div class="col-sm-12 text-right ct-no-padding ct-margin-bottom-0 send-wo">
-          <a href="#" ng-if="round.showUser=='T'">用户可见</a>
-          <a href="#" ng-if="round.showUser=='F'">用户不可见</a>
         </div>
       </div>
 
@@ -74,7 +70,12 @@
           <div class="col-sm-12">{{round.roundContent}}</div>
           <br>
           <p>{{round.createTime}}</p>
+
           <div class="wrap-triangle"></div>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 send-wo">
+          <span ng-if="round.showUser=='T'">用户可见</span>
+          <span ng-if="round.showUser=='F'">用户不可见</span>
         </div>
 
       </div>

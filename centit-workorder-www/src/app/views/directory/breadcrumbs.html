@@ -1,5 +1,5 @@
 <ol class="breadcrumb ct-margin-bottom-12">
-  <li><a href="#">南大先腾工单系统</a></li>
-  <li><a href="#">我的工单</a></li>
-  <li class="active">工单详情</li>
+  <li ng-repeat="d in vm.directory">
+    <a href="javascript: void(0);" ng-click="vm.go(d)" ui-sref-active="disabled">{{d.title}}</a>
+  </li>
 </ol>
