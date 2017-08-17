@@ -2,6 +2,7 @@ package com.centit.workorder.config;
 
 import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
+import com.centit.framework.hibernate.config.HibernateWebConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -33,6 +34,7 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerHiddenHttpMethodFilter(servletContext);
         WebConfig.registerRequestThreadLocalFilter(servletContext);
         WebConfig.registerSpringSecurityFilter(servletContext);
+        HibernateWebConfig.registerOpenSessionInViewFilter(servletContext);
     }
 
     /**
