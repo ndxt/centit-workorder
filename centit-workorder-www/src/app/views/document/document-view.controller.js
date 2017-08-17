@@ -6,7 +6,7 @@
     .controller('DocumentViewController', DocumentViewController)
 
   /** @ngInject */
-  function DocumentViewController($stateParams,DocAPI) {
+  function DocumentViewController($scope, $stateParams,DocAPI) {
     var vm = this;
 
 
@@ -16,6 +16,8 @@
         .then(res=>vm.document = res)
     }
     active();
+
+    console.log($scope.doc)
 
   }
 })();

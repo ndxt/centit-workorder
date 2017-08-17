@@ -38,6 +38,10 @@
         views: {
           header: {
             templateUrl: 'app/views/commons/header.html'
+          },
+          breadcrumb: {
+            templateUrl: 'app/views/directory/breadcrumbs.html',
+            controller: 'BreadcrumbController as vm'
           }
         },
         resolve: {
@@ -61,6 +65,10 @@
         views: {
           header: {
             templateUrl: 'app/views/commons/header.html'
+          },
+          breadcrumb: {
+            templateUrl: 'app/views/directory/breadcrumbs.html',
+            controller: 'BreadcrumbController as vm'
           }
         },
         resolve: {

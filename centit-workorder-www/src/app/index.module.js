@@ -6,7 +6,6 @@
       'ngAnimate',
       'ngCookies',
       'ngSanitize',
-      // 'ngMockE2E',
       'ngMessages',
       'ngResource',
 
@@ -16,7 +15,7 @@
 
       // 第三方插件
       'toastr',
-      // 'angular-loading-bar',
+      'angularBootstrapNavTree',
       'LocalStorageModule',
 
       // 公司前端框架模块

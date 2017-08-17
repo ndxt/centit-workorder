@@ -149,6 +149,10 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	public String getDocTitle() {
 		return this.docTitle;
 	}
+
+	public String getLabel() {
+		return this.docTitle;
+	}
 	
 	public void setDocTitle(String docTitle) {
 		this.docTitle = docTitle;

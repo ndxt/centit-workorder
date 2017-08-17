@@ -1,58 +1,57 @@
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
     .controller('DocumentAdminController', DocumentAdminController)
 
   /** @ngInject */
-  function DocumentAdminController($stateParams, DocAPI)
-  {
+  function DocumentAdminController($timeout, $state, $stateParams, DocAPI) {
 
     const vm = this;
-    vm.submitRate = submitRate;
-    vm.hoveringOver = hoveringOver;
-    vm.flag = false;
 
-    vm.setHTML = function(doc,showlevels){
-      vm.html = doc.docFile;
-      vm.htmlTitle = doc.docTitle;
-      if(showlevels)
-        doc[showlevels] = !doc[showlevels];
-
-      //记录被评分的文章id
-      vm.docId = doc.docId;
-      //初始化为0
-      vm.rate = 0;
-      vm.flag=true;
-    }
+    vm.treeInstance = {}
+    vm.docLinks = []
+    vm.selectNode = selectNode
 
     activate();
 
-    function activate(){
+    function activate() {
       queryDocLinks();
-
     }
+
+    function selectNode(branch) {
+      console.log(branch)
+      if (branch.children && branch.children.length) return;
+
+      $state.go('admin.document.view', {
+        docId: branch.docId
+      })
+    }
+
     //查询文档的所有链接标签
-    function queryDocLinks(){
-      return vm.docLinks = DocAPI.levelSearch($stateParams)
+    function queryDocLinks() {
+      return DocAPI.levelSearch($stateParams).$promise
+        .then(function (data) {
+          vm.docLinks = data
+          $timeout(function () {
+            let branch = getFirstChild(data)
+            vm.treeInstance.select_branch(branch)
+          })
+          console.log(vm.treeInstance)
+        })
     }
 
-    //评分
-    vm.rate = 0;
+    function getFirstChild(list) {
+      let length = list.length
+      for (let i = 0; i < length; i++) {
+        let node = list[i]
+        let children = node.children
+        if (children && children.length) {
+          return getFirstChild(children)
+        }
 
-    function hoveringOver (value) {
-      vm.overStar = value;
-      if(vm.overStar<5)
-        vm.showMsg='很差';
-      else if(vm.overStar<=8)
-        vm.showMsg = '一般';
-      else
-        vm.showMsg='很好';
-    };
-
-    function submitRate(){
-
-      DocAPI.score(Object.assign({docId:vm.docId},$stateParams),vm.rate);
+        return node
+      }
     }
 
   }

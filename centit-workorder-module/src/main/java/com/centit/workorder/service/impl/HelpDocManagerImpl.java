@@ -169,7 +169,7 @@ public class HelpDocManagerImpl
 				}else{
 					return false;
 				}
-			}, "c");
+			}, "children");
 	}
 
 	@Override
