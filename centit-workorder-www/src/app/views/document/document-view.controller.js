@@ -14,6 +14,9 @@
 
     function active() {
       vm.document = DocAPI.get(Object.assign({}, $stateParams))
+
+      // 因为在父路由中获取不到 docId，在这里传递过去
+      $scope.$emit('document.selected', $stateParams.docId)
     }
 
     function cancelEditing() {

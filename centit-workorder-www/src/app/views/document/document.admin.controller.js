@@ -5,53 +5,78 @@
     .controller('DocumentAdminController', DocumentAdminController)
 
   /** @ngInject */
-  function DocumentAdminController($timeout, $state, $stateParams, DocAPI) {
+  function DocumentAdminController($timeout, $scope, $state, $stateParams, DocAPI) {
 
     const vm = this;
 
     vm.treeInstance = {}
     vm.docLinks = []
-    vm.selectNode = selectNode
+    vm.currentDocId = null
+    vm.onSelectNode = onSelectNode
 
     activate();
 
 
     function activate() {
       queryDocLinks();
+
+      // 监听从子路由发送来的文档id事件
+      $scope.$on('document.selected', function(e, docId) {
+        if (docId !== vm.currentDocId) {
+          vm.currentDocId = docId
+        }
+      })
     }
 
-    function selectNode(branch) {
-      console.log(branch)
-      if (branch.children && branch.children.length) return;
-
+    /**
+     * 当手动选择树型节点时
+     * @param branch
+     */
+    function onSelectNode(branch) {
+      if (!branch) return
+      if (branch.children && branch.children.length) return
+      vm.currentDocId = branch.docId
       $state.go('admin.document.view', {
         docId: branch.docId
       })
     }
 
-    //查询文档的所有链接标签
+    /**
+     * 查询文档树
+     */
     function queryDocLinks() {
       return DocAPI.levelSearch($stateParams).$promise
-        .then(function (data) {
-          vm.docLinks = data
-          $timeout(function () {
-            let branch = getFirstChild(data)
-            vm.treeInstance.select_branch(branch)
-          })
-          console.log(vm.treeInstance)
+        .then(function(res) {
+          vm.docLinks = res
+
+          let node = getFirstChild(vm.docLinks, vm.currentDocId)
+          $timeout(() => vm.treeInstance.select_branch(node))
         })
     }
 
-    function getFirstChild(list) {
+    /**
+     * 从文档树中获取第一个指定的节点
+     * 如果没有指定docId，那么会返回第一个叶子节点
+     * @param list 文档树数据
+     * @param docId 指定docId
+     * @returns {*}
+     */
+    function getFirstChild(list, docId) {
       let length = list.length
+      let result
       for (let i = 0; i < length; i++) {
         let node = list[i]
         let children = node.children
         if (children && children.length) {
-          return getFirstChild(children)
+          result = getFirstChild(children, docId)
+          if (result) {
+            return result
+          }
         }
 
-        return node
+        if (!docId || node.docId === docId) {
+          return node
+        }
       }
     }
 

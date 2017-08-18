@@ -9,7 +9,42 @@
 </div>
 
 <div class="ct-margin-12-auto" ng-if="vm.editing">
-  <ng-quill-editor ng-model="vm.document.docFile"></ng-quill-editor>
+  <ng-quill-editor ng-model="vm.document.docFile">
+    <ng-quill-toolbar>
+      <div>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+
+        <span class="ql-formats">
+          <select class="ql-size">
+            <option value="small">小</option>
+            <option value="normal" selected>中</option>
+            <option value="large">大</option>
+            <option value="huge">超大</option>
+          </select>
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+
+        <span class="ql-formats">
+          <select class="ql-align">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-image"></button>
+        </span>
+      </div>
+    </ng-quill-toolbar>
+  </ng-quill-editor>
   <div class="text-center ct-margin-12-auto">
     <button class="btn btn-primary" ng-click="vm.save(vm.document.docFile)">保存</button>
     <button class="btn btn-default" ng-click="vm.cancelEditing()">取消</button>
