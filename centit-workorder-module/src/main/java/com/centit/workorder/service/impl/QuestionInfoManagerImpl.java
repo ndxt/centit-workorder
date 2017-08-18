@@ -64,18 +64,13 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId) {
-		List<QuestionRound> list = questionRoundDao.listObjectByProperty("questionId",questionId);
-		return list;
+		return questionRoundDao.listQuestionRound(questionId);
 	}
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public List<QuestionRound> getQuestionRoundShowUser(String questionId) {
-        Map<String,Object> map =new HashMap<String,Object>();
-        map.put("questionId",questionId);
-        map.put("showUser","T");
-        List<QuestionRound> list = questionRoundDao.listObjectByProperties(map);
-        return list;
+        return questionRoundDao.listQuestionRoundShowUser(questionId);
     }
 
     @Override
