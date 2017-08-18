@@ -16,7 +16,8 @@
     "animate.css": "~3.4.0",
     "angular": "~1.5.3",
     "angular-loading-bar": "^0.7.1",
-    "angular-local-storage": "^v0.7.1"
+    "angular-local-storage": "^v0.7.1",
+    "angular-scroll-to-top": "hover-scroll-to-top#^0.1.1"
   },
   "devDependencies": {},
   "overrides": {

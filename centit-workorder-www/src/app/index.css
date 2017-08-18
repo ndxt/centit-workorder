@@ -34,3 +34,15 @@ body {
 .error-500-page .jumbotron {
   background-color: #fff;
 }
+
+a[scrolltotop] {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 32px;
+  color: #4c4c4c;
+  transition: color 1s ease-in;
+}
+a[scrolltotop]:hover {
+  color: #000;
+}
