@@ -7,14 +7,22 @@
       let outArray=[];
       if(inputArray && inputArray.length>0){
         outArray = inputArray.filter(function (val) {
-          if(begTime && val.createTime<begTime)
+          let createTime = new Date(val.createTime)
+
+          if(begTime && createTime<begTime)
             return;
-          if(endTime && val.createTime>endTime)
+          if(endTime && createTime>endTime)
             return;
           return val;
         })
       }
       return outArray;
+    }
+  }).filter('pageSize', function () {
+    return function(inputArray, currentPage){
+      if (!inputArray) return []
+
+      return inputArray.slice(currentPage - 1, 10)
     }
   })
   app.controller('QuestionAdminController', QuestionAdminController);

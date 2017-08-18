@@ -1,78 +1,76 @@
-<!--<div class="modal-header">-->
-  <!--<h3 class="modal-title">我的工单</h3>-->
-<!--</div>-->
+<form class="ct-margin-12-auto">
+  <div class="col-sm-6 selector-set ct-margin-top-12 ct-padding-left-0">
 
+    <a class="ss-item" ng-if="vm.s_questionTitle">
+      <b>标题：</b>
+      <em>{{vm.s_questionTitle}}</em>
+      <i ng-click="vm.remove('s_questionTitle')"></i>
+    </a>
+    <a class="ss-item" ng-if="vm.s_begTime || vm.s_endTime">
+      <b>创建时间：</b>
+      <em>{{vm.s_begTime? (vm.s_begTime | date:'yyyy-MM-dd') :'从古'}} - {{vm.s_endTime? (vm.s_endTime   | date:'yyyy-MM-dd') : '至今'}}</em>
+      <i ng-click="vm.remove('s_createTime')"></i>
+    </a>
+    <a class="ss-item" ng-if="vm.s_questionState">
+      <b>状态：</b>
+      <em ng-if="vm.s_questionState=='U'">未处理</em>
+      <em ng-if="vm.s_questionState=='H'">已分配</em>
+      <em ng-if="vm.s_questionState=='R'">处理中</em>
+      <em ng-if="vm.s_questionState=='C'">已完结</em>
+      <i ng-click="vm.remove('s_questionState')"></i>
+    </a>
 
-    <form class="ct-margin-12-auto">
-        <div class="col-sm-6 selector-set ct-margin-top-12 ct-padding-left-0">
+  </div>
+  <div class="col-sm-6 ct-margin-top-12 ct-padding-right-0">
+    <div class="input-group input-group-sm pull-right"
+         ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
+      <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
+             ng-focus="isQuestionSearchTitleFocus = true"
+             ng-blur="isQuestionSearchTitleFocus = false" ng-model="vm.s_questionTitle">
+      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+    </div>
+  </div>
 
-          <a class="ss-item" ng-if="vm.s_questionTitle">
-            <b>标题：</b>
-            <em>{{vm.s_questionTitle}}</em>
-            <i ng-click="vm.remove('s_questionTitle')"></i>
-          </a>
-          <a class="ss-item" ng-if="vm.s_begTime || vm.s_endTime">
-            <b>创建时间：</b>
-            <em>{{vm.s_begTime?vm.s_begTime:'从古'}} - {{vm.s_endTime? vm.s_endTime : '至今'}}</em>
-            <i ng-click="vm.remove('s_createTime')"></i>
-          </a>
-          <a class="ss-item" ng-if="vm.s_questionState">
-            <b>状态：</b>
-            <em ng-if="vm.s_questionState=='U'">未处理</em>
-            <em ng-if="vm.s_questionState=='H'">已分配</em>
-            <em ng-if="vm.s_questionState=='R'">处理中</em>
-            <em ng-if="vm.s_questionState=='C'">已完结</em>
-            <i ng-click="vm.remove('s_questionState')"></i>
-          </a>
-
-        </div>
-        <div class="col-sm-6 ct-margin-top-12 ct-padding-right-0">
-          <div class="input-group input-group-sm pull-right"
-               ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
-            <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
-                   ng-focus="isQuestionSearchTitleFocus = true"
-                   ng-blur="isQuestionSearchTitleFocus = false" ng-model="vm.s_questionTitle">
-            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-          </div>
-        </div>
-
-        <div class="row" >
-          <div class="col-sm-12  ct-margin-top-12">
-            <table class="search-table">
-              <tbody>
-              <tr>
-                <td>工单时间：</td>
-                <td>
-                    <input type="date" class="form-control input-sm" placeholder="选择工单创建时间" ng-model="vm.s_begTime">
-                </td>
-              </tr>
-              <tr>
-                <td>工单状态：</td>
-                <td>
-                  <label class="radio-inline">
-                    <input type="radio" name="state"  value="" ng-model="vm.s_questionState"> 全部
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="state"  value="U" ng-model="vm.s_questionState"> 未处理
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="state" value="H" ng-model="vm.s_questionState">  已分配
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="state"  value="R" ng-model="vm.s_questionState"> 处理中
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="state"  value="C" ng-model="vm.s_questionState"> 已完结
-                  </label>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-    </form>
-
-
+  <div class="row">
+    <div class="col-sm-12  ct-margin-top-12">
+      <table class="search-table">
+        <tbody>
+        <tr>
+          <td>工单时间：</td>
+          <td>
+            <input type="text" uib-datepicker-popup
+                   ng-model="vm.s_begTime"
+                   is-open="s_begTime.opened"
+                   class="form-control input-sm"
+                   placeholder="选择工单创建时间"
+                   ng-model="vm.s_begTime" ng-focus="s_begTime.opened = true">
+          </td>
+        </tr>
+        <tr>
+          <td>工单状态：</td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="" ng-model="vm.s_questionState"> 全部
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="U" ng-model="vm.s_questionState"> 未处理
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已分配
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="R" ng-model="vm.s_questionState"> 处理中
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="C" ng-model="vm.s_questionState"> 已完结
+            </label>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
 
 <div class="panel">
   <table class="table table-bordered table-hover">
@@ -84,12 +82,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="row in vm.questions | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState} | timeFilter:vm.s_begTime:vm.s_endTime">
+    <tr
+      ng-repeat="row in vm.questions | pageSize:vm.currentPage | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState} | timeFilter:vm.s_begTime:vm.s_endTime">
       <td>
-        <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
-        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分配</span>
-        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
-        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已完结</span>
+        <span ng-if="row.questionState=='U'" class="label panel-label label-danger">未处理</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning">已分配</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success">处理中</span>
+        <span ng-if="row.questionState=='C'" class="label panel-label label-primary">已完结</span>
         <a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a>
       </td>
       <td class="text-center">
@@ -97,7 +96,8 @@
       </td>
       <td class="text-center">
         <button type="button" class="btn btn-info" ng-click="vm.view(row)">查看</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.assign(row)" ng-if="row.questionState=='U'">分配</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.assign(row)" ng-if="row.questionState=='U'">分配
+        </button>
         <button type="button" class="btn btn-danger" ng-click="vm.del(row)" ng-if="row.questionState=='C'">删除</button>
       </td>
     </tr>
@@ -105,16 +105,14 @@
       <td colspan="3" class="no-hover">
         <nav aria-label="Page" class="text-center ct-fr flex">
           <ul style="margin: 0;"
-              uib-pagination boundary-links="true" total-items="vm.$resource.$pageDesc.totalRows" ng-model="vm.$resource.$pageDesc.pageNo"
-              previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-click="vm.changepage()"></ul>
+              uib-pagination boundary-links="true" total-items="vm.questions.length"
+              ng-model="vm.currentPage"
+              previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
         </nav>
 
       </td>
     </tr>
     </tbody>
-
-
-
   </table>
 </div>
 
