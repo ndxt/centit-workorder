@@ -481,6 +481,9 @@ label.radio-inline input {
 .wo-content .panel-default .panel-body {
   font-size: 12px;
   position: relative;
+  border: 1px solid #dedede;
+  height: 84px;
+  margin: 12px auto;
 }
 
 .wo-content .panel-default .panel-body span {
@@ -686,19 +689,22 @@ font-size: 14px;
   margin-left: 12px;
 }
 
-.add-wo {
-  margin-right: 24px;
+.add-wo.tools {
+  margin-right: 10px;
   cursor: pointer;
 }
 
 .add-wo i {
   color: #6d7781;
-  top: 1px;
   margin: 0 4px;
 }
 
-.add-wo:hover,
-.add-wo:hover i {
+.add-wo.tools i {
+  top: 14px;
+}
+
+
+.add-wo.tools i:hover {
   color: #00b3ee;
 }
 
@@ -706,6 +712,11 @@ font-size: 14px;
 
 
 
+.add-wo.tools i.glyphicon-plus {
+  top: 12px;
+  font-size: 14px;
+  margin-left: 6px;
+}
 
 
 

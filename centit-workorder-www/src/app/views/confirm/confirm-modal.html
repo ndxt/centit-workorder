@@ -1,10 +1,25 @@
-<div>
-  <div class="modal-body">
-    <div class="title">{{vm.title}}</div>
-  </div>
-  <div>
-    <button type="button" class="btn" ng-click="vm.cancle()">取消</button>
-    <button type="button" class="btn" ng-click="vm.ok()">确认</button>
-
-  </div>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="vm.cancel()">×</button>
 </div>
+<div class="modal-body" id="modal-body">
+  {{vm.title}}
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ng-click="vm.ok()">确认</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
