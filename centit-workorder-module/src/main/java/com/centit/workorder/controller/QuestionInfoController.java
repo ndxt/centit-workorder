@@ -83,11 +83,14 @@ public class QuestionInfoController  extends BaseController {
         map.put("editState",editState);
         map.put("begin",begin);
         map.put("end",end);
-        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
-        ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData(OBJLIST, listObjects);
-        resData.addResponseData(PAGE_DESC, pageDesc);
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
+        //暂不考虑分页
+        List<QuestionInfo> listObjects = questionInfoMag.listObjects(map);
+        JsonResultUtils.writeSingleDataJson(listObjects, response);
+//        List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+//        ResponseMapData resData = new ResponseMapData();
+//        resData.addResponseData(OBJLIST, listObjects);
+//        resData.addResponseData(PAGE_DESC, pageDesc);
+//        JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
     /**
