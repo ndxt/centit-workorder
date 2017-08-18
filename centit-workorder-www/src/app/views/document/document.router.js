@@ -18,7 +18,8 @@
               templateUrl: 'app/views/document/document.html',
               controller: 'DocumentController',
               controllerAs: 'vm'
-            }
+            },
+            'breadcrumb@': ''
           },
           data: {
             title: '知识库',
@@ -33,7 +34,7 @@
         config: {
           url: '/:docId',
           views: {
-            'main@': {
+            'doc': {
               templateUrl: 'app/views/document/document-view.html',
               controller: 'DocumentViewController',
               controllerAs: 'vm'

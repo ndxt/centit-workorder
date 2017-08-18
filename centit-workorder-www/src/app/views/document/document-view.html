@@ -1,18 +1,9 @@
-<div class="panel panel-default ct-margin-12-auto" ng-if="!vm.editing">
-  <div class="panel-body" ng-mouseenter="vm.showEditBtn = true" ng-mouseleave="vm.showEditBtn = false">
-    <span class="glyphicon glyphicon-pencil pull-right"
-          ng-show="!!vm.showEditBtn" ng-click="vm.editing = true"></span>
+<div class="panel panel-default ct-margin-12-auto">
+  <div class="panel-body">
     <h3 class="article-title text-center">{{vm.document.docTitle}}</h3>
     <p class="article-date text-center">更新时间：{{vm.document.lastModifyDate}}</p>
     <div class="rich-text ql-editor" ng-bind-html="vm.document.docFile | trustedHtml"></div>
   </div>
 </div>
 
-<div class="ct-margin-12-auto" ng-if="vm.editing">
-  <ng-quill-editor ng-model="vm.document.docFile"></ng-quill-editor>
-  <div class="text-center ct-margin-12-auto">
-    <button class="btn btn-primary" ng-click="vm.save(vm.document.docFile)">保存</button>
-    <button class="btn btn-default" ng-click="vm.cancelEditing()">取消</button>
-  </div>
-</div>
 

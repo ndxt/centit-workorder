@@ -35,8 +35,8 @@
           url: '/:docId',
           views: {
             'doc': {
-              templateUrl: 'app/views/document/document-view.html',
-              controller: 'DocumentViewController',
+              templateUrl: 'app/views/document/document.admin-view.html',
+              controller: 'DocumentAdminViewController',
               controllerAs: 'vm'
             }
           },

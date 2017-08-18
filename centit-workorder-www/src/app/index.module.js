@@ -18,6 +18,7 @@
       'angularBootstrapNavTree',
       'ngQuill',
       'LocalStorageModule',
+      'scrollToTop',
 
       // 公司前端框架模块
       'centit.ui'

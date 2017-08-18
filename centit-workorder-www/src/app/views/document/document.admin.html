@@ -5,12 +5,11 @@
   <div class="row ct-no-margin">
     <div class="col-md-3 col-lg-2">
       <abn-tree tree-data="vm.docLinks"
-                tree-control="vm.treeInstance" on-select="vm.selectNode(branch)"
+                tree-control="vm.treeInstance" on-select="vm.onSelectNode(branch)"
                 expand-level="5"></abn-tree>
     </div>
     <div class="col-md-9 col-lg-10 ct-padding-0-8" ui-view="doc">
       <h5>请选择一个文档</h5>
-
     </div>
   </div>
 </div>
