@@ -85,12 +85,12 @@ public class HelpDocController  extends BaseController {
      * 编辑帮助文档内容
      */
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String docId, @RequestBody String content,
+    public void editContent(@PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
 
         // 保存 历史版本，
         String userCode = getLoginUserCode(request);
-        helpDocMag.editContent(docId, content, userCode);
+        helpDocMag.editContent(docId, content.get("content"), userCode);
         JsonResultUtils.writeSuccessJson(response);
     }
 
