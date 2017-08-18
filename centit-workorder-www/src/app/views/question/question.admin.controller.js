@@ -1,8 +1,23 @@
 (function() {
   'use strict'
 
-  angular.module('workorder')
-    .controller('QuestionAdminController', QuestionAdminController);
+  let app = angular.module('workorder')
+  app.filter('timeFilter',function () {
+    return function(inputArray,begTime,endTime){
+      let outArray=[];
+      if(inputArray && inputArray.length>0){
+        outArray = inputArray.filter(function (val) {
+          if(begTime && val.createTime<begTime)
+            return;
+          if(endTime && val.createTime>endTime)
+            return;
+          return val;
+        })
+      }
+      return outArray;
+    }
+  })
+  app.controller('QuestionAdminController', QuestionAdminController);
 
   /** @ngInject */
   function QuestionAdminController($stateParams,$state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
@@ -12,7 +27,11 @@
 
     vm.view = view;
     vm.del = del;
-    vm.assign = assign
+    vm.assign = assign;
+    vm.remove = remove;
+    vm.changepage = changepage;
+
+    vm.s_questionState = ''
 
     activate();
 
@@ -24,11 +43,12 @@
 
     function queryQuestions(params) {
       delete params.questionId;
-      return QuestionAPI.query(params)
-        .$promise
-        .then(res => {
+      let promise = QuestionAPI.query(params).$promise
+
+      promise.then(res => {
+          console.log(promise)
           vm.questions = res
-          vm.totalItems = res.length || 0
+          vm.$resource = promise.$$state.value
         })
     }
 
@@ -63,6 +83,27 @@
         })
 
     }
+
+    function remove(type){
+      if(type=='s_questionState')
+        vm.s_questionState= '';
+      if(type=='s_questionTitle')
+        vm.s_questionTitle= '';
+      if(type=='s_createTime'){
+        vm.s_begTime= '';
+        vm.s_endTime='';
+
+      }
+    }
+
+    function changepage() {
+      queryQuestions(Object.assign({
+        pageNo:vm.$resource.$pageDesc.pageNo,
+        pageSize:20,
+      },$stateParams))
+      console.log(vm.currentPage);
+    }
+
   }
 })();
 

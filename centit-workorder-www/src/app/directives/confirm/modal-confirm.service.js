@@ -14,6 +14,7 @@
           templateUrl:'app/views/confirm/confirm-modal.html',
           controller:'ConfirmModalController',
           controllerAs:'vm',
+          size:'sm',
           resolve:{
             title:function () {
               return title;
