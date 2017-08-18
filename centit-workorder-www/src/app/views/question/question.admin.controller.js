@@ -5,7 +5,7 @@
     .controller('QuestionAdminController', QuestionAdminController);
 
   /** @ngInject */
-  function QuestionAdminController($stateParams,$state,$uibModal,toastr, QuestionAPI) {
+  function QuestionAdminController($stateParams,$state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
     let vm = this;
 
     vm.osId = $stateParams.osId;
@@ -36,10 +36,13 @@
       $state.go("admin.question.view",Object.assign($stateParams,{ questionId: row.questionId }));
     }
     function del(row) {
-      QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
-        .$promise
-        .then(function(){
-          queryQuestions(Object.assign({},$stateParams))
+      ConfirmModalService.openModal('确定删除吗？')
+        .then(function () {
+          QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
+            .$promise
+            .then(function(){
+              queryQuestions(Object.assign({},$stateParams))
+            })
         })
 
     }

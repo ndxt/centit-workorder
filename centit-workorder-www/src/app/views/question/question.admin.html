@@ -80,7 +80,7 @@
         <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分配</span>
         <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
         <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
-        <a ui-sref="root.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a>
+        <a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a>
       </td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}

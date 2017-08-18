@@ -33,6 +33,11 @@
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
 
+    <div class="col-sm-6 text-right" ng-if="vm.question.questionState=='C'">评分：{{vm.question.evaluateScore}}分
+      <!--<i class="assess-star" ng-repeat="i in vm.range(vm.question.evaluateScore)">-->
+      <!--</i>-->
+    </div>
+
   </div>
 </div>
 
@@ -43,9 +48,6 @@
 <div class="panel panel-default">
   <div class="panel-body ct-padding-top-0">
     <div class="clearfix ng-scope">
-
-
-
       <div class="col-sm-12 clearfix message-item question-item">
         <div class="user-icon drcloud-icon">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
@@ -54,17 +56,15 @@
         <div class="item-content  col-sm-7 drcloud-content text-muted">
           <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
           <p>{{vm.question.createTime}}</p>
-
         </div>
       </div>
-
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
         <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">腾</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
         <span ng-if="round.orA=='A'">售后工程师</span>
-        <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
           <div class="col-sm-12">{{round.roundContent}}</div>
@@ -73,9 +73,9 @@
 
           <div class="wrap-triangle"></div>
         </div>
-        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 send-wo">
-          <span ng-if="round.showUser=='T'">用户可见</span>
-          <span ng-if="round.showUser=='F'">用户不可见</span>
+        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 ">
+          <a ng-if="round.orA=='A' && round.showUser=='T'" ng-click="vm.changeUserTag(round,'F')">用户可见</a>
+          <a ng-if="round.orA=='A' && round.showUser=='F'" ng-click="vm.changeUserTag(round,'T')">用户不可见</a>
         </div>
 
       </div>

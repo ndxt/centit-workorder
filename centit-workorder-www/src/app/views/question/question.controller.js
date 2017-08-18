@@ -5,7 +5,7 @@
     .controller('QuestionController', QuestionController);
 
   /** @ngInject */
-  function QuestionController($stateParams,$state, QuestionAPI) {
+  function QuestionController($stateParams,$state,ConfirmModalService, QuestionAPI) {
     let vm = this;
 
     vm.osId = $stateParams.osId;
@@ -40,10 +40,13 @@
 
     }
     function del(row) {
-      QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
-        .$promise
-        .then(function(){
-          queryQuestions(Object.assign({},$stateParams))
+      ConfirmModalService.openModal('确定删除吗？')
+        .then(function () {
+          QuestionAPI.delete(Object.assign($stateParams,{ questionId: row.questionId }))
+            .$promise
+            .then(function(){
+              queryQuestions(Object.assign({},$stateParams))
+            })
         })
 
     }

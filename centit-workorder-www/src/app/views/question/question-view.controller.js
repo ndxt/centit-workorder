@@ -45,7 +45,7 @@
         .$promise
         .then(function(){
           vm.questionRound.roundContent='';
-          vm.rounds = getRound(Object.assign({},$stateParams));
+          vm.rounds.push(vm.questionRound);
         })
     }
     function submitScore(){
