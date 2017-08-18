@@ -19,10 +19,10 @@
       return outArray;
     }
   }).filter('pageSize', function () {
-    return function(inputArray, currentPage){
+    return function(inputArray, currentPage = 1, pageSize = 10){
       if (!inputArray) return []
-
-      return inputArray.slice(currentPage - 1, 10)
+      let start = (currentPage - 1) * pageSize
+      return inputArray.slice(start, start + pageSize)
     }
   })
   app.controller('QuestionAdminController', QuestionAdminController);
@@ -37,7 +37,6 @@
     vm.del = del;
     vm.assign = assign;
     vm.remove = remove;
-    vm.changepage = changepage;
 
     vm.s_questionState = ''
 
@@ -102,14 +101,6 @@
         vm.s_endTime='';
 
       }
-    }
-
-    function changepage() {
-      queryQuestions(Object.assign({
-        pageNo:vm.$resource.$pageDesc.pageNo,
-        pageSize:20,
-      },$stateParams))
-      console.log(vm.currentPage);
     }
 
   }

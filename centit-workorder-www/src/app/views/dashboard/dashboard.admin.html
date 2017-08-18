@@ -14,24 +14,13 @@
     <span class="modal-viewer-topbar-title">{{catalog.catalogName}}
       <span class="text-muted ct-text-size-12 ct-margin-0-12">{{catalog.catalogDescribe}}</span>
     </span>
-
-      <!--<div class="operation">-->
-        <!--<i class="glyphicon glyphicon-trash pull-right text-danger"-->
-           <!--uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>-->
-
-        <!--<i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"-->
-           <!--uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="catalog.catalogId" data-parent-id="catalog.parentId"></i>-->
-      <!--</div>-->
-      <div class="add-wo tools ct-fr"
-           tooltip-placement="right" data-fresh-data="vm.queryCatalogs"
-           wo-modal-catalog data-os="vm.osId" data-parent-id="catalog.catalogId">
-          <i class="glyphicon glyphicon-plus  pull-right text-primary"
-             uib-tooltip="新增"></i>
-        <i class="glyphicon glyphicon-trash pull-right text-danger"
-           uib-tooltip="删除"></i>
-
-        <i class="glyphicon glyphicon-pencil pull-right text-success" fresh-data="vm.queryCatalogs"
-           uib-tooltip="编辑"></i>
+      <div class="add-wo tools ct-fr" tooltip-placement="right" >
+        <i class="glyphicon glyphicon-plus  pull-right text-primary" data-fresh-data="vm.queryCatalogs"
+             uib-tooltip="新增子类别" wo-modal-catalog data-os="vm.osId" data-parent-id="catalog.catalogId"></i>
+        <i class="glyphicon glyphicon-trash pull-right text-danger" data-fresh-data="vm.queryCatalogs"
+           uib-tooltip="删除" ng-click="vm.remove(catalog)"></i>
+        <i class="glyphicon glyphicon-pencil pull-right text-success" data-fresh-data="vm.queryCatalogs"
+           uib-tooltip="编辑" wo-modal-catalog data-os="vm.osId" data-catalog="catalog.catalogId"></i>
       </div>
   </div>
   <div class="panel panel-default">

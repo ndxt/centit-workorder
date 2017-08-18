@@ -36,19 +36,28 @@
       <table class="search-table">
         <tbody>
         <tr>
-          <td>工单时间：</td>
+          <td>创建时间：</td>
           <td>
             <input type="text" uib-datepicker-popup
-                   ng-model="vm.s_begTime"
                    is-open="s_begTime.opened"
                    class="form-control input-sm"
                    placeholder="选择工单创建时间"
                    ng-model="vm.s_begTime" ng-focus="s_begTime.opened = true">
+
+
+          </td>
+          <td>至</td>
+          <td>
+            <input type="text" uib-datepicker-popup
+                   is-open="s_endTime.opened"
+                   class="form-control input-sm"
+                   placeholder="选择工单创建时间"
+                   ng-model="vm.s_endTime" ng-focus="s_endTime.opened = true">
           </td>
         </tr>
         <tr>
           <td>工单状态：</td>
-          <td>
+          <td colspan="3">
             <label class="radio-inline">
               <input type="radio" name="state" value="" ng-model="vm.s_questionState"> 全部
             </label>

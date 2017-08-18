@@ -1,8 +1,31 @@
 (function() {
   'use strict'
 
-  angular.module('workorder')
-    .controller('QuestionController', QuestionController);
+  let app = angular.module('workorder')
+  app.filter('timeFilter',function () {
+    return function(inputArray,begTime,endTime){
+      let outArray=[];
+      if(inputArray && inputArray.length>0){
+        outArray = inputArray.filter(function (val) {
+          let createTime = new Date(val.createTime)
+
+          if(begTime && createTime<begTime)
+            return;
+          if(endTime && createTime>endTime)
+            return;
+          return val;
+        })
+      }
+      return outArray;
+    }
+  }).filter('pageSize', function () {
+    return function(inputArray, currentPage = 1, pageSize = 10){
+      if (!inputArray) return []
+      let start = (currentPage - 1) * pageSize
+      return inputArray.slice(start, start + pageSize)
+    }
+  })
+  app.controller('QuestionController', QuestionController);
 
   /** @ngInject */
   function QuestionController($stateParams,$state,ConfirmModalService, QuestionAPI) {
@@ -12,6 +35,8 @@
     vm.view = view;
     vm.edit = edit;
     vm.del = del;
+
+    vm.s_questionState = ''
 
     activate();
 
