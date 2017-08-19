@@ -5,7 +5,7 @@
     .directive('woModalCatalog', Directive)
 
   /** @ngInject */
-  function Directive(CatalogModalService) {
+  function Directive($log, CatalogModalService) {
     return {
       restrict: 'EA',
       scope: {
@@ -23,9 +23,8 @@
             e.preventDefault()
 
             CatalogModalService.openModal(scope.os, scope.catalog,scope.parentId,scope.freshData)
-              .then(console.log)
-              // .then(obj => scope.onSuccess({$catalog: obj}))
-              .catch(console.error)
+              .then($log.info)
+              .catch($log.error)
         })
       }
     }

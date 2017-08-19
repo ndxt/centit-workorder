@@ -34,7 +34,7 @@
     $httpBackend.whenPOST(listRegExp)
       .respond(function(method, url, json) {
 
-        let obj = JSON.parse(json)
+        let obj = angular.fromJson(json)
         obj.createTime = new Date().getTime() + ""
         obj.questionId = obj.createTime
         obj.userName = obj.userCode

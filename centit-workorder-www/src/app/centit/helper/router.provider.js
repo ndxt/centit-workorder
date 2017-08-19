@@ -127,7 +127,7 @@
        */
       function whenStateChangeStart () {
         $rootScope.$on('$stateChangeStart',
-          function (event, toState, toParams, fromState, fromParams) {
+          function (event, toState) {
             let data = toState.data || {}
             let showLoading = data.showLoading
 
@@ -171,7 +171,7 @@
        */
       function whenStateChangeSuccess () {
         $rootScope.$on('$stateChangeSuccess',
-          function (event, toState, toParams, fromState, fromParams) {
+          function (event, toState, toParams) {
             let data = toState.data || {}
             stateCounts.changes++
             handlingStateChangeError = false

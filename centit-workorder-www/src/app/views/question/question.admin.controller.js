@@ -1,34 +1,33 @@
 (function() {
   'use strict'
 
-  let app = angular.module('workorder')
-  app.filter('timeFilter',function () {
-    return function(inputArray,begTime,endTime){
-      let outArray=[];
-      if(inputArray && inputArray.length>0){
-        outArray = inputArray.filter(function (val) {
-          let createTime = new Date(val.createTime)
+  angular.module('workorder')
+    .filter('timeFilter',function () {
+      return function(inputArray,begTime,endTime){
+        let outArray=[];
+        if(inputArray && inputArray.length>0){
+          outArray = inputArray.filter(function (val) {
+            let createTime = new Date(val.createTime)
 
-          if(begTime && createTime<begTime)
-            return;
-          if(endTime && createTime>endTime)
-            return;
-          return val;
-        })
+            if(begTime && createTime<begTime)
+              return;
+            if(endTime && createTime>endTime)
+              return;
+            return val;
+          })
+        }
+        return outArray;
       }
-      return outArray;
-    }
-  }).filter('pageSize', function () {
-    return function(inputArray, currentPage = 1, pageSize = 10){
-      if (!inputArray) return []
-      let start = (currentPage - 1) * pageSize
-      return inputArray.slice(start, start + pageSize)
-    }
-  })
-  app.controller('QuestionAdminController', QuestionAdminController);
+    }).filter('pageSize', function () {
+      return function(inputArray, currentPage = 1, pageSize = 10){
+        if (!inputArray) return []
+        let start = (currentPage - 1) * pageSize
+        return inputArray.slice(start, start + pageSize)
+      }
+    }).controller('QuestionAdminController', QuestionAdminController)
 
   /** @ngInject */
-  function QuestionAdminController($stateParams,$state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
+  function QuestionAdminController($stateParams, $state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
     let vm = this;
 
     vm.osId = $stateParams.osId;
@@ -50,13 +49,7 @@
 
     function queryQuestions(params) {
       delete params.questionId;
-      let promise = QuestionAPI.query(params).$promise
-
-      promise.then(res => {
-          console.log(promise)
-          vm.questions = res
-          vm.$resource = promise.$$state.value
-        })
+      vm.questions  = QuestionAPI.query(params)
     }
 
     function view(row) {
@@ -84,7 +77,7 @@
           }
         }
       }).result
-        .then(function(res) {
+        .then(function() {
           toastr.success(`分配成功`);
           row.questionState = 'H';
         })

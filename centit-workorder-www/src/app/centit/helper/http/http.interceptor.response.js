@@ -5,7 +5,7 @@
     .factory('HttpResponseInterceptor', HttpResponseInterceptor)
 
   /** @ngInject */
-  function HttpResponseInterceptor ($q, ajaxErrorHelper) {
+  function HttpResponseInterceptor ($q, $timeout, ajaxErrorHelper) {
     return {
       response: function (response) {
         let config = response.config
@@ -28,7 +28,7 @@
             response.data = data.objList
 
             // 确保分页信息能正确传递
-            setTimeout(() => response.resource.$pageDesc = data.pageDesc)
+            $timeout(() => response.resource.$pageDesc = data.pageDesc)
           }
         } else {
           let rejection = {

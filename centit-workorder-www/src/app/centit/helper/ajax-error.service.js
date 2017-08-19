@@ -1,4 +1,3 @@
-/* global $mdToast:false */
 (function () {
   'use strict'
 

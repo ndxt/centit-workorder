@@ -8,8 +8,6 @@
   function QuestionViewController($stateParams,QuestionAPI,RoundAPI) {
     let vm = this;
     vm.hoveringOver = hoveringOver;
-    // vm.askOthers = askOthers;
-    // vm.score = score;
     vm.continueAsk = continueAsk;
     vm.submitScore = submitScore;
 
@@ -56,22 +54,6 @@
         });
     }
 
-    // function askOthers() {
-    //   $state.go('root.question.edit',{catalogId:$stateParams.catalogId})
-    // }
-
-    // function score() {
-    //   $uibModal.open({
-    //     templateUrl: 'app/views/question/question-score.html',
-    //     controller: 'QuestionScoreController',
-    //     controllerAs: 'vm',
-    //   }).result
-    //     .then(function() {
-    //       toastr.success(`评论成功`)
-    //     })
-    //
-    // }
-
     //评分
     vm.rate =0;
 
@@ -83,8 +65,7 @@
         vm.showMsg = '一般';
       else
         vm.showMsg='很好';
-    };
-
+    }
   }
 })();
 

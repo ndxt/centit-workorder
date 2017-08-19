@@ -49,7 +49,7 @@
     function assignMe() {
       QuestionAPI.grab($stateParams,{})
         .$promise
-        .then(function (res) {
+        .then(function () {
           vm.question.questionState = 'H';//已分配
           vm.rounds.push({
             orA:'A',
