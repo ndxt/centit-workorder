@@ -1,4 +1,4 @@
-;(function () {
+(function () {
 
   angular.module('centit.helper')
     .provider('httpHelper', httpHelperProvider)

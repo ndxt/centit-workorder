@@ -1,5 +1,5 @@
 /* eslint-disable angular/on-watch */
-;(function () {
+(function () {
   'use strict'
 
   angular.module('centit.helper')

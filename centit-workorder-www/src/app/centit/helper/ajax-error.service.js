@@ -1,5 +1,5 @@
 /* global $mdToast:false */
-;(function () {
+(function () {
   'use strict'
 
   angular.module('centit.helper')

@@ -4,7 +4,6 @@
   angular
     .module('workorder')
     .config(config)
-    // .config(mockConfig)
     .config(toastConfig)
     .config(routerHelperConfig)
     .config(localStorageCofnig)
@@ -43,28 +42,4 @@
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = true;
   }
-
-  /** @ngInject */
-  function mockConfig ($httpProvider) {
-    $httpProvider.interceptors.push(apiDelayInterceptor);
-
-    /* @ngInject */
-    function apiDelayInterceptor ($timeout, $q) {
-      return {
-        'response': function (response) {
-          // all API response will be delayed 1s to simulate real network
-          let delay = 100 + Math.random() * 900;
-          if (response.config.url.match(/^api\//)) {
-            let d = $q.defer();
-            $timeout(function () {
-              d.resolve(response);
-            }, delay);
-            return d.promise;
-          }
-          return response;
-        }
-      };
-    }
-  }
-
 })();
