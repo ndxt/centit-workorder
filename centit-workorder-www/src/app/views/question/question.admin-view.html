@@ -67,7 +67,7 @@
         <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12">{{round.roundContent}}</div>
+          <div class="col-sm-12" ng-bind-html="round.roundContent"></div>
           <br>
           <p>{{round.createTime}}</p>
 
@@ -79,7 +79,9 @@
 
           <div class="chk" style="width: 180px;">
             <p>结论</p>
-            <input type="checkbox" id="checkbox_c1" class="chk_3"><label for="checkbox_c1"></label>
+            <input type="checkbox" id="checkbox_{{$index}}" class="chk_3" ng-click="vm.changeUserTag(round)"
+                   ng-model="round.showUser" ng-true-value="'T'" ng-false-value="'F'">
+            <label for="checkbox_{{$index}}"></label>
             <p>讨论</p>
           </div>
         </div>
@@ -98,7 +100,42 @@
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
       <div class="">
-        <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
+        <ng-quill-editor ng-model="vm.questionRound.roundContent">
+          <ng-quill-toolbar>
+            <div>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-size">
+            <option value="small">小</option>
+            <option value="normal" selected>中</option>
+            <option value="large">大</option>
+            <option value="huge">超大</option>
+          </select>
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-align">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+              <span class="ql-formats">
+          <button class="ql-image"></button>
+        </span>
+            </div>
+          </ng-quill-toolbar>
+        </ng-quill-editor>
       </div>
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">

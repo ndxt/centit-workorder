@@ -59,22 +59,24 @@
         });
     }
 
-    function changeUserTag(round,showUser) {
-      let message;
-      if(showUser=='T'){
-        message = '确定修改为用户可见吗？'
-      }else{
-        message = '确定修改为用户不可见吗？'
-      }
-      ConfirmModalService.openModal(message)
-        .then(function () {
+    function changeUserTag(round) {
+      let showUser=round.showUser
+
+      // let message;
+      // if(showUser=='T'){
+      //   message = '确定修改为用户可见吗？'
+      // }else{
+      //   message = '确定修改为用户不可见吗？'
+      // }
+      // ConfirmModalService.openModal(message)
+      //   .then(function () {
           let roundId = round.roundId
           RoundAPI.changeUserTag(Object.assign({roundId,showUser},$stateParams),{})
             .$promise
             .then(function () {
               round.showUser = showUser;
             });
-        })
+        // })
 
     }
 

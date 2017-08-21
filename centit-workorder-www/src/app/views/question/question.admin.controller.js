@@ -42,6 +42,7 @@
     vm.assign = assign;
     vm.remove = remove;
 
+
     vm.s_questionState = '';
     vm.currentPage=1
 
