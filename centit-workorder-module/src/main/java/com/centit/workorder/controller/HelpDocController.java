@@ -189,4 +189,13 @@ public class HelpDocController  extends BaseController {
         List<Map<String, Object>> result = helpDocMag.fullTextSearch(catalogId, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
+
+    /**
+     * 帮助文档全文检索 关键字查询
+     */
+    @RequestMapping(value = "/fullSearch/{keyWord}", method = RequestMethod.GET)
+    public void fullSearch(@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
+        List<Map<String, Object>> result = helpDocMag.fullTextSearch(keyWord, pageDesc);
+        JsonResultUtils.writeSingleDataJson(result, response);
+    }
 }

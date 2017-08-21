@@ -16,7 +16,9 @@ import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,13 +61,6 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public void list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        List<String> userRoles = centitUserDetails.getUserRoleCodes();
-        if (userRoles.isEmpty() || (!userRoles.contains("G-SYSADMIN"))) {
-            //当前用户不是管理员时添加只能看到自己提的工单的过滤条件
-            map.put("userName",centitUserDetails.getUserName());
-            map.put("userCode",centitUserDetails.getUserCode());
-        }
         String questionTitle = request.getParameter("questionTitle");
         String questionContent = request.getParameter("questionContent");
         String questionState = request.getParameter("questionState");
@@ -74,7 +69,7 @@ public class QuestionInfoController  extends BaseController {
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
         map.put("osId",osId);
-        if (questionTitle != null && !"".equals(questionTitle)){
+        if (!StringUtil.isBlank(questionTitle)){
             map.put("questionTitle","%"+questionTitle+"%");
         }
         map.put("questionContent",questionContent);
@@ -254,15 +249,15 @@ public class QuestionInfoController  extends BaseController {
 
     /**
      * 根据userCode获取工单列表
-     * @param userCode
      * @param response
      */
-    @RequestMapping(value = "/{userCode}/consumer", method = {RequestMethod.GET})
-    public void listWithUserCode(@PathVariable String userCode,
-                                 @PathVariable String osId,
+    @RequestMapping(value = "/consumer", method = {RequestMethod.GET})
+    public void listWithUserCode(@PathVariable String osId,
                                  PageDesc pageDesc,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
+        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+        String userCode = centitUserDetails.getUserCode();
         String editState = request.getParameter("editState");
         String questionState = request.getParameter("questionState");
         String questionTitle = request.getParameter("questionTitle");
@@ -274,7 +269,9 @@ public class QuestionInfoController  extends BaseController {
         map.put("currentOperator",currentOperator);
         map.put("editState",editState);
         map.put("questionState",questionState);
-        map.put("questionTitle",questionTitle);
+        if (!StringUtil.isBlank(questionTitle)){
+            map.put("questionTitle","%"+questionTitle+"%");
+        }
         map.put("userCode",userCode);
         map.put("begin",begin);
         map.put("end",end);
