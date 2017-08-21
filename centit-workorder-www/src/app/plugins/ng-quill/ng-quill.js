@@ -6,7 +6,7 @@
   } else {
     root.Requester = factory(root.Quill)
   }
-}(this, function (Quill) {
+}(window, function (Quill) {
   'use strict'
 
   var app

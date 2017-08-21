@@ -13,7 +13,7 @@
     exports["Quill"] = factory();
   else
     root["Quill"] = factory();
-})(this, function() {
+})(window, function() {
   return /******/ (function(modules) { // webpackBootstrap
     /******/ 	// The module cache
     /******/ 	var installedModules = {};

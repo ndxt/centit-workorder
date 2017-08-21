@@ -1,17 +1,17 @@
-(function(){
+(function () {
   'user strict'
 
   angular.module('workorder')
-    .controller('ConfirmModalController',ConfirmModalController)
+    .controller('ConfirmModalController', ConfirmModalController)
 
-  function ConfirmModalController($uibModalInstance,title) {
-    const  vm = this;
+  function ConfirmModalController($uibModalInstance, title) {
+    const vm = this;
     vm.title = title;
 
     vm.cancle = cancle;
     vm.ok = ok;
 
-    function cancle(){
+    function cancle() {
       $uibModalInstance.dismiss();
 
     }
@@ -21,4 +21,4 @@
     }
   }
 
-})()
+})();
