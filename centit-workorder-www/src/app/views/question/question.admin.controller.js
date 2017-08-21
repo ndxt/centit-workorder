@@ -24,7 +24,12 @@
         let start = (currentPage - 1) * pageSize
         return inputArray.slice(start, start + pageSize)
       }
-    }).controller('QuestionAdminController', QuestionAdminController)
+    }).filter('allFilter',function () {
+      return function (inputArray, currentPage = 1, pageSize = 10) {
+
+      }
+
+  }).controller('QuestionAdminController', QuestionAdminController)
 
   /** @ngInject */
   function QuestionAdminController($stateParams, $state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
@@ -37,7 +42,14 @@
     vm.assign = assign;
     vm.remove = remove;
 
-    vm.s_questionState = ''
+    vm.s_questionState = '';
+    vm.currentPage=1
+
+    vm.newData = [];
+
+    vm.changePage = function (currentPage) {
+      vm.newData = vm.newData.slice(10,20);
+    }
 
     activate();
 

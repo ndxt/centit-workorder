@@ -37,7 +37,7 @@
               <input type="radio" name="state" value="U" ng-model="vm.s_questionState"> 未处理
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已分配
+              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已分派
             </label>
             <label class="radio-inline">
               <input type="radio" name="state" value="R" ng-model="vm.s_questionState"> 处理中
@@ -78,7 +78,7 @@
       <a class="ss-item" ng-if="vm.s_questionState">
         <b>状态：</b>
         <em ng-if="vm.s_questionState=='U'">未处理</em>
-        <em ng-if="vm.s_questionState=='H'">已分配</em>
+        <em ng-if="vm.s_questionState=='H'">已分派</em>
         <em ng-if="vm.s_questionState=='R'">处理中</em>
         <em ng-if="vm.s_questionState=='C'">已完结</em>
         <i ng-click="vm.remove('s_questionState')"></i>
@@ -92,6 +92,7 @@
   <table class="table table-bordered table-hover">
     <thead>
     <tr>
+      <th width="80px" class="text-center">状态</th>
       <th>标题</th>
       <th class="text-center" width="180">创建时间</th>
       <th class="text-center" width="250">操作</th>
@@ -99,14 +100,18 @@
     </thead>
     <tbody>
     <tr
-      ng-repeat="row in vm.questions | pageSize:vm.currentPage | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState} | timeFilter:vm.s_begTime:vm.s_endTime">
-      <td>
-        <span ng-if="row.questionState=='U'" class="label panel-label label-danger">未处理</span>
-        <span ng-if="row.questionState=='H'" class="label panel-label label-warning">已分配</span>
-        <span ng-if="row.questionState=='R'" class="label panel-label label-success">处理中</span>
-        <span ng-if="row.questionState=='C'" class="label panel-label label-primary">已完结</span>
-        <a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a>
+      ng-repeat="row in vm.questions  | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState}
+      | timeFilter:vm.s_begTime:vm.s_endTime as newData " ng-if="$index>=(vm.currentPage-1)*10 && $index < vm.currentPage*10">
+    <!--<tr-->
+      <!--ng-repeat="row in vm.questions | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState}-->
+      <!--| timeFilter:vm.s_begTime:vm.s_endTime as newData">-->
+      <td class="text-center">
+        <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分派</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
+        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已完结</span>
       </td>
+      <td><a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
         {{row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
       </td>
@@ -121,7 +126,7 @@
       <td colspan="3" class="no-hover">
         <nav aria-label="Page" class="text-center ct-fr flex">
           <ul style="margin: 0;"
-              uib-pagination boundary-links="true" total-items="vm.questions.length"
+              uib-pagination boundary-links="true" total-items="newData.length"
               ng-model="vm.currentPage"
               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
         </nav>

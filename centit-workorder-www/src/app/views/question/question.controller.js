@@ -34,8 +34,11 @@
     vm.view = view;
     vm.edit = edit;
     vm.del = del;
+    vm.remove = remove
 
     vm.s_questionState = ''
+    vm.s_createTime = ''
+    vm.currentPage=1
 
     activate();
 
@@ -75,6 +78,18 @@
             })
         })
 
+    }
+
+    function remove(type){
+      if(type=='s_questionState')
+        vm.s_questionState= '';
+      if(type=='s_questionTitle')
+        vm.s_questionTitle= '';
+      if(type=='s_createTime'){
+        vm.s_begTime= '';
+        vm.s_endTime='';
+
+      }
     }
   }
 })();
