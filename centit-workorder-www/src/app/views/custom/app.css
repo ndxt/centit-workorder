@@ -200,7 +200,7 @@ p.article-date {
 }
 
 
-.message-item span {
+.message-item span.username {
   position: absolute;
   top: 80px;
   left: 0;
@@ -226,7 +226,7 @@ p.article-date {
 
 .drcloud-content {
   border-radius: 4px;
-  margin-left: 4px;
+  margin-left: 16px;
 /*  border: 1px solid #e5e5e5;*/
   padding: 14px 6px 0 6px;
 /*  background: #f7f9fa;*/
@@ -238,6 +238,15 @@ p.article-date {
   color: #333;
   padding-left: 0;
 }
+
+.drcloud-content .rich-text {
+  padding-left: 0;
+}
+
+.drcloud-content .rich-text p {
+  padding-left: 0;
+}
+
 
 .message-item .drcloud-content > div {
   font-weight: 600;
@@ -839,7 +848,7 @@ font-size: 14px;
   font-size: 1.2em;
   color: white;
   font-weight: bold;
-  left: 25px;
+  left: 27px;
   top: 4px;
   padding: 5px 0;
 }
