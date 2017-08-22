@@ -67,11 +67,11 @@ public class HelpDocVersionId implements java.io.Serializable {
 			return false;
 		
 		HelpDocVersionId castOther = (HelpDocVersionId) other;
-		boolean ret = true;
+		boolean ret;
   
-		ret = ret && ( this.getDocId() == castOther.getDocId() ||
+		ret = this.getDocId() == castOther.getDocId() ||
 					   (this.getDocId() != null && castOther.getDocId() != null
-							   && this.getDocId().equals(castOther.getDocId())));
+							   && this.getDocId().equals(castOther.getDocId()));
   
 		ret = ret && ( this.getDocVersion() == castOther.getDocVersion() ||
 					   (this.getDocVersion() != -1 && castOther.getDocVersion() != -1
