@@ -77,13 +77,21 @@
           <!--<a ng-if="round.orA=='A' && round.showUser=='T'" ng-click="vm.changeUserTag(round,'F')">用户可见</a>-->
           <!--<a ng-if="round.orA=='A' && round.showUser=='F'" ng-click="vm.changeUserTag(round,'T')">用户不可见</a>-->
 
-          <div class="chk" style="width: 180px;">
-            <p>结论</p>
+          <!--<div class="chk">
+            <p ng-class="{red:round.showUser=='T'}">结论</p>
             <input type="checkbox" id="checkbox_{{$index}}" class="chk_3" ng-click="vm.changeUserTag(round)"
                    ng-model="round.showUser" ng-true-value="'T'" ng-false-value="'F'">
             <label for="checkbox_{{$index}}"></label>
-            <p>讨论</p>
+            <p ng-class="{red:round.showUser=='F'}">讨论</p>
+          </div>-->
+
+
+          <div class="chk">
+            <p>4. 开启和关闭</p>
+            <input type="checkbox" id="checkbox_d2" class="chk_4" checked=""><label for="checkbox_d2"></label>
           </div>
+
+
         </div>
 
       </div>
