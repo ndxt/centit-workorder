@@ -5,8 +5,11 @@
     .controller('HeadController', HeadController);
 
   /** @ngInject */
-  function HeadController(OsAPI,$stateParams) {
+  function HeadController(OsAPI,$stateParams,Authentication) {
     const vm = this;
+
+    Authentication.get()
+      .then(user => vm.user = user)
 
     active()
     function active(){
