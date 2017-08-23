@@ -14,6 +14,12 @@
     vm.currentDocId = null
     vm.onSelectNode = onSelectNode
 
+    vm.search = function(){
+      if(vm.keyWord) {
+        vm.docLinks = DocAPI.fullSearch(Object.assign($stateParams, {keyWord: vm.keyWord}))
+      }
+    }
+
     activate();
 
 

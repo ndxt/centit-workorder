@@ -1,5 +1,11 @@
 <div class="modal-viewer-header ct-border-bottom-0">
   <span class="modal-viewer-topbar-title">请选择您遇到的问题分类：</span>
+
+  <div class="input-group  pull-right col-sm-4" >
+    <input type="text" class="form-control" id="keyWord" placeholder="全文检索"
+           ng-model="vm.keyWord">
+    <div class="input-group-addon"><i class="glyphicon glyphicon-search" ng-click="vm.search()"></i></div>
+  </div>
 </div>
 <div class="panel panel-default">
   <div class="row ct-no-margin">

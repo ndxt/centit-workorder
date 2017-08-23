@@ -8,7 +8,7 @@
     <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
     <li
       ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">
-      工单已分派
+      工单已受理
     </li>
     <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单处理中</li>
     <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
@@ -54,8 +54,8 @@
         <span>{{vm.question.userName}}</span>
         <div class="item-content  col-sm-7 drcloud-content text-muted">
           <div class="col-sm-12">问题描述：</div>
-          <div ng-bind-html="vm.question.questionContent"></div>
-          <p>{{vm.question.createTime}}</p>
+          <div class="rich-text" ng-bind-html="vm.question.questionContent"></div>
+          <p >{{vm.question.createTime}}</p>
         </div>
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
@@ -68,7 +68,7 @@
         <span ng-if="round.orA=='Q'">{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12" ng-bind-html="round.roundContent"></div>
+          <div class="col-sm-12 rich-text" ng-bind-html="round.roundContent"></div>
           <p>{{round.createTime}}</p>
           <div class="wrap-triangle"></div>
         </div>
