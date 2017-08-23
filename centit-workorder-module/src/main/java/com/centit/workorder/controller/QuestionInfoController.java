@@ -78,6 +78,7 @@ public class QuestionInfoController  extends BaseController {
         map.put("editState",editState);
         map.put("begin",begin);
         map.put("end",end);
+        map.put("ORDER_BY","createTime desc");
         //暂不考虑分页
         List<QuestionInfo> listObjects = questionInfoMag.listObjects(map);
         JsonResultUtils.writeSingleDataJson(listObjects, response);

@@ -451,6 +451,10 @@ td.no-hover nav {
 label.radio-inline input {
   margin-top: 2px;
 }
+label.radio-inline span {
+  display: inline-block;
+  width: 36px;
+}
 
 
 .panel-label.label {
