@@ -3,15 +3,43 @@
 
   angular.module('workorder')
     .filter('timeFilter',function () {
-      return function(inputArray,begTime,endTime){
-        let outArray=[];
-        if(inputArray && inputArray.length>0){
+      return function (inputArray, tag,times) {
+        let begTime;
+        let endTime;
+        if(tag =='TM'){
+          begTime = times.t1;
+          endTime = times.t2;
+        }
+        if(tag =='LM'){
+          begTime = times.t3;
+          endTime = times.t4;
+        }
+        if(tag =='TS'){
+          begTime = times.t5;
+          endTime = times.t6;
+        }
+        if(tag =='LS'){
+          begTime = times.t7;
+          endTime = times.t8;
+        }
+        if(tag =='TY'){
+          begTime = times.t9;
+          endTime = times.t10;
+        }
+        if(tag =='LY'){
+          begTime = times.t11;
+          endTime = times.t12;
+        }
+        begTime = new Date(begTime);
+        endTime = new Date(endTime);
+        let outArray = [];
+        if (inputArray && inputArray.length > 0) {
           outArray = inputArray.filter(function (val) {
             let createTime = new Date(val.createTime)
 
-            if(begTime && createTime<begTime)
+            if (begTime && createTime < begTime)
               return;
-            if(endTime && createTime>endTime)
+            if (endTime && createTime > endTime)
               return;
             return val;
           })
@@ -24,15 +52,10 @@
         let start = (currentPage - 1) * pageSize
         return inputArray.slice(start, start + pageSize)
       }
-    }).filter('allFilter',function () {
-      return function (inputArray, currentPage = 1, pageSize = 10) {
-
-      }
-
-  }).controller('QuestionAdminController', QuestionAdminController)
+    }).controller('QuestionAdminController', QuestionAdminController)
 
   /** @ngInject */
-  function QuestionAdminController($stateParams, $state,$uibModal,ConfirmModalService,toastr, QuestionAPI) {
+  function QuestionAdminController($stateParams, $state,$uibModal,ConfirmModalService,DateService,toastr, QuestionAPI) {
     let vm = this;
 
     vm.osId = $stateParams.osId;
@@ -46,14 +69,24 @@
     vm.s_questionState = '';
     vm.currentPage=1
 
-    vm.newData = [];
-
-    vm.changePage = function (currentPage) {
-      vm.newData = vm.newData.slice(10,20);
-    }
+    //月
+    let t1 =  DateService.getMonthStartDate();//本月开始时间
+    let t2 =  DateService.getMonthEndDate();//本月开始时间
+    let t3 =  DateService.getLastMonthStartDate();//本月开始时间
+    let t4  =  DateService.getLastMonthEndDate();//本月开始时间
+    //季度
+    let t5 =  DateService.getQuarterStartDate();//本月开始时间
+    let t6 =  DateService.getQuarterEndDate();//本月开始时间
+    let t7 =  DateService.getLastQuarterStartDate();//本月开始时间
+    let t8 =  DateService.getLastQuarterEndDate();//本月开始时间
+    //年
+    let t9 =  DateService.getYearStartDate();//本月开始时间
+    let t10 =  DateService.getYearEndDate();//本月开始时间
+    let t11 =  DateService.getLastYearStartDate();//本月开始时间
+    let t12 =  DateService.getLastYearEndDate();//本月开始时间
+    vm.getMonth = {t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12};
 
     activate();
-
     function activate() {
       queryQuestions(Object.assign({},$stateParams))
     }
@@ -102,10 +135,8 @@
         vm.s_questionState= '';
       if(type=='s_questionTitle')
         vm.s_questionTitle= '';
-      if(type=='s_createTime'){
-        vm.s_begTime= '';
-        vm.s_endTime='';
-
+      if(type=='s_timeTag'){
+        vm.s_timeTag= '';
       }
     }
 

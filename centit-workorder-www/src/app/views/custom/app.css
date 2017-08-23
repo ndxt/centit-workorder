@@ -26,7 +26,7 @@ p.article-date {
   font-size: 14px;
   line-height: 1.6;
   word-wrap: break-word;
-  margin: 23px 0 35px;
+  margin: 0 0 18px;
 }
 
 
@@ -237,6 +237,10 @@ p.article-date {
 .drcloud-content p {
   color: #333;
   padding-left: 0;
+}
+
+.drcloud-content .rich-text p > img {
+width: 100%;
 }
 
 .drcloud-content .rich-text {
@@ -450,6 +454,10 @@ td.no-hover nav {
 
 label.radio-inline input {
   margin-top: 2px;
+}
+label.radio-inline span {
+  display: inline-block;
+  width: 36px;
 }
 
 
@@ -864,7 +872,7 @@ font-size: 14px;
   display: inline-block;
   position: relative;
   background: #F7836D;
-  top: 11px;
+  top: 22px;
   cursor: pointer;
   width: 60px;
   height: 22px;
