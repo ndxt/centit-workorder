@@ -17,18 +17,19 @@
               "<i ng-class=\"row.tree_icon\"  class=\"indented tree-icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\"> </i>" +
               "<span class=\"indented tree-label\" ng-click=\"row.branch.expanded = !row.branch.expanded\">{{ row.label }} </span>" +
             "</a> " +
-            "<i class='glyphicon glyphicon-triangle-bottom right tree-operation-icon' " +
-                "ng-if='showEditBtn' " +
+            "<i class='glyphicon glyphicon-wrench right tree-operation-icon' " +
+                "ng-if='editable && showEditBtn' " +
                 "popover-placement='right' " +
                 "popover-trigger=\"{'mouseenter': 'click'}\" " +
                 "popover-class='tree-popover' " +
                 "uib-popover-template=\"'app/plugins/angular-bootstrap-nav-tree/abn_tree_operation.html'\"></i>" +
           "</li>\n" +
-          "<li class='text-primary'><h4 class='tree-root-new-icon glyphicon glyphicon-plus' uib-tooltip='新建文档'>新建文档</h4></li>" +
+          "<li class='text-primary'><h4 class='tree-root-new-icon glyphicon glyphicon-plus' ng-if='editable' ng-click='onAdd()'>新建文档</h4></li>" +
         "</ul>",
         replace: true,
         scope: {
           treeData: '=',
+          editable: '@',
           onSelect: '&',
           onAdd: '&',
           onEdit: '&',
@@ -267,6 +268,7 @@
           if (scope.treeControl != null) {
             if (angular.isObject(scope.treeControl)) {
               tree = scope.treeControl;
+              tree.on_treeData_change = on_treeData_change;
               tree.expand_all = function() {
                 return for_each_branch(function(b, level) {
                   return b.expanded = true;
