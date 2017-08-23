@@ -13,6 +13,9 @@
     vm.docLinks = []
     vm.currentDocId = null
     vm.onSelectNode = onSelectNode
+    vm.onAdd = onAdd
+    vm.onEdit = onEdit
+    vm.onRemove = onRemove
 
     activate();
 
@@ -45,6 +48,18 @@
       $state.go('admin.document.view', {
         docId: branch.docId
       })
+    }
+
+    function onAdd(node) {
+      console.log('onAdd: ', node)
+    }
+
+    function onEdit(node) {
+      console.log('onEdit: ', node)
+    }
+
+    function onRemove(node) {
+      console.log('onRemove: ', node)
     }
 
     /**

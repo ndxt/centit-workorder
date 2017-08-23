@@ -165,7 +165,7 @@
         getYearStartDate,//获得今年的开始日期
         getYearEndDate,//获得今年的结束日期
         getLastYearStartDate,//获得去年的开始日期
-        getLastYearEndDate,//获得去年的结束日期
+        getLastYearEndDate//获得去年的结束日期
 
       }
     })
