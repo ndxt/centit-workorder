@@ -13,10 +13,10 @@
               <input type="radio" name="state" value="U" ng-model="vm.s_questionState"> 未处理
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已受理
+              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已分派
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="R" ng-model="vm.s_questionState"> 已答复
+              <input type="radio" name="state" value="R" ng-model="vm.s_questionState"> 处理中
             </label>
             <label class="radio-inline">
               <input type="radio" name="state" value="C" ng-model="vm.s_questionState"> 已完结
@@ -130,6 +130,7 @@
     </tr>
     <tr>
       <td colspan="4" class="no-hover">
+        <span>第{{(vm.currentPage-1)*10+1}}到{{vm.currentPage*10}}条，总共{{newData.length}}条</span>
         <nav aria-label="Page" class="text-center ct-fr flex">
           <ul style="margin: 0;"
               uib-pagination boundary-links="true" total-items="newData.length"

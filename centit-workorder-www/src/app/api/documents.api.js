@@ -12,9 +12,14 @@
       url: `${baseUrl}/:docId/content`,
       method: 'PUT'
     }
+    const fullSearch = {
+      url: `${baseUrl}/fullSearch/:keyWord`,
+      method: 'GET',
+      isArray:true
+    }
 
     return $resource(`${baseUrl}/:docId`, null, {
-      editContent,
+      editContent,fullSearch,
       levelSearch: {
         url: `${config.contextPath}/service/os/:osId/documents/levelSearch`,
         isArray: true,

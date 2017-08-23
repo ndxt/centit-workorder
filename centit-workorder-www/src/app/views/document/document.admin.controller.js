@@ -28,6 +28,12 @@
       })
     }
 
+    vm.search = function(){
+      if(vm.keyWord) {
+        vm.docLinks = DocAPI.fullSearch(Object.assign($stateParams, {keyWord: vm.keyWord}))
+      }
+    }
+
     /**
      * 当手动选择树型节点时
      * @param branch

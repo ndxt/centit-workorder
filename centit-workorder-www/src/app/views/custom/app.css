@@ -23,7 +23,7 @@ p.article-date {
   word-break: break-all;
   color: #333;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.6;
   word-wrap: break-word;
   margin: 0 0 18px;
@@ -239,15 +239,15 @@ p.article-date {
   padding-left: 0;
 }
 
-.drcloud-content .rich-text p > img {
-width: 100%;
+ .rich-text p > img {
+  max-width: 100%;
 }
 
-.drcloud-content .rich-text {
+ .rich-text {
   padding-left: 0;
 }
 
-.drcloud-content .rich-text p {
+ .rich-text p {
   padding-left: 0;
 }
 

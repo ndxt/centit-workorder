@@ -6,22 +6,17 @@
       /**
        * 获取本周、本季度、本月、上月的开始日期、结束日期
        */
-      // function getBase() {
 
-        var now = new Date(); //当前日期
-        var nowDayOfWeek = now.getDay(); //今天本周的第几天
-        var nowDay = now.getDate(); //当前日
-        var nowMonth = now.getMonth(); //当前月
-        var nowYear = now.getYear(); //当前年
-        nowYear += (nowYear < 2000) ? 1900 : 0; //
-
-      //   return {nowDayOfWeek,nowDay,nowMonth,nowYear}
-      // }
+      var now = new Date(); //当前日期
+      var nowDayOfWeek = now.getDay(); //今天本周的第几天
+      var nowDay = now.getDate(); //当前日
+      var nowMonth = now.getMonth(); //当前月
+      var nowYear = now.getYear(); //当前年
+      nowYear += (nowYear < 2000) ? 1900 : 0; //
 
       var lastMonthDate = new Date(); //上月日期
       lastMonthDate.setDate(1);
       lastMonthDate.setMonth(lastMonthDate.getMonth()-1);
-      // var lastYear = lastMonthDate.getYear();
       var lastMonth = lastMonthDate.getMonth();
 
 //格式化日期：yyyy-MM-dd
@@ -148,12 +143,12 @@
         return formatDate(yearStartDate);
       }
 
-//或的群的结束日期
+//获取去年的结束日期
       function getLastYearEndDate(){
         var yearEndtDate = new Date(nowYear-1, 11, 31);
         return formatDate(yearEndtDate);
       }
-
+//返回
       return {
         formatDate,
         getQuarterStartMonth,//获得本季度的开始月份,
@@ -165,14 +160,14 @@
         getLastMonthEndDate,//获得上月结束时间
         getQuarterStartDate,//获得本季度的开始日期
         getQuarterEndDate,//获得本季度的结束日期
-        getLastQuarterStartDate,
-        getLastQuarterEndDate,
-        getYearStartDate,
-        getYearEndDate,
-        getLastYearStartDate,
-        getLastYearEndDate
+        getLastQuarterStartDate,//获得上季度的开始日期
+        getLastQuarterEndDate,//获得上季度的结束日期
+        getYearStartDate,//获得今年的开始日期
+        getYearEndDate,//获得今年的结束日期
+        getLastYearStartDate,//获得去年的开始日期
+        getLastYearEndDate,//获得去年的结束日期
 
       }
     })
 
-})()
+})();
