@@ -195,7 +195,7 @@ public class HelpDocController  extends BaseController {
      */
     @RequestMapping(value = "/fullSearch/{keyWord}", method = RequestMethod.GET)
     public void fullSearch(@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
-        List<Map<String, Object>> result = helpDocMag.fullTextSearch(keyWord, pageDesc);
+        List<Map<String, Object>> result = helpDocMag.fullSearch(keyWord, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
 }
