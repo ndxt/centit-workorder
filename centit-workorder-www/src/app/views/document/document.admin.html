@@ -3,7 +3,7 @@
 
   <div class="input-group  pull-right col-sm-4" >
     <input type="text" class="form-control" id="keyWord" placeholder="搜索..."
-           ng-model="vm.keyWord">
+           ng-model="vm.keyWord" ng-keydown="vm.enterEvent($event)">
     <div class="input-group-addon"><i class="glyphicon glyphicon-search" ng-click="vm.search()"></i></div>
   </div>
 </div>

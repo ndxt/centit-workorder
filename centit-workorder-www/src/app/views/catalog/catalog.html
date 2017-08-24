@@ -18,7 +18,7 @@
       <p ng-if="!!vm.documents.length">你可能需要以下文章：</p>
       <p ng-if="!vm.documents.length">暂未找到相关文章</p>
       <ul ng-repeat="doc in vm.documents">
-        <li><a ui-sref="root.document.view({ docId: doc.docId })">{{doc.docTitle}}</a></li>
+        <li><a ui-sref="root.document.view({ docId: doc.docId })">{{doc.fileName}}</a></li>
       </ul>
     </div>
     <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="vm.askOthers()">

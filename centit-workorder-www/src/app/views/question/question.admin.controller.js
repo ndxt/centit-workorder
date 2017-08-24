@@ -67,6 +67,7 @@
 
 
     vm.s_questionState = '';
+    vm.s_timeTag = '';
     vm.currentPage=1
 
     //月

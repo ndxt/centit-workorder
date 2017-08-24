@@ -15,9 +15,13 @@
     vm.onSelectNode = onSelectNode
 
     vm.search = function(){
-      if(vm.keyWord) {
-        vm.docLinks = DocAPI.fullSearch(Object.assign($stateParams, {keyWord: vm.keyWord}))
-      }
+      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:false})
+    }
+
+    vm.enterEvent = function (e) {
+      var key = e.which;
+      if(key ==13)
+        vm.search();
     }
 
     activate();

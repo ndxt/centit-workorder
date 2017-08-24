@@ -17,9 +17,14 @@
       method: 'GET',
       isArray:true
     }
+    const fullTextSearch = {
+      url: `${baseUrl}/fullTextSearch/:catalogId`,
+      method: 'GET',
+      isArray:true
+    }
 
     return $resource(`${baseUrl}/:docId`, null, {
-      editContent,fullSearch,
+      editContent,fullSearch,fullTextSearch,
       levelSearch: {
         url: `${config.contextPath}/service/os/:osId/documents/levelSearch`,
         isArray: true,

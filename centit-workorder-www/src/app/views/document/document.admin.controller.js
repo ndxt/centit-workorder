@@ -32,9 +32,13 @@
     }
 
     vm.search = function(){
-      if(vm.keyWord) {
-        vm.docLinks = DocAPI.fullSearch(Object.assign($stateParams, {keyWord: vm.keyWord}))
-      }
+      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:true})
+    }
+
+    vm.enterEvent = function (e) {
+      var key = e.which;
+      if(key ==13)
+        vm.search();
     }
 
     /**
@@ -51,6 +55,12 @@
     }
 
     function onAdd(node) {
+      if(node){
+        DocAPI.save({},vm.doc)
+      }else{
+        DocAPI.save({},vm.doc)
+      }
+
       console.log('onAdd: ', node)
     }
 

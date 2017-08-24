@@ -7,12 +7,17 @@
   /** @ngInject */
   function DashboardController(
     $stateParams,
-    CatalogAPI
+    CatalogAPI,
+    DocAPI
   ) {
     const vm = this;
     const osId = $stateParams.osId;
 
     activate();
+
+    vm.ask = function (catalogId) {
+      DocAPI.ask({catalogId})
+    }
 
     function activate() {
       queryCatalogs()
