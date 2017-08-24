@@ -129,7 +129,7 @@ public class QuestionRoundController extends BaseController {
         questionRound.setUserName(centitUserDetails.getUserName());
         questionRound.setQuestionId(questionId);
         questionInfoMag.saveQuestionRound(questionRound);
-        JsonResultUtils.writeSuccessJson(response);
+        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
     /**
