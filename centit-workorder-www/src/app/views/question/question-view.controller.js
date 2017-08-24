@@ -41,9 +41,9 @@
       RoundAPI
         .supplemental({questionId:$stateParams.questionId},vm.questionRound)
         .$promise
-        .then(function(){
+        .then(function(val){
+          vm.rounds.push(val);
           vm.questionRound.roundContent='';
-          vm.rounds.push(vm.questionRound);
         })
     }
     function submitScore(){

@@ -40,8 +40,8 @@
       RoundAPI
         .reply({questionId:$stateParams.questionId},round)
         .$promise
-        .then(function(){
-          vm.rounds.push(Object.assign({orA:'A'},vm.questionRound));
+        .then(function(val){
+          vm.rounds.push(val);
           vm.questionRound.roundContent='';
         })
     }
@@ -49,13 +49,9 @@
     function assignMe() {
       QuestionAPI.grab($stateParams,{})
         .$promise
-        .then(function () {
+        .then(function (val) {
           vm.question.questionState = 'H';//已分配
-          vm.rounds.push({
-            orA:'A',
-            roundContent:'你好，已经为您的问题分配工程师，请耐心等待',
-            showUser:'T'
-          })
+          vm.rounds.push(val);
         });
     }
 
