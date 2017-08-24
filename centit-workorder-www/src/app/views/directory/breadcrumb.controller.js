@@ -32,9 +32,8 @@
       })
     }
 
-    $rootScope.$on('changeRoute', function(e, state, params) {
+   $rootScope.$on('changeRoute', function(e, state, params) {
       vm.directory = getParents(state.name, params);
-      console.log(vm.directory)
     })
   }
 })();

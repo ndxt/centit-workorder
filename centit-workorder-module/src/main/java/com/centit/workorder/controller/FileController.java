@@ -57,7 +57,7 @@ public class FileController extends BaseController {
             downloadChineseFileName = new String(
                     HtmlUtils.htmlUnescape(paramName).getBytes("GBK"), "ISO8859-1");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return downloadChineseFileName;
     }
@@ -199,7 +199,7 @@ public class FileController extends BaseController {
 
             JsonResultUtils.writeOriginalJson(json.toString(), response);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             JsonResultUtils.writeAjaxErrorMessage(
                     FileServerConstant.ERROR_FILE_PRETREAT,
                     "文件上传成功，但是在保存前：" + e.getMessage(), response);
@@ -271,6 +271,7 @@ public class FileController extends BaseController {
             }
 
         }catch (ObjectException e){
+            logger.error(e.getMessage(), e);
             JsonResultUtils.writeAjaxErrorMessage(e.getExceptionCode(),
                     e.getMessage(), response);
         }
@@ -297,6 +298,7 @@ public class FileController extends BaseController {
             completedStoreFile(fs, fileMd5, fileSize, fileInfo.getLeft(), response);
             FileSystemOpt.deleteFile(tempFilePath);
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             JsonResultUtils.writeErrorMessageJson(e.getMessage(), response);
         }
     }

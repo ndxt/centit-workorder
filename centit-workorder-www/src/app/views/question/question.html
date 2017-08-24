@@ -1,69 +1,98 @@
-<!--<div class="modal-header">-->
-  <!--<h3 class="modal-title">我的工单</h3>-->
-<!--</div>-->
+<form class="ct-margin-12-auto">
+  <div class="row">
+    <div class="col-sm-12  ct-margin-top-6">
+      <table class="search-table" style="width: 100%">
+        <tbody>
+        <tr>
+          <td style="min-width: 60px;">工单状态：</td>
+          <td style="min-width: 330px;">
+            <label class="radio-inline">
+              <input type="radio" name="state" value="" ng-model="vm.s_questionState"> 全部
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="U" ng-model="vm.s_questionState"> 未处理
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="H" ng-model="vm.s_questionState"> 已受理
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="R" ng-model="vm.s_questionState"> 已答复
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="C" ng-model="vm.s_questionState"> 已完结
+            </label>
+          </td>
+          <td>
+            <div class="input-group  pull-right"
+                 ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-10': !isQuestionSearchTitleFocus}">
+              <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
+                     ng-focus="isQuestionSearchTitleFocus = true"
+                     ng-blur="isQuestionSearchTitleFocus = false" ng-model="vm.s_questionTitle">
+              <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>创建时间：</td>
+          <td colspan="2">
+            <label class="radio-inline">
+              <input type="radio" name="state" value="" ng-model="vm.s_timeTag"> 全部
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="TM" ng-model="vm.s_timeTag"> <span>本月</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="LM" ng-model="vm.s_timeTag"> <span>上月</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="TS" ng-model="vm.s_timeTag"> <span>本季度</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="LS" ng-model="vm.s_timeTag"> <span>上季度</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="TY" ng-model="vm.s_timeTag"> <span>今年</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="state" value="LY" ng-model="vm.s_timeTag"> <span>去年</span>
+            </label>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-sm-12 selector-set ct-margin-top-12 ct-padding-left-12">
 
-    <form class="ct-margin-12-auto">
-        <div class="col-sm-6 selector-set ct-margin-top-12 ct-padding-left-0">
+      <a class="ss-item" ng-if="vm.s_timeTag">
+        <b>创建时间：</b>
+        <em ng-if="vm.s_timeTag=='TM'">本月</em>
+        <em ng-if="vm.s_timeTag=='LM'">上月</em>
+        <em ng-if="vm.s_timeTag=='TS'">本季度</em>
+        <em ng-if="vm.s_timeTag=='LS'">上季度</em>
+        <em ng-if="vm.s_timeTag=='TY'">今年</em>
+        <em ng-if="vm.s_timeTag=='LY'">去年</em>
+        <i ng-click="vm.remove('s_timeTag')"></i>
+      </a>
+      <a class="ss-item" ng-if="vm.s_questionState">
+        <b>状态：</b>
+        <em ng-if="vm.s_questionState=='U'">未处理</em>
+        <em ng-if="vm.s_questionState=='H'">已受理</em>
+        <em ng-if="vm.s_questionState=='R'">已答复</em>
+        <em ng-if="vm.s_questionState=='C'">已完结</em>
+        <i ng-click="vm.remove('s_questionState')"></i>
+      </a>
+      <a class="ss-item" ng-if="vm.s_questionTitle">
+        <b>标题：</b>
+        <em>{{vm.s_questionTitle}}</em>
+        <i ng-click="vm.remove('s_questionTitle')"></i>
+      </a>
 
-          <a class="ss-item">
-            <b>时间：</b>
-            <em>2017-1-1 至今</em>
-            <i></i>
-          </a>
-
-          <a class="ss-item">
-            <b>状态：</b>
-            <em>已回复</em>
-            <i></i>
-          </a>
-
-        </div>
-        <div class="col-sm-6 ct-margin-top-12 ct-padding-right-0">
-          <div class="input-group input-group-sm pull-right"
-               ng-class="{'col-sm-12': isQuestionSearchTitleFocus, 'col-sm-8': !isQuestionSearchTitleFocus}">
-            <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
-                   ng-focus="isQuestionSearchTitleFocus = true"
-                   ng-blur="isQuestionSearchTitleFocus = false">
-            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-          </div>
-        </div>
-
-        <div class="row" >
-          <div class="col-sm-12  ct-margin-top-12">
-            <table class="search-table">
-              <tbody>
-              <tr>
-                <td>工单时间：</td>
-                <td>
-                    <input type="text" class="form-control input-sm" placeholder="选择工单创建时间">
-                </td>
-              </tr>
-              <tr>
-                <td>工单状态：</td>
-                <td>
-                  <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> 全部
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 已回复
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 未回复
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 完结
-                  </label>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-    </form>
-
-
-
+    </div>
+  </div>
+</form>
 <div class="panel">
   <table class="table table-bordered table-hover">
     <thead>
@@ -75,12 +104,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="row in vm.questions">
+    <tr ng-repeat="row in vm.questions  | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState} | timeFilter:vm.s_timeTag:vm.getMonth as newData"
+        ng-if="$index>=(vm.currentPage-1)*10 && $index < vm.currentPage*10">
       <td class="text-center">
         <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
-        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分配</span>
-        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
-        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已关闭</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已受理</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已答复</span>
+        <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已完结</span>
       </td>
       <td><a ui-sref="root.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a></td>
       <td class="text-center">
@@ -95,8 +125,9 @@
     <tr>
       <td colspan="4" class="no-hover">
         <nav aria-label="Page" class="text-center ct-fr flex">
+          <p class="nav-page">第<span>{{(vm.currentPage-1)*10+1}}</span>到<span>{{vm.currentPage*10}}</span>条，总共<span>{{newData.length}}</span>条</p>
           <ul class="ct-no-margin"
-              uib-pagination boundary-links="true" total-items="vm.totalItems"
+              uib-pagination boundary-links="true" total-items="newData.length"
               ng-model="vm.currentPage" previous-text="&lsaquo;" next-text="&rsaquo;"
               first-text="&laquo;" last-text="&raquo;"></ul>
         </nav>

@@ -6,7 +6,6 @@
       'ngAnimate',
       'ngCookies',
       'ngSanitize',
-      // 'ngMockE2E',
       'ngMessages',
       'ngResource',
 
@@ -16,8 +15,11 @@
 
       // 第三方插件
       'toastr',
-      // 'angular-loading-bar',
+      'angularBootstrapNavTree',
+      'mwl.confirm',
+      'ngQuill',
       'LocalStorageModule',
+      'scrollToTop',
 
       // 公司前端框架模块
       'centit.ui'

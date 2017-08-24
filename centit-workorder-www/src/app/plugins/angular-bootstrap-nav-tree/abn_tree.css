@@ -1,0 +1,196 @@
+/*
+   abn-tree.css
+   style for the angular-bootstrap-nav-tree
+   for both Bootstrap 2 and Bootstrap 3
+*/
+
+
+
+/* ------------------------------------------
+AngularJS Animations...
+The first selector is for Angular 1.1.5
+The second selector is for Angular 1.2.0
+*/
+.abn-tree-animate-enter,
+li.abn-tree-row.ng-enter {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  opacity: 0;
+  max-height:0px;
+}
+.abn-tree-animate-enter.abn-tree-animate-enter-active,
+li.abn-tree-row.ng-enter-active{
+  opacity: 1;
+  max-height:30px;
+}
+
+.abn-tree-animate-leave,
+li.abn-tree-row.ng-leave {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  height:30px;
+  max-height: 30px;
+  opacity: 1;
+}
+.abn-tree-animate-leave.abn-tree-animate-leave-active,
+li.abn-tree-row.ng-leave-active {
+  height: 0px;
+  max-height:0px;
+  opacity: 0;
+}
+
+
+/*
+------------------------------------------
+Angular 1.2.0 Animation
+*/
+
+
+.abn-tree-animate.ng-enter{
+
+}
+.abn-tree-animate.ng-enter{
+
+}
+
+
+
+
+/*
+   end animation stuff
+-----------------------------------------
+   begin normal css stuff
+*/
+ul.abn-tree li.abn-tree-row {
+  padding: 0px;
+  margin:0px;
+}
+
+ul.abn-tree li.abn-tree-row a {
+  padding: 3px 24px 3px 0;
+}
+
+ul.abn-tree i.indented {
+  padding: 2px;
+}
+
+.abn-tree {
+  cursor: pointer;
+}
+ul.nav.abn-tree .level-1 .indented {
+  position: relative;
+  margin-left: 0px;
+}
+ul.nav.abn-tree .level-2 .indented {
+  position: relative;
+  margin-left: 20px;
+}
+ul.nav.abn-tree .level-3 .indented {
+  position: relative;
+  margin-left: 40px;
+}
+ul.nav.abn-tree .level-4 .indented {
+  position: relative;
+  margin-left: 60px;
+}
+ul.nav.abn-tree .level-5 .indented {
+  position: relative;
+  margin-left: 80px;
+}
+ul.nav.abn-tree .level-6 .indented {
+  position: relative;
+  margin-left: 100px;
+}
+ul.nav.nav-list.abn-tree .level-7 .indented {
+  position: relative;
+  margin-left: 120px;
+}
+ul.nav.nav-list.abn-tree .level-8 .indented {
+  position: relative;
+  margin-left: 140px;
+}
+ul.nav.nav-list.abn-tree .level-9 .indented {
+  position: relative;
+  margin-left: 160px;
+}
+ul.nav.nav-list.abn-tree .abn-tree-row .tree-label {
+  margin-left: 0;
+}
+
+/*********************************************/
+
+ul.abn-tree {
+  margin-top: 4px;
+}
+
+ul.abn-tree i.indented {
+  top: 1px;
+  margin-right: 4px;
+}
+
+ul.abn-tree a {
+  line-height: 28px;
+  cursor: pointer;
+  color: #4c4c4c;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+ul.abn-tree li.abn-tree-row a {
+  background-color: transparent;
+  color: #4c4c4c;
+}
+ul.abn-tree li.abn-tree-row a:hover {
+  background-color: #eee;
+  color: #4c4c4c;
+}
+ul.abn-tree li.abn-tree-row.leaf.active a {
+  background-color: #4c4c4c;
+  color: #eee;
+}
+
+/************************************************/
+ul.abn-tree .tree-root-new-icon {
+  padding-left: 0;
+}
+ul.abn-tree .tree-root-new-icon::before {
+  margin-right: 4px;
+}
+ul.abn-tree .tree-operation-icon {
+  color: #4c4c4c;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  margin-top: -7px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ul.abn-tree .active .tree-operation-icon {
+  color: #eee;
+}
+ul.abn-tree .abn-tree-row > a {
+  display: flex;
+  align-items: center;
+}
+ul.abn-tree .tree-label {
+  flex: auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+ul.abn-tree .tree-popover {
+  width: 144px;
+  padding: 0;
+}
+ul.abn-tree .tree-popover .popover-content {
+  padding: 0;
+}
+ul.abn-tree .tree-popover .popover-content .btn-default {
+  border: none;
+  border-radius: 4px;
+  height: 38px;
+  line-height: 20px;
+  font-size: 16px;
+}

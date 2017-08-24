@@ -5,7 +5,7 @@
     .controller('QuestionEditController', QuestionEditController)
 
   /** @ngInject */
-  function QuestionEditController($stateParams,$state, QuestionAPI, CatalogAPI, question) {
+  function QuestionEditController($window, $stateParams, $state, QuestionAPI, CatalogAPI, question) {
     let vm = this;
     vm.cancel = cancel;
     vm.ok = $stateParams.questionId ? modifyQuestion : addQuestion;
@@ -23,16 +23,15 @@
       CatalogAPI.query(params)
         .$promise
         .then(res => vm.catalogs = res)
-    };
+    }
 
     function cancel() {
-      window.history.back(-1);
-    };
+      $window.history.back(-1);
+    }
 
 
     /**
      * 新增问题
-     * @param info
      * @returns {*|Promise.<TResult>}
      */
     function addQuestion() {

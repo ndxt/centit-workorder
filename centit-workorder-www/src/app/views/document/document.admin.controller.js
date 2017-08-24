@@ -1,58 +1,104 @@
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
     .controller('DocumentAdminController', DocumentAdminController)
 
   /** @ngInject */
-  function DocumentAdminController($stateParams, DocAPI)
-  {
+  function DocumentAdminController($timeout, $scope, $state, $stateParams, DocAPI) {
 
     const vm = this;
-    vm.submitRate = submitRate;
-    vm.hoveringOver = hoveringOver;
-    vm.flag = false;
 
-    vm.setHTML = function(doc,showlevels){
-      vm.html = doc.docFile;
-      vm.htmlTitle = doc.docTitle;
-      if(showlevels)
-        doc[showlevels] = !doc[showlevels];
-
-      //记录被评分的文章id
-      vm.docId = doc.docId;
-      //初始化为0
-      vm.rate = 0;
-      vm.flag=true;
-    }
+    vm.treeInstance = {}
+    vm.docLinks = []
+    vm.currentDocId = null
+    vm.onSelectNode = onSelectNode
+    vm.onAdd = onAdd
+    vm.onEdit = onEdit
+    vm.onRemove = onRemove
 
     activate();
 
-    function activate(){
+
+    function activate() {
       queryDocLinks();
 
+      // 监听从子路由发送来的文档id事件
+      $scope.$on('document.selected', function(e, docId) {
+        if (docId !== vm.currentDocId) {
+          vm.currentDocId = docId
+        }
+      })
     }
-    //查询文档的所有链接标签
-    function queryDocLinks(){
-      return vm.docLinks = DocAPI.levelSearch($stateParams)
+
+    vm.search = function(){
+      if(vm.keyWord) {
+        vm.docLinks = DocAPI.fullSearch(Object.assign($stateParams, {keyWord: vm.keyWord}))
+      }
     }
 
-    //评分
-    vm.rate = 0;
+    /**
+     * 当手动选择树型节点时
+     * @param branch
+     */
+    function onSelectNode(branch) {
+      if (!branch) return
+      if (branch.children && branch.children.length) return
+      vm.currentDocId = branch.docId
+      $state.go('admin.document.view', {
+        docId: branch.docId
+      })
+    }
 
-    function hoveringOver (value) {
-      vm.overStar = value;
-      if(vm.overStar<5)
-        vm.showMsg='很差';
-      else if(vm.overStar<=8)
-        vm.showMsg = '一般';
-      else
-        vm.showMsg='很好';
-    };
+    function onAdd(node) {
+      console.log('onAdd: ', node)
+    }
 
-    function submitRate(){
+    function onEdit(node) {
+      console.log('onEdit: ', node)
+    }
 
-      DocAPI.score(Object.assign({docId:vm.docId},$stateParams),vm.rate);
+    function onRemove(node) {
+      console.log('onRemove: ', node)
+    }
+
+    /**
+     * 查询文档树
+     */
+    function queryDocLinks() {
+      return DocAPI.levelSearch($stateParams).$promise
+        .then(function(res) {
+          vm.docLinks = res
+
+          let node = getFirstChild(vm.docLinks, vm.currentDocId)
+          $timeout(() => vm.treeInstance.select_branch(node))
+        })
+    }
+
+    /**
+     * 从文档树中获取第一个指定的节点
+     * 如果没有指定docId，那么会返回第一个叶子节点
+     * @param list 文档树数据
+     * @param docId 指定docId
+     * @returns {*}
+     */
+    function getFirstChild(list, docId) {
+      let length = list.length
+      let result
+      for (let i = 0; i < length; i++) {
+        let node = list[i]
+        let children = node.children
+        if (children && children.length) {
+          result = getFirstChild(children, docId)
+          if (result) {
+            return result
+          }
+        }
+
+        if (!docId || node.docId === docId) {
+          return node
+        }
+      }
     }
 
   }

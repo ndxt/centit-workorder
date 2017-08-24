@@ -38,7 +38,7 @@ create table F_HELP_DOC_VERSION
 (
    DOC_ID               varchar(32) not null,
    DOC_VERSION          int not null,
-   DOC_FILE             text,
+   DOC_FILE             longtext,
    DOC_TITLE            varchar(500) not null,
    update_user          varchar(32),
    last_update_time     datetime,

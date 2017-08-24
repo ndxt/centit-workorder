@@ -15,7 +15,8 @@
         url: '/user/:osId',
         views: {
           header: {
-            templateUrl: 'app/views/commons/header.html'
+            templateUrl: 'app/views/commons/header.html',
+            controller: 'HeadController as vm'
           },
           breadcrumb: {
             templateUrl: 'app/views/directory/breadcrumbs.html',
@@ -37,7 +38,12 @@
         url: '/admin/:osId',
         views: {
           header: {
-            templateUrl: 'app/views/commons/header.html'
+            templateUrl: 'app/views/commons/header.html',
+            controller: 'HeadController as vm'
+          },
+          breadcrumb: {
+            templateUrl: 'app/views/directory/breadcrumbs.html',
+            controller: 'BreadcrumbController as vm'
           }
         },
         resolve: {
@@ -60,7 +66,12 @@
         url: '/manager',
         views: {
           header: {
-            templateUrl: 'app/views/commons/header.html'
+            templateUrl: 'app/views/commons/header.html',
+            controller: 'HeadController as vm'
+          },
+          breadcrumb: {
+            templateUrl: 'app/views/directory/breadcrumbs.html',
+            controller: 'BreadcrumbController as vm'
           }
         },
         resolve: {

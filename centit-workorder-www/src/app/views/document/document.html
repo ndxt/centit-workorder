@@ -1,78 +1,20 @@
-<!--<div class="modal-header">-->
-  <!--<h3 class="modal-title">系统帮助</h3>-->
-<!--</div>-->
-
-
 <div class="modal-viewer-header ct-border-bottom-0">
-  <span class="modal-viewer-topbar-title">请选择您遇到的问题分类：</span>
+  <span class="modal-viewer-topbar-title">您遇到的问题分类：</span>
+
+  <div class="input-group  pull-right col-sm-4" >
+    <input type="text" class="form-control" id="keyWord" placeholder="搜索..."
+           ng-model="vm.keyWord">
+    <div class="input-group-addon"><i class="glyphicon glyphicon-search" ng-click="vm.search()"></i></div>
+  </div>
 </div>
 <div class="panel panel-default">
-
   <div class="row ct-no-margin">
-    <div class="col-md-2">
-      <div class="panel">
-        <div class="panel-body ct-padding-left-0">
-          <!--      <h3>全部文档</h3>-->
-          <ul class="help-menu ct-no-padding">
-            <!--通过判断是否有children来渲染文档树-->
-            <li ng-repeat="linkLevel_one in vm.docLinks" class="level level1 section-open"
-                ng-class="{true: 'section-open', false: 'section-close'}[isFirst]" ng-click="isFirst = !isFirst">
-              <span
-                ng-class="{'has-child':linkLevel_one.c !== undefined,'no-child':linkLevel_one.c == undefined}"><i></i></span>
-              <a title={{linkLevel_one.docId}} ng-click="vm.setHTML(linkLevel_one,'showlevel2')">
-                {{linkLevel_one.docTitle}} </a>
-              <ul ng-if="linkLevel_one.c !== undefined && !linkLevel_one.showlevel2" class="sub-menu">
-                <li ng-repeat="linkLevel2 in linkLevel_one.c" class="level level2 section2-open"
-                    ng-class="{true: 'section2-open', false: 'section2-close'}[isOpen]" ng-click="isOpen = !isOpen">
-                  <span ng-class="{'has-child':linkLevel2.c !== undefined,'no-child':linkLevel2.c == undefined}"><i></i></span>
-                  <a title={{linkLevel2.docId}} ng-click="vm.setHTML(linkLevel2,'showlevel3')">
-                    {{linkLevel2.docTitle}} </a>
-                  <ul ng-if="linkLevel2.c !== undefined && !linkLevel2.showlevel3" class="sub-menu">
-                    <li ng-repeat="linkLevel3 in linkLevel2.c" class="level level3">
-                      <span class="no-child"><i></i></span>
-                      <a title={{linkLevel3.docId}} ng-click="vm.setHTML(linkLevel3)"> {{linkLevel3.docTitle}} </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="col-md-3 col-lg-2">
+      <abn-tree tree-data="vm.docLinks"
+                tree-control="vm.treeInstance" on-select="vm.onSelectNode(branch)"></abn-tree>
     </div>
-
-    <div class="col-md-10 ct-padding-0-8" ng-if="vm.flag">
-      <div class="panel panel-default ct-margin-12-auto">
-        <div class="panel-body">
-          <h3 style="text-align: center">{{vm.htmlTitle}}</h3>
-          <div ng-bind-html="vm.html" class="doc-content"></div>
-          <div class="panel-star">
-            <!--星级评价-->
-            <span uib-rating ng-model="vm.rate" max="10" on-hover="vm.hoveringOver(value)"
-                  aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>
-            <span ng-if="vm.overStar" class="label panel-label"
-                  ng-class="{'label-warning': vm.overStar<5, 'label-info': vm.overStar>=5 && vm.overStar<8, 'label-success': vm.overStar>=8}">
-              {{vm.showMsg}}
-            </span>
-            <span ng-if="!vm.overStar && vm.rate!=0" class="label panel-label"
-                  ng-class="{'label-warning': vm.rate<5, 'label-info': vm.rate>=5 && vm.rate<8, 'label-success': vm.rate>=8}">
-              {{(vm.rate<5)?'很差':(vm.rate<8?'一般':'很好')}}
-            </span>
-            <!--<div class="ueditor" ng-model="content"></div>-->
-          </div>
-          <div class="col-sm-12 ct-no-padding">
-            <button ng-click="vm.submitRate()" class="btn btn-primary btn-sm">提交
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-9 col-lg-10 ct-padding-0-8" ui-view="doc">
+      <h5>请选择一个文档</h5>
     </div>
   </div>
-
 </div>
-
-
-<script>
-
-
-</script>

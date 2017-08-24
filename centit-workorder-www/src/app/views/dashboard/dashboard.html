@@ -3,7 +3,9 @@
 <!--</div>-->
 <div ng-repeat="catalog in vm.catalogs">
   <div class="modal-viewer-header">
-    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}（{{catalog.catalogDescribe}}）</span>
+    <span class="modal-viewer-topbar-title">{{catalog.catalogName}}
+      <span class="text-muted ct-text-size-12 ct-margin-0-12">{{catalog.catalogDescribe}}</span>
+    </span>
   </div>
   <div class="panel panel-default">
 
@@ -17,8 +19,6 @@
             <p>{{ c.catalogDescribe }}</p>
             <a class="btn btn-default btn-sm pull-right"
                ui-sref=".view({ catalogId: c.catalogId , catalogKeyWords:c.catalogKeyWords})">提问</a>
-
-
           </div>
         </div>
       </div>

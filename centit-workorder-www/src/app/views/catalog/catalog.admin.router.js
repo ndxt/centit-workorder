@@ -21,7 +21,7 @@
             }
           },
           data: {
-            title: '管理问题类别',
+            title: '管理工单类别',
             bodyClass: 'catalog-admin'
           }
         }

@@ -1,21 +1,20 @@
-
-(function() {
+(function () {
   'use strict'
 
   angular.module('workorder')
     .controller('DocumentViewController', DocumentViewController)
 
   /** @ngInject */
-  function DocumentViewController($stateParams,DocAPI) {
-    var vm = this;
+  function DocumentViewController($scope, $stateParams, DocAPI) {
+    let vm = this
 
+    active()
 
-    function active(){
-      DocAPI.get(Object.assign({},$stateParams))
-        .$promise
-        .then(res=>vm.document = res)
+    function active() {
+      vm.document = DocAPI.get(Object.assign({}, $stateParams))
+
+      // 因为在父路由中获取不到 docId，在这里传递过去
+      $scope.$emit('document.selected', $stateParams.docId)
     }
-    active();
-
   }
 })();

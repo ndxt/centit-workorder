@@ -85,12 +85,12 @@ public class HelpDocController  extends BaseController {
      * 编辑帮助文档内容
      */
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String docId, String content,
+    public void editContent(@PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
 
         // 保存 历史版本，
         String userCode = getLoginUserCode(request);
-        helpDocMag.editContent(docId, content, userCode);
+        helpDocMag.editContent(docId, content.get("content"), userCode);
         JsonResultUtils.writeSuccessJson(response);
     }
 
@@ -187,6 +187,15 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/fullTextSearch/{catalogId}", method = RequestMethod.GET)
     public void fullTextSearch(@PathVariable String catalogId, PageDesc pageDesc, HttpServletResponse response) {
         List<Map<String, Object>> result = helpDocMag.fullTextSearch(catalogId, pageDesc);
+        JsonResultUtils.writeSingleDataJson(result, response);
+    }
+
+    /**
+     * 帮助文档全文检索 关键字查询
+     */
+    @RequestMapping(value = "/fullSearch/{keyWord}", method = RequestMethod.GET)
+    public void fullSearch(@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
+        List<Map<String, Object>> result = helpDocMag.fullSearch(keyWord, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
 }

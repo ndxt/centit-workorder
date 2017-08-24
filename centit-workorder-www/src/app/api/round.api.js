@@ -25,6 +25,11 @@
         url:`${baseUrl}/questionRoundShowUser`,
         method:'GET',
         isArray: true
+      },
+      //
+      changeUserTag:{
+        url:`${baseUrl}/:roundId/showUserTag`,
+        method:'PUT'
       }
     })
   }

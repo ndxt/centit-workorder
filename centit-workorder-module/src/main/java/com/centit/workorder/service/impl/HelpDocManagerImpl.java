@@ -169,7 +169,7 @@ public class HelpDocManagerImpl
 				}else{
 					return false;
 				}
-			}, "c");
+			}, "children");
 	}
 
 	@Override
@@ -224,7 +224,7 @@ public class HelpDocManagerImpl
 	}
 
     @Override
-    @Transactional
+	@Transactional
 	public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc){
 
 		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
@@ -239,6 +239,16 @@ public class HelpDocManagerImpl
 			return list;
 		}
 		return null;
-    }
+	}
+
+	@Override
+	public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
+		Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+				IndexerSearcherFactory.loadESServerConfigFormProperties(
+						SysParametersUtils.loadProperties()), FileDocument.class) ;
+		List<Map<String, Object>> list = searcher.search(
+				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
+		return list;
+	}
 }
 

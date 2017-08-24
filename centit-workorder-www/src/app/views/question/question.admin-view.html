@@ -33,6 +33,11 @@
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
 
+    <div class="col-sm-6 text-right" ng-if="vm.question.questionState=='C'">评分：{{vm.question.evaluateScore}}分
+      <!--<i class="assess-star" ng-repeat="i in vm.range(vm.question.evaluateScore)">-->
+      <!--</i>-->
+    </div>
+
   </div>
 </div>
 
@@ -43,42 +48,40 @@
 <div class="panel panel-default">
   <div class="panel-body ct-padding-top-0">
     <div class="clearfix ng-scope">
-
-
-
       <div class="col-sm-12 clearfix message-item question-item">
         <div class="user-icon drcloud-icon">
-          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+          <img src="./app/views/img/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
-        <span>{{vm.question.userName}}</span>
+        <span  class="username">{{vm.question.userName}}</span>
         <div class="item-content  col-sm-7 drcloud-content text-muted">
-          <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
+          <div class="col-sm-12 ct-padding-left-0"><p>问题描述：</p>
+          <div class="rich-text" ng-bind-html="vm.question.questionContent"></div>
+          </div>
           <p>{{vm.question.createTime}}</p>
-
         </div>
       </div>
-
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">腾</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">售</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
-          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+          <img src="./app/views/img/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
-        <span ng-if="round.orA=='A'">售后工程师</span>
-        <span  ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        <span class="username" ng-if="round.orA=='A'">售后工程师</span>
+        <span class="username" ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12">{{round.roundContent}}</div>
-          <br>
+          <div class="col-sm-12 rich-text" ng-bind-html="round.roundContent"></div>
           <p>{{round.createTime}}</p>
 
           <div class="wrap-triangle"></div>
         </div>
-        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 send-wo">
-          <span ng-if="round.showUser=='T'">用户可见</span>
-          <span ng-if="round.showUser=='F'">用户不可见</span>
-        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 text-right">
 
-      </div>
+          <div class="chk" ng-if="round.orA=='A'">
+            <input type="checkbox" id="checkbox_{{$index}}" class="chk_4" checked="" ng-click="vm.changeUserTag(round)"
+                   ng-model="round.showUser" ng-true-value="'T'" ng-false-value="'F'"/>
+            <label for="checkbox_{{$index}}"></label>
+          </div>
+        </div>
     </div>
   </div>
 </div>
@@ -91,8 +94,43 @@
 <div class="panel panel-default ng-scope" ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
-      <div class="">
-        <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
+      <div>
+        <ng-quill-editor ng-model="vm.questionRound.roundContent">
+          <ng-quill-toolbar>
+            <div>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-size">
+            <option value="small">小</option>
+            <option value="normal" selected>中</option>
+            <option value="large">大</option>
+            <option value="huge">超大</option>
+          </select>
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-align">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+              <span class="ql-formats">
+          <button class="ql-image"></button>
+        </span>
+            </div>
+          </ng-quill-toolbar>
+        </ng-quill-editor>
       </div>
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">

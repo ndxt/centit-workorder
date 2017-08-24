@@ -62,7 +62,7 @@
       CatalogAPI.query(params)
         .$promise
         .then(res => vm.catalogs = res)
-    };
+    }
   }
 })();
 

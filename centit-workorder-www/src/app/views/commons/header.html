@@ -9,17 +9,20 @@
       </button>
       <a class="navbar-brand" href="#">
         <i class="glyphicon glyphicon-globe"></i>
-        南大先腾工单系统
+        {{vm.os.osName}}
       </a>
     </div>
 
     <div class="collapse navbar-collapse" uib-collapse="vm.isNavCollapsed">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a ui-sref=".document">知识库</a></li>
+        <li ui-sref-active="active"><a ui-sref=".document" ui-sref-opts="{reload: true, notify: true}">知识库</a></li>
         <li ui-sref-active="active"><a ui-sref=".catalog">提交工单</a></li>
         <li ui-sref-active="active"><a ui-sref=".question">我的工单</a></li>
       </ul>
-
+      <div class="user-login">
+        当前登录用户：{{vm.user.userName}}
+      </div>
     </div>
+
   </div>
 </nav>

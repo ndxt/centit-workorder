@@ -1,3 +1,9 @@
-<h3 class="article-title text-center">{{vm.document.docTitle}}</h3>
-<p class="article-date text-center">更新时间：2017-06-07 13:26:11</p>
-<div class="rich-text">{{vm.document.docFile}}</div>
+<div class="panel panel-default ct-margin-12-auto">
+  <div class="panel-body">
+    <h3 class="article-title text-center">{{vm.document.docTitle}}</h3>
+    <p class="article-date text-center">更新时间：{{vm.document.lastModifyDate}}</p>
+    <div class="rich-text ql-editor" ng-bind-html="vm.document.docFile | trustedHtml"></div>
+  </div>
+</div>
+
+

@@ -28,16 +28,52 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="questionsModalDescription">描述</label>
-      <textarea class="form-control" id="questionsModalDescription"
-                name="description" ng-model="vm.question.questionContent">
-      </textarea>
+      <label>描述</label>
+      <!--<textarea class="form-control" id="questionsModalDescription"-->
+                <!--name="description" ng-model="vm.question.questionContent">-->
+      <!--</textarea>-->
+      <ng-quill-editor ng-model="vm.question.questionContent">
+        <ng-quill-toolbar>
+          <div>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+
+            <span class="ql-formats">
+          <select class="ql-size">
+            <option value="small">小</option>
+            <option value="normal" selected>中</option>
+            <option value="large">大</option>
+            <option value="huge">超大</option>
+          </select>
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+
+            <span class="ql-formats">
+          <select class="ql-align">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+            <span class="ql-formats">
+          <button class="ql-image"></button>
+        </span>
+          </div>
+        </ng-quill-toolbar>
+      </ng-quill-editor>
     </div>
 
   </form>
 
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">提交</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.ok(vm.info)">保存</button>
   <button class="btn btn-default" type="button" ng-click="vm.cancel()">取消</button>
 </div>

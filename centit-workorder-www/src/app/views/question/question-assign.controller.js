@@ -25,7 +25,7 @@
     }]
 
     function submit() {
-      Promise.all([new Promise(function(resolve,reject){
+      Promise.all([new Promise(function(resolve){
           //主负责人数据
           QuestionAPI.updateOperator(Object.assign({questionId:vm.questionId},$stateParams),{questionId:vm.questionId,currentOperator:vm.currentOperator})
             .$promise
@@ -33,7 +33,7 @@
               resolve(res)
             });
         }),
-        new Promise(function (resolve,reject) {
+        new Promise(function (resolve) {
           //协助负责人数据
           var asistOperator = vm.users.filter(function(val){
             if(val.ischecked){

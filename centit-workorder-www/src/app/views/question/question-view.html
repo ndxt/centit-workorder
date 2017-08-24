@@ -1,13 +1,15 @@
-
 <!--<div class="modal-header ct-margin-bottom-24">-->
-  <!--<h3 class="modal-title">工单详情</h3>-->
+<!--<h3 class="modal-title">工单详情</h3>-->
 <!--</div>-->
 
 
 <nav class="question-state">
   <ul>
     <li ng-class="{current:vm.question.questionState=='U',down:vm.question.questionState!='U'}">工单未处理</li>
-    <li ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">工单已分派</li>
+    <li
+      ng-class="{current:vm.question.questionState=='H',down:vm.question.questionState=='R' || vm.question.questionState=='C'}">
+      工单已受理
+    </li>
     <li ng-class="{current:vm.question.questionState=='R',down:vm.question.questionState=='C'}">工单处理中</li>
     <li ng-class="{current:vm.question.questionState=='C'}">工单已完结</li>
   </ul>
@@ -17,7 +19,8 @@
   <div class="row">
     <div class="col-sm-12">
       <span class="text-explode">问题标题 :</span>
-      {{vm.question.questionTitle}}</div>
+      {{vm.question.questionTitle}}
+    </div>
   </div>
   <div class="row">
     <div class="col-sm-3"><span class="text-explode">提交时间 : </span>
@@ -25,8 +28,8 @@
     </div>
     <div class="col-sm-3"><span class="text-explode">状态 : </span>
       <span ng-if="vm.question.questionState=='U'">工单未处理</span>
-      <span ng-if="vm.question.questionState=='H'">工单已分派</span>
-      <span ng-if="vm.question.questionState=='R'">工单处理中</span>
+      <span ng-if="vm.question.questionState=='H'">工单已受理</span>
+      <span ng-if="vm.question.questionState=='R'">工单已回复</span>
       <span ng-if="vm.question.questionState=='C'">工单已完结</span>
     </div>
     <div class="col-sm-6 text-right" ng-if="vm.question.questionState=='C'">评分：{{vm.question.evaluateScore}}分
@@ -45,24 +48,31 @@
     <div class="clearfix ng-scope">
       <div class="col-sm-12 clearfix message-item question-item">
         <div class="user-icon drcloud-icon">
-          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+          <img src="./app/views/img/avatar.png" class="ng-scope"
+               width="36" height="36">
         </div>
-        <span>{{vm.question.userName}}</span>
+        <span class="username">{{vm.question.userName}}</span>
+
         <div class="item-content  col-sm-7 drcloud-content text-muted">
-            <div class="col-sm-12">问题描述：{{vm.question.questionContent}}</div>
-            <p>{{vm.question.createTime}}</p>
+          <div class="col-sm-12 ct-padding-left-0"><p>问题描述：</p>
+            <div class="rich-text" ng-bind-html="vm.question.questionContent"></div>
+          </div>
+          <p>{{vm.question.createTime}}</p>
         </div>
+
+
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
         <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">售</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
-          <img src="https://g.alicdn.com/aliyun/usercenter/1.3.12/images/workorder/avatar.png" class="ng-scope" width="36" height="36" >
+          <img src="./app/views/img/avatar.png" class="ng-scope"
+               width="36" height="36">
         </div>
-        <span ng-if="round.orA=='A'">售后工程师</span>
-        <span ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
+        <span class="username" ng-if="round.orA=='A'">售后工程师</span>
+        <span class="username" ng-if="round.orA=='Q'">{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
-          <div class="col-sm-12">{{round.roundContent}}</div>
+          <div class="col-sm-12 rich-text" ng-bind-html="round.roundContent"></div>
           <p>{{round.createTime}}</p>
           <div class="wrap-triangle"></div>
         </div>
@@ -71,7 +81,6 @@
     </div>
   </div>
 </div>
-
 
 
 <div class="modal-viewer-header" ng-if="vm.question.questionState=='R'">
@@ -83,8 +92,44 @@
       <label class="modal-label">
         留言
       </label>
-      <div class="">
-        <textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>
+      <div>
+        <ng-quill-editor ng-model="vm.questionRound.roundContent">
+          <ng-quill-toolbar>
+            <div>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-size">
+            <option value="small">小</option>
+            <option value="normal" selected>中</option>
+            <option value="large">大</option>
+            <option value="huge">超大</option>
+          </select>
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+
+              <span class="ql-formats">
+          <select class="ql-align">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+              <span class="ql-formats">
+          <button class="ql-image"></button>
+        </span>
+            </div>
+          </ng-quill-toolbar>
+        </ng-quill-editor>
+        <!--<textarea class="form-control" placeholder="此处限定5000字符" ng-model="vm.questionRound.roundContent"></textarea>-->
       </div>
     </div>
     <div class="row ct-margin-12-auto ct-margin-bottom-0">
@@ -105,7 +150,7 @@
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
       <label class="modal-label">评分</label>
-      <div class="" >
+      <div class="">
         <!--星级评价-->
         <span uib-rating ng-model="vm.rate" max="5" on-hover="vm.hoveringOver(value)"
               aria-labelledby="default-rating" on-leave="vm.overStar = null" style="outline: none"></span>

@@ -5,12 +5,13 @@
     .controller('QuestionAdminViewController', QuestionAdminViewController)
 
   /** @ngInject */
-  function QuestionAdminViewController($stateParams,QuestionAPI,RoundAPI) {
+  function QuestionAdminViewController($stateParams,ConfirmModalService,QuestionAPI,RoundAPI) {
     let vm = this;
 
     vm.showUser = 'F';
     vm.reply = reply;
     vm.assignMe = assignMe;
+    vm.changeUserTag = changeUserTag;
 
     activate()
 
@@ -34,18 +35,44 @@
       return RoundAPI.query(params)
     }
     function reply(showUser){
+      let round = Object.assign(vm.questionRound,{showUser:showUser?showUser:(vm.showUser?vm.showUser:'F')});
 
       RoundAPI
-        .reply({questionId:$stateParams.questionId},Object.assign(vm.questionRound,{showUser:showUser?showUser:(vm.showUser?vm.showUser:'F')}))
+        .reply({questionId:$stateParams.questionId},round)
         .$promise
-        .then(function(){
+        .then(function(val){
+          vm.rounds.push(val);
           vm.questionRound.roundContent='';
-          vm.rounds = getRound(Object.assign({},$stateParams));
         })
     }
 
     function assignMe() {
-      QuestionAPI.grab($stateParams,{});
+      QuestionAPI.grab($stateParams,{})
+        .$promise
+        .then(function (val) {
+          vm.question.questionState = 'H';//已分配
+          vm.rounds.push(val);
+        });
+    }
+
+    function changeUserTag(round) {
+      let showUser=round.showUser
+
+      // let message;
+      // if(showUser=='T'){
+      //   message = '确定修改为用户可见吗？'
+      // }else{
+      //   message = '确定修改为用户不可见吗？'
+      // }
+      // ConfirmModalService.openModal(message)
+      //   .then(function () {
+          let roundId = round.roundId
+          RoundAPI.changeUserTag(Object.assign({roundId,showUser},$stateParams),{})
+            .$promise
+            .then(function () {
+              round.showUser = showUser;
+            });
+        // })
 
     }
 

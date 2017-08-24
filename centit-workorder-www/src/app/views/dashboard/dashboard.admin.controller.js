@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function DashboardController(
-    $stateParams,
+    $stateParams,ConfirmModalService,
     CatalogAPI,isAdmin
   ) {
     const vm = this;
@@ -14,7 +14,6 @@
 
     vm.osId = osId
     vm.create = create
-    vm.edit = edit
     vm.remove = remove
     vm.queryCatalogs = queryCatalogs
     vm.isAdmin = isAdmin
@@ -32,16 +31,14 @@
     }
 
     function remove(catalog) {
-      CatalogAPI.delete({osId:$stateParams.osId,catalogId:catalog.catalogId})
-        .$promise
-        .then(function(){
-          queryCatalogs()
-        });
-
-    }
-
-    function edit(catalog) {
-
+      ConfirmModalService.openModal('确定删除该类别吗？')
+        .then(function () {
+          CatalogAPI.delete({osId:$stateParams.osId,catalogId:catalog.catalogId})
+            .$promise
+            .then(function(){
+              queryCatalogs()
+            });
+        })
     }
 
     function queryCatalogs() {
