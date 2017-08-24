@@ -1,5 +1,6 @@
 package com.centit.workorder.po;
 
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.po.EntityWithTimestamp;
 import com.centit.search.document.ObjectDocument;
 import org.hibernate.annotations.GenericGenerator;
@@ -315,7 +316,11 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
         document.setOsId(this.getOsId());
         document.setOptId(this.getOptId());
         document.setOptMethod(this.getOptMethod());
-        document.setOptUrl("/os/"+this.getOsId()+"/documents/"+this.getDocId());
+//        document.setOptUrl("/os/"+this.getOsId()+"/documents/"+this.getDocId());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("docId", this.getDocId());
+		jsonObject.put("docPath", this.getDocPath());
+        document.setOptUrl(jsonObject.toString());
         document.setTitle(this.getDocTitle());
         document.setContent(this.getDocFile());
         return document;
