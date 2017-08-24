@@ -16,6 +16,7 @@
       // 第三方插件
       'toastr',
       'angularBootstrapNavTree',
+      'mwl.confirm',
       'ngQuill',
       'LocalStorageModule',
       'scrollToTop',
