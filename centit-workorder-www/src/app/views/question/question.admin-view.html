@@ -74,12 +74,12 @@
 
           <div class="wrap-triangle"></div>
         </div>
-        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 ">
+        <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 text-right">
 
           <div class="chk" ng-if="round.orA=='A'">
             <input type="checkbox" id="checkbox_{{$index}}" class="chk_4" checked="" ng-click="vm.changeUserTag(round)"
                    ng-model="round.showUser" ng-true-value="'T'" ng-false-value="'F'"/>
-
+            <label for="checkbox_{{$index}}"></label>
           </div>
         </div>
     </div>
