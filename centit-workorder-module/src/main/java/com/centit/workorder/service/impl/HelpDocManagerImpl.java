@@ -14,10 +14,7 @@ import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.ListOpt;
 import com.centit.workorder.dao.*;
-import com.centit.workorder.po.HelpDoc;
-import com.centit.workorder.po.HelpDocComment;
-import com.centit.workorder.po.HelpDocScore;
-import com.centit.workorder.po.QuestionCatalog;
+import com.centit.workorder.po.*;
 import com.centit.workorder.service.HelpDocManager;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -29,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +72,7 @@ public class HelpDocManagerImpl
 	 */
 	@Override
 	@Transactional
-	public void createHelpDoc(HelpDoc helpDoc, String parentDocId) {
+	public HelpDoc createHelpDoc(HelpDoc helpDoc, String parentDocId) {
 
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if(parentDoc != null){
@@ -94,11 +92,12 @@ public class HelpDocManagerImpl
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.saveNewDocument(objectDocument);
 
+        return helpDoc;
 	}
 
 	@Override
 	@Transactional
-	public void editHelpDoc(String docId, HelpDoc helpDoc) {
+	public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
 		HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
 
 		dbHelpDoc.copyNotNullProperty(helpDoc);
@@ -109,6 +108,8 @@ public class HelpDocManagerImpl
 						SysParametersUtils.loadProperties()), FileDocument.class);
 		ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.updateDocument(objectDocument);
+
+        return dbHelpDoc;
 	}
 
 	@Override
@@ -117,7 +118,10 @@ public class HelpDocManagerImpl
 	    HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		helpDocDao.deleteObjectById(docId);
 
-		helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", docId);//删除所有历史版本
+        Map<String, Object> map = new HashMap<>();
+        map.put("docId", docId);
+        List<HelpDocVersion> versions = helpDocVersionDao.listObjects(map);
+		helpDocVersionDao.deleteObjectsAsTabulation(versions);//删除所有历史版本
 		helpDocCommentDao.deleteObjectsAsTabulation("docId", docId);//删除评论
 		helpDocScoreDao.deleteObjectsAsTabulation("docId", docId);//删除评分
 
@@ -146,7 +150,7 @@ public class HelpDocManagerImpl
 
 	@Override
 	@Transactional
-	public void editContent(String docId, String content, String userCode) {
+	public HelpDoc editContent(String docId, String content, String userCode) {
 		HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		//保存旧版本
 		int docVersion = DatabaseOptUtils.getNextLongSequence(helpDocVersionDao, "DOC_VERSION").intValue();
@@ -160,6 +164,8 @@ public class HelpDocManagerImpl
                 SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.updateDocument(objectDocument);
+
+        return helpDoc;
 	}
 
 	@Override

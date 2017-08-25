@@ -64,8 +64,8 @@ public class HelpDocController  extends BaseController {
 
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(getLoginUserCode(request));
-        helpDocMag.createHelpDoc(helpDoc, parentDocId);
-        JsonResultUtils.writeSuccessJson(response);
+        HelpDoc result = helpDocMag.createHelpDoc(helpDoc, parentDocId);
+        JsonResultUtils.writeSingleDataJson(result, response);
     }
 
     /**
@@ -78,8 +78,8 @@ public class HelpDocController  extends BaseController {
                               HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
         helpDoc.setUpdateUser(getLoginUserCode(request));
-        helpDocMag.editHelpDoc(docId, helpDoc);
-        JsonResultUtils.writeSuccessJson(response);
+        HelpDoc result = helpDocMag.editHelpDoc(docId, helpDoc);
+        JsonResultUtils.writeSingleDataJson(result, response);
     }
 
     /**
@@ -91,8 +91,8 @@ public class HelpDocController  extends BaseController {
 
         // 保存 历史版本，
         String userCode = getLoginUserCode(request);
-        helpDocMag.editContent(docId, content.get("content"), userCode);
-        JsonResultUtils.writeSuccessJson(response);
+        HelpDoc result = helpDocMag.editContent(docId, content.get("content"), userCode);
+        JsonResultUtils.writeSingleDataJson(result, response);
     }
 
     /**
