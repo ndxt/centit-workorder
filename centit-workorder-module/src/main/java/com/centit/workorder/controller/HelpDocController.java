@@ -59,12 +59,12 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(method = {RequestMethod.POST})
-    public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc, String parentDocId,
+    public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
 
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(getLoginUserCode(request));
-        HelpDoc result = helpDocMag.createHelpDoc(helpDoc, parentDocId);
+        HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
 
@@ -74,7 +74,7 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
-    public void updateHelpDoc(@PathVariable String docId, @Valid HelpDoc helpDoc,
+    public void updateHelpDoc(@PathVariable String docId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
         helpDoc.setUpdateUser(getLoginUserCode(request));

@@ -72,7 +72,9 @@ public class HelpDocManagerImpl
 	 */
 	@Override
 	@Transactional
-	public HelpDoc createHelpDoc(HelpDoc helpDoc, String parentDocId) {
+	public HelpDoc createHelpDoc(HelpDoc helpDoc) {
+
+		String parentDocId = helpDoc.getDocPath();
 
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if(parentDoc != null){

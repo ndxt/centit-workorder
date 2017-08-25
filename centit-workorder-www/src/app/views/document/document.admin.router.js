@@ -18,7 +18,8 @@
               templateUrl: 'app/views/document/document.admin.html',
               controller: 'DocumentAdminController',
               controllerAs: 'vm'
-            }
+            },
+            'breadcrumb@': ''
           },
           data: {
             title: '知识库',
@@ -41,6 +42,24 @@
           },
           data: {
             title: '知识库详情',
+            bodyClass: 'document-view'
+          }
+        }
+      },
+      // 知识库检索
+      {
+        state: 'admin.document.search',
+        config: {
+          url: '/key/:keyWord',
+          views: {
+            'main@': {
+              templateUrl: 'app/views/document/document-search.html',
+              controller: 'DocumentSearchController',
+              controllerAs: 'vm'
+            }
+          },
+          data: {
+            title: '知识库检索',
             bodyClass: 'document-view'
           }
         }

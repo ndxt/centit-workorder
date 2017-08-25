@@ -22,9 +22,12 @@
       method: 'GET',
       isArray:true
     }
+    const update = {
+      method: 'PUT'
+    }
 
     return $resource(`${baseUrl}/:docId`, null, {
-      editContent,fullSearch,fullTextSearch,
+      editContent,fullSearch,fullTextSearch,update,
       levelSearch: {
         url: `${config.contextPath}/service/os/:osId/documents/levelSearch`,
         isArray: true,
