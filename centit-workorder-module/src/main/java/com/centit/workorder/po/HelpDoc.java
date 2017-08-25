@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * create by scaffold 2017-05-08 
@@ -326,7 +328,23 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 		jsonObject.put("docPath", this.getDocPath());
         document.setOptUrl(jsonObject.toString());
         document.setTitle(this.getDocTitle());
-        document.setContent(this.getDocFile());
+        document.setContent(filterTag(this.getDocFile()));
         return document;
+	}
+
+	private String filterTag(String content){
+		String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
+		String regEx_html="<[^>]+>"; //定义HTML标签的正则表达式
+
+		Pattern p_style=Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
+		Matcher m_style=p_style.matcher(content);
+		content=m_style.replaceAll(""); //过滤style标签
+
+		Pattern p_html=Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
+		Matcher m_html=p_html.matcher(content);
+		content=m_html.replaceAll(""); //过滤html标签
+
+		return content.trim(); //返回文本字符串
+
 	}
 }
