@@ -59,9 +59,10 @@ public class HelpDocController  extends BaseController {
      * @param helpDoc  {@link HelpDoc}
      */
     @RequestMapping(method = {RequestMethod.POST})
-    public void createHelpDoc(@RequestBody HelpDoc helpDoc, String parentDocId,
+    public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc, String parentDocId,
                               HttpServletRequest request, HttpServletResponse response) {
 
+        helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(getLoginUserCode(request));
         helpDocMag.createHelpDoc(helpDoc, parentDocId);
         JsonResultUtils.writeSuccessJson(response);

@@ -78,7 +78,7 @@ public class HelpDocManagerImpl
 
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if(parentDoc != null){
-            helpDoc.setDocPath(parentDoc.getDocPath().indexOf("/") != -1 ?
+            helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
                     parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
             helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
         }else{
