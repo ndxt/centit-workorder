@@ -19,10 +19,10 @@ import java.util.Map;
 */
 
 public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
-	
-	void createHelpDoc(HelpDoc helpDoc, String parentDocId);
 
-	void editHelpDoc(String docId, HelpDoc helpDoc);
+    HelpDoc createHelpDoc(HelpDoc helpDoc);
+
+	HelpDoc editHelpDoc(String docId, HelpDoc helpDoc);
 
 	void deleteHelpDoc(String docId);
 
@@ -30,7 +30,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
 	void score(String docId, HelpDocScore helpDocScore);
 
-	void editContent(String docId, String content, String userCode);
+	HelpDoc editContent(String docId, String content, String userCode);
 
 	JSONArray searchHelpdocByLevel(String osId);
 //	JSONArray treeSearch(String osId);

@@ -18,7 +18,8 @@
               templateUrl: 'app/views/document/document.html',
               controller: 'DocumentController',
               controllerAs: 'vm'
-            }
+            },
+            'breadcrumb@':""
           },
           data: {
             title: '知识库',

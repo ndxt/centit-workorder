@@ -7,7 +7,7 @@
 
 <span>共{{vm.documents.length}} 条结果</span>
 <div ng-repeat="doc in vm.documents">
-  <h3 ng-click="vm.go(doc.docId)" style="cursor: pointer">{{doc.fileName}}</h3>
-  <p ng-bind-html="doc.highlight" class="ct-highlight"></p>
+  <h3 ng-click="vm.go(doc.docId)" style="cursor: pointer">{{doc.title}}</h3>
+  <div ng-bind-html="doc.highlight" class="ct-highlight"></div>
   <span>{{doc.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 </div>

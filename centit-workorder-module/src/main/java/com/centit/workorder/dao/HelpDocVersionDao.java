@@ -27,11 +27,11 @@ public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,com.centit.wor
 	@Override
 	public Map<String, String> getFilterField() {
 		if( filterField == null){
-			filterField = new HashMap<String, String>();
+			filterField = new HashMap<>();
 
-			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
+			filterField.put("docId" , "cid.docId = :docId");
 
-			filterField.put("docVersion" , CodeBook.EQUAL_HQL_ID);
+			filterField.put("docVersion" , "cid.docVersion = :docVersion");
 
 			filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
 

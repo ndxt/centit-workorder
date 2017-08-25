@@ -68,13 +68,13 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	 * 业务系统ID null 
 	 */
 	@Column(name = "OS_ID")
+	@NotBlank(message = "字段不能为空")
 	@Length(max = 20, message = "字段长度不能大于{max}")
 	private String  osId;
 	/**
 	 * 业务项目模块 模块，或者表 
 	 */
 	@Column(name = "OPT_ID")
-	@NotBlank(message = "字段不能为空")
 	@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  optId;
 	/**

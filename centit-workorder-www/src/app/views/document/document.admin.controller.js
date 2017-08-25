@@ -5,7 +5,7 @@
     .controller('DocumentAdminController', DocumentAdminController)
 
   /** @ngInject */
-  function DocumentAdminController($timeout, $scope, $state, $stateParams, DocAPI) {
+  function DocumentAdminController($timeout, $scope,$uibModal, ConfirmModalService,$state, $stateParams, DocAPI) {
 
     const vm = this;
 
@@ -32,7 +32,7 @@
     }
 
     vm.search = function(){
-      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:true})
+      $state.go('admin.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:true})
     }
 
     vm.enterEvent = function (e) {
@@ -55,21 +55,56 @@
     }
 
     function onAdd(node) {
-      if(node){
-        DocAPI.save({},vm.doc)
-      }else{
-        DocAPI.save({},vm.doc)
-      }
 
-      console.log('onAdd: ', node)
+      $uibModal.open({
+        templateUrl:'app/views/document/document-modal.html',
+        controller:'DocumentModalController',
+        controllerAs:'vm',
+        resolve:{
+          node:function () {
+            return node
+          },
+          type:function () {
+            return 'add'
+          }
+        }
+      }).result
+        .then(function (val) {
+          if(node)
+            node.children.push(Object.assign(val,{label:val.docTitle}));
+          else vm.docLinks.push(Object.assign(val,{label:val.docTitle}))
+        })
     }
 
     function onEdit(node) {
-      console.log('onEdit: ', node)
+
+      $uibModal.open({
+        templateUrl:'app/views/document/document-modal.html',
+        controller:'DocumentModalController',
+        controllerAs:'vm',
+        resolve:{
+          node:function () {
+            return node
+          },
+          type:function () {
+            return 'edit'
+          }
+        }
+      }).result
+        .then(function (val) {
+          node.label = val.docTitle;
+        })
     }
 
     function onRemove(node) {
-      console.log('onRemove: ', node)
+      ConfirmModalService.openModal("确认删除此文档吗？")
+        .then(function () {
+          DocAPI.delete(node)
+            .$promise
+            .then(function () {
+              $state.go('admin.document',{},{reload:true});
+            });
+        })
     }
 
     /**
