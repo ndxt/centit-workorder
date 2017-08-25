@@ -102,6 +102,12 @@ public class HelpDocManagerImpl
 
 		dbHelpDoc.copyNotNullProperty(helpDoc);
 		helpDocDao.updateObject(dbHelpDoc);
+
+		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+				IndexerSearcherFactory.loadESServerConfigFormProperties(
+						SysParametersUtils.loadProperties()), FileDocument.class);
+		ObjectDocument objectDocument = helpDoc.generateObjectDocument();
+		indexer.updateDocument(objectDocument);
 	}
 
 	@Override
