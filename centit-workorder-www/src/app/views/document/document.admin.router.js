@@ -18,8 +18,7 @@
               templateUrl: 'app/views/document/document.admin.html',
               controller: 'DocumentAdminController',
               controllerAs: 'vm'
-            },
-            'breadcrumb@': ''
+            }
           },
           data: {
             title: '知识库',

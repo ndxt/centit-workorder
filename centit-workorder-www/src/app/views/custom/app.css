@@ -894,7 +894,15 @@ font-size: 14px;
   margin: 0 4px;
 }
 
-
+.ct-highlight {
+  font-size: 15px ;
+}
+.ct-highlight h1{
+  color: red;
+  display: inline-block;
+  font-size: 15px ;
+  margin: 0;
+}
 
 
 

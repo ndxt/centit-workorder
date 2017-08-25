@@ -19,6 +19,7 @@ import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.HelpDocManager;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -156,7 +157,7 @@ public class HelpDocManagerImpl
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
         IndexerSearcherFactory.loadESServerConfigFormProperties(
-                SysParametersUtils.loadProperties()), FileDocument.class);
+                SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.updateDocument(objectDocument);
 	}
@@ -235,14 +236,15 @@ public class HelpDocManagerImpl
 
 		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
 		if(questionCatalog != null){
+			if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
+				Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+						IndexerSearcherFactory.loadESServerConfigFormProperties(
+								SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class) ;
 
-			Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-					IndexerSearcherFactory.loadESServerConfigFormProperties(
-							SysParametersUtils.loadProperties()), FileDocument.class) ;
-
-			List<Map<String, Object>> list = searcher.search(
-					questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
-			return list;
+				List<Map<String, Object>> list = searcher.search(
+						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
+				return list;
+			}
 		}
 		return null;
 	}
@@ -251,9 +253,16 @@ public class HelpDocManagerImpl
 	public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
 		Searcher searcher = IndexerSearcherFactory.obtainSearcher(
 				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()), FileDocument.class) ;
+						SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class) ;
 		List<Map<String, Object>> list = searcher.search(
 				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
+		if (list != null && list.size()>0){
+			for (int i=0;i<list.size();i++){
+				JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
+				list.get(i).put("docId",json.get("docId").toString());
+				list.get(i).put("docPath",json.get("docPath").toString());
+			}
+		}
 		return list;
 	}
 }

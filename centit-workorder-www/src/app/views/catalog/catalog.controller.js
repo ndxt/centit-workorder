@@ -33,7 +33,7 @@
      */
     function queryDocument(params) {
       delete params.DocId;
-      return vm.documents = DocAPI.query(params)
+      return vm.documents = DocAPI.fullTextSearch(params)
     }
 
     function askOthers() {

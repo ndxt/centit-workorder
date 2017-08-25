@@ -66,7 +66,7 @@
     vm.remove = remove
 
     vm.s_questionState = ''
-    vm.s_createTime = ''
+    vm.s_timeTag = ''
     vm.currentPage=1
 
     activate();

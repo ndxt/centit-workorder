@@ -36,25 +36,25 @@
           <td>创建时间：</td>
           <td colspan="2">
             <label class="radio-inline">
-              <input type="radio" name="state" value="" ng-model="vm.s_timeTag"> 全部
+              <input type="radio" name="time" value="" ng-model="vm.s_timeTag"> 全部
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="TM" ng-model="vm.s_timeTag"> <span>本月</span>
+              <input type="radio" name="time" value="TM" ng-model="vm.s_timeTag"> <span>本月</span>
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="LM" ng-model="vm.s_timeTag"> <span>上月</span>
+              <input type="radio" name="time" value="LM" ng-model="vm.s_timeTag"> <span>上月</span>
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="TS" ng-model="vm.s_timeTag"> <span>本季度</span>
+              <input type="radio" name="time" value="TS" ng-model="vm.s_timeTag"> <span>本季度</span>
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="LS" ng-model="vm.s_timeTag"> <span>上季度</span>
+              <input type="radio" name="time" value="LS" ng-model="vm.s_timeTag"> <span>上季度</span>
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="TY" ng-model="vm.s_timeTag"> <span>今年</span>
+              <input type="radio" name="time" value="TY" ng-model="vm.s_timeTag"> <span>今年</span>
             </label>
             <label class="radio-inline">
-              <input type="radio" name="state" value="LY" ng-model="vm.s_timeTag"> <span>去年</span>
+              <input type="radio" name="time" value="LY" ng-model="vm.s_timeTag"> <span>去年</span>
             </label>
           </td>
         </tr>
@@ -132,7 +132,9 @@
       <td colspan="4" class="no-hover">
 
         <nav aria-label="Page" class="text-center ct-fr flex">
-          <p class="nav-page">第<span>{{(vm.currentPage-1)*10+1}}</span>到<span>{{vm.currentPage*10}}</span>条，总共<span>{{newData.length}}</span>条</p>
+          <p class="nav-page">第<span>{{newData.length==0?0:(vm.currentPage-1)*10+1}}</span>到
+            <span>{{(vm.currentPage*10)>newData.length?newData.length:vm.currentPage*10}}</span>条，
+            总共<span>{{newData.length}}</span>条</p>
           <ul class="ct-no-margin"
               uib-pagination boundary-links="true" total-items="newData.length"
               ng-model="vm.currentPage"
