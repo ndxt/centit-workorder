@@ -269,6 +269,8 @@ public class HelpDocManagerImpl
 				JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
 				list.get(i).put("docId",json.get("docId").toString());
 				list.get(i).put("docPath",json.get("docPath").toString());
+				HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
+				list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
 			}
 		}
 		return list;
