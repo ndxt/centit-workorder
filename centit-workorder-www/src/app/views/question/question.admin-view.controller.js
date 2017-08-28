@@ -90,7 +90,7 @@
                 return val;
               },
               type:function () {
-                return 'assist';
+                return 'assist';//只分配协助负责人
               }
             }
           }).result
