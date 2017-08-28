@@ -2,7 +2,9 @@
   "name": "workorder",
   "version": "0.0.0",
   "dependencies": {
+    "angular-datepicker": "^1.0.5",
     "gulp-sftp": "^0.1.5",
+    "gulp-sort": "^2.0.0",
     "gulp-ssh": "^0.6.0",
     "ng-quill": "^3.3.1",
     "perfect-scrollbar": "^0.7.1",

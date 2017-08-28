@@ -29,7 +29,7 @@ gulp.task('inject', ['scripts'], function () {
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
     path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
     isMock ? '' : path.join('!' + conf.paths.src, '/app/**/*.*-mock.js')
-  ])
+  ]).pipe($.sort(['quill.js', ['ng-quill.js']]))
     .pipe($.babel({
       presets: ['es2015']
     }))
