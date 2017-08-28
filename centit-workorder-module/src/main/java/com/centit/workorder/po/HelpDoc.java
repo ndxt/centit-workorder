@@ -6,6 +6,7 @@ import com.centit.search.document.ObjectDocument;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.jsoup.helper.StringUtil;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -328,7 +329,9 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 		jsonObject.put("docPath", this.getDocPath());
         document.setOptUrl(jsonObject.toString());
         document.setTitle(this.getDocTitle());
-        document.setContent(filterTag(this.getDocFile()));
+		if (!StringUtil.isBlank(this.getDocFile())){
+			document.setContent(filterTag(this.getDocFile()));
+		}
         return document;
 	}
 
