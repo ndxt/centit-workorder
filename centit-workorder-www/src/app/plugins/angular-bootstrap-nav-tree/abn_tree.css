@@ -153,7 +153,7 @@ ul.abn-tree li.abn-tree-row.leaf.active a {
 
 /************************************************/
 ul.abn-tree .tree-root-new-icon {
-  padding-left: 0;
+  padding-left: 2px;
 }
 ul.abn-tree .tree-root-new-icon::before {
   margin-right: 4px;

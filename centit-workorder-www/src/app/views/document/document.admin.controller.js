@@ -65,7 +65,7 @@
             return node
           },
           type:function () {
-            return 'add'
+            return 'add'//新增标题
           }
         }
       }).result
@@ -87,7 +87,7 @@
             return node
           },
           type:function () {
-            return 'edit'
+            return 'edit'//修改标题
           }
         }
       }).result
