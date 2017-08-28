@@ -126,7 +126,7 @@
             return [];
           },
           type:function () {
-            return 'all';
+            return 'all';//分配协助负责人和主负责人
           }
         }
       }).result
