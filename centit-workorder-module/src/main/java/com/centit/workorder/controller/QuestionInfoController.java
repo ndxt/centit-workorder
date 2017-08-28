@@ -390,4 +390,15 @@ public class QuestionInfoController  extends BaseController {
     }
 
 
+    /**
+     * 根据工单ID获取当前工单的协助处理人
+     * @return
+     */
+    @RequestMapping(value = "/assistOperator/{questionId}",method = {RequestMethod.GET})
+    public void listAssistOperator(@PathVariable String questionId,HttpServletResponse response) throws IOException {
+        List<AssistOperator> list = questionInfoMag.listAssistOperator(questionId);
+        JsonResultUtils.writeSingleDataJson(list, response);
+    }
+
+
 }

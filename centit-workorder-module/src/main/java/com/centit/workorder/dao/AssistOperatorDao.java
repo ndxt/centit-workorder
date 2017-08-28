@@ -30,9 +30,9 @@ public class AssistOperatorDao extends BaseDaoImpl<AssistOperator,AssistOperator
         if( filterField == null){
             filterField = new HashMap<String, String>();
 
-            filterField.put("aid.questionId" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("questionId" , "aid.questionId =:questionId");
 
-            filterField.put("aid.operatorCode" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("operatorCode" , "aid.operatorCode = :operatorCode");
 
             filterField.put("createDate" , CodeBook.EQUAL_HQL_ID);
         }

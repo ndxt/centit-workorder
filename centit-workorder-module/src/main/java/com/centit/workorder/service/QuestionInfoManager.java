@@ -61,4 +61,6 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 	void addDefaultReplay(String questionId);
 
     String loginRole(String questionId,String userCode,String userName);
+
+	List<AssistOperator> listAssistOperator(String questionId);
 }

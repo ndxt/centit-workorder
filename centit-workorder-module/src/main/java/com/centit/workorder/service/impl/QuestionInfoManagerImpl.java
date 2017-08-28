@@ -10,7 +10,6 @@ import com.centit.workorder.dao.QuestionInfoDao;
 import com.centit.workorder.dao.QuestionRoundDao;
 import com.centit.workorder.po.*;
 import com.centit.workorder.service.QuestionInfoManager;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * QuestionInfo  Service.
@@ -270,6 +271,14 @@ public class QuestionInfoManagerImpl
         }
         return null;
     }
+
+	@Override
+	@Transactional(propagation= Propagation.REQUIRED)
+    public List<AssistOperator> listAssistOperator(String questionId){
+		Map<String,Object> map = new HashMap<>();
+		map.put("questionId",questionId);
+		return assistOperatorDao.listObjects(map);
+	}
 
 }
 
