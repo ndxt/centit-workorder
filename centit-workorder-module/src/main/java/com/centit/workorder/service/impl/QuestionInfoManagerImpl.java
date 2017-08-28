@@ -227,10 +227,20 @@ public class QuestionInfoManagerImpl
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators) {
-	    for (AssistOperator assistOperator:assistOperators){
-            assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
+
+	    if (assistOperators != null && assistOperators.length>0){
+            String questionId = assistOperators[0].getAid().getQuestionId();
+            Map<String,Object> map = new HashMap<>();
+            map.put("questionId",questionId);
+            List<AssistOperator> list = assistOperatorDao.listObjects(map);
+            assistOperatorDao.deleteObjectsAsTabulation(list);
+
+            for (AssistOperator assistOperator:assistOperators){
+                assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
+            }
+            return  assistOperatorDao.saveNewObjects(assistOperators);
         }
-		return  assistOperatorDao.saveNewObjects(assistOperators);
+	    return null;
 	}
 
 	@Override
