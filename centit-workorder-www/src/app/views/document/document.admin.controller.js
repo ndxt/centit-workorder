@@ -32,7 +32,7 @@
     }
 
     vm.search = function(){
-      $state.go('admin.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:true})
+      $state.go('admin.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:'T'})
     }
 
     vm.enterEvent = function (e) {

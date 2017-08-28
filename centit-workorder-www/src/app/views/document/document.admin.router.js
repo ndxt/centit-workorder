@@ -50,7 +50,7 @@
       {
         state: 'admin.document.search',
         config: {
-          url: '/key/:keyWord',
+          url: '/key/:keyWord/:isAdmin',
           views: {
             'main@': {
               templateUrl: 'app/views/document/document-search.html',

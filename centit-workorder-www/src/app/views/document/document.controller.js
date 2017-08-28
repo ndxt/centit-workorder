@@ -15,7 +15,7 @@
     vm.onSelectNode = onSelectNode
 
     vm.search = function(){
-      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:false})
+      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:'F'})
     }
 
     vm.enterEvent = function (e) {

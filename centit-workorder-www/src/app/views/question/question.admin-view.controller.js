@@ -96,7 +96,6 @@
           }).result
             .then(function() {
               toastr.success(`分配成功`);
-              row.questionState = 'H';
             })
 
         })

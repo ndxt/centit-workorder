@@ -62,11 +62,11 @@
         </div>
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">售</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA!='Q'">售</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="./app/views/img/avatar.png" class="ng-scope" width="36" height="36" >
         </div>
-        <span class="username" ng-if="round.orA=='A'">售后工程师</span>
+        <span class="username" ng-if="round.orA!='Q'">售后工程师</span>
         <span class="username" ng-if="round.orA=='Q'" >{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">
@@ -77,7 +77,7 @@
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2 pull-right ct-no-padding ct-margin-bottom-0 text-right">
 
-          <div class="chk" ng-if="round.orA=='A'">
+          <div class="chk" ng-if="round.orA=='A'  && round.userCode!='system' && vm.isOperate=='O'">
             <input type="checkbox" id="checkbox_{{$index}}" class="chk_4" checked="" ng-click="vm.changeUserTag(round)"
                    ng-model="round.showUser" ng-true-value="'T'" ng-false-value="'F'"/>
             <label for="checkbox_{{$index}}"></label>
@@ -89,10 +89,12 @@
 
 
 
-<div class="modal-viewer-header" ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
+<div class="modal-viewer-header"
+     ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
   <span class="modal-viewer-topbar-title">我要答复</span>
 </div>
-<div class="panel panel-default ng-scope" ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
+<div class="panel panel-default ng-scope"
+     ng-if="(vm.question.questionState=='R' || vm.question.questionState=='H') && (vm.isOperate=='O' || vm.isOperate=='A')">
   <div class="panel-body">
     <div class="row ct-margin-12-auto">
       <div>
@@ -115,8 +117,7 @@
           <select class="ql-color"></select>
           <select class="ql-background"></select>
         </span>
-
-              <span class="ql-formats">
+        <span class="ql-formats">
           <select class="ql-align">
             <option selected></option>
             <option value="center"></option>
@@ -140,9 +141,9 @@
         <label class="radio-inline">
           <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="vm.showUser" value="T" > 是
         </label>
+
         <label class="radio-inline">
           <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="vm.showUser" value="F" > 否
-
         </label>
       </div>
       <div>

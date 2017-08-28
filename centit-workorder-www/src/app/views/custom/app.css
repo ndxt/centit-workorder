@@ -822,7 +822,7 @@ font-size: 14px;
 .chk_4:checked + label:before {
   content: ' ';
   position: absolute;
-  z-index: 99999;
+  z-index: 1000;
   left: 38px;
 }
 .chk_4 + label:before {
@@ -830,7 +830,7 @@ font-size: 14px;
   position: absolute;
   background: #FFF;
   top: 0px;
-  z-index: 99999;
+  z-index: 1000;
   left: 0px;
   width: 22px;
   color: #FFF;
@@ -902,6 +902,10 @@ font-size: 14px;
   display: inline-block;
   font-size: 15px ;
   margin: 0;
+}
+
+.ct-time-color{
+  color: #908c8c;
 }
 
 

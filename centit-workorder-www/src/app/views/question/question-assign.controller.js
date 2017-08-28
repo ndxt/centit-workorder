@@ -51,6 +51,8 @@
             .then(function(res){
               resolve(res)
             });
+        }else{
+          resolve()
         }
         }),
         new Promise(function (resolve) {

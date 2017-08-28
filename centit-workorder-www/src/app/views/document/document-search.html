@@ -1,7 +1,7 @@
 
 <div class="input-group  pull-right col-sm-4" >
   <input type="text" class="form-control" id="keyWord" placeholder="搜索..."
-         ng-model="vm.keyWord">
+         ng-model="vm.keyWord" ng-keydown="vm.enterEvent($event)">
   <div class="input-group-addon"><i class="glyphicon glyphicon-search" ng-click="vm.search()"></i></div>
 </div>
 
@@ -9,5 +9,5 @@
 <div ng-repeat="doc in vm.documents">
   <h3 ng-click="vm.go(doc.docId)" style="cursor: pointer">{{doc.title}}</h3>
   <div ng-bind-html="doc.highlight" class="ct-highlight"></div>
-  <span>{{doc.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+  <div class="ct-time-color">更新时间：{{doc.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 </div>
