@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.utils.FileServerConstant;
 import com.centit.fileserver.utils.FileStore;
 import com.centit.fileserver.utils.UploadDownloadUtils;
-import com.centit.framework.core.common.JsonResultUtils;
-import com.centit.framework.core.common.ObjectException;
-import com.centit.framework.core.common.ResponseData;
+import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.ObjectException;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.core.controller.BaseController;
-
 import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileMD5Maker;
@@ -256,7 +255,6 @@ public class FileController extends BaseController {
             completedStoreFile(fs, token, size, fileInfo.getLeft(), response);
             return;
         }
-
         try {
             long uploadSize = UploadDownloadUtils.uploadRange(tempFilePath, fileInfo.getRight(), token, size, request);
             if(uploadSize==0){
@@ -269,7 +267,6 @@ public class FileController extends BaseController {
                 JsonResultUtils.writeOriginalJson(UploadDownloadUtils.
                         makeRangeUploadJson(uploadSize).toJSONString(), response);
             }
-
         }catch (ObjectException e){
             logger.error(e.getMessage(), e);
             JsonResultUtils.writeAjaxErrorMessage(e.getExceptionCode(),

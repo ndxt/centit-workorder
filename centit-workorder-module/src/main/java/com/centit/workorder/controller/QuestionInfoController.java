@@ -1,9 +1,9 @@
 package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
-import com.centit.framework.core.common.JsonResultUtils;
-import com.centit.framework.core.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.model.adapter.PlatformEnvironment;
@@ -18,7 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
