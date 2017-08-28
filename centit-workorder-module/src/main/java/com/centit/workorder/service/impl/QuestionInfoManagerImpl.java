@@ -226,21 +226,20 @@ public class QuestionInfoManagerImpl
 
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators) {
+	public List<AssistOperatorId> createAssistOperator(String questionId,AssistOperator[] assistOperators) {
 
-	    if (assistOperators != null && assistOperators.length>0){
-            String questionId = assistOperators[0].getAid().getQuestionId();
-            Map<String,Object> map = new HashMap<>();
-            map.put("questionId",questionId);
-            List<AssistOperator> list = assistOperatorDao.listObjects(map);
-            assistOperatorDao.deleteObjectsAsTabulation(list);
+        Map<String,Object> map = new HashMap<>();
+        map.put("questionId",questionId);
+        List<AssistOperator> list = assistOperatorDao.listObjects(map);
+        assistOperatorDao.deleteObjectsAsTabulation(list);
 
+        if (assistOperators != null && assistOperators.length>0){
             for (AssistOperator assistOperator:assistOperators){
                 assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
             }
             return  assistOperatorDao.saveNewObjects(assistOperators);
         }
-	    return null;
+        return null;
 	}
 
 	@Override
@@ -255,7 +254,7 @@ public class QuestionInfoManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void addDefaultReplay(String questionId) {
 		QuestionRound round = new QuestionRound();
-		round.setOrA("A");
+//		round.setOrA("A");
 		round.setQuestionId(questionId);
 		round.setCreateTime(DatetimeOpt.currentUtilDate());
 		round.setUserCode("system");
