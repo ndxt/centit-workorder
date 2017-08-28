@@ -28,10 +28,16 @@
       url: `${baseUrl}/:questionId/operator`,
       method: 'PUT'
     }
-    //添加或修改主负责人
+    //添加或修改协助负责人
     const assistOperator = {
       url: `${baseUrl}/assistOperator`,
       method: 'POST',
+      isArray: true
+    }
+    //获取协助负责人
+    const listAssistOperator = {
+      url: `${baseUrl}/assistOperator/:questionId`,
+      method: 'GET',
       isArray: true
     }
     //分配给自己
@@ -44,7 +50,7 @@
     }
 
     return $resource(`${baseUrl}/:questionId`, null, {
-      queryTop,allQuestionInfo,update,comment,updateOperator,assistOperator,grab
+      queryTop,allQuestionInfo,update,comment,updateOperator,assistOperator,grab,listAssistOperator
     })
   }
 })();

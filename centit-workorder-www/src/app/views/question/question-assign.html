@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body" id="modal-body">
   <form>
-    <div class="form-group">
+    <div class="form-group" ng-if="vm.type =='all' ">
       <label for="currentOperator">主负责人</label>
       <select  class="form-control" id="currentOperator" name="currentOperator" ng-model="vm.currentOperator">
         <option value="">-- 请选择 --</option>
@@ -14,7 +14,7 @@
       <label>协助人员</label>
       <div>
         <div ng-repeat="user in vm.users" style="display: inline-block;width: 70px">
-          <input type="checkbox" name="operatorCode" ng-model="user.ischecked" />
+          <input type="checkbox" name="operatorCode" ng-model="user.isChecked" />
           {{user.username}}
         </div>
       </div>

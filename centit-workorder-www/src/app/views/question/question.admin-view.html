@@ -20,6 +20,7 @@
     </div>
     <div class="col-sm-2">
       <button  class="btn btn-sm btn-default" ng-if="vm.question.questionState=='U'" ng-click="vm.assignMe()">分配给我</button>
+      <button  class="btn btn-sm btn-default" ng-if="(vm.question.questionState=='H' || vm.question.questionState=='R') && vm.isOperate=='O'" ng-click="vm.assign()">协助负责人</button>
     </div>
   </div>
   <div class="row">
