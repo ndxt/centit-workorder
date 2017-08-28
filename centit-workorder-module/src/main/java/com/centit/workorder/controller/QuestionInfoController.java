@@ -367,10 +367,6 @@ public class QuestionInfoController  extends BaseController {
     public void addAssistOperator(HttpServletResponse response,
                                   String questionId,
                                   @RequestBody AssistOperator[] assistOperators) throws IOException {
-        if (assistOperators == null){
-            JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
-            return;
-        }
         List<AssistOperatorId> pk = questionInfoMag.createAssistOperator(questionId,assistOperators);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
