@@ -121,6 +121,12 @@
         resolve: {
           questionId:function(){
             return row.questionId;
+          },
+          assistOperator:function () {
+            return [];
+          },
+          type:function () {
+            return 'all';
           }
         }
       }).result

@@ -5,12 +5,13 @@
     .controller('QuestionAdminViewController', QuestionAdminViewController)
 
   /** @ngInject */
-  function QuestionAdminViewController($stateParams,ConfirmModalService,QuestionAPI,RoundAPI) {
+  function QuestionAdminViewController($stateParams,ConfirmModalService,$uibModal,toastr,QuestionAPI,RoundAPI) {
     let vm = this;
 
     vm.showUser = 'F';
     vm.reply = reply;
     vm.assignMe = assignMe;
+    vm.assign = assign;
     vm.changeUserTag = changeUserTag;
 
     activate()
@@ -47,32 +48,60 @@
     }
 
     function assignMe() {
-      QuestionAPI.grab($stateParams,{})
-        .$promise
-        .then(function (val) {
-          vm.question.questionState = 'H';//已分配
-          vm.rounds.push(val);
-        });
+      ConfirmModalService.openModal("确定分配给自己吗？")
+        .then(function () {
+          QuestionAPI.grab($stateParams,{})
+            .$promise
+            .then(function (val) {
+              vm.question.questionState = 'H';//已分配
+              vm.rounds.push(val);
+            });
+        })
+
     }
 
     function changeUserTag(round) {
       let showUser=round.showUser
+      let roundId = round.roundId
 
-      // let message;
-      // if(showUser=='T'){
-      //   message = '确定修改为用户可见吗？'
-      // }else{
-      //   message = '确定修改为用户不可见吗？'
-      // }
-      // ConfirmModalService.openModal(message)
-      //   .then(function () {
-          let roundId = round.roundId
-          RoundAPI.changeUserTag(Object.assign({roundId,showUser},$stateParams),{})
-            .$promise
-            .then(function () {
-              round.showUser = showUser;
-            });
-        // })
+      RoundAPI.changeUserTag(Object.assign({roundId,showUser},$stateParams),{})
+        .$promise
+        .then(function () {
+          round.showUser = showUser;
+        });
+
+    }
+
+
+
+    function assign() {
+      QuestionAPI.listAssistOperator({osId:$stateParams.osId,questionId:vm.question.questionId})
+        .$promise
+        .then(function (val) {
+          $uibModal.open({
+            templateUrl: 'app/views/question/question-assign.html',
+            controller: 'QuestionAssignController',
+            controllerAs: 'vm',
+            resolve: {
+              questionId:function(){
+                return vm.question.questionId;
+              },
+              assistOperator:function () {
+                return val;
+              },
+              type:function () {
+                return 'assist';
+              }
+            }
+          }).result
+            .then(function() {
+              toastr.success(`分配成功`);
+              row.questionState = 'H';
+            })
+
+        })
+
+
 
     }
 
