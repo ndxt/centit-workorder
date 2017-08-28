@@ -54,7 +54,7 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java
 
     void updateDiscuss(QuestionRound questionRound);
 
-	List<AssistOperatorId> createAssistOperator(AssistOperator[] assistOperators);
+	List<AssistOperatorId> createAssistOperator(String questionId,AssistOperator[] assistOperators);
 
 	void deleteObject(AssistOperator[] assistOperators);
 
