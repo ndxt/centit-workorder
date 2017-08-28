@@ -63,12 +63,12 @@
 
       </div>
       <div class="col-sm-12 clearfix message-item" ng-repeat="round in vm.rounds">
-        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA=='A'">售</div>
+        <div class="user-icon drcloud-icon cut-letter" ng-if="round.orA!='Q'">售</div>
         <div class="user-icon drcloud-icon" ng-if="round.orA=='Q'">
           <img src="./app/views/img/avatar.png" class="ng-scope"
                width="36" height="36">
         </div>
-        <span class="username" ng-if="round.orA=='A'">售后工程师</span>
+        <span class="username" ng-if="round.orA!='Q'">售后工程师</span>
         <span class="username" ng-if="round.orA=='Q'">{{vm.question.userName}}</span>
 
         <div class="item-content  col-sm-7 drcloud-content">

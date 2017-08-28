@@ -18,16 +18,25 @@
     }
 
     vm.search = function(){
-      $state.go('root.document.search',{osId:$stateParams.osId,keyWord:vm.keyWord,isAdmin:vm.isAdmin})
+      if(vm.keyWord)
+        vm.documents = DocAPI.fullSearch(Object.assign({keyWord:vm.keyWord}, $stateParams))
+      else if(vm.isAdmin)
+        $state.go('admin.document.view',{osId:$stateParams.osId})
+      else
+        $state.go('root.document.view',{osId:$stateParams.osId})
+    }
+
+    vm.enterEvent = function (e) {
+      var key = e.which;
+      if(key ==13)
+        vm.search();
     }
 
     vm.go = function (docId) {
-      if(!docId)
-        docId = 'doc2'
-      if(vm.isAdmin){
-        $state.go('root.document.view',{osId:$stateParams.osId,docId})
-      }else{
+      if(vm.isAdmin=='T'){
         $state.go('admin.document.view',{osId:$stateParams.osId,docId})
+      }else{
+        $state.go('root.document.view',{osId:$stateParams.osId,docId})
       }
     }
     // // 因为在父路由中获取不到 docId，在这里传递过去

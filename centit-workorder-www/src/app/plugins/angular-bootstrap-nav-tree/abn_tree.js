@@ -24,7 +24,7 @@
                 "popover-class='tree-popover' " +
                 "uib-popover-template=\"'app/plugins/angular-bootstrap-nav-tree/abn_tree_operation.html'\"></i>" +
           "</li>\n" +
-          "<li class='text-primary'><h4 class='tree-root-new-icon glyphicon glyphicon-plus' ng-if='editable' ng-click='onAdd()'>新建文档</h4></li>" +
+          "<li class='text-primary'><h5 class='tree-root-new-icon glyphicon glyphicon-plus' ng-if='editable' ng-click='onAdd()'>新建文档</h5></li>" +
         "</ul>",
         replace: true,
         scope: {
