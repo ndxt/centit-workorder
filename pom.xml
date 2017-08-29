@@ -11,13 +11,14 @@
         <centit.workorder.version>0.0.1-SNAPSHOT</centit.workorder.version>
         <jdk.version>1.8</jdk.version>
 
-        <centit.commons.version>2.2.1</centit.commons.version>
-        <centit.framework.version>4.0.0-SNAPSHOT</centit.framework.version>
+        <centit.commons.version>2.2.3-SNAPSHOT</centit.commons.version>
+        <centit.framework.version>4.0.1-SNAPSHOT</centit.framework.version>
         <centit.ui.version>3.0.1-SNAPSHOT</centit.ui.version>
         <centit.ip.version>0.0.2-SNAPSHOT</centit.ip.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
         <centit.fileserver.version>2.0.1-SNAPSHOT</centit.fileserver.version>
         <centit.search.version>0.1</centit.search.version>
+        <centit.persistence.version>1.0-SNAPSHOT</centit.persistence.version>
 
         <ojdbc6.version>11.2.0.4</ojdbc6.version>
         <junit.version>4.12</junit.version>

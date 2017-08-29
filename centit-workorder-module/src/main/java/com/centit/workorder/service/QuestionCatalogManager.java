@@ -1,12 +1,11 @@
 package com.centit.workorder.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
-import com.centit.framework.core.service.BaseEntityManager;
+import com.centit.framework.hibernate.service.BaseEntityManager;
 import com.centit.workorder.po.QuestionCatalog;
+
+import java.util.Map;
 
 /**
  * QuestionCatalog  Service.
@@ -15,7 +14,7 @@ import com.centit.workorder.po.QuestionCatalog;
  * 系统问题类别null   
 */
 
-public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalog,java.lang.String> 
+public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalog,String>
 {
 
     JSONArray getAllCatalog(Map<String,Object>queryParamsMap, PageDesc pageDesc);

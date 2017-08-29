@@ -1,16 +1,15 @@
 package com.centit.workorder.service;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.PageDesc;
-import com.centit.framework.core.service.BaseEntityManager;
-import com.centit.framework.model.basedata.IUserInfo;
+import com.centit.framework.hibernate.service.BaseEntityManager;
 import com.centit.workorder.po.AssistOperator;
 import com.centit.workorder.po.AssistOperatorId;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * QuestionInfo  Service.
@@ -19,7 +18,7 @@ import com.centit.workorder.po.QuestionRound;
  * 系统问题列表null   
 */
 
-public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,java.lang.String> 
+public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,String>
 {
 
 	List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);

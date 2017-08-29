@@ -1,19 +1,16 @@
 package com.centit.workorder.dao;
 
-import java.util.*;
-
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
-import com.centit.framework.hibernate.dao.DatabaseOptUtils;
-import com.centit.workorder.po.QuestionCatalog;
-import com.centit.workorder.po.QuestionInfo;
+import com.centit.workorder.po.QuestionRound;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.centit.workorder.po.QuestionRound;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**

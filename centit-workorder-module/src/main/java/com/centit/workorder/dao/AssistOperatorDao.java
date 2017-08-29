@@ -1,12 +1,9 @@
 package com.centit.workorder.dao;
 
-import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
-import com.centit.support.database.QueryAndNamedParams;
-import com.centit.support.database.QueryUtils;
 import com.centit.workorder.po.AssistOperator;
 import com.centit.workorder.po.AssistOperatorId;
 import org.apache.commons.logging.Log;

@@ -19,7 +19,7 @@
 
     vm.search = function(){
       if(vm.keyWord)
-        vm.documents = DocAPI.fullSearch(Object.assign({keyWord:vm.keyWord}, $stateParams))
+        vm.documents = DocAPI.fullSearch(Object.assign($stateParams,{keyWord:vm.keyWord}))
       else if(vm.isAdmin)
         $state.go('admin.document.view',{osId:$stateParams.osId})
       else

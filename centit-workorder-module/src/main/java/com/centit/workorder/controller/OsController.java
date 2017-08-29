@@ -1,6 +1,6 @@
 package com.centit.workorder.controller;
 
-import com.centit.framework.core.common.JsonResultUtils;
+import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.ip.po.OsInfo;
 import com.centit.framework.ip.service.IntegrationEnvironment;

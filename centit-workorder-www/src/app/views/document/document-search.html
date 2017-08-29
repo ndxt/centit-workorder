@@ -9,5 +9,5 @@
 <div ng-repeat="doc in vm.documents">
   <h3 ng-click="vm.go(doc.docId)" style="cursor: pointer">{{doc.title}}</h3>
   <div ng-bind-html="doc.highlight" class="ct-highlight"></div>
-  <div class="ct-time-color">更新时间：{{doc.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+  <div class="ct-time-color">更新时间：{{doc.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 </div>
