@@ -20,10 +20,10 @@
     vm.search = function(){
       if(vm.keyWord)
         vm.documents = DocAPI.fullSearch(Object.assign($stateParams,{keyWord:vm.keyWord}))
-      else if(vm.isAdmin)
-        $state.go('admin.document.view',{osId:$stateParams.osId})
+      else if(vm.isAdmin=='T')
+        $state.go('admin.document',{osId:$stateParams.osId})
       else
-        $state.go('root.document.view',{osId:$stateParams.osId})
+        $state.go('root.document',{osId:$stateParams.osId})
     }
 
     vm.enterEvent = function (e) {
@@ -39,7 +39,6 @@
         $state.go('root.document.view',{osId:$stateParams.osId,docId})
       }
     }
-    // // 因为在父路由中获取不到 docId，在这里传递过去
-    // $scope.$emit('document.selected', $stateParams.docId)
+
   }
 })();
