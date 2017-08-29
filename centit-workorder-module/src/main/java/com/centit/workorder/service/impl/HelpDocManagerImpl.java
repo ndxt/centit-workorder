@@ -266,6 +266,13 @@ public class HelpDocManagerImpl
 
 				List<Map<String, Object>> list = searcher.search(
 						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
+                if (list != null && list.size()>0){
+                    for (int i=0;i<list.size();i++){
+                        JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
+                        list.get(i).put("docId",json.get("docId").toString());
+                        list.get(i).put("docPath",json.get("docPath").toString());
+                    }
+                }
 				return list;
 			}
 		}
