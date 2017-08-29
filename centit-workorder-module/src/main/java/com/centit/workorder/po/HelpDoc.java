@@ -321,7 +321,7 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	public ObjectDocument generateObjectDocument(){
 		ObjectDocument document = new ObjectDocument();
         document.setOsId(this.getOsId());
-        document.setOptId(this.getOptId());
+        document.setOptId(this.getDocId());
         document.setOptMethod(this.getOptMethod());
 //        document.setOptUrl("/os/"+this.getOsId()+"/documents/"+this.getDocId());
 		JSONObject jsonObject = new JSONObject();
