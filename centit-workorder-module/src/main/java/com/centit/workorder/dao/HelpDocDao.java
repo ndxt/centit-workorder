@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 /**
  * HelpDocDao  Repository.
  * create by scaffold 2017-05-08 
@@ -51,6 +50,8 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc,java.lang.String>
 			filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
 
 			filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+
+			filterField.put("parentId", "docPath like :parentId");
 
 			filterField.put(CodeBook.ORDER_BY_HQL_ID , "size(helpDocComments)");
 

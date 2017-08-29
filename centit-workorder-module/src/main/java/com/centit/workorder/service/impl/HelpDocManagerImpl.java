@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,11 +115,25 @@ public class HelpDocManagerImpl
         return dbHelpDoc;
 	}
 
+	private List<HelpDoc> findChildren(String parentId){
+	    List<HelpDoc> result = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("parentId", "%"+parentId);
+		List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
+        result.addAll(helpDocs);
+        for(HelpDoc h : helpDocs){
+            result.addAll(findChildren(h.getDocId()));
+        }
+        return result;
+	}
+
 	@Override
 	@Transactional
 	public void deleteHelpDoc(String docId) {
 	    HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		helpDocDao.deleteObjectById(docId);
+
+        helpDocDao.deleteObjectsAsTabulation(findChildren(docId));//删除子孙节点
 
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
