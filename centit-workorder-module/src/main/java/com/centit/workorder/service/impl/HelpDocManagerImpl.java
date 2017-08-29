@@ -285,7 +285,9 @@ public class HelpDocManagerImpl
 				list.get(i).put("docId",json.get("docId").toString());
 				list.get(i).put("docPath",json.get("docPath").toString());
 				HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
-				list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
+				if (helpDoc != null){
+					list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
+				}
 			}
 		}
 		return list;
