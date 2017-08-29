@@ -99,7 +99,7 @@
     function onRemove(node) {
       ConfirmModalService.openModal("确认删除此文档吗？")
         .then(function () {
-          DocAPI.delete(node)
+          DocAPI.delete({docId:node.docId,osId:$stateParams.osId})
             .$promise
             .then(function () {
               $state.go('admin.document',{},{reload:true});

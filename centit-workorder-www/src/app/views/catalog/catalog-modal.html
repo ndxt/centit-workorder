@@ -30,6 +30,13 @@
              placeholder="名称" ng-model="vm.info.catalogName">
     </div>
     <div class="form-group" ng-if="vm.info.parentId">
+      <label for="input_modal_catalog_catalogKeyWords">关键字</label>
+      <input name="catalogName"
+             class="form-control"
+             id="input_modal_catalog_catalogKeyWords"
+             placeholder="关键字" ng-model="vm.info.catalogKeyWords">
+    </div>
+    <div class="form-group" ng-if="vm.info.parentId">
       <label for="input_modal_catalog_icon">图标</label>
       <input name="catalogName"
              class="form-control"
