@@ -39,7 +39,7 @@
         ]
       },
       theme: 'snow',
-      placeholder: 'Insert text here ...',
+      // placeholder: 'Insert text here ...',
       readOnly: false,
       bounds: document.body
     }
