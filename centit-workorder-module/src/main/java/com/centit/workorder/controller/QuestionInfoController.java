@@ -65,8 +65,8 @@ public class QuestionInfoController  extends BaseController {
         String questionState = request.getParameter("questionState");
         String editState = request.getParameter("editState");
         String currentOperator = request.getParameter("currentOperator");
-        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
-        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd HH:mm:ss");
+        Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd");
+        Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd");
         map.put("osId",osId);
         if (!StringUtil.isBlank(questionTitle)){
             map.put("questionTitle","%"+questionTitle+"%");
@@ -78,14 +78,14 @@ public class QuestionInfoController  extends BaseController {
         map.put("begin",begin);
         map.put("end",end);
         map.put("ORDER_BY","createTime desc");
-        //暂不考虑分页
-        List<QuestionInfo> listObjects = questionInfoMag.listObjects(map);
-        JsonResultUtils.writeSingleDataJson(listObjects, response);
-//        List<QuestionInfo> listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
-//        ResponseMapData resData = new ResponseMapData();
-//        resData.addResponseData(OBJLIST, listObjects);
-//        resData.addResponseData(PAGE_DESC, pageDesc);
-//        JsonResultUtils.writeResponseDataAsJson(resData, response);
+//        //暂不考虑分页
+//        List<QuestionInfo> listObjects = questionInfoMag.listObjects(map);
+//        JsonResultUtils.writeSingleDataJson(listObjects, response);
+        JSONArray listObjects = questionInfoMag.getQuestionInfo(map, pageDesc);
+        ResponseMapData resData = new ResponseMapData();
+        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(PAGE_DESC, pageDesc);
+        JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
     /**
