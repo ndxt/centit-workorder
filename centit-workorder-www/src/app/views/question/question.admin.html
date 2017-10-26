@@ -79,8 +79,8 @@
       <a class="ss-item" ng-if="vm.s_questionState">
         <b>状态：</b>
         <em ng-if="vm.s_questionState=='U'">未处理</em>
-        <em ng-if="vm.s_questionState=='H'">已受理</em>
-        <em ng-if="vm.s_questionState=='R'">已答复</em>
+        <em ng-if="vm.s_questionState=='H'">已分派</em>
+        <em ng-if="vm.s_questionState=='R'">处理中</em>
         <em ng-if="vm.s_questionState=='C'">已完结</em>
         <i ng-click="vm.remove('s_questionState')"></i>
       </a>
@@ -111,8 +111,8 @@
       <!--| timeFilter:vm.s_begTime:vm.s_endTime as newData">-->
       <td class="text-center">
         <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
-        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分派</span>
-        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已受理</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已答复</span>
         <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已完结</span>
       </td>
       <td><a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a></td>
