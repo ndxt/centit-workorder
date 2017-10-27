@@ -130,7 +130,7 @@
 
 
         <nav aria-label="Page" class="text-center ct-fr flex">
-          <p class="nav-page">第<span>{{vm.questions.$pageDesc.rowStart+1}}</span>到
+          <p class="nav-page">第<span>{{vm.questions.$pageDesc.totalRows==0?0:vm.questions.$pageDesc.rowStart+1}}</span>到
             <span>{{(vm.questions.$pageDesc.rowStart+20)>vm.questions.$pageDesc.totalRows ?
               vm.questions.$pageDesc.totalRows : vm.questions.$pageDesc.rowStart+20}}</span>条，
             总共<span>{{vm.questions.$pageDesc.totalRows}}</span>条</p>
@@ -138,7 +138,7 @@
 
 
           <ul class="ct-no-margin" uib-pagination boundary-links="true" total-items="vm.questions.$pageDesc.totalRows"
-              items-per-page="vm.questions.$pageDesc.pageSize"
+              items-per-page="vm.questions.$pageDesc.pageSize"  boundary-link-numbers="true" max-size="4"
               ng-model="vm.questions.$pageDesc.pageNo" previous-text="&lsaquo;" next-text="&rsaquo;"
               first-text="&laquo;" last-text="&raquo;" ng-click="vm.pageChange(vm.questions.$pageDesc)"></ul>
         </nav>

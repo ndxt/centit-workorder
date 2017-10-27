@@ -28,7 +28,7 @@
               <input type="text" class="form-control" id="questionSearchTitle" placeholder="输入工单标题查询"
                      ng-focus="isQuestionSearchTitleFocus = true"
                      ng-blur="isQuestionSearchTitleFocus = false" ng-model="vm.s_questionTitle">
-              <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+              <div class="input-group-addon" ng-click="vm.queryByTitle()"><i class="glyphicon glyphicon-search"></i></div>
             </div>
           </td>
         </tr>
@@ -79,14 +79,14 @@
       <a class="ss-item" ng-if="vm.s_questionState">
         <b>状态：</b>
         <em ng-if="vm.s_questionState=='U'">未处理</em>
-        <em ng-if="vm.s_questionState=='H'">已受理</em>
-        <em ng-if="vm.s_questionState=='R'">已答复</em>
+        <em ng-if="vm.s_questionState=='H'">已分派</em>
+        <em ng-if="vm.s_questionState=='R'">处理中</em>
         <em ng-if="vm.s_questionState=='C'">已完结</em>
         <i ng-click="vm.remove('s_questionState')"></i>
       </a>
-      <a class="ss-item" ng-if="vm.s_questionTitle">
+      <a class="ss-item" ng-if="vm.params.questionTitle">
         <b>标题：</b>
-        <em>{{vm.s_questionTitle}}</em>
+        <em>{{vm.params.questionTitle}}</em>
         <i ng-click="vm.remove('s_questionTitle')"></i>
       </a>
 
@@ -105,16 +105,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr
-      ng-repeat="row in vm.questions  | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState}
-      | timeFilter:vm.s_timeTag:vm.getMonth as newData " ng-if="$index>=(vm.currentPage-1)*10 && $index < vm.currentPage*10">
+    <tr ng-repeat="row in vm.questions">
     <!--<tr-->
       <!--ng-repeat="row in vm.questions | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState}-->
       <!--| timeFilter:vm.s_begTime:vm.s_endTime as newData">-->
       <td class="text-center">
         <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
-        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已分派</span>
-        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >处理中</span>
+        <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已受理</span>
+        <span ng-if="row.questionState=='R'" class="label panel-label label-success" >已答复</span>
         <span ng-if="row.questionState=='C'" class="label panel-label label-primary" >已完结</span>
       </td>
       <td><a ui-sref="admin.question.view({ questionId: row.questionId,osId:vm.osId })">{{row.questionTitle}}</a></td>
@@ -132,14 +130,17 @@
       <td colspan="4" class="no-hover">
 
         <nav aria-label="Page" class="text-center ct-fr flex">
-          <p class="nav-page">第<span>{{newData.length==0?0:(vm.currentPage-1)*10+1}}</span>到
-            <span>{{(vm.currentPage*10)>newData.length?newData.length:vm.currentPage*10}}</span>条，
-            总共<span>{{newData.length}}</span>条</p>
-          <ul class="ct-no-margin"
-              uib-pagination boundary-links="true" total-items="newData.length"
-              ng-model="vm.currentPage"
-              previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
-          </ul>
+          <p class="nav-page">第<span>{{vm.questions.$pageDesc.totalRows==0?0:vm.questions.$pageDesc.rowStart+1}}</span>到
+            <span>{{(vm.questions.$pageDesc.rowStart+20)>vm.questions.$pageDesc.totalRows ?
+              vm.questions.$pageDesc.totalRows : vm.questions.$pageDesc.rowStart+20}}</span>条，
+            总共<span>{{vm.questions.$pageDesc.totalRows}}</span>条</p>
+
+
+
+          <ul class="ct-no-margin" uib-pagination boundary-links="true" total-items="vm.questions.$pageDesc.totalRows"
+              items-per-page="vm.questions.$pageDesc.pageSize"  boundary-link-numbers="true" max-size="2"
+              ng-model="vm.questions.$pageDesc.pageNo" previous-text="&lsaquo;" next-text="&rsaquo;"
+              first-text="&laquo;" last-text="&raquo;" ng-click="vm.pageChange(vm.questions.$pageDesc)"></ul>
         </nav>
 
       </td>
