@@ -105,7 +105,7 @@ public class QuestionRoundController extends BaseController {
         }
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound.setUserName(centitUserDetails.getUserInfo().getUserName());
         questionRound.setRoundId(roundId);
         questionInfoMag.updateDiscuss(questionRound);
         JsonResultUtils.writeSuccessJson(response);
@@ -126,7 +126,7 @@ public class QuestionRoundController extends BaseController {
         }
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound.setUserName(centitUserDetails.getUserInfo().getUserName());
         questionRound.setQuestionId(questionId);
         questionInfoMag.saveQuestionRound(questionRound);
         JsonResultUtils.writeSingleDataJson(questionRound,response);
@@ -143,7 +143,7 @@ public class QuestionRoundController extends BaseController {
                        @RequestBody QuestionRound questionRound){
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound.setUserName(centitUserDetails.getUserInfo().getUserName());
         questionRound.setQuestionId(questionId);
         questionRound = questionInfoMag.replayQuestion(questionRound);
         JsonResultUtils.writeSingleDataJson(questionRound,response);
@@ -160,7 +160,7 @@ public class QuestionRoundController extends BaseController {
                         @RequestBody QuestionRound questionRound){
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserName());
+        questionRound.setUserName(centitUserDetails.getUserInfo().getUserName());
         questionRound.setQuestionId(questionId);
         questionRound = questionInfoMag.discussQuestion(questionRound);
         JsonResultUtils.writeSingleDataJson(questionRound,response);

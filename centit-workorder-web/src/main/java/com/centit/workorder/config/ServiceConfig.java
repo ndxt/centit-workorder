@@ -4,7 +4,7 @@ import com.centit.framework.core.config.DataSourceConfig;
 import com.centit.framework.hibernate.config.HibernateConfig;
 import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
 import com.centit.framework.listener.InitialWebRuntimeEnvironment;
-import com.centit.framework.staticsystem.config.SpringSecurityDaoConfig;
+import com.centit.framework.config.SpringSecurityDaoConfig;
 import org.springframework.context.annotation.*;
 
 /**

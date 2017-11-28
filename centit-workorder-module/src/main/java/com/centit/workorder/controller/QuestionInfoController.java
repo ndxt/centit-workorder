@@ -118,7 +118,8 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(value = "/questionInfo/{questionId}", method = {RequestMethod.GET})
     public void questionInfo(@PathVariable String questionId,HttpServletRequest request, HttpServletResponse response){
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),centitUserDetails.getUserName());
+        String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),
+                centitUserDetails.getUserInfo().getUserName());
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJECT, questionInfo);
@@ -146,7 +147,7 @@ public class QuestionInfoController  extends BaseController {
                                    @RequestBody QuestionInfo questionInfo) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionInfo.setUserCode(centitUserDetails.getUserCode());
-        questionInfo.setUserName(centitUserDetails.getUserName());
+        questionInfo.setUserName(centitUserDetails.getUserInfo().getUserName());
         questionInfoMag.createQuestion(questionInfo);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -214,7 +215,7 @@ public class QuestionInfoController  extends BaseController {
                               HttpServletResponse response) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
-        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserName());
+        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserInfo().getUserName());
         dbQuestionInfo.setQuestionState("H");
         dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
         questionInfoMag.mergeObject(dbQuestionInfo);
@@ -338,7 +339,7 @@ public class QuestionInfoController  extends BaseController {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         Map<String, Object> map = new HashMap<>();
         map.put("osId",osId);
-        map.put("operator",centitUserDetails.getUserName());
+        map.put("operator",centitUserDetails.getUserInfo().getUserName());
         map.put("operatorCode",centitUserDetails.getUserCode());
         JSONArray listObjects = questionInfoMag.getQuestionInfoList(map, pageDesc);
         ResponseMapData resData = new ResponseMapData();
