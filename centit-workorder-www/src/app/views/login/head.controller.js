@@ -5,8 +5,13 @@
     .controller('HeadController', HeadController);
 
   /** @ngInject */
-  function HeadController(OsAPI,$stateParams,Authentication) {
+  function HeadController(OsAPI,$stateParams,Authentication,LoginAPI,$state) {
     const vm = this;
+    vm.logout = logout
+
+    function logout() {
+      LoginAPI.logout().$promise.then(user=>$state.go('login'));
+    }
 
     Authentication.get()
       .then(user => vm.user = user)

@@ -10,13 +10,20 @@
     return $resource('', null, {
       login: login(),
       logout: logout(),
-      hasLogin: hasLogin()
+      hasLogin: hasLogin(),
+      currentuser:currentuser()
     })
 
     function hasLogin() {
       return {
         method: 'GET',
         url: ApiContextPath + '/system/mainframe/hasLogin'
+      }
+    }
+    function currentuser() {
+      return {
+        method: 'GET',
+        url: ApiContextPath + '/system/mainframe/currentuser'
       }
     }
 
@@ -43,7 +50,7 @@
     function logout () {
       return {
         method: 'GET',
-        url: ApiContextPath + '/logout'
+        url: ApiContextPath + '/system/mainframe/logout'
       }
     }
   }

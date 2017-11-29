@@ -106,9 +106,6 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in vm.questions">
-    <!--<tr-->
-      <!--ng-repeat="row in vm.questions | filter:{questionTitle:vm.s_questionTitle,questionState:vm.s_questionState}-->
-      <!--| timeFilter:vm.s_begTime:vm.s_endTime as newData">-->
       <td class="text-center">
         <span ng-if="row.questionState=='U'" class="label panel-label label-danger" >未处理</span>
         <span ng-if="row.questionState=='H'" class="label panel-label label-warning" >已受理</span>

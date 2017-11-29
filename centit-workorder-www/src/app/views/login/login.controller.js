@@ -8,10 +8,10 @@
   function LoginController($state, LoginAPI, OsAPI, Authentication, Constant) {
     const vm = this
 
-    const DefaultUser = {
-      username: Constant.UserNameAdmin,
-      password: '000000',
-      userType: Constant.UserTypeUser,
+    vm.user = {
+      // username: Constant.UserNameAdmin,
+      // password: '000000',
+      // userType: Constant.UserTypeUser,
       osId: 'FILE_SVR'
     }
 
@@ -20,9 +20,18 @@
     activate()
 
     function activate() {
-      Authentication.get()
-        .then(user => vm.user = user ? angular.extend({}, DefaultUser, {userType: user.userType, osId: user.osId}) : DefaultUser)
+      // Authentication.get()
+      //   .then(function (user) {
+      //     vm.user = user ? angular.extend({}, DefaultUser, {userType: user.userType, osId: user.osId}) : DefaultUser;
+      //     login(vm.user)
+      //   })
+      LoginAPI.currentuser().$promise
+        .then(function (user) {
+           if(user.userCode){
 
+             afterLogin(user)
+           }
+        })
       queryOs()
     }
 

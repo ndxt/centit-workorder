@@ -9,6 +9,16 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
 
+      .state('login', {
+        url: '/login',
+        views: {
+          header: {
+            templateUrl: 'app/views/login/login.html',
+            controller: 'LoginController as vm'
+          }
+        }
+      })
+
       // 默认布局
       .state('root', {
         abstract: true,

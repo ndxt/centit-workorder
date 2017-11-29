@@ -6,6 +6,16 @@
       </div>
       <div class="panel-body">
         <form name="LoginForm" ng-submit="vm.login(vm.user)">
+
+          <div class="form-group">
+            <label>用户名</label>
+            <input type="text" class="form-control"  ng-model="vm.user.username"/>
+          </div>
+          <div class="form-group">
+            <label>密码</label>
+            <input type="password" class="form-control"  ng-model="vm.user.password"/>
+          </div>
+<!--
           <div class="form-group" ng-class="{'has-error': LoginForm.$invalid && LoginForm.$dirty}">
             <label>登录类型</label>
             <br>
@@ -18,7 +28,8 @@
             <label class="radio-inline">
               <input type="radio" name="userType" ng-model="vm.user.userType" value="S"> 超级管理员
             </label>
-          </div>
+          </div>-->
+
           <div class="form-group">
             <label for="select_os">系统名</label>
             <select name="os" id="select_os" class="form-control" ng-options="item.osId as item.osName for item in vm.os" ng-model="vm.user.osId"></select>
