@@ -2,7 +2,7 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centit.framework.common.SysParametersUtils;
+
 import com.centit.framework.core.dao.DictionaryMapUtils;
 import com.centit.framework.core.dao.PageDesc;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
@@ -44,6 +44,7 @@ public class HelpDocManagerImpl
 
 	public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
+	public static String SEARCHER_CONFIG_FILE = "system.properties";
 	@Resource
 	private HelpDocScoreDao helpDocScoreDao;
 
@@ -89,8 +90,8 @@ public class HelpDocManagerImpl
 		helpDocDao.saveNewObject(helpDoc);
 
 		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class);
+				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),
+				ObjectDocument.class, FileDocument.class);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.saveNewDocument(objectDocument);
@@ -107,8 +108,7 @@ public class HelpDocManagerImpl
 		helpDocDao.updateObject(dbHelpDoc);
 
 		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()), FileDocument.class);
+				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), FileDocument.class);
 		ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.updateDocument(objectDocument);
 
@@ -143,8 +143,7 @@ public class HelpDocManagerImpl
 		helpDocScoreDao.deleteObjectsAsTabulation("docId", docId);//删除评分
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(
-                        SysParametersUtils.loadProperties()), ObjectDocument.class, FileDocument.class);
+                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), ObjectDocument.class, FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.deleteDocument(objectDocument);
 	}
@@ -177,8 +176,7 @@ public class HelpDocManagerImpl
 		helpDocDao.updateObject(helpDoc);
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-        IndexerSearcherFactory.loadESServerConfigFormProperties(
-                SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class);
+        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class, FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.updateDocument(objectDocument);
 
@@ -261,8 +259,7 @@ public class HelpDocManagerImpl
 		if(questionCatalog != null){
 			if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
 				Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-						IndexerSearcherFactory.loadESServerConfigFormProperties(
-								SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class) ;
+						IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class, FileDocument.class) ;
 
 				List<Map<String, Object>> list = searcher.search(
 						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
@@ -282,8 +279,7 @@ public class HelpDocManagerImpl
 	@Override
 	public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
 		Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(
-						SysParametersUtils.loadProperties()),ObjectDocument.class, FileDocument.class) ;
+				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class, FileDocument.class) ;
 		List<Map<String, Object>> list = searcher.search(
 				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
 		if (list != null && list.size()>0){
