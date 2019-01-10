@@ -1,7 +1,7 @@
 package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.workorder.dao.AssistOperatorDao;
@@ -26,12 +26,12 @@ import java.util.Map;
 
 /**
  * QuestionInfo  Service.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题列表null   
+ * 系统问题列表null
 */
 @Service
-public class QuestionInfoManagerImpl 
+public class QuestionInfoManagerImpl
 		extends BaseEntityManagerImpl<QuestionInfo,java.lang.String,QuestionInfoDao>
 	implements QuestionInfoManager{
 
@@ -52,7 +52,7 @@ public class QuestionInfoManagerImpl
 	private QuestionCatalogDao questionCatalogDao ;
 
 	private QuestionInfoDao questionInfoDao ;
-	
+
 	@Resource(name = "questionInfoDao")
     @NotNull
 	public void setQuestionInfoDao(QuestionInfoDao baseDao)

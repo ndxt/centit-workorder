@@ -1,7 +1,7 @@
 package com.centit.workorder.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManager;
 import com.centit.workorder.po.AssistOperator;
 import com.centit.workorder.po.AssistOperatorId;
@@ -13,9 +13,9 @@ import java.util.Map;
 
 /**
  * QuestionInfo  Service.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题列表null   
+ * 系统问题列表null
 */
 
 public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,String>

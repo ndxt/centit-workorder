@@ -5,7 +5,7 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IUserInfo;
 import com.centit.framework.security.model.CentitUserDetails;
@@ -34,9 +34,9 @@ import java.util.Map;
 
 /**
  * QuestionInfo  Controller.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题列表null   
+ * 系统问题列表null
 */
 
 
@@ -44,7 +44,7 @@ import java.util.Map;
 @RequestMapping("/os/{osId}/questions")
 public class QuestionInfoController  extends BaseController {
 	private static final Log log = LogFactory.getLog(QuestionInfoController.class);
-	
+
 	@Resource
 	private QuestionInfoManager questionInfoMag;
 
@@ -119,14 +119,14 @@ public class QuestionInfoController  extends BaseController {
     public void questionInfo(@PathVariable String questionId,HttpServletRequest request, HttpServletResponse response){
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),
-                centitUserDetails.getUserInfo().getUserName());
+                centitUserDetails.getUserInfo().getString("userName"));
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJECT, questionInfo);
         resData.addResponseData("role", role);
         JsonResultUtils.writeSingleDataJson(resData, response);
     }
-    
+
     /**
      * 获取未分配责任人的工单列表
      * @param response
@@ -136,7 +136,7 @@ public class QuestionInfoController  extends BaseController {
         List<QuestionInfo> QuestionInfoList = questionInfoMag.getUnabsorbedQuestion();
         JsonResultUtils.writeSingleDataJson(QuestionInfoList, response);
     }
-    
+
     /**
      * 新增 系统问题列表
      * @return
@@ -147,7 +147,7 @@ public class QuestionInfoController  extends BaseController {
                                    @RequestBody QuestionInfo questionInfo) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         questionInfo.setUserCode(centitUserDetails.getUserCode());
-        questionInfo.setUserName(centitUserDetails.getUserInfo().getUserName());
+        questionInfo.setUserName(centitUserDetails.getUserInfo().getString("userName"));
         questionInfoMag.createQuestion(questionInfo);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -160,8 +160,8 @@ public class QuestionInfoController  extends BaseController {
     public void deleteQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
     	questionInfoMag.deleteQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(questionId,response);
-    } 
-    
+    }
+
     /**
      * 修改问题
 	 * @param questionId  QUESTION_ID
@@ -215,7 +215,7 @@ public class QuestionInfoController  extends BaseController {
                               HttpServletResponse response) throws IOException {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
-        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserInfo().getUserName());
+        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserInfo().getString("userName"));
         dbQuestionInfo.setQuestionState("H");
         dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
         questionInfoMag.mergeObject(dbQuestionInfo);
@@ -339,7 +339,7 @@ public class QuestionInfoController  extends BaseController {
         CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         Map<String, Object> map = new HashMap<>();
         map.put("osId",osId);
-        map.put("operator",centitUserDetails.getUserInfo().getUserName());
+        map.put("operator",centitUserDetails.getUserInfo().getString("userName"));
         map.put("operatorCode",centitUserDetails.getUserCode());
         JSONArray listObjects = questionInfoMag.getQuestionInfoList(map, pageDesc);
         ResponseMapData resData = new ResponseMapData();

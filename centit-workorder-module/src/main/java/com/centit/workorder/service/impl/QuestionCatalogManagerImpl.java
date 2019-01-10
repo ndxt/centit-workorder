@@ -1,9 +1,9 @@
 package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
-import com.centit.support.algorithm.ListOpt;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.QuestionCatalog;
@@ -23,12 +23,12 @@ import java.util.Objects;
 
 /**
  * QuestionCatalog  Service.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题类别null   
+ * 系统问题类别null
 */
 @Service
-public class QuestionCatalogManagerImpl 
+public class QuestionCatalogManagerImpl
 		extends BaseEntityManagerImpl<QuestionCatalog,java.lang.String,QuestionCatalogDao>
 	implements QuestionCatalogManager{
 
@@ -51,9 +51,9 @@ public class QuestionCatalogManagerImpl
 	@Resource
 	private HelpDocVersionDao helpDocVersionDao;
 
-	
+
 	private QuestionCatalogDao questionCatalogDao ;
-	
+
 	@Resource(name = "questionCatalogDao")
     @NotNull
 	public void setQuestionCatalogDao(QuestionCatalogDao baseDao)
@@ -61,13 +61,13 @@ public class QuestionCatalogManagerImpl
 		this.questionCatalogDao = baseDao;
 		setBaseDao(this.questionCatalogDao);
 	}
-	
+
 /*
  	@PostConstruct
     public void init() {
-        
+
     }
- 	
+
  */
 
 	@Override
@@ -81,7 +81,7 @@ public class QuestionCatalogManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public JSONArray getCatalog(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 		List<QuestionCatalog> list = questionCatalogDao.list(baseDao,queryParamsMap,pageDesc);
-		return ListOpt.srotAsTreeAndToJSON(list, (p, c) -> {
+		return CollectionsOpt.srotAsTreeAndToJSON(list, (p, c) -> {
 			String parent = p.getCatalogId();
 			String child = c.getParentId();
 			return Objects.equals(parent,child);

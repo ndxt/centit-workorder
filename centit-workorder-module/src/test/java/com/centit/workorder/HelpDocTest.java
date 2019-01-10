@@ -1,6 +1,7 @@
 package com.centit.workorder;
 
 import com.centit.support.network.HttpExecutor;
+import com.centit.support.network.HttpExecutorContext;
 import com.centit.workorder.po.HelpDoc;
 import org.apache.http.impl.client.CloseableHttpClient;
 
@@ -22,11 +23,12 @@ public class HelpDocTest {
         helpDoc.setOptMethod("search");
 
         try(CloseableHttpClient httpClient = HttpExecutor.createHttpClient()) {
-            String jsonStr = HttpExecutor.formPost(httpClient,
+            String jsonStr = HttpExecutor.formPost(
+                    HttpExecutorContext.create(httpClient),
                     "http://localhost:8384/workorder/service/os/FILE_SVR/documents", helpDoc);
             System.out.println(jsonStr);
 
-            jsonStr = HttpExecutor.jsonPost(httpClient,
+            jsonStr = HttpExecutor.jsonPost(HttpExecutorContext.create(httpClient),
                     "http://localhost:8384/workorder/service/os/FILE_SVR/documents", helpDoc);
             System.out.println(jsonStr);
         }

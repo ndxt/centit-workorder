@@ -5,7 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.framework.core.dao.PageDesc;
+
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
@@ -28,9 +29,9 @@ import java.util.Map;
 
 /**
  * HelpDoc  Controller.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统帮助文档null   
+ * 系统帮助文档null
 */
 
 
@@ -38,22 +39,22 @@ import java.util.Map;
 @RequestMapping("/os/{osId}/documents")
 public class HelpDocController  extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
-	
+
 	@Resource
 	private HelpDocManager helpDocMag;
 
     /**
-     * 查询单个  系统帮助文档 
+     * 查询单个  系统帮助文档
 	 * @param docId  DOC_ID
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
-    	
+
     	HelpDoc helpDoc = helpDocMag.getObjectById(docId);
-        
+
         JsonResultUtils.writeSingleDataJson(helpDoc, response);
     }
-    
+
     /**
      * 创建 帮助文档条目
      * @param helpDoc  {@link HelpDoc}
@@ -122,7 +123,7 @@ public class HelpDocController  extends BaseController {
      * 帮助文档查询接口（按问题类别）
      */
     @RequestMapping(method = RequestMethod.GET)
-    public void typeSearch(@PathVariable("osId") String osId,  String catalogId,
+    public void typeSearch(@PathVariable("osId") String osId, String catalogId,
                            PageDesc pageDesc, HttpServletResponse response) {
         //分页， 排序 按照 评价次数
         Map<String, Object> map = new HashMap<>();

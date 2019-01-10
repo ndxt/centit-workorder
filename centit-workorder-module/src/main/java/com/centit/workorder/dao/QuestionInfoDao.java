@@ -2,7 +2,7 @@ package com.centit.workorder.dao;
 
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.hibernate.dao.BaseDaoImpl;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.QueryAndNamedParams;
@@ -19,9 +19,9 @@ import java.util.Map;
 
 /**
  * QuestionInfoDao  Repository.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题列表null   
+ * 系统问题列表null
 */
 
 @Repository
@@ -29,7 +29,7 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 	{
 
 	public static final Log log = LogFactory.getLog(QuestionInfoDao.class);
-	
+
 	@Override
 	public Map<String, String> getFilterField() {
 		if( filterField == null){

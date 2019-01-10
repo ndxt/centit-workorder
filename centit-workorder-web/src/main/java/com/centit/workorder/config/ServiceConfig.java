@@ -6,6 +6,7 @@ import com.centit.framework.config.InitialWebRuntimeEnvironment;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.hibernate.config.HibernateConfig;
 import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
+import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -25,6 +26,11 @@ public class ServiceConfig {
     @Autowired
     private Environment env;
 
+    @Bean("passwordEncoder")
+    public StandardPasswordEncoderImpl passwordEncoder() {
+        return  new StandardPasswordEncoderImpl();
+    }
+
     @Bean
     @Lazy(value = false)
     public InitialWebRuntimeEnvironment initialEnvironment() {
@@ -35,8 +41,7 @@ public class ServiceConfig {
 
     @Bean
     public FileStore fileStore(){
-        String fileStoreType= env.getProperty("filestore.type","os");
-
+        //String fileStoreType= env.getProperty("filestore.type","os");
         String baseHome = env.getProperty("os.file.base.dir");
         if(StringUtils.isBlank(baseHome)) {
             baseHome = env.getProperty("app.home") + "/upload";

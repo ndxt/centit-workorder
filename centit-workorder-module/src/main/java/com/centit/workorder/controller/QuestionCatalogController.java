@@ -5,7 +5,7 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.workorder.po.QuestionCatalog;
@@ -28,9 +28,9 @@ import java.util.Map;
 
 /**
  * QuestionCatalog  Controller.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统问题类别null   
+ * 系统问题类别null
 */
 
 
@@ -94,7 +94,7 @@ public class QuestionCatalogController  extends BaseController {
     	QuestionCatalog questionCatalog = questionCatalogMag.getObjectById(catalogId);
         JsonResultUtils.writeSingleDataJson(questionCatalog, response);
     }
-    
+
     /**
      * 新增 系统问题类别
      *
@@ -120,8 +120,8 @@ public class QuestionCatalogController  extends BaseController {
     public void deleteQuestionCatalog(@PathVariable String catalogId, HttpServletResponse response) {
         questionCatalogMag.deleteCatalog(catalogId);
         JsonResultUtils.writeSingleDataJson(catalogId,response);
-    } 
-    
+    }
+
     /**
      * 保存系统问题类别
         修改问题类别

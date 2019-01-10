@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.centit.framework.core.dao.DictionaryMapUtils;
-import com.centit.framework.core.dao.PageDesc;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
 import com.centit.search.document.FileDocument;
@@ -12,7 +12,7 @@ import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
-import com.centit.support.algorithm.ListOpt;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.*;
 import com.centit.workorder.service.HelpDocManager;
@@ -33,12 +33,12 @@ import java.util.Map;
 
 /**
  * HelpDoc  Service.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统帮助文档null   
+ * 系统帮助文档null
 */
 @Service
-public class HelpDocManagerImpl 
+public class HelpDocManagerImpl
 		extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
 	implements HelpDocManager{
 
@@ -56,9 +56,9 @@ public class HelpDocManagerImpl
 
 	@Resource
 	private QuestionCatalogDao questionCatalogDao;
-	
+
 	private HelpDocDao helpDocDao ;
-	
+
 	@Resource(name = "helpDocDao")
     @NotNull
 	public void setHelpDocDao(HelpDocDao baseDao)
@@ -187,7 +187,7 @@ public class HelpDocManagerImpl
 	@Transactional
 	public JSONArray searchHelpdocByLevel(String osId) {
 		List<HelpDoc> list = helpDocDao.listObjectByProperty("osId", osId);
-		return ListOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
+		return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
 				String parent = p.getDocId();
 				String child = c.getDocPath();
 				if(child.lastIndexOf("/") != -1) {
