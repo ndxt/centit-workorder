@@ -1,10 +1,10 @@
 package com.centit.workorder.po;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -25,39 +25,39 @@ public class QuestionInfo implements java.io.Serializable {
 	@Id
 	@Column(name = "QUESTION_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
+	@ValueGenerator(strategy = GeneratorType.UUID)
 	private String questionId;
 	/**
 	 * 类别ID null 
 	 */
 	@Column(name = "CATALOG_ID")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  catalogId;
 	/**
 	 * 业务系统ID null 
 	 */
 	@Column(name = "OS_ID")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 20, message = "字段长度不能大于{max}")
+	//@Length(max = 20, message = "字段长度不能大于{max}")
 	private String  osId;
 	/**
 	 * 用户代码 null 
 	 */
 	@Column(name = "USER_CODE")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
 	 * 用户名称 null 
 	 */
 	@Column(name = "USER_NAME")
-	@Length(max = 64, message = "字段长度不能大于{max}")
+	//@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  userName;
 	/**
 	 * 问题标题 null 
 	 */
 	@Column(name = "QUESTION_TITLE")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 500, message = "字段长度不能大于{max}")
+	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  questionTitle;
 	/**
 	 * 问题内容 null 
@@ -68,7 +68,7 @@ public class QuestionInfo implements java.io.Serializable {
 	 * 问题状态：U:未处理，H:处理状态，R:回复，C:关闭
 	 */
 	@Column(name = "QUESTION_STATE")
-	@Length(max = 1, message = "字段长度不能大于{max}")
+	//@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  questionState;
 	/**
 	 * 创建时间 null 
@@ -79,7 +79,7 @@ public class QuestionInfo implements java.io.Serializable {
 	 * 编辑状态 N: 未编辑  U: 已被编辑 
 	 */
 	@Column(name = "EDIT_STATE")
-	@Length(max = 1, message = "字段长度不能大于{max}")
+	//@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  editState;
 	/**
 	 * 编辑时间 null 

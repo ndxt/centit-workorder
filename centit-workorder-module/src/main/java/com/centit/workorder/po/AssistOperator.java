@@ -1,6 +1,7 @@
 package com.centit.workorder.po;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -14,8 +15,19 @@ import java.util.Date;
 public class AssistOperator implements java.io.Serializable {
     private static final long serialVersionUID =  1L;
 
-    @EmbeddedId
-    private com.centit.workorder.po.AssistOperatorId aid;
+    @Id
+    @Column(name = "QUESTION_ID")
+    @NotBlank(message = "字段不能为空")
+    //@Length(max = 32, message = "字段长度不能大于{max}")
+    private String questionId;
+    /**
+     * 协助处理人
+     */
+    @Id
+    @Column(name = "OPERATOR_CODE")
+    @NotBlank(message = "字段不能为空")
+    //@Length(max = 32, message = "字段长度不能大于{max}")
+    private String  operatorCode;
     /**
      * 加入时间
      */
@@ -25,17 +37,33 @@ public class AssistOperator implements java.io.Serializable {
 
     public AssistOperator(){}
 
-    public AssistOperator(com.centit.workorder.po.AssistOperatorId id,Date createDate){
+    public AssistOperator(@NotBlank(message = "字段不能为空") String questionId, @NotBlank(message = "字段不能为空") String operatorCode) {
+        this.questionId = questionId;
+        this.operatorCode = operatorCode;
+    }
+
+    public AssistOperator(@NotBlank(message = "字段不能为空") String questionId, @NotBlank(message = "字段不能为空") String operatorCode,
+            Date createDate){
+        this.questionId = questionId;
+        this.operatorCode = operatorCode;
         this.createDate = createDate;
 
     }
 
-    public AssistOperatorId getAid() {
-        return aid;
+    public String getQuestionId() {
+        return questionId;
     }
 
-    public void setAid(AssistOperatorId aid) {
-        this.aid = aid;
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getOperatorCode() {
+        return operatorCode;
+    }
+
+    public void setOperatorCode(String operatorCode) {
+        this.operatorCode = operatorCode;
     }
 
     public Date getCreateDate() {

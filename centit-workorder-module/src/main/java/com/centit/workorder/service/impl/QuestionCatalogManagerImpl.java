@@ -1,9 +1,9 @@
 package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.QuestionCatalog;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +30,7 @@ import java.util.Objects;
 */
 @Service
 public class QuestionCatalogManagerImpl
-		extends BaseEntityManagerImpl<QuestionCatalog,java.lang.String,QuestionCatalogDao>
+		extends BaseEntityManagerImpl<QuestionCatalog, String,QuestionCatalogDao>
 	implements QuestionCatalogManager{
 
 	public static final Log log = LogFactory.getLog(QuestionCatalogManager.class);
@@ -92,17 +93,19 @@ public class QuestionCatalogManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteCatalog(String catalogId) {
 		questionCatalogDao.deleteObjectById(catalogId);
-		List<HelpDoc> helpDocs = helpDocDao.listObjectByProperty("catalogId",catalogId);
-		List<QuestionInfo> questionIdList = questionInfoDao.listObjectByProperty("catalogId",catalogId);
-		helpDocDao.deleteObjectsAsTabulation("catalogId", catalogId);
-		questionInfoDao.deleteObjectsAsTabulation("catalogId", catalogId);
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("catalogId",catalogId);
+		List<HelpDoc> helpDocs = helpDocDao.listObjects(filterMap);
+		List<QuestionInfo> questionIdList = questionInfoDao.listObjects(filterMap);
+		helpDocDao.deleteObjectById(catalogId);
+		questionInfoDao.deleteObjectById(catalogId);
 		for (HelpDoc helpDoc:helpDocs){
-			helpDocVersionDao.deleteObjectsAsTabulation("cid.docId", helpDoc.getDocId());//删除所有历史版本
-			helpDocCommentDao.deleteObjectsAsTabulation("docId", helpDoc.getDocId());//删除评论
-			helpDocScoreDao.deleteObjectsAsTabulation("docId", helpDoc.getDocId());//删除评分
+			helpDocVersionDao.deleteObjectById( helpDoc.getDocId());//删除所有历史版本
+			helpDocCommentDao.deleteObjectById( helpDoc.getDocId());//删除评论
+			helpDocScoreDao.deleteObjectById(helpDoc.getDocId());//删除评分
 		}
 		for (QuestionInfo questionInfo:questionIdList){
-			questionRoundDao.deleteObjectsAsTabulation("questionId",questionInfo.getQuestionId());
+			questionRoundDao.deleteObjectById(questionInfo.getQuestionId());
 		}
 	}
 

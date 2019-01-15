@@ -1,9 +1,9 @@
 package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.AssistOperatorDao;
 import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.dao.QuestionInfoDao;
@@ -32,7 +32,7 @@ import java.util.Map;
 */
 @Service
 public class QuestionInfoManagerImpl
-		extends BaseEntityManagerImpl<QuestionInfo,java.lang.String,QuestionInfoDao>
+		extends BaseEntityManagerImpl<QuestionInfo, String,QuestionInfoDao>
 	implements QuestionInfoManager{
 
 	public static final Log log = LogFactory.getLog(QuestionInfoManager.class);
@@ -77,7 +77,9 @@ public class QuestionInfoManagerImpl
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId) {
-		List<QuestionInfo> list = questionInfoDao.listObjectByProperty("catalogId",catalogId);
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("catalogId",catalogId);
+		List<QuestionInfo> list = questionInfoDao.listObjects(filterMap);
 		return list;
 	}
 
@@ -105,8 +107,8 @@ public class QuestionInfoManagerImpl
 	@Override
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteQuestion(String questionId) {
-		questionRoundDao.deleteObjectsAsTabulation("questionId",questionId);
-		questionInfoDao.deleteObjectsAsTabulation("questionId",questionId);
+		questionRoundDao.deleteObjectById(questionId);
+		questionInfoDao.deleteObjectById(questionId);
 	}
 
 	@Override
@@ -229,18 +231,25 @@ public class QuestionInfoManagerImpl
 
     @Override
 	@Transactional(propagation= Propagation.REQUIRED)
-	public List<AssistOperatorId> createAssistOperator(String questionId,AssistOperator[] assistOperators) {
+	public List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators) {
 
         Map<String,Object> map = new HashMap<>();
         map.put("questionId",questionId);
         List<AssistOperator> list = assistOperatorDao.listObjects(map);
-        assistOperatorDao.deleteObjectsAsTabulation(list);
+		List<AssistOperator> pks = new ArrayList<AssistOperator>();
+		for (AssistOperator assistOperator : list) {
+			assistOperatorDao.deleteObject(assistOperator);
+		}
 
         if (assistOperators != null && assistOperators.length>0){
             for (AssistOperator assistOperator:assistOperators){
                 assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
             }
-            return  assistOperatorDao.saveNewObjects(assistOperators);
+			for (AssistOperator assistOperator : assistOperators) {
+				assistOperatorDao.saveNewObject(assistOperator);
+				pks.add(assistOperator);
+			}
+            return  pks;
         }
         return null;
 	}
@@ -249,7 +258,7 @@ public class QuestionInfoManagerImpl
 	@Transactional(propagation= Propagation.REQUIRED)
 	public void deleteObject(AssistOperator[] assistOperators) {
 	    for(AssistOperator assistOperator : assistOperators){
-            assistOperatorDao.deleteObjectById(assistOperator.getAid());
+			assistOperatorDao.deleteObject(assistOperator);
         }
 	}
 
@@ -277,7 +286,7 @@ public class QuestionInfoManagerImpl
         if (questionInfo != null){
             return "O";
         }
-        AssistOperator assistOperator = assistOperatorDao.getObjectById(new AssistOperatorId(questionId,userCode));
+        AssistOperator assistOperator = assistOperatorDao.getObjectById(questionId);
         if (assistOperator != null){
             return "A";
         }

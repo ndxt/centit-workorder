@@ -1,7 +1,7 @@
 package com.centit.workorder.dao;
 
 import com.centit.framework.core.dao.CodeBook;
-import com.centit.framework.hibernate.dao.BaseDaoImpl;
+import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.workorder.po.HelpDocComment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +20,7 @@ import java.util.Map;
 */
 
 @Repository
-public class HelpDocCommentDao extends BaseDaoImpl<HelpDocComment,java.lang.String>
+public class HelpDocCommentDao extends BaseDaoImpl<HelpDocComment, String>
 	{
 
 	public static final Log log = LogFactory.getLog(HelpDocCommentDao.class);

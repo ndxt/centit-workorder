@@ -1,12 +1,8 @@
 package com.centit.workorder.po;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -20,8 +16,18 @@ import java.util.Date;
 public class HelpDocVersion implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
-	@EmbeddedId
-	private com.centit.workorder.po.HelpDocVersionId cid;
+	@Id
+	@Column(name = "DOC_ID")
+	@NotBlank(message = "字段不能为空")
+	private String docId;
+
+	/**
+	 * 文档版本号 null
+	 */
+	@Id
+	@Column(name = "DOC_VERSION")
+	@NotBlank(message = "字段不能为空")
+	private int docVersion;
 
 	/**
 	 * 文件ID null 
@@ -33,13 +39,13 @@ public class HelpDocVersion implements java.io.Serializable {
 	 */
 	@Column(name = "DOC_TITLE")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 500, message = "字段长度不能大于{max}")
+	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  docTitle;
 	/**
 	 * 编辑人员 null 
 	 */
 	@Column(name = "UPDATE_USER")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  updateUser;
 	/**
 	 * 编辑时间 null 
@@ -52,21 +58,21 @@ public class HelpDocVersion implements java.io.Serializable {
 	public HelpDocVersion() {
 	}
 	/** minimal constructor */
-	public HelpDocVersion(com.centit.workorder.po.HelpDocVersionId id 
+	public HelpDocVersion(@NotBlank(message = "字段不能为空") String docId, @NotBlank(message = "字段不能为空") int docVersion
 				
 		,String  docTitle) {
-		this.cid = id; 
-			
+		this.docId = docId;
+		this.docVersion = docVersion;
 	
 		this.docTitle= docTitle; 		
 	}
 
 /** full constructor */
-	public HelpDocVersion(com.centit.workorder.po.HelpDocVersionId id
+	public HelpDocVersion(@NotBlank(message = "字段不能为空") String docId, @NotBlank(message = "字段不能为空") int docVersion
 			
 	,String  docFile,String  docTitle,String  updateUser,Date  lastUpdateTime) {
-		this.cid = id; 
-			
+		this.docId = docId;
+		this.docVersion = docVersion;
 	
 		this.docFile= docFile;
 		this.docTitle= docTitle;
@@ -74,39 +80,21 @@ public class HelpDocVersion implements java.io.Serializable {
 		this.lastUpdateTime= lastUpdateTime;		
 	}
 
-	public com.centit.workorder.po.HelpDocVersionId getCid() {
-		return this.cid;
-	}
-	
-	public void setCid(com.centit.workorder.po.HelpDocVersionId id) {
-		this.cid = id;
-	}
-  
 	public String getDocId() {
-		if(this.cid==null)
-			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		return this.cid.getDocId();
+		return docId;
 	}
-	
-	public void setDocId(String helpDoc) {
-		if(this.cid==null)
-			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		this.cid.setDocId(helpDoc);
+
+	public void setDocId(String docId) {
+		this.docId = docId;
 	}
-  
+
 	public int getDocVersion() {
-		if(this.cid==null)
-			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		return this.cid.getDocVersion();
+		return docVersion;
 	}
-	
+
 	public void setDocVersion(int docVersion) {
-		if(this.cid==null)
-			this.cid = new com.centit.workorder.po.HelpDocVersionId();
-		this.cid.setDocVersion(docVersion);
+		this.docVersion = docVersion;
 	}
-	
-	
 
 	// Property accessors
   
@@ -184,5 +172,39 @@ public class HelpDocVersion implements java.io.Serializable {
 		this.lastUpdateTime= null;
 
 		return this;
+	}
+
+	public boolean equals(Object other) {
+		if ((this == other))
+			return true;
+		if ((other == null))
+			return false;
+		if (!(other instanceof HelpDocVersion))
+			return false;
+
+		HelpDocVersion castOther = (HelpDocVersion) other;
+		boolean ret;
+
+		ret = this.getDocId() == castOther.getDocId() ||
+				(this.getDocId() != null && castOther.getDocId() != null
+						&& this.getDocId().equals(castOther.getDocId()));
+
+		ret = ret && ( this.getDocVersion() == castOther.getDocVersion() ||
+				(this.getDocVersion() != -1 && castOther.getDocVersion() != -1
+						&& this.getDocVersion()==castOther.getDocVersion()));
+
+		return ret;
+	}
+
+	public int hashCode() {
+		int result = 17;
+
+		result = 37 * result +
+				(this.getDocId() == null ? 0 :this.getDocId().hashCode());
+
+		result = 37 * result +
+				(this.getDocVersion() == -1 ? 0 :this.getDocVersion());
+
+		return result;
 	}
 }

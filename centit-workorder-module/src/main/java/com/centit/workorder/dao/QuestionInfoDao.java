@@ -2,9 +2,9 @@ package com.centit.workorder.dao;
 
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
+import com.centit.framework.jdbc.dao.BaseDaoImpl;
+import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.dao.BaseDaoImpl;
-import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
 import com.centit.workorder.po.QuestionInfo;
@@ -25,7 +25,7 @@ import java.util.Map;
 */
 
 @Repository
-public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
+public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String>
 	{
 
 	public static final Log log = LogFactory.getLog(QuestionInfoDao.class);
@@ -70,14 +70,14 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 							+ " [ :end | and h.createTime < :end ]"
 							+ " order by h.createTime desc";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-			JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
-						qap.getQuery(),null, qap.getParams(),pageDesc);
+			JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
+						qap.getQuery(), qap.getParams(),pageDesc);
 			return dataList;
 		}
 
 		public List<QuestionInfo> unabsorbedQuestion(){
 			String hql = "FROM QuestionInfo f WHERE f.currentOperator  IS NULL OR f.currentOperator=''";
-			List<QuestionInfo> list = this.listObjects(hql, (Object[])null);
+			List<QuestionInfo> list = this.listObjectsByFilter(hql,new Object[]{null});
 			return  list;
 		}
 
@@ -96,7 +96,7 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo,java.lang.String>
 							+ " [ :operator | and h.currentOperator = :operator ]"
 							+ " [:operatorCode | or h.questionId in (select f.aid.questionId from AssistOperator f WHERE f.aid.operatorCode = :operatorCode)]";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-			JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
+			JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
 					qap.getQuery(), qap.getParams(),pageDesc);
 			return dataList;
 		}

@@ -1,10 +1,9 @@
 package com.centit.workorder.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.centit.framework.jdbc.service.BaseEntityManager;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.service.BaseEntityManager;
 import com.centit.workorder.po.AssistOperator;
-import com.centit.workorder.po.AssistOperatorId;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 
@@ -53,7 +52,7 @@ public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,Stri
 
     void updateDiscuss(QuestionRound questionRound);
 
-	List<AssistOperatorId> createAssistOperator(String questionId,AssistOperator[] assistOperators);
+	List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators);
 
 	void deleteObject(AssistOperator[] assistOperators);
 

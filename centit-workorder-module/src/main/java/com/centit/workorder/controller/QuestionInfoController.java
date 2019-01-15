@@ -5,13 +5,12 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.support.database.utils.PageDesc;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IUserInfo;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.AssistOperator;
-import com.centit.workorder.po.AssistOperatorId;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.service.QuestionInfoManager;
 import org.apache.commons.logging.Log;
@@ -367,7 +366,7 @@ public class QuestionInfoController  extends BaseController {
     public void addAssistOperator(HttpServletResponse response,
                                   String questionId,
                                   @RequestBody AssistOperator[] assistOperators) throws IOException {
-        List<AssistOperatorId> pk = questionInfoMag.createAssistOperator(questionId,assistOperators);
+        List<AssistOperator> pk = questionInfoMag.createAssistOperator(questionId,assistOperators);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
 

@@ -1,7 +1,7 @@
 package com.centit.workorder.dao;
 
 import com.centit.framework.core.dao.CodeBook;
-import com.centit.framework.hibernate.dao.BaseDaoImpl;
+import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.workorder.po.QuestionRound;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +21,7 @@ import java.util.Map;
 */
 
 @Repository
-public class QuestionRoundDao extends BaseDaoImpl<QuestionRound,java.lang.String>
+public class QuestionRoundDao extends BaseDaoImpl<QuestionRound, String>
 	{
 
 	public static final Log log = LogFactory.getLog(QuestionRoundDao.class);
@@ -64,13 +64,13 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound,java.lang.String
 
 	public List<QuestionRound> listQuestionRound(String questionId){
 		String hql = "FROM QuestionRound f WHERE f.questionId=? order by f.createTime";
-		List<QuestionRound> list = this.listObjects(hql,new Object[]{questionId});
+		List<QuestionRound> list = this.listObjectsByFilter(hql,new Object[]{questionId});
 		return  list;
 	}
 
 	public List<QuestionRound> listQuestionRoundShowUser(String questionId){
 		String hql = "FROM QuestionRound f WHERE f.questionId=? and f.showUser='T' order by f.createTime";
-		List<QuestionRound> list = this.listObjects(hql,new Object[]{questionId});
+		List<QuestionRound> list = this.listObjectsByFilter(hql,new Object[]{questionId});
 		return  list;
 	}
 

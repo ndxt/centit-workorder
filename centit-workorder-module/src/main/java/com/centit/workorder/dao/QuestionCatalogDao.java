@@ -2,9 +2,9 @@ package com.centit.workorder.dao;
 
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
+import com.centit.framework.jdbc.dao.BaseDaoImpl;
+import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.dao.BaseDaoImpl;
-import com.centit.framework.hibernate.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
 import com.centit.workorder.po.QuestionCatalog;
@@ -26,7 +26,7 @@ import java.util.Map;
 */
 
 @Repository
-public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.String>
+public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog, String>
 	{
 
 	public static final Log log = LogFactory.getLog(QuestionCatalogDao.class);
@@ -66,9 +66,9 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
                             + " [ :begin | and h.createTime > :begin ]"
                             + " [ :end | and h.createTime < :end ]";
             QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONByHql(baseDao,
-                    	qap.getQuery(), qap.getParams(), pageDesc);
-            return dataList;
+            JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
+                    	qap.getQuery(), qap.getParams());
+			return dataList;
         }
 
         public List<QuestionCatalog> list(BaseDaoImpl baseDao,Map<String, Object> queryParamsMap, PageDesc pageDesc) {
@@ -79,8 +79,8 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog,java.lang.St
 							+ " [ :end | and h.createTime < :end ]"
 							+" order by h.sort ";
 			QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-			List<QuestionCatalog> dataList = (List<QuestionCatalog>) DatabaseOptUtils.findObjectsByHql(baseDao,
-					qap.getQuery(), qap.getParams(), pageDesc);
+			List<QuestionCatalog> dataList = (List<QuestionCatalog>) DatabaseOptUtils.getScalarObjectQuery(baseDao,
+					qap.getQuery(), qap.getParams());
 			return dataList;
 		}
 

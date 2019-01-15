@@ -1,7 +1,7 @@
 package com.centit.workorder.dao;
 
 import com.centit.framework.core.dao.CodeBook;
-import com.centit.framework.hibernate.dao.BaseDaoImpl;
+import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.workorder.po.HelpDocVersion;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +20,7 @@ import java.util.Map;
 */
 
 @Repository
-public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,com.centit.workorder.po.HelpDocVersionId> {
+public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,String> {
 
 	public static final Log log = LogFactory.getLog(HelpDocVersionDao.class);
 	
@@ -29,9 +29,9 @@ public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,com.centit.wor
 		if( filterField == null){
 			filterField = new HashMap<>();
 
-			filterField.put("docId" , "cid.docId = :docId");
+			filterField.put("docId" , "docId = :docId");
 
-			filterField.put("docVersion" , "cid.docVersion = :docVersion");
+			filterField.put("docVersion" , "docVersion = :docVersion");
 
 			filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
 

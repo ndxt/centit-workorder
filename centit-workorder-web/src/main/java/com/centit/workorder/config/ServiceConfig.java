@@ -2,10 +2,14 @@ package com.centit.workorder.config;
 
 import com.centit.fileserver.utils.FileStore;
 import com.centit.fileserver.utils.OsFileStore;
+import com.centit.framework.components.impl.NotificationCenterImpl;
+import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.InitialWebRuntimeEnvironment;
 import com.centit.framework.config.SpringSecurityDaoConfig;
-import com.centit.framework.hibernate.config.HibernateConfig;
-import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
+import com.centit.framework.ip.app.config.IPOrStaticAppSystemBeanConfig;
+import com.centit.framework.jdbc.config.JdbcConfig;
+import com.centit.framework.model.adapter.NotificationCenter;
+import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +21,8 @@ import org.springframework.core.env.Environment;
  */
 @ComponentScan(basePackages = "com.centit",
         excludeFilters = @ComponentScan.Filter(value = org.springframework.stereotype.Controller.class))
-@Import({IPAppSystemBeanConfig.class,
-        HibernateConfig.class,
+@Import({IPOrStaticAppSystemBeanConfig.class,
+        JdbcConfig.class,
         SpringSecurityDaoConfig.class})
 @Configuration
 public class ServiceConfig {
@@ -48,10 +52,11 @@ public class ServiceConfig {
         }
         return new OsFileStore(baseHome);
     }
-   /* @Bean
+    @Bean
     public NotificationCenter notificationCenter() {
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
-        notificationCenter.initMsgSenders();
+        //notificationCenter.initMsgSenders();
+        notificationCenter.initDummyMsgSenders();
         //notificationCenter.registerMessageSender("innerMsg",innerMessageManager);
         return notificationCenter;
     }
@@ -63,7 +68,6 @@ public class ServiceConfig {
         operationLog.init();
         return operationLog;
     }
-*/
    @Bean
    public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
        return new InstantiationServiceBeanPostProcessor();

@@ -1,10 +1,10 @@
 package com.centit.workorder.po;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 /**
  * create by scaffold 2017-05-08 
@@ -23,27 +23,27 @@ public class QuestionCatalog implements java.io.Serializable {
 	@Id
 	@Column(name = "CATALOG_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
+	@ValueGenerator(strategy = GeneratorType.UUID)
 	private String catalogId;
 	/**
 	 * 业务系统ID null 
 	 */
 	@Column(name = "OS_ID")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 20, message = "字段长度不能大于{max}")
+	//@Length(max = 20, message = "字段长度不能大于{max}")
 	private String  osId;
 	/**
 	 * 类别名称 null 
 	 */
 	@Column(name = "CATALOG_NAME")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 100, message = "字段长度不能大于{max}")
+	//@Length(max = 100, message = "字段长度不能大于{max}")
 	private String  catalogName;
 	/**
 	 * 创建人员 null 
 	 */
 	@Column(name = "CREATOR")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  creator;
 	/**
 	 * 创建时间 null 
@@ -64,14 +64,14 @@ public class QuestionCatalog implements java.io.Serializable {
 	 * 关键字
 	 */
 	@Column(name = "CATALOG_KEY_WORDS")
-	@Length(max = 200, message = "字段长度不能大于{max}")
+	//@Length(max = 200, message = "字段长度不能大于{max}")
 	private String  catalogKeyWords;
 
 	/**
 	 * 父节点ID
 	 */
 	@Column(name = "PARENT_ID")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  parentId;
 
 	/**
@@ -84,14 +84,14 @@ public class QuestionCatalog implements java.io.Serializable {
 	 * 图标
 	 */
 	@Column(name = "ICON")
-	@Length(max = 100, message = "字段长度不能大于{max}")
+	//@Length(max = 100, message = "字段长度不能大于{max}")
 	private String  icon;
 
 	/**
 	 * 描述
 	 */
 	@Column(name = "CATALOG_DESCRIBE")
-	@Length(max = 200, message = "字段长度不能大于{max}")
+	//@Length(max = 200, message = "字段长度不能大于{max}")
 	private String  catalogDescribe;
 
 

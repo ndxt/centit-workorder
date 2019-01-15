@@ -1,7 +1,7 @@
 package com.centit.workorder.po;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,14 +24,14 @@ public class HelpDocScore implements java.io.Serializable {
 	@Id
 	@Column(name = "SCORE_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
+	@ValueGenerator(strategy = GeneratorType.UUID)
 	private String scoreId;
 
 	/**
 	 * 文档ID null 
 	 */
 	@Column(name = "DOC_ID")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  docId;
 	/**
 	 * 文档评分 null 
@@ -43,13 +43,13 @@ public class HelpDocScore implements java.io.Serializable {
 	 * 用户代码 null 
 	 */
 	@Column(name = "USER_CODE")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
 	 * 用户名称 null 
 	 */
 	@Column(name = "USER_NAME")
-	@Length(max = 64, message = "字段长度不能大于{max}")
+	//@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  userName;
 	/**
 	 * 评价时间 null 

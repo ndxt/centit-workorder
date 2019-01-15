@@ -2,17 +2,16 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import com.centit.framework.core.dao.DictionaryMapUtils;
-import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.hibernate.dao.DatabaseOptUtils;
-import com.centit.framework.hibernate.service.BaseEntityManagerImpl;
+import com.centit.framework.jdbc.dao.DatabaseOptUtils;
+import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.search.document.FileDocument;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.*;
 import com.centit.workorder.service.HelpDocManager;
@@ -133,14 +132,17 @@ public class HelpDocManagerImpl
 	    HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		helpDocDao.deleteObjectById(docId);
 
-        helpDocDao.deleteObjectsAsTabulation(findChildren(docId));//删除子孙节点
+        helpDocDao.deleteObjectById(findChildren(docId));//删除子孙节点
 
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
         List<HelpDocVersion> versions = helpDocVersionDao.listObjects(map);
-		helpDocVersionDao.deleteObjectsAsTabulation(versions);//删除所有历史版本
-		helpDocCommentDao.deleteObjectsAsTabulation("docId", docId);//删除评论
-		helpDocScoreDao.deleteObjectsAsTabulation("docId", docId);//删除评分
+		for (HelpDocVersion version : versions) {
+			helpDocVersionDao.deleteObject(version);//删除所有历史版本
+		}
+
+		helpDocCommentDao.deleteObjectById(docId);//删除评论
+		helpDocScoreDao.deleteObjectById(docId);//删除评分
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
                 IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), ObjectDocument.class, FileDocument.class);
@@ -169,7 +171,7 @@ public class HelpDocManagerImpl
 	public HelpDoc editContent(String docId, String content, String userCode) {
 		HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 		//保存旧版本
-		int docVersion = DatabaseOptUtils.getNextLongSequence(helpDocVersionDao, "DOC_VERSION").intValue();
+		int docVersion = DatabaseOptUtils.getSequenceNextValue(helpDocVersionDao, "DOC_VERSION").intValue();
 		helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
 		helpDoc.setDocFile(content);
         helpDoc.setUpdateUser(userCode);
@@ -186,7 +188,9 @@ public class HelpDocManagerImpl
 	@Override
 	@Transactional
 	public JSONArray searchHelpdocByLevel(String osId) {
-		List<HelpDoc> list = helpDocDao.listObjectByProperty("osId", osId);
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("osId",osId);
+		List<HelpDoc> list = helpDocDao.listObjects(filterMap);
 		return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
 				String parent = p.getDocId();
 				String child = c.getDocPath();
@@ -219,14 +223,16 @@ public class HelpDocManagerImpl
 //		JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
 //					qap.getQuery(), qap.getParams(), pageDesc);
 
-        List<HelpDoc> helpDocs = listObjects(queryParamsMap, pageDesc);
+        List<HelpDoc> helpDocs = listObjects(queryParamsMap);
 		return helpDocs;
 	}
 
 	@Override
 	@Transactional
 	public JSONArray searchComments(String docId) {
-		List<HelpDocComment> list = helpDocCommentDao.listObjectByProperty("docId", docId);
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("docId",docId);
+		List<HelpDocComment> list = helpDocCommentDao.listObjects(filterMap);
 		JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
 		return array;
 	}
@@ -235,7 +241,9 @@ public class HelpDocManagerImpl
 	@Transactional
 	public JSONObject searchScores(String docId) {
 		JSONObject obj = new JSONObject();
-		List<HelpDocScore> list = helpDocScoreDao.listObjectByProperty("docId", docId);
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("docId",docId);
+		List<HelpDocScore> list = helpDocScoreDao.listObjects(filterMap);
 		int times = list.size();
 		if(times > 0) {
 			obj.put("times", times);

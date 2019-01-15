@@ -3,12 +3,12 @@ package com.centit.workorder.po;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.po.EntityWithTimestamp;
 import com.centit.search.document.ObjectDocument;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 import org.jsoup.helper.StringUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,21 +31,21 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	@Id
 	@Column(name = "DOC_ID")
 	@GeneratedValue(generator = "assignedGenerator")
-	@GenericGenerator(name = "assignedGenerator", strategy = "uuid")
+	@ValueGenerator(strategy = GeneratorType.UUID)
 	private String docId;
 
 	/**
 	 * 类别ID null 
 	 */
 	@Column(name = "CATALOG_ID")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  catalogId;
 	/**
 	 * 文档标题 null 
 	 */
 	@Column(name = "DOC_TITLE")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 500, message = "字段长度不能大于{max}")
+	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  docTitle;
 	/**
 	 * 文档层级 null 
@@ -58,7 +58,7 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	 */
 	@Column(name = "DOC_PATH")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 500, message = "字段长度不能大于{max}")
+	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  docPath;
 	/**
 	 * 文件ID null 
@@ -70,25 +70,25 @@ public class HelpDoc implements java.io.Serializable,EntityWithTimestamp {
 	 */
 	@Column(name = "OS_ID")
 	@NotBlank(message = "字段不能为空")
-	@Length(max = 20, message = "字段长度不能大于{max}")
+	//@Length(max = 20, message = "字段长度不能大于{max}")
 	private String  osId;
 	/**
 	 * 业务项目模块 模块，或者表 
 	 */
 	@Column(name = "OPT_ID")
-	@Length(max = 64, message = "字段长度不能大于{max}")
+	//@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  optId;
 	/**
 	 * 业务操作方法 方法，或者字段 
 	 */
 	@Column(name = "OPT_METHOD")
-	@Length(max = 64, message = "字段长度不能大于{max}")
+	//@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  optMethod;
 	/**
 	 * 编辑人员 null 
 	 */
 	@Column(name = "UPDATE_USER")
-	@Length(max = 32, message = "字段长度不能大于{max}")
+	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  updateUser;
 	/**
 	 * 编辑时间 null 
