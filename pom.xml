@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.centit.framework</groupId>
-        <artifactId>framework-snapshot-dependencies</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <artifactId>framework-release-dependencies</artifactId>
+        <version>1.1.1812</version>
     </parent>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-workorder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <modules>
         <module>centit-workorder-module</module>
         <module>centit-workorder-view</module>
@@ -24,8 +24,8 @@
     <url>https://github.com/ndxt/centit-workorder</url>
 
     <properties>
-        <centit.search.version>0.1.1806</centit.search.version>
-        <centit.fileserver.version>2.1-SNAPSHOT</centit.fileserver.version>
+        <centit.search.version>0.1.1812</centit.search.version>
+        <centit.fileserver.version>2.2-SNAPSHOT</centit.fileserver.version>
         <aliyun-sdk-oss.version>2.8.1</aliyun-sdk-oss.version>
     </properties>
 

@@ -66,10 +66,10 @@ public class WebInitializer implements WebApplicationInitializer {
     private void initializeSpringMvcConfig(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(NormalSpringMvcConfig.class);
-        ServletRegistration.Dynamic system  = servletContext.addServlet("service", new DispatcherServlet(context));
-        system.addMapping("/service/*");
-        system.setLoadOnStartup(1);
-        system.setAsyncSupported(true);
+        ServletRegistration.Dynamic workorder  = servletContext.addServlet("workorder", new DispatcherServlet(context));
+        workorder.addMapping("/workorder/*");
+        workorder.setLoadOnStartup(1);
+        workorder.setAsyncSupported(true);
     }
 
 

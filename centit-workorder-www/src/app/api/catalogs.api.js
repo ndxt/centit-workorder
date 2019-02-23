@@ -7,7 +7,7 @@
   /** @ngInject */
   function CatalogAPI($resource, config) {
 
-    const baseUrl = `${config.contextPath}/service/os/:osId/catalogs/:catalogId`
+    const baseUrl = `${config.contextPath}/workorder/os/:osId/catalogs/:catalogId`
 
     const update = {
       method: 'PUT'

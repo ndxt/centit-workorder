@@ -7,7 +7,7 @@
   /** @ngInject */
   function QuestionAPI($resource, config) {
 
-    const baseUrl = `${config.contextPath}/service/os/:osId/questions`;
+    const baseUrl = `${config.contextPath}/workorder/os/:osId/questions`;
 
     const queryTop = {
       url: `${baseUrl}/:count/top?catalog=:catalogId`,
