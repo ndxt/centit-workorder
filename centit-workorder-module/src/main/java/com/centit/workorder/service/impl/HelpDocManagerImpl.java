@@ -90,7 +90,7 @@ public class HelpDocManagerImpl
 
 		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
 				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),
-				ObjectDocument.class/*, FileDocument.class*/);
+				/*ObjectDocument.class,*/ FileDocument.class);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
 		indexer.saveNewDocument(objectDocument);
@@ -145,7 +145,7 @@ public class HelpDocManagerImpl
 		helpDocScoreDao.deleteObjectById(docId);//删除评分
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), ObjectDocument.class/*, FileDocument.class*/);
+                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), /*ObjectDocument.class,*/ FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.deleteDocument(objectDocument);
 	}
@@ -178,7 +178,7 @@ public class HelpDocManagerImpl
 		helpDocDao.updateObject(helpDoc);
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class/*, FileDocument.class*/);
+        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.updateDocument(objectDocument);
 
@@ -267,7 +267,7 @@ public class HelpDocManagerImpl
 		if(questionCatalog != null){
 			if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
 				Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-						IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class/*, FileDocument.class*/) ;
+						IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
 
 //				List<Map<String, Object>> list = searcher.search(
 ////						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
@@ -290,7 +290,7 @@ public class HelpDocManagerImpl
 	@Override
 	public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
 		Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),ObjectDocument.class/*, FileDocument.class*/) ;
+				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
 //		List<Map<String, Object>> list = searcher.search(
 //				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
 		List<Map<String, Object>> list = searcher.search(
