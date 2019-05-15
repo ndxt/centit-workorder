@@ -60,7 +60,7 @@ spec:
   - host: framework.centit.com
     http:
       paths:
-        - path: /workorder
+        - path: /
         backend:
           serviceName: workorder
           servicePort: 8080
