@@ -46,3 +46,26 @@ spec:
       - name: tomcat-logs
         hostPath:
           path: /data/tomcat/logs
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: workorder
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  rules:
+  - host: framework.centit.com
+    http:
+      paths:
+        - path: /workorder
+        backend:
+          serviceName: workorder
+          servicePort: 80
+  tls:
+  - hosts:
+    - framework.centit.com
+    secretName: nginx-test
