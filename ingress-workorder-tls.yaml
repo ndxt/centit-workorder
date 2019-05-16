@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-workorder-tls
+  namespace: default
+spec:
+  tls:
+  - hosts:
+    - framework.centit.com
+    secretName: nginx-test
+  rules:
+  - host: framework.centit.com
+    http:
+      paths:
+      - path: /workorder
+        backend: 
+          serviceName: workorder
+          servicePort: 8080
