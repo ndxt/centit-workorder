@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.centit.framework</groupId>
-        <artifactId>framework-release-dependencies</artifactId>
-        <version>1.1.1812</version>
+        <artifactId>framework-snapshot-dependencies</artifactId>
+        <version>1.3-SNAPSHOT</version>
     </parent>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-workorder</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <modules>
         <module>centit-workorder-module</module>
         <module>centit-workorder-view</module>
-        <module>centit-workorder-web</module>
+        <!--<module>centit-workorder-web</module>-->
         <module>centit-workorder-client</module>
     </modules>
 
@@ -24,8 +24,8 @@
     <url>https://github.com/ndxt/centit-workorder</url>
 
     <properties>
-        <centit.search.version>0.1.1812</centit.search.version>
-        <centit.fileserver.version>2.2-SNAPSHOT</centit.fileserver.version>
+        <centit.search.version>1.2-SNAPSHOT</centit.search.version>
+        <centit.fileserver.version>3.1-SNAPSHOT</centit.fileserver.version>
         <aliyun-sdk-oss.version>2.8.1</aliyun-sdk-oss.version>
     </properties>
 
@@ -81,12 +81,12 @@
         <repository>
             <id>centit-releases</id>
             <name>centit-release</name>
-            <url>http://develop.centit.com:8080/nexus/content/repositories/centit-releases/</url>
+            <url>http://www.centit.com/nexus/content/repositories/centit-releases/</url>
         </repository>
         <snapshotRepository>
             <id>centit-snapshots</id>
             <name>centit-snapshots</name>
-            <url>http://develop.centit.com:8080/nexus/content/repositories/centit-snapshots/</url>
+            <url>http://www.centit.com/nexus/content/repositories/centit-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 

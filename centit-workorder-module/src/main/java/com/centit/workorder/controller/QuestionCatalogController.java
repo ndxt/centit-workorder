@@ -1,13 +1,12 @@
 package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.support.database.utils.PageDesc;
-import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.QuestionCatalogManager;
 import org.apache.commons.logging.Log;
@@ -103,11 +102,11 @@ public class QuestionCatalogController  extends BaseController {
     @RequestMapping(method = {RequestMethod.POST})
     public void createQuestionCatalog(@RequestBody QuestionCatalog questionCatalog,
                                       HttpServletRequest request,
-                                      HttpServletResponse response) throws IOException {
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+                                      HttpServletResponse response){
+        String userCode = WebOptUtils.getCurrentUserCode(request);
         questionCatalog.setCreateTime(DatetimeOpt.currentUtilDate());
-        questionCatalog.setCreator(centitUserDetails.getName());
-        questionCatalog.setDefaultOperator(centitUserDetails.getName());
+        questionCatalog.setCreator(userCode);
+        questionCatalog.setDefaultOperator(userCode);
     	questionCatalogMag.saveNewObject(questionCatalog);
         JsonResultUtils.writeSuccessJson(response);
     }

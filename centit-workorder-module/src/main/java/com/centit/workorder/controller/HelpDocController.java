@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
-
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
@@ -64,7 +64,7 @@ public class HelpDocController  extends BaseController {
                               HttpServletRequest request, HttpServletResponse response) {
 
         helpDoc.setOsId(osId);
-        helpDoc.setUpdateUser(getLoginUserCode(request));
+        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
         HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -78,7 +78,7 @@ public class HelpDocController  extends BaseController {
     public void updateHelpDoc(@PathVariable String docId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
-        helpDoc.setUpdateUser(getLoginUserCode(request));
+        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
         HelpDoc result = helpDocMag.editHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -91,7 +91,7 @@ public class HelpDocController  extends BaseController {
                             HttpServletRequest request, HttpServletResponse response) {
 
         // 保存 历史版本，
-        String userCode = getLoginUserCode(request);
+        String userCode = WebOptUtils.getCurrentUserCode(request);
         HelpDoc result = helpDocMag.editContent(docId, content.get("content"), userCode);
         JsonResultUtils.writeSingleDataJson(result, response);
     }

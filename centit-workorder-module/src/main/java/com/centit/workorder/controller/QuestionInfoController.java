@@ -7,7 +7,6 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IUserInfo;
-import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.AssistOperator;
@@ -116,12 +115,11 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/questionInfo/{questionId}", method = {RequestMethod.GET})
     public void questionInfo(@PathVariable String questionId,HttpServletRequest request, HttpServletResponse response){
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        String role = questionInfoMag.loginRole(questionId,centitUserDetails.getUserCode(),
-                centitUserDetails.getUserInfo().getString("userName"));
+        String role = questionInfoMag.loginRole(questionId,WebOptUtils.getCurrentUserCode(request),
+                WebOptUtils.getCurrentUserName(request));
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
         ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData(OBJECT, questionInfo);
+        resData.addResponseData("object", questionInfo);
         resData.addResponseData("role", role);
         JsonResultUtils.writeSingleDataJson(resData, response);
     }
@@ -144,9 +142,8 @@ public class QuestionInfoController  extends BaseController {
     public void createQuestionInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestBody QuestionInfo questionInfo) throws IOException {
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        questionInfo.setUserCode(centitUserDetails.getUserCode());
-        questionInfo.setUserName(centitUserDetails.getUserInfo().getString("userName"));
+        questionInfo.setUserCode(WebOptUtils.getCurrentUserCode(request));
+        questionInfo.setUserName(WebOptUtils.getCurrentUserName(request));
         questionInfoMag.createQuestion(questionInfo);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -211,10 +208,9 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(value = "/{questionId}/grab", method = {RequestMethod.PUT})
     public void allotToMyself(@PathVariable String questionId,
                               HttpServletRequest request,
-                              HttpServletResponse response) throws IOException {
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
+                              HttpServletResponse response) {
         QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById(questionId);
-        dbQuestionInfo .setCurrentOperator(centitUserDetails.getUserInfo().getString("userName"));
+        dbQuestionInfo .setCurrentOperator(WebOptUtils.getCurrentUserName(request));
         dbQuestionInfo.setQuestionState("H");
         dbQuestionInfo.setAcceptTime(DatetimeOpt.currentUtilDate());
         questionInfoMag.mergeObject(dbQuestionInfo);
@@ -256,8 +252,8 @@ public class QuestionInfoController  extends BaseController {
                                  PageDesc pageDesc,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        String userCode = centitUserDetails.getUserCode();
+
+        String userCode = WebOptUtils.getCurrentUserCode(request);
         String editState = request.getParameter("editState");
         String questionState = request.getParameter("questionState");
         String questionTitle = request.getParameter("questionTitle");
@@ -335,11 +331,10 @@ public class QuestionInfoController  extends BaseController {
                      PageDesc pageDesc,
                      HttpServletRequest request,
                      HttpServletResponse response){
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
         Map<String, Object> map = new HashMap<>();
         map.put("osId",osId);
-        map.put("operator",centitUserDetails.getUserInfo().getString("userName"));
-        map.put("operatorCode",centitUserDetails.getUserCode());
+        map.put("operator",WebOptUtils.getCurrentUserName(request));
+        map.put("operatorCode",WebOptUtils.getCurrentUserCode(request));
         JSONArray listObjects = questionInfoMag.getQuestionInfoList(map, pageDesc);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);

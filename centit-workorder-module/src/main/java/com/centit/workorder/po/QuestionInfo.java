@@ -6,10 +6,9 @@ import com.centit.support.database.orm.ValueGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.List;
 
 /**
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
 
 系统问题列表null
@@ -20,7 +19,7 @@ public class QuestionInfo implements java.io.Serializable {
 	private static final long serialVersionUID =  1L;
 
 	/**
-	 * 问题ID null 
+	 * 问题ID null
 	 */
 	@Id
 	@Column(name = "QUESTION_ID")
@@ -28,39 +27,39 @@ public class QuestionInfo implements java.io.Serializable {
 	@ValueGenerator(strategy = GeneratorType.UUID)
 	private String questionId;
 	/**
-	 * 类别ID null 
+	 * 类别ID null
 	 */
 	@Column(name = "CATALOG_ID")
 	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  catalogId;
 	/**
-	 * 业务系统ID null 
+	 * 业务系统ID null
 	 */
 	@Column(name = "OS_ID")
 	@NotBlank(message = "字段不能为空")
 	//@Length(max = 20, message = "字段长度不能大于{max}")
 	private String  osId;
 	/**
-	 * 用户代码 null 
+	 * 用户代码 null
 	 */
 	@Column(name = "USER_CODE")
 	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  userCode;
 	/**
-	 * 用户名称 null 
+	 * 用户名称 null
 	 */
 	@Column(name = "USER_NAME")
 	//@Length(max = 64, message = "字段长度不能大于{max}")
 	private String  userName;
 	/**
-	 * 问题标题 null 
+	 * 问题标题 null
 	 */
 	@Column(name = "QUESTION_TITLE")
 	@NotBlank(message = "字段不能为空")
 	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  questionTitle;
 	/**
-	 * 问题内容 null 
+	 * 问题内容 null
 	 */
 	@Column(name = "QUESTION_CONTENT")
 	private String  questionContent;
@@ -71,18 +70,18 @@ public class QuestionInfo implements java.io.Serializable {
 	//@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  questionState;
 	/**
-	 * 创建时间 null 
+	 * 创建时间 null
 	 */
 	@Column(name = "CREATE_TIME")
 	private Date  createTime;
 	/**
-	 * 编辑状态 N: 未编辑  U: 已被编辑 
+	 * 编辑状态 N: 未编辑  U: 已被编辑
 	 */
 	@Column(name = "EDIT_STATE")
 	//@Length(max = 1, message = "字段长度不能大于{max}")
 	private String  editState;
 	/**
-	 * 编辑时间 null 
+	 * 编辑时间 null
 	 */
 	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;

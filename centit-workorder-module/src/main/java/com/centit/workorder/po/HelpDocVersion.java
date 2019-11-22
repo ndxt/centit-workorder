@@ -1,15 +1,18 @@
 package com.centit.workorder.po;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- 
-  系统帮助文档历史版本null   
+
+  系统帮助文档历史版本null
 */
 @Entity
 @Table(name = "F_HELP_DOC_VERSION")
@@ -30,25 +33,25 @@ public class HelpDocVersion implements java.io.Serializable {
 	private int docVersion;
 
 	/**
-	 * 文件ID null 
+	 * 文件ID null
 	 */
 	@Column(name = "DOC_FILE")
 	private String  docFile;
 	/**
-	 * 文档标题 null 
+	 * 文档标题 null
 	 */
 	@Column(name = "DOC_TITLE")
 	@NotBlank(message = "字段不能为空")
 	//@Length(max = 500, message = "字段长度不能大于{max}")
 	private String  docTitle;
 	/**
-	 * 编辑人员 null 
+	 * 编辑人员 null
 	 */
 	@Column(name = "UPDATE_USER")
 	//@Length(max = 32, message = "字段长度不能大于{max}")
 	private String  updateUser;
 	/**
-	 * 编辑时间 null 
+	 * 编辑时间 null
 	 */
 	@Column(name = "LAST_UPDATE_TIME")
 	private Date  lastUpdateTime;
@@ -59,25 +62,25 @@ public class HelpDocVersion implements java.io.Serializable {
 	}
 	/** minimal constructor */
 	public HelpDocVersion(@NotBlank(message = "字段不能为空") String docId, @NotBlank(message = "字段不能为空") int docVersion
-				
+
 		,String  docTitle) {
 		this.docId = docId;
 		this.docVersion = docVersion;
-	
-		this.docTitle= docTitle; 		
+
+		this.docTitle= docTitle;
 	}
 
 /** full constructor */
 	public HelpDocVersion(@NotBlank(message = "字段不能为空") String docId, @NotBlank(message = "字段不能为空") int docVersion
-			
+
 	,String  docFile,String  docTitle,String  updateUser,Date  lastUpdateTime) {
 		this.docId = docId;
 		this.docVersion = docVersion;
-	
+
 		this.docFile= docFile;
 		this.docTitle= docTitle;
 		this.updateUser= updateUser;
-		this.lastUpdateTime= lastUpdateTime;		
+		this.lastUpdateTime= lastUpdateTime;
 	}
 
 	public String getDocId() {
@@ -97,35 +100,35 @@ public class HelpDocVersion implements java.io.Serializable {
 	}
 
 	// Property accessors
-  
+
 	public String getDocFile() {
 		return this.docFile;
 	}
-	
+
 	public void setDocFile(String docFile) {
 		this.docFile = docFile;
 	}
-  
+
 	public String getDocTitle() {
 		return this.docTitle;
 	}
-	
+
 	public void setDocTitle(String docTitle) {
 		this.docTitle = docTitle;
 	}
-  
+
 	public String getUpdateUser() {
 		return this.updateUser;
 	}
-	
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-  
+
 	public Date getLastUpdateTime() {
 		return this.lastUpdateTime;
 	}
-	
+
 	public void setLastUpdateTime(Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
@@ -133,42 +136,42 @@ public class HelpDocVersion implements java.io.Serializable {
 
 
 	public HelpDocVersion copy(HelpDocVersion other){
-  
+
 		this.setDocId(other.getDocId());
 		this.setDocVersion(other.getDocVersion());
-  
-		this.docFile= other.getDocFile();  
-		this.docTitle= other.getDocTitle();  
-		this.updateUser= other.getUpdateUser();  
+
+		this.docFile= other.getDocFile();
+		this.docTitle= other.getDocTitle();
+		this.updateUser= other.getUpdateUser();
 		this.lastUpdateTime= other.getLastUpdateTime();
 
 		return this;
 	}
-	
+
 	public HelpDocVersion copyNotNullProperty(HelpDocVersion other){
-  
+
 	if( other.getDocId() != null)
 		this.setDocId(other.getDocId());
 	if( other.getDocVersion() != -1)
 		this.setDocVersion(other.getDocVersion());
-  
+
 		if( other.getDocFile() != null)
-			this.docFile= other.getDocFile();  
+			this.docFile= other.getDocFile();
 		if( other.getDocTitle() != null)
-			this.docTitle= other.getDocTitle();  
+			this.docTitle= other.getDocTitle();
 		if( other.getUpdateUser() != null)
-			this.updateUser= other.getUpdateUser();  
+			this.updateUser= other.getUpdateUser();
 		if( other.getLastUpdateTime() != null)
-			this.lastUpdateTime= other.getLastUpdateTime();		
+			this.lastUpdateTime= other.getLastUpdateTime();
 
 		return this;
 	}
 
 	public HelpDocVersion clearProperties(){
-  
-		this.docFile= null;  
-		this.docTitle= null;  
-		this.updateUser= null;  
+
+		this.docFile= null;
+		this.docTitle= null;
+		this.updateUser= null;
 		this.lastUpdateTime= null;
 
 		return this;

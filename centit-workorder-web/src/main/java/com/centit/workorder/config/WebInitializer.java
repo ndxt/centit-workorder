@@ -3,13 +3,9 @@ package com.centit.workorder.config;
 import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 
 /**
@@ -22,55 +18,25 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
-        initializeSpringConfig(servletContext);
-        initializeSystemSpringMvcConfig(servletContext);
-        initializeSpringMvcConfig(servletContext);
+        String [] servletUrlPatterns = {"/system/*", "/workorder/*"};
+
+        WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
+        WebConfig.registerServletConfig(servletContext, "system",
+                "/system/*",
+                SystemSpringMvcConfig.class,SwaggerConfig.class);
+        WebConfig.registerServletConfig(servletContext, "workorder",
+                "/workorder/*",
+                NormalSpringMvcConfig.class,SwaggerConfig.class);
+
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
         //WebConfig.registerResponseCorsFilter(servletContext);
-        WebConfig.registerCharacterEncodingFilter(servletContext);
-        WebConfig.registerHttpPutFormContentFilter(servletContext);
-        WebConfig.registerHiddenHttpMethodFilter(servletContext);
+        WebConfig.registerCharacterEncodingFilter(servletContext, servletUrlPatterns);
+        WebConfig.registerHttpPutFormContentFilter(servletContext, servletUrlPatterns);
+        WebConfig.registerHiddenHttpMethodFilter(servletContext, servletUrlPatterns);
         WebConfig.registerRequestThreadLocalFilter(servletContext);
-        WebConfig.registerSpringSecurityFilter(servletContext);
+        WebConfig.registerSpringSecurityFilter(servletContext, servletUrlPatterns);
         //HibernateConfig.registerOpenSessionInViewFilter(servletContext);
     }
-
-    /**
-     * 加载Spring 配置
-     * @param servletContext ServletContext
-     */
-    private void initializeSpringConfig(ServletContext servletContext){
-        AnnotationConfigWebApplicationContext springContext = new AnnotationConfigWebApplicationContext();
-        springContext.register(ServiceConfig.class);
-        servletContext.addListener(new ContextLoaderListener(springContext));
-    }
-
-    /**
-     * 加载Servlet 配置
-     * @param servletContext ServletContext
-     */
-    private void initializeSystemSpringMvcConfig(ServletContext servletContext) {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(SystemSpringMvcConfig.class);
-        ServletRegistration.Dynamic system  = servletContext.addServlet("system", new DispatcherServlet(context));
-        system.addMapping("/system/*");
-        system.setLoadOnStartup(1);
-        system.setAsyncSupported(true);
-    }
-
-    /**
-     * 加载Servlet 项目配置
-     * @param servletContext ServletContext
-     */
-    private void initializeSpringMvcConfig(ServletContext servletContext) {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(NormalSpringMvcConfig.class);
-        ServletRegistration.Dynamic workorder  = servletContext.addServlet("workorder", new DispatcherServlet(context));
-        workorder.addMapping("/workorder/*");
-        workorder.setLoadOnStartup(1);
-        workorder.setAsyncSupported(true);
-    }
-
 
 }

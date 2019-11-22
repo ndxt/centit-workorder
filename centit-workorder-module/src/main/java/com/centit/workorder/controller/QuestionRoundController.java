@@ -1,10 +1,11 @@
 package com.centit.workorder.controller;
 
-import com.centit.framework.common.JsonResultUtils;
-import com.centit.framework.common.ResponseMapData;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.common.ObjectException;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionInfoManager;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,145 +37,134 @@ public class QuestionRoundController extends BaseController {
     /**
      *  查询工单下面的所有 交流信息  只返回所有交流信息
      * @param questionId  QUESTION_ID
-     * @param response    {@link HttpServletResponse}
-     * @return {data:{}}
+     * @return {data:{[]}}
      */
-    @RequestMapping(method = {RequestMethod.GET})
-    public void getQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
-        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
+    @RequestMapping(value = "/{questionId}", method = {RequestMethod.GET})
+    @WrapUpResponseBody
+    public List<QuestionRound> getQuestionInfo(@PathVariable String questionId) {
+        return questionInfoMag.getQuestionRoundWithQuestionId(questionId);
     }
 
     /**
      * 查询单个  系统问题列表   返回工单信息和所有可以给用户显示的交流信息
      * @param questionId  QUESTION_ID
-     * @param response    {@link HttpServletResponse}
      * @return {data:{}}
      */
-    @RequestMapping(value = "/showUser", method = {RequestMethod.GET})
-    public void getQuestionInfoShowUser(@PathVariable String questionId, HttpServletResponse response) {
+    @RequestMapping(value = "/showUser/{questionId}", method = {RequestMethod.GET})
+    @WrapUpResponseBody
+    public ResponseData getQuestionInfoShowUser(@PathVariable String questionId) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData("questionInfo", questionInfo);
-        resData.addResponseData("questionRoundList",questionRoundList );
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
+        return ResponseData.makeResponseData(CollectionsOpt.createHashMap(
+                "questionInfo", questionInfo,
+                "questionRoundList",questionRoundList
+        ));
     }
 
     /**
      * 查询单个  系统问题列表   返回工单信息和所有交流信息
-     * @param questionId
-     * @param response
+     * @param questionId QUESTION_ID
+     * @return {data:{}}
      */
-    @RequestMapping(value = "/questionRound", method = {RequestMethod.GET})
-    public void getQuestionRound(@PathVariable String questionId, HttpServletResponse response) {
+    @RequestMapping(value = "/questionRound/{questionId}", method = {RequestMethod.GET})
+    @WrapUpResponseBody
+    public ResponseData getQuestionRound(@PathVariable String questionId) {
         List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundWithQuestionId(questionId);
         QuestionInfo questionInfo = questionInfoMag.getObjectById(questionId);
-        ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData("questionInfo", questionInfo);
-        resData.addResponseData("questionRoundList",questionRoundList );
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
+        return ResponseData.makeResponseData(CollectionsOpt.createHashMap(
+                "questionInfo", questionInfo,
+                "questionRoundList",questionRoundList
+        ));
     }
 
     /**
      * 查询工单下面所有可以给用户查看的交流信息
      * @param questionId
-     * @param response
+     * param response
+     * @return  List QuestionRound
      */
-    @RequestMapping(value = "/questionRoundShowUser", method = {RequestMethod.GET})
-    public void getQuestionRoundShowUser(@PathVariable String questionId, HttpServletResponse response) {
-        List<QuestionRound> questionRoundList = questionInfoMag.getQuestionRoundShowUser(questionId);
-        JsonResultUtils.writeSingleDataJson(questionRoundList, response);
+    @RequestMapping(value = "/questionRoundShowUser/{questionId}", method = {RequestMethod.GET})
+    @WrapUpResponseBody
+    public List<QuestionRound> getQuestionRoundShowUser(@PathVariable String questionId) {
+        return questionInfoMag.getQuestionRoundShowUser(questionId);
     }
 
     /**
      * 编辑讨论内容
      * @param roundId  QUESTION_ID
-     * @param response    {@link HttpServletResponse}
      */
     @RequestMapping(value = "/{roundId}", method = {RequestMethod.PUT})
+    @WrapUpResponseBody
     public void editDiscussRound(@PathVariable String roundId,
                                  @RequestBody QuestionRound questionRound,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException {
+                                 HttpServletRequest request) {
         if (questionRound == null){
-            JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
-            return;
+            throw new ObjectException(questionRound, ObjectException.DATA_NOT_FOUND_EXCEPTION, "当前对象不存在");
         }
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserInfo().getString("userName"));
+        questionRound.setUserCode(WebOptUtils.getCurrentUserCode(request));
+        questionRound.setUserName(WebOptUtils.getCurrentUserName(request));
         questionRound.setRoundId(roundId);
         questionInfoMag.updateDiscuss(questionRound);
-        JsonResultUtils.writeSuccessJson(response);
     }
 
-    /**
+    /*
      * 工单追加问题描述
-     * @param response
+     * @param request
      */
-    @RequestMapping(value = "/supplemental", method = {RequestMethod.POST})
+    @RequestMapping(value = "/supplemental/{questionId}", method = {RequestMethod.POST})
+    @WrapUpResponseBody
     public void supplementalQuestion(HttpServletRequest request,
-                                     HttpServletResponse response,
                                      @PathVariable String questionId,
                                      @RequestBody  QuestionRound questionRound){
         if (questionRound == null){
-            JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
-            return;
+            throw new ObjectException(questionRound, ObjectException.DATA_NOT_FOUND_EXCEPTION, "当前对象不存在");
         }
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserInfo().getString("userName"));
+        questionRound.setUserCode(WebOptUtils.getCurrentUserCode(request));
+        questionRound.setUserName(WebOptUtils.getCurrentUserName(request));
         questionRound.setQuestionId(questionId);
         questionInfoMag.saveQuestionRound(questionRound);
-        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
-    /**
+    /*
      * 回复工单
      * @param response
      */
-    @RequestMapping(value = "/reply", method = {RequestMethod.POST})
+    @RequestMapping(value = "/reply/{questionId}", method = {RequestMethod.POST})
+    @WrapUpResponseBody
     public void replay(HttpServletRequest request,
-                       HttpServletResponse response,
                        @PathVariable String questionId,
                        @RequestBody QuestionRound questionRound){
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserInfo().getString("userName"));
+        questionRound.setUserCode(WebOptUtils.getCurrentUserCode(request));
+        questionRound.setUserName(WebOptUtils.getCurrentUserName(request));
         questionRound.setQuestionId(questionId);
         questionRound = questionInfoMag.replayQuestion(questionRound);
-        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
-    /**
+    /*
      * 工单问题讨论
      * @param response
      */
-    @RequestMapping(value = "/discuss", method = {RequestMethod.POST})
+    @RequestMapping(value = "/discuss/{questionId}", method = {RequestMethod.POST})
+    @WrapUpResponseBody
     public void discuss(HttpServletRequest request,
-                        HttpServletResponse response,
                         @PathVariable String questionId,
                         @RequestBody QuestionRound questionRound){
-        CentitUserDetails centitUserDetails = WebOptUtils.getLoginUser(request);
-        questionRound.setUserCode(centitUserDetails.getUserCode());
-        questionRound.setUserName(centitUserDetails.getUserInfo().getString("userName"));
+        questionRound.setUserCode(WebOptUtils.getCurrentUserCode(request));
+        questionRound.setUserName(WebOptUtils.getCurrentUserName(request));
         questionRound.setQuestionId(questionId);
         questionRound = questionInfoMag.discussQuestion(questionRound);
-        JsonResultUtils.writeSingleDataJson(questionRound,response);
     }
 
-    /**
+    /*
      * 修改showUser标识
      * @param roundId
      * @param response
      */
     @RequestMapping(value = "/{roundId}/showUserTag", method = {RequestMethod.PUT})
+    @WrapUpResponseBody
     public void updateShowUserTag(@PathVariable String roundId,
-                                  String showUser,
-                                  HttpServletResponse response){
+                                  String showUser){
         questionInfoMag.updateShowUserTag(roundId,showUser);
-        JsonResultUtils.writeSuccessJson(response);
     }
 
 }
