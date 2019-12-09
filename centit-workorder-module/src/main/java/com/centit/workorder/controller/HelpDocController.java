@@ -38,19 +38,19 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/documents")
 public class HelpDocController  extends BaseController {
-	private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
-	@Resource
-	private HelpDocManager helpDocMag;
+    @Resource
+    private HelpDocManager helpDocMag;
 
     /**
      * 查询单个  系统帮助文档
-	 * @param docId  DOC_ID
+     * @param docId  DOC_ID
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
 
-    	HelpDoc helpDoc = helpDocMag.getObjectById(docId);
+        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
 
         JsonResultUtils.writeSingleDataJson(helpDoc, response);
     }
@@ -98,7 +98,7 @@ public class HelpDocController  extends BaseController {
 
     /**
      * 删除 帮助文档
-	 * @param docId  DOC_ID
+     * @param docId  DOC_ID
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {

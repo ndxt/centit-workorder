@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,10 +40,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/questions")
 public class QuestionInfoController  extends BaseController {
-	private static final Log log = LogFactory.getLog(QuestionInfoController.class);
+    private static final Log log = LogFactory.getLog(QuestionInfoController.class);
 
-	@Resource
-	private QuestionInfoManager questionInfoMag;
+    @Resource
+    private QuestionInfoManager questionInfoMag;
 
     @Resource
     protected PlatformEnvironment platformEnvironment;
@@ -141,7 +140,7 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(method = {RequestMethod.POST})
     public void createQuestionInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestBody QuestionInfo questionInfo) throws IOException {
+                                   @RequestBody QuestionInfo questionInfo) {
         questionInfo.setUserCode(WebOptUtils.getCurrentUserCode(request));
         questionInfo.setUserName(WebOptUtils.getCurrentUserName(request));
         questionInfoMag.createQuestion(questionInfo);
@@ -150,28 +149,28 @@ public class QuestionInfoController  extends BaseController {
 
     /**
      * 删除单个  系统问题列表
-	 * @param questionId  QUESTION_ID
+     * @param questionId  QUESTION_ID
      */
     @RequestMapping(value = "/{questionId}", method = {RequestMethod.DELETE})
     public void deleteQuestionInfo(@PathVariable String questionId, HttpServletResponse response) {
-    	questionInfoMag.deleteQuestion(questionId);
+        questionInfoMag.deleteQuestion(questionId);
         JsonResultUtils.writeSingleDataJson(questionId,response);
     }
 
     /**
      * 修改问题
-	 * @param questionId  QUESTION_ID
+     * @param questionId  QUESTION_ID
      * @param response    {@link HttpServletResponse}
      */
     @RequestMapping(value = "/{questionId}", method = {RequestMethod.PUT})
     public void updateQuestionInfo(@PathVariable String questionId,
                                    @RequestBody QuestionInfo questionInfo,
-                                   HttpServletResponse response) throws IOException {
+                                   HttpServletResponse response) {
         if (questionInfo == null){
             JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
             return;
         }
-    	QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
+        QuestionInfo dbQuestionInfo  = questionInfoMag.getObjectById( questionId);
         dbQuestionInfo.copyNotNullProperty(questionInfo);
         questionInfoMag.mergeObject(dbQuestionInfo);
         JsonResultUtils.writeSingleDataJson(questionId,response);
@@ -185,7 +184,7 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(value = "/{questionId}/operator", method = {RequestMethod.PUT})
     public void updateOperator(@PathVariable String questionId,
                                HttpServletResponse response,
-                               @RequestBody QuestionInfo questionInfo) throws IOException {
+                               @RequestBody QuestionInfo questionInfo) {
         if (questionInfo == null){
             JsonResultUtils.writeErrorMessageJson("当前对象不存在", response);
             return;
@@ -203,7 +202,6 @@ public class QuestionInfoController  extends BaseController {
      * 工单分配给我自己(抢单)
      * @param questionId
      * @param response
-     * @throws IOException
      */
     @RequestMapping(value = "/{questionId}/grab", method = {RequestMethod.PUT})
     public void allotToMyself(@PathVariable String questionId,
@@ -252,7 +250,6 @@ public class QuestionInfoController  extends BaseController {
                                  PageDesc pageDesc,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
-
         String userCode = WebOptUtils.getCurrentUserCode(request);
         String editState = request.getParameter("editState");
         String questionState = request.getParameter("questionState");
@@ -342,13 +339,12 @@ public class QuestionInfoController  extends BaseController {
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
-
     /**
      * 获取所有责任人
      * @param response
      */
     @RequestMapping(value = "/allOperator", method = {RequestMethod.GET})
-    public void getOperator(HttpServletResponse response) throws Exception {
+    public void getOperator(HttpServletResponse response) {
         List<? extends IUserInfo> userInfoList =  platformEnvironment.listAllUsers();
         JsonResultUtils.writeSingleDataJson(userInfoList, response);
     }
@@ -360,7 +356,7 @@ public class QuestionInfoController  extends BaseController {
     @RequestMapping(value = "/assistOperator",method = {RequestMethod.POST})
     public void addAssistOperator(HttpServletResponse response,
                                   String questionId,
-                                  @RequestBody AssistOperator[] assistOperators) throws IOException {
+                                  @RequestBody AssistOperator[] assistOperators) {
         List<AssistOperator> pk = questionInfoMag.createAssistOperator(questionId,assistOperators);
         JsonResultUtils.writeSingleDataJson(pk,response);
     }
@@ -371,7 +367,7 @@ public class QuestionInfoController  extends BaseController {
      */
     @RequestMapping(value = "/assistOperator",method = {RequestMethod.DELETE})
     public void deleteAssistOperator(HttpServletResponse response,
-                                     @RequestBody AssistOperator[] assistOperators) throws IOException {
+                                     @RequestBody AssistOperator[] assistOperators) {
         if (assistOperators == null){
             JsonResultUtils.writeErrorMessageJson(400,"当前对象不存在", response);
             return;
@@ -386,10 +382,8 @@ public class QuestionInfoController  extends BaseController {
      * @return
      */
     @RequestMapping(value = "/assistOperator/{questionId}",method = {RequestMethod.GET})
-    public void listAssistOperator(@PathVariable String questionId,HttpServletResponse response) throws IOException {
+    public void listAssistOperator(@PathVariable String questionId,HttpServletResponse response) {
         List<AssistOperator> list = questionInfoMag.listAssistOperator(questionId);
         JsonResultUtils.writeSingleDataJson(list, response);
     }
-
-
 }

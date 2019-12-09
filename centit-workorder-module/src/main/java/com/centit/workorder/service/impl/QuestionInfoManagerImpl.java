@@ -35,41 +35,41 @@ import java.util.Map;
 */
 @Service
 public class QuestionInfoManagerImpl
-		extends BaseEntityManagerImpl<QuestionInfo, String,QuestionInfoDao>
-	implements QuestionInfoManager{
+        extends BaseEntityManagerImpl<QuestionInfo, String,QuestionInfoDao>
+    implements QuestionInfoManager{
 
-	public static final Log log = LogFactory.getLog(QuestionInfoManager.class);
+    public static final Log log = LogFactory.getLog(QuestionInfoManager.class);
 
-	@Value("${app.home}")
-	private String home;
-	@Value("${dir.config}")
-	private String config;
+    @Value("${app.home}")
+    private String home;
+    @Value("${dir.config}")
+    private String config;
 
-	@Resource(name = "questionRoundDao")
-	private QuestionRoundDao questionRoundDao ;
+    @Resource(name = "questionRoundDao")
+    private QuestionRoundDao questionRoundDao ;
 
-	@Resource(name = "assistOperatorDao")
-	private AssistOperatorDao assistOperatorDao ;
+    @Resource(name = "assistOperatorDao")
+    private AssistOperatorDao assistOperatorDao ;
 
-	@Resource(name = "questionCatalogDao")
-	private QuestionCatalogDao questionCatalogDao ;
+    @Resource(name = "questionCatalogDao")
+    private QuestionCatalogDao questionCatalogDao ;
 
-	private QuestionInfoDao questionInfoDao ;
+    private QuestionInfoDao questionInfoDao ;
 
-	@Resource(name = "questionInfoDao")
+    @Resource(name = "questionInfoDao")
     @NotNull
-	public void setQuestionInfoDao(QuestionInfoDao baseDao)
-	{
-		this.questionInfoDao = baseDao;
-		setBaseDao(this.questionInfoDao);
-	}
+    public void setQuestionInfoDao(QuestionInfoDao baseDao)
+    {
+        this.questionInfoDao = baseDao;
+        setBaseDao(this.questionInfoDao);
+    }
 
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId) {
-		return questionRoundDao.listQuestionRound(questionId);
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<QuestionRound> getQuestionRoundWithQuestionId(String questionId) {
+        return questionRoundDao.listQuestionRound(questionId);
+    }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
@@ -78,93 +78,93 @@ public class QuestionInfoManagerImpl
     }
 
     @Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId) {
-		Map<String, Object> filterMap = new HashMap<>();
-		filterMap.put("catalogId",catalogId);
-		List<QuestionInfo> list = questionInfoDao.listObjects(filterMap);
-		return list;
-	}
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("catalogId",catalogId);
+        List<QuestionInfo> list = questionInfoDao.listObjects(filterMap);
+        return list;
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public List<QuestionInfo> getUnabsorbedQuestion() {
-		List<QuestionInfo> list = questionInfoDao.unabsorbedQuestion();
-		return list;
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<QuestionInfo> getUnabsorbedQuestion() {
+        List<QuestionInfo> list = questionInfoDao.unabsorbedQuestion();
+        return list;
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void saveQuestionRound(QuestionRound questionRound) {
-		questionRound.setOrA("Q");
-		questionRound.setShowUser("T");
-		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
-		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
-		questionRoundDao.saveNewObject(questionRound);
-//		QuestionInfo dbQuestionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
-//		dbQuestionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
-//		dbQuestionInfo.setQuestionState("H");
-//		questionInfoDao.mergeObject(dbQuestionInfo);
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public void saveQuestionRound(QuestionRound questionRound) {
+        questionRound.setOrA("Q");
+        questionRound.setShowUser("T");
+        questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+        questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
+        questionRoundDao.saveNewObject(questionRound);
+//        QuestionInfo dbQuestionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
+//        dbQuestionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+//        dbQuestionInfo.setQuestionState("H");
+//        questionInfoDao.mergeObject(dbQuestionInfo);
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void deleteQuestion(String questionId) {
-		questionRoundDao.deleteObjectById(questionId);
-		questionInfoDao.deleteObjectById(questionId);
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public void deleteQuestion(String questionId) {
+        questionRoundDao.deleteObjectById(questionId);
+        questionInfoDao.deleteObjectById(questionId);
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public JSONArray getQuestionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-		JSONArray dataList = questionInfoDao.getQuestionInfo(baseDao,queryParamsMap,pageDesc);
-		if(dataList == null){
-			dataList = new JSONArray();
-		}
-		return dataList;
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public JSONArray getQuestionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        JSONArray dataList = questionInfoDao.getQuestionInfo(baseDao,queryParamsMap,pageDesc);
+        if(dataList == null){
+            dataList = new JSONArray();
+        }
+        return dataList;
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public JSONArray getQuestionInfoList(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-		JSONArray dataList = questionInfoDao.questionInfo(baseDao,queryParamsMap,pageDesc);
-		return dataList;
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public JSONArray getQuestionInfoList(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        JSONArray dataList = questionInfoDao.questionInfo(baseDao,queryParamsMap,pageDesc);
+        return dataList;
+    }
 
-	@Override
+    @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc) {
-		Map<String,Object> queryParamsMap = new HashMap<String,Object>();
+        Map<String,Object> queryParamsMap = new HashMap<String,Object>();
         List<String> list = assistOperatorDao.getList(assistOperatorDao,operatorCode,pageDesc);
         List<QuestionInfo> questionInfoList = new ArrayList<QuestionInfo>(list.size()*2);
         for (String questionId : list){
-			queryParamsMap.put("osId",osId);
+            queryParamsMap.put("osId",osId);
             queryParamsMap.put("questionId",questionId);
-			QuestionInfo questionInfo = questionInfoDao.getObjectByProperties(queryParamsMap);
-			if (questionInfo != null)
-            	questionInfoList.add(questionInfo);
+            QuestionInfo questionInfo = questionInfoDao.getObjectByProperties(queryParamsMap);
+            if (questionInfo != null)
+                questionInfoList.add(questionInfo);
         }
         return questionInfoList;
     }
 
     @Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public QuestionRound replayQuestion(QuestionRound questionRound) {
-		questionRound.setEditState("U");
-		questionRound.setRoundState("C");
-		questionRound.setOrA("A");
-//		questionRound.setShowUser("T");
-		questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
-		questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
-		questionRoundDao.saveNewObject(questionRound);
-		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
-		questionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
-		questionInfo.setCompleteTime(DatetimeOpt.currentUtilDate());
-		questionInfo.setEditState("U");
-		questionInfo.setQuestionState("R");
-		questionInfoDao.mergeObject(questionInfo);
-		return questionRound;
-	}
+    @Transactional(propagation= Propagation.REQUIRED)
+    public QuestionRound replayQuestion(QuestionRound questionRound) {
+        questionRound.setEditState("U");
+        questionRound.setRoundState("C");
+        questionRound.setOrA("A");
+//        questionRound.setShowUser("T");
+        questionRound.setCreateTime(DatetimeOpt.currentUtilDate());
+        questionRound.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+        questionRoundDao.saveNewObject(questionRound);
+        QuestionInfo questionInfo = questionInfoDao.getObjectById(questionRound.getQuestionId());
+        questionInfo.setLastUpdateTime(DatetimeOpt.currentUtilDate());
+        questionInfo.setCompleteTime(DatetimeOpt.currentUtilDate());
+        questionInfo.setEditState("U");
+        questionInfo.setQuestionState("R");
+        questionInfoDao.mergeObject(questionInfo);
+        return questionRound;
+    }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
@@ -180,40 +180,40 @@ public class QuestionInfoManagerImpl
     }
 
     @Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void createQuestion(QuestionInfo questionInfo) {
-		String catalogId = questionInfo.getCatalogId();
-		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
-		questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
-		questionInfo.setCreateTime(DatetimeOpt.currentUtilDate());
-		questionInfo.setQuestionState("U");
-		questionInfo.setEditState("N");
-		questionInfo.setOsId(questionCatalog.getOsId());
-		questionInfoDao.saveNewObject(questionInfo);
-	}
+    @Transactional(propagation= Propagation.REQUIRED)
+    public void createQuestion(QuestionInfo questionInfo) {
+        String catalogId = questionInfo.getCatalogId();
+        QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
+        questionInfo.setCurrentOperator(questionCatalog.getDefaultOperator());
+        questionInfo.setCreateTime(DatetimeOpt.currentUtilDate());
+        questionInfo.setQuestionState("U");
+        questionInfo.setEditState("N");
+        questionInfo.setOsId(questionCatalog.getOsId());
+        questionInfoDao.saveNewObject(questionInfo);
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public String evaluateAndCloseQuestion(String score, String questionId) {
-		int evaluateScore = Integer.valueOf(score);
-		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
-		questionInfo.setEvaluateScore(evaluateScore);
-		questionInfo.setEvaluateTime(DatetimeOpt.currentUtilDate());
-		questionInfo.setQuestionState("C");
-		questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
-		questionInfoDao.mergeObject(questionInfo);
-		return questionId;
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public String evaluateAndCloseQuestion(String score, String questionId) {
+        int evaluateScore = Integer.valueOf(score);
+        QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
+        questionInfo.setEvaluateScore(evaluateScore);
+        questionInfo.setEvaluateTime(DatetimeOpt.currentUtilDate());
+        questionInfo.setQuestionState("C");
+        questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
+        questionInfoDao.mergeObject(questionInfo);
+        return questionId;
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public String closeQuestion(String questionId) {
-		QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
-		questionInfo.setQuestionState("C");
-		questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
-		questionInfoDao.mergeObject(questionInfo);
-		return questionId;
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public String closeQuestion(String questionId) {
+        QuestionInfo questionInfo = questionInfoDao.getObjectById(questionId);
+        questionInfo.setQuestionState("C");
+        questionInfo.setClosedTime(DatetimeOpt.currentUtilDate());
+        questionInfoDao.mergeObject(questionInfo);
+        return questionId;
+    }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
@@ -233,51 +233,51 @@ public class QuestionInfoManagerImpl
     }
 
     @Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators) {
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators) {
 
         Map<String,Object> map = new HashMap<>();
         map.put("questionId",questionId);
         List<AssistOperator> list = assistOperatorDao.listObjects(map);
-		List<AssistOperator> pks = new ArrayList<AssistOperator>();
-		for (AssistOperator assistOperator : list) {
-			assistOperatorDao.deleteObject(assistOperator);
-		}
+        List<AssistOperator> pks = new ArrayList<AssistOperator>();
+        for (AssistOperator assistOperator : list) {
+            assistOperatorDao.deleteObject(assistOperator);
+        }
 
         if (assistOperators != null && assistOperators.length>0){
             for (AssistOperator assistOperator:assistOperators){
                 assistOperator.setCreateDate(DatetimeOpt.currentUtilDate());
             }
-			for (AssistOperator assistOperator : assistOperators) {
-				assistOperatorDao.saveNewObject(assistOperator);
-				pks.add(assistOperator);
-			}
+            for (AssistOperator assistOperator : assistOperators) {
+                assistOperatorDao.saveNewObject(assistOperator);
+                pks.add(assistOperator);
+            }
             return  pks;
         }
         return null;
-	}
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void deleteObject(AssistOperator[] assistOperators) {
-	    for(AssistOperator assistOperator : assistOperators){
-			assistOperatorDao.deleteObject(assistOperator);
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public void deleteObject(AssistOperator[] assistOperators) {
+        for(AssistOperator assistOperator : assistOperators){
+            assistOperatorDao.deleteObject(assistOperator);
         }
-	}
+    }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void addDefaultReplay(String questionId) {
-		QuestionRound round = new QuestionRound();
-//		round.setOrA("A");
-		round.setQuestionId(questionId);
-		round.setCreateTime(DatetimeOpt.currentUtilDate());
-		round.setUserCode("system");
-		round.setUserName("system");
-		round.setShowUser("T");
-		round.setRoundContent("你好，已经为您的问题分配工程师，请耐心等待");
-		questionRoundDao.saveNewObject(round);
-	}
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public void addDefaultReplay(String questionId) {
+        QuestionRound round = new QuestionRound();
+//        round.setOrA("A");
+        round.setQuestionId(questionId);
+        round.setCreateTime(DatetimeOpt.currentUtilDate());
+        round.setUserCode("system");
+        round.setUserName("system");
+        round.setShowUser("T");
+        round.setRoundContent("你好，已经为您的问题分配工程师，请耐心等待");
+        questionRoundDao.saveNewObject(round);
+    }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
@@ -296,13 +296,13 @@ public class QuestionInfoManagerImpl
         return null;
     }
 
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
     public List<AssistOperator> listAssistOperator(String questionId){
-		Map<String,Object> map = new HashMap<>();
-		map.put("questionId",questionId);
-		return assistOperatorDao.listObjects(map);
-	}
+        Map<String,Object> map = new HashMap<>();
+        map.put("questionId",questionId);
+        return assistOperatorDao.listObjects(map);
+    }
 
 }
 

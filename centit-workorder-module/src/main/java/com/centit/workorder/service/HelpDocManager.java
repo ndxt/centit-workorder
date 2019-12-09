@@ -22,27 +22,27 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     HelpDoc createHelpDoc(HelpDoc helpDoc);
 
-	HelpDoc editHelpDoc(String docId, HelpDoc helpDoc);
+    HelpDoc editHelpDoc(String docId, HelpDoc helpDoc);
 
-	void deleteHelpDoc(String docId);
+    void deleteHelpDoc(String docId);
 
-	void comment(String docId, HelpDocComment helpDocComment);
+    void comment(String docId, HelpDocComment helpDocComment);
 
-	void score(String docId, HelpDocScore helpDocScore);
+    void score(String docId, HelpDocScore helpDocScore);
 
-	HelpDoc editContent(String docId, String content, String userCode);
+    HelpDoc editContent(String docId, String content, String userCode);
 
-	JSONArray searchHelpdocByLevel(String osId);
-//	JSONArray treeSearch(String osId);
+    JSONArray searchHelpdocByLevel(String osId);
+//    JSONArray treeSearch(String osId);
 
     List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-	JSONArray searchComments(String docId);
+    JSONArray searchComments(String docId);
 
-	JSONObject searchScores(String docId);
+    JSONObject searchScores(String docId);
 
-	List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc);
+    List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc);
 
-	List<Map<String, Object>> fullSearch(String catalogId, PageDesc pageDesc);
+    List<Map<String, Object>> fullSearch(String catalogId, PageDesc pageDesc);
 
 }

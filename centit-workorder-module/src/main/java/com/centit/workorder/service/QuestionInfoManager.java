@@ -20,45 +20,45 @@ import java.util.Map;
 public interface QuestionInfoManager extends BaseEntityManager<QuestionInfo,String>
 {
 
-	List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
+    List<QuestionRound> getQuestionRoundWithQuestionId(String questionId);
 
     List<QuestionRound> getQuestionRoundShowUser(String questionId);
 
-	List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId);
+    List<QuestionInfo> getQuestionInfoWithCatalogId(String catalogId);
 
-	List<QuestionInfo> getUnabsorbedQuestion();
+    List<QuestionInfo> getUnabsorbedQuestion();
 
-	void saveQuestionRound(QuestionRound questionRound);
+    void saveQuestionRound(QuestionRound questionRound);
 
-	void deleteQuestion(String questionId);
+    void deleteQuestion(String questionId);
 
-	JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+    JSONArray getQuestionInfo(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
     JSONArray getQuestionInfoList(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
     List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc);
 
-	QuestionRound replayQuestion(QuestionRound questionRound);
+    QuestionRound replayQuestion(QuestionRound questionRound);
 
     QuestionRound discussQuestion(QuestionRound questionRound);
 
-	void createQuestion(QuestionInfo questionInfo);
+    void createQuestion(QuestionInfo questionInfo);
 
-	String evaluateAndCloseQuestion(String score,String questionId);
+    String evaluateAndCloseQuestion(String score,String questionId);
 
-	String closeQuestion(String questionId);
+    String closeQuestion(String questionId);
 
     void updateShowUserTag(String roundId,String showUser);
 
     void updateDiscuss(QuestionRound questionRound);
 
-	List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators);
+    List<AssistOperator> createAssistOperator(String questionId,AssistOperator[] assistOperators);
 
-	void deleteObject(AssistOperator[] assistOperators);
+    void deleteObject(AssistOperator[] assistOperators);
 
-	void addDefaultReplay(String questionId);
+    void addDefaultReplay(String questionId);
 
     String loginRole(String questionId,String userCode,String userName);
 
-	List<AssistOperator> listAssistOperator(String questionId);
+    List<AssistOperator> listAssistOperator(String questionId);
 }

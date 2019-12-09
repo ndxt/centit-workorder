@@ -14,7 +14,7 @@ create table F_QUESTION_CATALOG
    creator              varchar(32),
    create_time          datetime,
     DEFAULT_OPERATOR     VARCHAR(32),
-	TIME_LIMIT           INT,
+    TIME_LIMIT           INT,
    primary key (CATALOG_ID)
 );
 

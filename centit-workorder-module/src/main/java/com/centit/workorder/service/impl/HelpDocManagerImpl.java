@@ -38,44 +38,44 @@ import java.util.Map;
 */
 @Service
 public class HelpDocManagerImpl
-		extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
-	implements HelpDocManager{
+        extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
+    implements HelpDocManager{
 
-	public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
+    public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
-	public static String SEARCHER_CONFIG_FILE = "system.properties";
-	@Resource
-	private HelpDocScoreDao helpDocScoreDao;
+    public static String SEARCHER_CONFIG_FILE = "system.properties";
+    @Resource
+    private HelpDocScoreDao helpDocScoreDao;
 
-	@Resource
-	private HelpDocCommentDao helpDocCommentDao;
+    @Resource
+    private HelpDocCommentDao helpDocCommentDao;
 
-	@Resource
-	private HelpDocVersionDao helpDocVersionDao;
+    @Resource
+    private HelpDocVersionDao helpDocVersionDao;
 
-	@Resource
-	private QuestionCatalogDao questionCatalogDao;
+    @Resource
+    private QuestionCatalogDao questionCatalogDao;
 
-	private HelpDocDao helpDocDao ;
+    private HelpDocDao helpDocDao ;
 
-	@Resource(name = "helpDocDao")
+    @Resource(name = "helpDocDao")
     @NotNull
-	public void setHelpDocDao(HelpDocDao baseDao)
-	{
-		this.helpDocDao = baseDao;
-		setBaseDao(this.helpDocDao);
-	}
+    public void setHelpDocDao(HelpDocDao baseDao)
+    {
+        this.helpDocDao = baseDao;
+        setBaseDao(this.helpDocDao);
+    }
 
 
-	/**
-	 * 创建帮助文档
-	 * @param helpDoc
-	 */
-	@Override
-	@Transactional
-	public HelpDoc createHelpDoc(HelpDoc helpDoc) {
+    /**
+     * 创建帮助文档
+     * @param helpDoc
+     */
+    @Override
+    @Transactional
+    public HelpDoc createHelpDoc(HelpDoc helpDoc) {
 
-		String parentDocId = helpDoc.getDocPath();
+        String parentDocId = helpDoc.getDocPath();
 
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if(parentDoc != null){
@@ -86,96 +86,96 @@ public class HelpDocManagerImpl
             helpDoc.setDocPath("0");
             helpDoc.setDocLevel(1);
         }
-		helpDocDao.saveNewObject(helpDoc);
+        helpDocDao.saveNewObject(helpDoc);
 
-		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),
-				/*ObjectDocument.class,*/ FileDocument.class);
+        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),
+                /*ObjectDocument.class,*/ FileDocument.class);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-		indexer.saveNewDocument(objectDocument);
+        indexer.saveNewDocument(objectDocument);
 
         return helpDoc;
-	}
+    }
 
-	@Override
-	@Transactional
-	public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
-		HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
+    @Override
+    @Transactional
+    public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
+        HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
 
-		dbHelpDoc.copyNotNullProperty(helpDoc);
-		helpDocDao.updateObject(dbHelpDoc);
+        dbHelpDoc.copyNotNullProperty(helpDoc);
+        helpDocDao.updateObject(dbHelpDoc);
 
-		Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), FileDocument.class);
-		ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-		indexer.updateDocument(objectDocument);
+        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), FileDocument.class);
+        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
+        indexer.updateDocument(objectDocument);
 
         return dbHelpDoc;
-	}
+    }
 
-	private List<HelpDoc> findChildren(String parentId){
-	    List<HelpDoc> result = new ArrayList<>();
-		Map<String, Object> map = new HashMap<>();
-		map.put("parentId", "%"+parentId);
-		List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
+    private List<HelpDoc> findChildren(String parentId){
+        List<HelpDoc> result = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("parentId", "%"+parentId);
+        List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
         result.addAll(helpDocs);
         for(HelpDoc h : helpDocs){
             result.addAll(findChildren(h.getDocId()));
         }
         return result;
-	}
+    }
 
-	@Override
-	@Transactional
-	public void deleteHelpDoc(String docId) {
-	    HelpDoc helpDoc = helpDocDao.getObjectById(docId);
-		helpDocDao.deleteObjectById(docId);
+    @Override
+    @Transactional
+    public void deleteHelpDoc(String docId) {
+        HelpDoc helpDoc = helpDocDao.getObjectById(docId);
+        helpDocDao.deleteObjectById(docId);
 
         helpDocDao.deleteObjectById(findChildren(docId));//删除子孙节点
 
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
         List<HelpDocVersion> versions = helpDocVersionDao.listObjects(map);
-		for (HelpDocVersion version : versions) {
-			helpDocVersionDao.deleteObject(version);//删除所有历史版本
-		}
+        for (HelpDocVersion version : versions) {
+            helpDocVersionDao.deleteObject(version);//删除所有历史版本
+        }
 
-		helpDocCommentDao.deleteObjectById(docId);//删除评论
-		helpDocScoreDao.deleteObjectById(docId);//删除评分
+        helpDocCommentDao.deleteObjectById(docId);//删除评论
+        helpDocScoreDao.deleteObjectById(docId);//删除评分
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
                 IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), /*ObjectDocument.class,*/ FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         indexer.deleteDocument(objectDocument);
-	}
+    }
 
-	@Override
-	@Transactional
-	public void comment(String docId, HelpDocComment helpDocComment) {
+    @Override
+    @Transactional
+    public void comment(String docId, HelpDocComment helpDocComment) {
 
-		helpDocComment.setDocId(docId);
-		helpDocCommentDao.saveNewObject(helpDocComment);
-	}
+        helpDocComment.setDocId(docId);
+        helpDocCommentDao.saveNewObject(helpDocComment);
+    }
 
-	@Override
-	@Transactional
-	public void score(String docId, HelpDocScore helpDocScore) {
+    @Override
+    @Transactional
+    public void score(String docId, HelpDocScore helpDocScore) {
 
-		helpDocScore.setDocId(docId);
-		helpDocScoreDao.saveNewObject(helpDocScore);
-	}
+        helpDocScore.setDocId(docId);
+        helpDocScoreDao.saveNewObject(helpDocScore);
+    }
 
-	@Override
-	@Transactional
-	public HelpDoc editContent(String docId, String content, String userCode) {
-		HelpDoc helpDoc = helpDocDao.getObjectById(docId);
-		//保存旧版本
-		int docVersion = DatabaseOptUtils.getSequenceNextValue(helpDocVersionDao, "DOC_VERSION").intValue();
-		helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
-		helpDoc.setDocFile(content);
+    @Override
+    @Transactional
+    public HelpDoc editContent(String docId, String content, String userCode) {
+        HelpDoc helpDoc = helpDocDao.getObjectById(docId);
+        //保存旧版本
+        int docVersion = DatabaseOptUtils.getSequenceNextValue(helpDocVersionDao, "DOC_VERSION").intValue();
+        helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
+        helpDoc.setDocFile(content);
         helpDoc.setUpdateUser(userCode);
-		helpDocDao.updateObject(helpDoc);
+        helpDocDao.updateObject(helpDoc);
 
         Indexer indexer = IndexerSearcherFactory.obtainIndexer(
         IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class);
@@ -183,96 +183,96 @@ public class HelpDocManagerImpl
         indexer.updateDocument(objectDocument);
 
         return helpDoc;
-	}
-
-	@Override
-	@Transactional
-	public JSONArray searchHelpdocByLevel(String osId) {
-		Map<String, Object> filterMap = new HashMap<>();
-		filterMap.put("osId",osId);
-		List<HelpDoc> list = helpDocDao.listObjects(filterMap);
-		return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
-				String parent = p.getDocId();
-				String child = c.getDocPath();
-				if(child.lastIndexOf("/") != -1) {
-					String temp = child.substring(child.lastIndexOf("/")+1, child.length());
-
-					return parent.equals(temp);
-				}else{
-					return false;
-				}
-			}, "children");
-	}
-
-	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
-	public List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
-//		String queryStatement =
-//				"select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
-//				+" from f_help_doc h left join "
-//				+" (select c.DOC_ID,count(c.COMMENT_ID) count"
-//				+" from f_help_doc_comment c"
-//				+" group by c.DOC_ID) m "
-//				+" on h.DOC_ID = m.DOC_ID "
-//				+" where 1=1 "
-//				+ " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
-//				+ " [ :osId | and h.OS_ID = :osId ]"
-//				+ " order by count desc";
-//
-//		QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-//		JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
-//					qap.getQuery(), qap.getParams(), pageDesc);
-
-        List<HelpDoc> helpDocs = listObjects(queryParamsMap);
-		return helpDocs;
-	}
-
-	@Override
-	@Transactional
-	public JSONArray searchComments(String docId) {
-		Map<String, Object> filterMap = new HashMap<>();
-		filterMap.put("docId",docId);
-		List<HelpDocComment> list = helpDocCommentDao.listObjects(filterMap);
-		JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
-		return array;
-	}
-
-	@Override
-	@Transactional
-	public JSONObject searchScores(String docId) {
-		JSONObject obj = new JSONObject();
-		Map<String, Object> filterMap = new HashMap<>();
-		filterMap.put("docId",docId);
-		List<HelpDocScore> list = helpDocScoreDao.listObjects(filterMap);
-		int times = list.size();
-		if(times > 0) {
-			obj.put("times", times);
-			int sum = 0;
-			for(int i = 0; i < times; i++){
-				sum += list.get(i).getDocScore();
-			}
-			float score = (float)sum/times;
-			DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
-			String average = df.format(score);//返回的是String类型的
-			obj.put("average", average);
-		}
-		return obj;
-	}
+    }
 
     @Override
-	@Transactional
-	public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc){
+    @Transactional
+    public JSONArray searchHelpdocByLevel(String osId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("osId",osId);
+        List<HelpDoc> list = helpDocDao.listObjects(filterMap);
+        return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
+                String parent = p.getDocId();
+                String child = c.getDocPath();
+                if(child.lastIndexOf("/") != -1) {
+                    String temp = child.substring(child.lastIndexOf("/")+1, child.length());
 
-		QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
-		if(questionCatalog != null){
-			if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
-				Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-						IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
+                    return parent.equals(temp);
+                }else{
+                    return false;
+                }
+            }, "children");
+    }
 
-//				List<Map<String, Object>> list = searcher.search(
-////						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
-				List<Map<String, Object>> list = searcher.search(
-						questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED)
+    public List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
+//        String queryStatement =
+//                "select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
+//                +" from f_help_doc h left join "
+//                +" (select c.DOC_ID,count(c.COMMENT_ID) count"
+//                +" from f_help_doc_comment c"
+//                +" group by c.DOC_ID) m "
+//                +" on h.DOC_ID = m.DOC_ID "
+//                +" where 1=1 "
+//                + " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
+//                + " [ :osId | and h.OS_ID = :osId ]"
+//                + " order by count desc";
+//
+//        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+//        JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
+//                    qap.getQuery(), qap.getParams(), pageDesc);
+
+        List<HelpDoc> helpDocs = listObjects(queryParamsMap);
+        return helpDocs;
+    }
+
+    @Override
+    @Transactional
+    public JSONArray searchComments(String docId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("docId",docId);
+        List<HelpDocComment> list = helpDocCommentDao.listObjects(filterMap);
+        JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
+        return array;
+    }
+
+    @Override
+    @Transactional
+    public JSONObject searchScores(String docId) {
+        JSONObject obj = new JSONObject();
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("docId",docId);
+        List<HelpDocScore> list = helpDocScoreDao.listObjects(filterMap);
+        int times = list.size();
+        if(times > 0) {
+            obj.put("times", times);
+            int sum = 0;
+            for(int i = 0; i < times; i++){
+                sum += list.get(i).getDocScore();
+            }
+            float score = (float)sum/times;
+            DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
+            String average = df.format(score);//返回的是String类型的
+            obj.put("average", average);
+        }
+        return obj;
+    }
+
+    @Override
+    @Transactional
+    public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc){
+
+        QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
+        if(questionCatalog != null){
+            if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
+                Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+                        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
+
+//                List<Map<String, Object>> list = searcher.search(
+////                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
+                List<Map<String, Object>> list = searcher.search(
+                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
 
                 if (list != null && list.size()>0){
                     for (int i=0;i<list.size();i++){
@@ -281,32 +281,32 @@ public class HelpDocManagerImpl
                         list.get(i).put("docPath",json.get("docPath").toString());
                     }
                 }
-				return list;
-			}
-		}
-		return null;
-	}
+                return list;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
-		Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-				IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
-//		List<Map<String, Object>> list = searcher.search(
-//				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
-		List<Map<String, Object>> list = searcher.search(
-				keyWord,pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
-		if (list != null && list.size()>0){
-			for (int i=0;i<list.size();i++){
-				JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
-				list.get(i).put("docId",json.get("docId").toString());
-				list.get(i).put("docPath",json.get("docPath").toString());
-				HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
-				if (helpDoc != null){
-					list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
-				}
-			}
-		}
-		return list;
-	}
+    @Override
+    public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
+        Searcher searcher = IndexerSearcherFactory.obtainSearcher(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
+//        List<Map<String, Object>> list = searcher.search(
+//                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
+        List<Map<String, Object>> list = searcher.search(
+                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
+        if (list != null && list.size()>0){
+            for (int i=0;i<list.size();i++){
+                JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
+                list.get(i).put("docId",json.get("docId").toString());
+                list.get(i).put("docPath",json.get("docPath").toString());
+                HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
+                if (helpDoc != null){
+                    list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
+                }
+            }
+        }
+        return list;
+    }
 }
 

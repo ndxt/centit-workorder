@@ -14,35 +14,29 @@ import java.util.Map;
 
 /**
  * HelpDocScoreDao  Repository.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 帮组文档评分null   
+ * 帮组文档评分null
 */
 
 @Repository
 public class HelpDocScoreDao extends BaseDaoImpl<HelpDocScore, String>
-	{
+    {
 
-	public static final Log log = LogFactory.getLog(HelpDocScoreDao.class);
-	
-	@Override
-	public Map<String, String> getFilterField() {
-		if( filterField == null){
-			filterField = new HashMap<String, String>();
+    public static final Log log = LogFactory.getLog(HelpDocScoreDao.class);
 
-			filterField.put("scoreId" , CodeBook.EQUAL_HQL_ID);
+    @Override
+    public Map<String, String> getFilterField() {
+        if( filterField == null){
+            filterField = new HashMap<>();
+            filterField.put("scoreId" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("docScore" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
 
-			filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("docScore" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-
-		}
-		return filterField;
-	} 
+        }
+        return filterField;
+    }
 }

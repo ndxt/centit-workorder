@@ -28,7 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/questions/{questionId}/round")
 public class QuestionRoundController extends BaseController {
-    private static final Log log = LogFactory.getLog(QuestionRoundController.class);
+    private static final Log logger = LogFactory.getLog(QuestionRoundController.class);
 
     @Resource
     private QuestionInfoManager questionInfoMag;

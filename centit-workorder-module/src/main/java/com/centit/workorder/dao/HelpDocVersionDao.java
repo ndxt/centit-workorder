@@ -14,34 +14,27 @@ import java.util.Map;
 
 /**
  * HelpDocVersionDao  Repository.
- * create by scaffold 2017-05-08 
+ * create by scaffold 2017-05-08
  * @author codefan@sina.com
- * 系统帮助文档历史版本null   
+ * 系统帮助文档历史版本null
 */
 
 @Repository
 public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,String> {
 
-	public static final Log log = LogFactory.getLog(HelpDocVersionDao.class);
-	
-	@Override
-	public Map<String, String> getFilterField() {
-		if( filterField == null){
-			filterField = new HashMap<>();
+    public static final Log log = LogFactory.getLog(HelpDocVersionDao.class);
 
-			filterField.put("docId" , "docId = :docId");
-
-			filterField.put("docVersion" , "docVersion = :docVersion");
-
-			filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
-
-			filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
-
-		}
-		return filterField;
-	} 
+    @Override
+    public Map<String, String> getFilterField() {
+        if( filterField == null){
+            filterField = new HashMap<>();
+            filterField.put("docId" , "docId = :docId");
+            filterField.put("docVersion" , "docVersion = :docVersion");
+            filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
+            filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+        }
+        return filterField;
+    }
 }
