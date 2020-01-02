@@ -12,7 +12,7 @@ var gulpSSH = new GulpSSH({
 
 gulp.task('clean-before-build', ['clean', 'build']);
 
-gulp.task('deploy', ['clean', 'clean-before-build'], function () {
+gulp.task('deploy', function () {
 
   return gulp.src(['dist/**'])
     .pipe(sftp({

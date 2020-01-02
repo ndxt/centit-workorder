@@ -14,13 +14,13 @@ exports.paths = {
   tmp: '.tmp',
   e2e: 'e2e',
   localWebapp:'/home/zk/Workspaces/java/centit-workorder/centit-workorder-web/target/centit-workorder-web-0.0.1-SNAPSHOT',
-  remoteWebapp: '/opt/websvr/tomcat8/webapps/workorder',
-  remoteWWW: '/opt/www/order'
+  remoteWebapp: '/opt/websvr/tomcat8/webapps/framework/workorder',
+  remoteWWW: '/data/www/framework/wk'
 };
 
 exports.remote = {
   // host: '106.15.39.61',
-  host:'192.168.131.62',
+  host:'192.168.134.12',
   port: 22,
   username: 'root',
   password:'centit.1'

@@ -26,7 +26,7 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  const LocalHost = 'http://localhost:8080/workorder'
+  const LocalHost = 'http://192.168.134.3:19000/workorder'
   const LSHHost = 'http://192.168.132.42:8080/workorder'
 
   /*
