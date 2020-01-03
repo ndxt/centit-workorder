@@ -117,7 +117,7 @@ public class QuestionInfoManagerImpl
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public JSONArray getQuestionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-        JSONArray dataList = questionInfoDao.getQuestionInfo(baseDao,queryParamsMap,pageDesc);
+        JSONArray dataList = questionInfoDao.getQuestionInfo(queryParamsMap, pageDesc);
         if(dataList == null){
             dataList = new JSONArray();
         }
@@ -127,15 +127,15 @@ public class QuestionInfoManagerImpl
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public JSONArray getQuestionInfoList(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-        JSONArray dataList = questionInfoDao.questionInfo(baseDao,queryParamsMap,pageDesc);
+        JSONArray dataList = questionInfoDao.questionInfo(queryParamsMap, pageDesc);
         return dataList;
     }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public List<QuestionInfo> getQuestionInfoWithOperator(String osId,String operatorCode, PageDesc pageDesc) {
-        Map<String,Object> queryParamsMap = new HashMap<String,Object>();
-        List<String> list = assistOperatorDao.getList(assistOperatorDao,operatorCode,pageDesc);
+        Map<String,Object> queryParamsMap = new HashMap<>();
+        List<String> list = assistOperatorDao.listQuestionId(operatorCode);
         List<QuestionInfo> questionInfoList = new ArrayList<QuestionInfo>(list.size()*2);
         for (String questionId : list){
             queryParamsMap.put("osId",osId);

@@ -3,7 +3,7 @@ package com.centit.workorder.dao;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
-import com.centit.support.database.utils.PageDesc;
+import com.centit.support.database.utils.DatabaseAccess;
 import com.centit.workorder.po.AssistOperator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,11 +32,10 @@ public class AssistOperatorDao extends BaseDaoImpl<AssistOperator,String> {
         return filterField;
     }
 
-    public List<String> getList(BaseDaoImpl baseDao, String operatorCode, PageDesc pageDesc){
+    public List<String> listQuestionId(String operatorCode){
         String sql = "select f.QUESTION_ID from F_ASSIST_OPERATOR f where f.OPERATOR_CODE=?";
-        List<String> list = (List<String>) DatabaseOptUtils.getScalarObjectQuery(baseDao, sql,new Object[]{operatorCode});
-        return list;
+        List<Object[]> list =  DatabaseOptUtils.listObjectsBySql(this, sql,new Object[]{operatorCode});
+        return DatabaseAccess.fetchSingleColumnAsString(list);
     }
-
 
 }

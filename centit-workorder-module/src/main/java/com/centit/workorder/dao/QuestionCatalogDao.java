@@ -3,7 +3,6 @@ package com.centit.workorder.dao;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;
-import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
@@ -47,7 +46,6 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog, String>
         return filterField;
     }
 
-
     public JSONArray listCatalogAsJson(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
         String queryStatement =
             "WHERE 1=1  [ :osId | and h.OS_ID = :osId ]"
@@ -59,7 +57,7 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog, String>
     }
 
     public List<QuestionCatalog> listCatalog(Map<String, Object> queryParamsMap) {
-        String queryStatement = "WHERE 1=1 [:osId | and h.osId = :OS_ID ]"
+        String queryStatement = "WHERE 1=1 [:osId | and h.OS_ID = :osId ]"
                         + " [ :catalogName | and h.CATALOG_NAME = :catalogName ]"
                         + " [ :begin | and h.CREATE_TIME > :begin ]"
                         + " [ :end | and h.CREATE_TIME < :end ]"
