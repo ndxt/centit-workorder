@@ -56,17 +56,17 @@
             controller: 'BreadcrumbController as vm'
           }
         },
-        resolve: {
-          isAdmin: ['Authentication', function (Authentication) {
-            return Authentication.isAdmin()
-          }]
-        },
+        // resolve: {
+        //   isAdmin: ['Authentication', function (Authentication) {
+        //     return Authentication.isAdmin()
+        //   }]
+        // },
         data: {
           // 是否需要登录校验
-          requireLogin: true,
+          requireLogin: false,
 
           // 是否需要鉴权
-          requireAuthentication: true
+          requireAuthentication: false
         }
       })
 
