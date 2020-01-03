@@ -17,9 +17,9 @@ import java.util.Map;
 public interface QuestionCatalogManager extends BaseEntityManager<QuestionCatalog,String>
 {
 
-    JSONArray getAllCatalog(Map<String,Object>queryParamsMap, PageDesc pageDesc);
+    JSONArray listCatalogAsJson(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-    JSONArray getCatalog(Map<String, Object> queryParamsMap, PageDesc pageDesc);
+    JSONArray listAllCatalog(Map<String, Object> queryParamsMap);
 
     void deleteCatalog(String catalogId);
 

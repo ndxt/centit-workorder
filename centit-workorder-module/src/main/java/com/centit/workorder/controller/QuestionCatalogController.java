@@ -56,7 +56,7 @@ public class QuestionCatalogController  extends BaseController {
         map.put("catalogName",catalogName);
         map.put("begin",begin);
         map.put("end",end);
-        JSONArray listObjects = questionCatalogMag.getAllCatalog(map, pageDesc);
+        JSONArray listObjects = questionCatalogMag.listCatalogAsJson(map, pageDesc);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
@@ -64,7 +64,7 @@ public class QuestionCatalogController  extends BaseController {
     }
 
     @RequestMapping(value = "/rankList",method = RequestMethod.GET)
-    public void listLog(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+    public void listLog(@PathVariable String osId, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String catalogName = request.getParameter("catalogName");
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd HH:mm:ss");
@@ -73,10 +73,10 @@ public class QuestionCatalogController  extends BaseController {
         map.put("catalogName",catalogName);
         map.put("begin",begin);
         map.put("end",end);
-        JSONArray listObjects = questionCatalogMag.getCatalog(map, pageDesc);
+        JSONArray listObjects = questionCatalogMag.listAllCatalog(map);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
-        resData.addResponseData(PAGE_DESC, pageDesc);
+        //resData.addResponseData(PAGE_DESC, pageDesc);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 

@@ -48,31 +48,24 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog, String>
     }
 
 
-        public JSONArray getCatalog(BaseDaoImpl baseDao,Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-            String queryStatement =
-                    "select h.catalogId, h.catalogName, h.createTime ,h.creator,h.timeLimit,h.defaultOperator,h.catalogKeyWords"
-                            +" from QuestionCatalog h WHERE 1=1 "
-                            + " [ :osId | and h.osId = :osId ]"
-                            + " [ :catalogName | and h.catalogName = :catalogName ]"
-                            + " [ :begin | and h.createTime > :begin ]"
-                            + " [ :end | and h.createTime < :end ]";
-            QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
-                        qap.getQuery(), qap.getParams());
-            return dataList;
-        }
+    public JSONArray listCatalogAsJson(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        String queryStatement =
+            "WHERE 1=1  [ :osId | and h.OS_ID = :osId ]"
+                + " [ :catalogName | and h.CATALOG_NAME = :catalogName ]"
+                + " [ :begin | and h.CREATE_TIME > :begin ]"
+                + " [ :end | and h.CREATE_TIME < :end ]";
+        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement, queryParamsMap);
+        return this.listObjectsByFilterAsJson(qap.getQuery(), qap.getParams(), "h", pageDesc);
+    }
 
-        public List<QuestionCatalog> list(BaseDaoImpl baseDao,Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-            String queryStatement = " from QuestionCatalog h WHERE 1=1 "
-                            + " [ :osId | and h.osId = :osId ]"
-                            + " [ :catalogName | and h.catalogName = :catalogName ]"
-                            + " [ :begin | and h.createTime > :begin ]"
-                            + " [ :end | and h.createTime < :end ]"
-                            +" order by h.sort ";
-            QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            List<QuestionCatalog> dataList = (List<QuestionCatalog>) DatabaseOptUtils.getScalarObjectQuery(baseDao,
-                    qap.getQuery(), qap.getParams());
-            return dataList;
-        }
+    public List<QuestionCatalog> listCatalog(Map<String, Object> queryParamsMap) {
+        String queryStatement = "WHERE 1=1 [:osId | and h.osId = :OS_ID ]"
+                        + " [ :catalogName | and h.CATALOG_NAME = :catalogName ]"
+                        + " [ :begin | and h.CREATE_TIME > :begin ]"
+                        + " [ :end | and h.CREATE_TIME < :end ]"
+                        +" order by h.SORT ";
+        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+        return this.listObjectsByFilter(qap.getQuery(), qap.getParams(), "h");
+    }
 
 }
