@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.core.dao.DictionaryMapUtils;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
-import com.centit.search.document.FileDocument;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Indexer;
-import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
@@ -43,12 +41,17 @@ public class HelpDocManagerImpl
 
     public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
-    public static String SEARCHER_CONFIG_FILE = "system.properties";
     @Resource
     private HelpDocScoreDao helpDocScoreDao;
 
     @Resource
     private HelpDocCommentDao helpDocCommentDao;
+
+    @Resource
+    private Searcher esSearcher;
+
+    @Resource
+    private Indexer esIndexer;
 
     @Resource
     private HelpDocVersionDao helpDocVersionDao;
@@ -88,12 +91,8 @@ public class HelpDocManagerImpl
         }
         helpDocDao.saveNewObject(helpDoc);
 
-        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),
-                /*ObjectDocument.class,*/ FileDocument.class);
-
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        indexer.saveNewDocument(objectDocument);
+        esIndexer.saveNewDocument(objectDocument);
 
         return helpDoc;
     }
@@ -105,11 +104,8 @@ public class HelpDocManagerImpl
 
         dbHelpDoc.copyNotNullProperty(helpDoc);
         helpDocDao.updateObject(dbHelpDoc);
-
-        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        indexer.updateDocument(objectDocument);
+        esIndexer.updateDocument(objectDocument);
 
         return dbHelpDoc;
     }
@@ -144,10 +140,8 @@ public class HelpDocManagerImpl
         helpDocCommentDao.deleteObjectById(docId);//删除评论
         helpDocScoreDao.deleteObjectById(docId);//删除评分
 
-        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE), /*ObjectDocument.class,*/ FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        indexer.deleteDocument(objectDocument);
+        esIndexer.deleteDocument(objectDocument);
     }
 
     @Override
@@ -177,11 +171,8 @@ public class HelpDocManagerImpl
         helpDoc.setUpdateUser(userCode);
         helpDocDao.updateObject(helpDoc);
 
-        Indexer indexer = IndexerSearcherFactory.obtainIndexer(
-        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        indexer.updateDocument(objectDocument);
-
+        esIndexer.updateDocument(objectDocument);
         return helpDoc;
     }
 
@@ -266,12 +257,9 @@ public class HelpDocManagerImpl
         QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
         if(questionCatalog != null){
             if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
-                Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-                        IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
-
 //                List<Map<String, Object>> list = searcher.search(
 ////                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
-                List<Map<String, Object>> list = searcher.search(
+                List<Map<String, Object>> list = esSearcher.search(
                         questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
 
                 if (list != null && list.size()>0){
@@ -289,11 +277,9 @@ public class HelpDocManagerImpl
 
     @Override
     public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
-        Searcher searcher = IndexerSearcherFactory.obtainSearcher(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(SEARCHER_CONFIG_FILE),/*ObjectDocument.class,*/ FileDocument.class) ;
-//        List<Map<String, Object>> list = searcher.search(
+ //        List<Map<String, Object>> list = esSearcher.search(
 //                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
-        List<Map<String, Object>> list = searcher.search(
+        List<Map<String, Object>> list = esSearcher.search(
                 keyWord,pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
         if (list != null && list.size()>0){
             for (int i=0;i<list.size();i++){

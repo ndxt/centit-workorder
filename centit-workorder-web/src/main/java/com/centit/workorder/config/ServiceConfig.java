@@ -11,6 +11,12 @@ import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
+import com.centit.search.document.FileDocument;
+import com.centit.search.service.ESServerConfig;
+import com.centit.search.service.Impl.ESIndexer;
+import com.centit.search.service.Impl.ESSearcher;
+import com.centit.search.service.IndexerSearcherFactory;
+import com.centit.support.algorithm.NumberBaseOpt;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -44,6 +50,29 @@ public class ServiceConfig {
     }
 
     @Bean
+    public ESServerConfig esServerConfig(){
+        ESServerConfig config = new ESServerConfig();
+        config.setServerHostIp(this.env.getProperty("workorder.elasticsearch.server.ip"));
+        config.setServerHostPort(this.env.getProperty("workorder.elasticsearch.server.port"));
+        config.setClusterName(this.env.getProperty("workorder.elasticsearch.server.cluster"));
+        config.setOsId(this.env.getProperty("workorder.elasticsearch.osId"));
+        config.setMinScore(NumberBaseOpt.parseFloat(this.env.getProperty("workorder.elasticSearch.minScore"), 0.5F));
+        return config;
+    }
+
+    @Bean(name = "esIndexer")
+    public ESIndexer esIndexer(@Autowired ESServerConfig esServerConfig){
+        return IndexerSearcherFactory.obtainIndexer(
+            esServerConfig, FileDocument.class);
+    }
+
+    @Bean(name = "esSearcher")
+    public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig){
+        return IndexerSearcherFactory.obtainSearcher(
+            esServerConfig, FileDocument.class);
+    }
+
+    @Bean
     public FileStore fileStore(){
         //String fileStoreType= env.getProperty("filestore.type","os");
         String baseHome = env.getProperty("os.file.base.dir");
@@ -52,6 +81,7 @@ public class ServiceConfig {
         }
         return new OsFileStore(baseHome);
     }
+
     @Bean
     public NotificationCenter notificationCenter() {
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
@@ -68,6 +98,7 @@ public class ServiceConfig {
         operationLog.init();
         return operationLog;
     }
+
    @Bean
    public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
        return new InstantiationServiceBeanPostProcessor();
