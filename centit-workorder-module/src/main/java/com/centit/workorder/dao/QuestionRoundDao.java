@@ -45,13 +45,13 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound, String>
     }
 
     public List<QuestionRound> listQuestionRound(String questionId){
-        String hql = "FROM QuestionRound f WHERE f.questionId=? order by f.createTime";
+        String hql = " WHERE QUESTION_ID=? order by CREATE_TIME";
         List<QuestionRound> list = this.listObjectsByFilter(hql,new Object[]{questionId});
         return  list;
     }
 
     public List<QuestionRound> listQuestionRoundShowUser(String questionId){
-        String hql = "FROM QuestionRound f WHERE f.questionId=? and f.showUser='T' order by f.createTime";
+        String hql = "WHERE QUESTION_ID =? and SHOW_USER='T' order by CREATE_TIME";
         List<QuestionRound> list = this.listObjectsByFilter(hql,new Object[]{questionId});
         return  list;
     }

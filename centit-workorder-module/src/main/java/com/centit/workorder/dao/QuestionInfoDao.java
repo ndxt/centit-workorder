@@ -3,7 +3,6 @@ package com.centit.workorder.dao;
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;
-import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
@@ -25,8 +24,7 @@ import java.util.Map;
 */
 
 @Repository
-public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String>
-    {
+public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String> {
 
     public static final Log log = LogFactory.getLog(QuestionInfoDao.class);
 
@@ -55,49 +53,44 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String>
         return filterField;
     }
 
-        public JSONArray getQuestionInfo(BaseDaoImpl baseDao, Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-            String queryStatement =
-                    "select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState,h.userName "
-                            +" from QuestionInfo h WHERE 1=1 "
-                            + " [ :userCode | and h.userCode = :userCode ]"
-                            + " [ :osId | and h.osId = :osId ]"
-                            + " [ :currentOperator | and h.currentOperator = :currentOperator ]"
-                            + " [ :questionState | and h.questionState = :questionState ]"
-                            + " [ :editState | and h.editState = :editState ]"
-                            + " [ :questionTitle | and h.questionTitle like :questionTitle]"
-                            + " [ :questionContent | and h.questionContent like :questionContent]"
-                            + " [ :begin | and h.createTime > :begin ]"
-                            + " [ :end | and h.createTime < :end ]"
-                            + " order by h.createTime desc";
-            QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
-                        qap.getQuery(), qap.getParams(),pageDesc);
-            return dataList;
-        }
+    public JSONArray getQuestionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        String queryStatement =" WHERE 1=1 [ :userCode | and h.USER_CODE = :userCode ]"
+                        + " [ :osId | and h.OS_ID = :osId ]"
+                        + " [ :currentOperator | and h.CURRENT_OPERATOR = :currentOperator ]"
+                        + " [ :questionState | and h.QUESTION_STATE = :questionState ]"
+                        + " [ :editState | and h.EDIT_STATE = :editState ]"
+                        + " [ :questionTitle | and h.QUESTION_TITLE like :questionTitle]"
+                        + " [ :questionContent | and h.QUESTION_CONTENT like :questionContent]"
+                        + " [ :begin | and h.CREATE_TIME > :begin ]"
+                        + " [ :end | and h.CREATE_TIME < :end ]"
+                        + " order by h.CREATE_TIME desc";
+        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+        JSONArray dataList = this.listObjectsByFilterAsJson(
+                    qap.getQuery(), qap.getParams(), "h", pageDesc);
+        return dataList;
+    }
 
-        public List<QuestionInfo> unabsorbedQuestion(){
-            String hql = "FROM QuestionInfo f WHERE f.currentOperator  IS NULL OR f.currentOperator=''";
-            List<QuestionInfo> list = this.listObjectsByFilter(hql,new Object[]{null});
-            return  list;
-        }
+    public List<QuestionInfo> unabsorbedQuestion(){
+        String hql = " WHERE CURRENT_OPERATOR IS NULL OR CURRENT_OPERATOR=''";
+        List<QuestionInfo> list = this.listObjectsByFilter(hql,new Object[]{null});
+        return  list;
+    }
 
-        public JSONArray questionInfo(BaseDaoImpl baseDao, Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-            String queryStatement =
-                    "select h.questionId, h.catalogId, h.osId, h.createTime,h.editState,h.questionTitle,h.questionContent,h.currentOperator,h.questionState,h.userName "
-                            +" from QuestionInfo h WHERE 1=1 "
-                            + " [ :userCode | and h.userCode = :userCode ]"
-                            + " [ :osId | and h.osId = :osId ]"
-                            + " [ :questionState | and h.questionState = :questionState ]"
-                            + " [ :editState | and h.editState = :editState ]"
-                            + " [ :questionTitle | and h.questionTitle like :questionTitle]"
-                            + " [ :questionContent | and h.questionContent like :questionContent]"
-                            + " [ :begin | and h.createTime > :begin ]"
-                            + " [ :end | and h.createTime < :end ]"
-                            + " [ :operator | and h.currentOperator = :operator ]"
-                            + " [:operatorCode | or h.questionId in (select f.aid.questionId from AssistOperator f WHERE f.aid.operatorCode = :operatorCode)]";
-            QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-            JSONArray dataList = DatabaseOptUtils.listObjectsByNamedSqlAsJson(baseDao,
-                    qap.getQuery(), qap.getParams(),pageDesc);
-            return dataList;
-        }
+    public JSONArray questionInfo(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
+        String queryStatement ="WHERE 1=1 [ :userCode | and h.USER_CODE = :userCode ]"
+                        + " [ :osId | and h.OS_ID = :osId ]"
+                        + " [ :questionState | and h.QUESTION_STATE = :questionState ]"
+                        + " [ :editState | and h.EDIT_STATE = :editState ]"
+                        + " [ :questionTitle | and h.QUESTION_TITLE like :questionTitle]"
+                        + " [ :questionContent | and h.QUESTION_CONTENT like :questionContent]"
+                        + " [ :begin | and h.CREATE_TIME > :begin ]"
+                        + " [ :end | and h.CREATE_TIME < :end ]"
+                        + " [ :operator | and h.CURRENT_OPERATOR = :operator ]"
+                        + " [:operatorCode | or h.QUESTION_ID in " +
+            "(select f.QUESTION_ID from F_ASSIST_OPERATOR f WHERE f.OPERATOR_CODE = :operatorCode)]";
+        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
+        JSONArray dataList = this.listObjectsByFilterAsJson(
+            qap.getQuery(), qap.getParams(), "h", pageDesc);
+        return dataList;
+    }
 }
