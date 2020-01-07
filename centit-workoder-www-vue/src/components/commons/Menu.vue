@@ -116,7 +116,7 @@ export default {
     },
   },
 
-  methods: {
+  methods: {  
     async reload(sub) {
       this.loading = false
       sub = sub || this.$route.query.menu
@@ -139,6 +139,25 @@ export default {
           })
         }
       })
+      let _menuAry = [{icon: 'ios-flag',
+        id: 'WFDEFINE',
+        isInToolbar: 'Y',
+        pid: 'APPRFORM',
+        text: '知识库',
+        url: '/PageFlowDefine'}, {icon: 'ios-crop',
+        id: 'RoleFormula',
+        isInToolbar: 'Y',
+        pid: 'APPRFORM',
+        text: '提交工单',
+        url: '/PageFlowFormula'}, {
+        icon: 'ios-crop',
+        id: 'MATERIALMODULE',
+        isInToolbar: 'Y',
+        pid: 'ARPRO',
+        text: '我的工单',
+        url: '/MaterialModule',
+      }]
+      this.carte = _menuAry
 
       this.loading = true
     },
