@@ -1,0 +1,58 @@
+/*color*/
+
+/*公共部分*/
+.ivu-loading-bar-inner-color-primary {
+  background-color: #eff02d !important;
+}
+
+/*header*/
+.header .ivu-dropdown-rel{
+  color:#e8e8e8;
+}
+
+/*Dropdown*/
+/* .myDropdown .ivu-icon{
+ /* color: #6b6b6b!important;
+}*/
+.myDropdown .ivu-btn-ghost {
+  color: #6b6b6b!important;
+}
+.myDropdown .ivu-dropdown-item:hover {
+  background: #169989!important;
+}
+.myDropdown .ivu-dropdown-item:hover .ivu-icon{
+  color: #ffffff!important;
+}
+.myDropdown .ivu-dropdown-item:hover .ivu-btn-ghost {
+  color: #ffffff !important;
+}
+.myDropdown .ivu-btn-ghost.ivu-btn-primary:hover {
+  background: rgb(22, 153, 137)!important;
+}
+
+
+/*table*/
+.ivu-table-row-highlight td, .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td, tr.ivu-table-row-highlight.ivu-table-row-hover td {
+  background-color: #e4fbf8 !important
+}
+.ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td {
+  background-color: #f9f9f9;
+}
+.ivu-table th{
+  background-color: #f9f9f9;
+}
+.ivu-table-small th {
+  height: 40px;
+}
+.ivu-btn-ghost.ivu-btn-success {
+  color: #169989;
+}
+.ivu-table-sort i.on {
+  color: #169989
+}
+/* .ivu-table-cell .ivu-icon-md-arrow-dropdown:before,.ivu-table-cell .ivu-icon-md-arrow-dropup:before {
+  color: #169989;
+} */
+
+
+

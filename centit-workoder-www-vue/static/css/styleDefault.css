@@ -1,0 +1,26 @@
+/*Dropdown组件的样式*/
+.myDropdown .ivu-btn{
+  border: none!important;
+  width: 100%!important;
+  display: block!important;
+  text-align:left;
+}
+.myDropdown .ivu-icon{
+  margin-right:5px!important;
+}
+.myDropdown .ivu-table-cell{
+  text-align: left!important;
+}
+
+.myDropdownR .ivu-select-dropdown {
+  left: 10px!important;
+}
+
+/*table*/
+.ivu-table-fixed-right{
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+}
+
+
+

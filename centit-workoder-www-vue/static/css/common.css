@@ -1,0 +1,8 @@
+.layui-layer{
+  /* display: none; */
+}
+
+.ivu-page-item-jump-next:after, .ivu-page-item-jump-prev:after {
+  content: '...';
+  font-weight: 800;
+}
