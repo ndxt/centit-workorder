@@ -139,6 +139,7 @@ export default {
           })
         }
       })
+      // 菜单写死
       let _menuAry = [{icon: 'ios-flag',
         id: 'WFDEFINE',
         isInToolbar: 'Y',
@@ -156,8 +157,8 @@ export default {
         pid: 'ARPRO',
         text: '我的工单',
         url: '/MaterialModule',
-      }]
-      this.carte = _menuAry
+      }]      
+      Array.prototype.push.apply(this.carte, _menuAry);
 
       this.loading = true
     },
