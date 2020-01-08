@@ -141,18 +141,19 @@ export default {
       })
       // 菜单写死
       let _menuAry = [
-        {icon: 'ios-flag',
+        { icon: 'ios-flag',
           id: 'knowledgeBase',
           isInToolbar: 'Y',
           pid: 'APPRFORM',
           text: '知识库',
-          url: '/knowledgeBase'}, 
-        {icon: 'ios-crop',
+          url: '/knowledgeBase'}, {
+          icon: 'ios-crop',
           id: 'RoleFormula',
           isInToolbar: 'Y',
           pid: 'APPRFORM',
           text: '提交工单',
-          url: '/PageFlowFormula'}, 
+          url: '/admin/SubmitOrder'
+        },
         {
           icon: 'ios-crop',
           id: 'MATERIALMODULE',
@@ -160,7 +161,7 @@ export default {
           pid: 'ARPRO',
           text: '我的工单',
           url: '/MaterialModule',
-        }]      
+        }]
       Array.prototype.push.apply(this.carte, _menuAry);
 
       this.loading = true
