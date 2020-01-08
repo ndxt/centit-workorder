@@ -115,9 +115,14 @@ public class HelpDocManagerImpl
         Map<String, Object> map = new HashMap<>();
         map.put("parentId", "%"+parentId);
         List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
-        result.addAll(helpDocs);
-        for(HelpDoc h : helpDocs){
-            result.addAll(findChildren(h.getDocId()));
+        if(helpDocs != null && helpDocs.size()>0) {
+            result.addAll(helpDocs);
+            for (HelpDoc h : helpDocs) {
+                List<HelpDoc> subDocs = findChildren(h.getDocId());
+                if(subDocs!=null && subDocs.size()>0) {
+                    result.addAll(subDocs);
+                }
+            }
         }
         return result;
     }
