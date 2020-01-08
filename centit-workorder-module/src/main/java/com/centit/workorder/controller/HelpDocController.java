@@ -89,7 +89,6 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
-
         // 保存 历史版本，
         String userCode = WebOptUtils.getCurrentUserCode(request);
         HelpDoc result = helpDocMag.editContent(docId, content.get("content"), userCode);
@@ -103,7 +102,6 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
         //全部删除 不可恢复 包括历史版本
-
         helpDocMag.deleteHelpDoc(docId);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -133,7 +131,6 @@ public class HelpDocController  extends BaseController {
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
-
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
@@ -143,7 +140,6 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/score", method = RequestMethod.POST)
     public void score(@PathVariable String docId,
                       @Valid HelpDocScore helpDocScore, HttpServletResponse response) {
-
         helpDocMag.score(docId, helpDocScore);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -154,7 +150,6 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/comment", method = RequestMethod.POST)
     public void comment(@PathVariable String docId,
                         @Valid HelpDocComment helpDocComment, HttpServletResponse response) {
-
         helpDocMag.comment(docId, helpDocComment);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -166,7 +161,6 @@ public class HelpDocController  extends BaseController {
     public void searchScores(@PathVariable String docId, HttpServletResponse response) {
         //只返回一个 平均分 和一个 评分次数
         JSONObject obj = helpDocMag.searchScores(docId);
-
         JsonResultUtils.writeSingleDataJson(obj, response);
     }
 
@@ -176,8 +170,7 @@ public class HelpDocController  extends BaseController {
     @RequestMapping(value = "/{docId}/searchComments", method = RequestMethod.GET)
     public void searchComments(@PathVariable String docId, HttpServletResponse response) {
         //返回一个评价列表
-       JSONArray listObjects = helpDocMag.searchComments(docId);
-
+        JSONArray listObjects = helpDocMag.searchComments(docId);
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);

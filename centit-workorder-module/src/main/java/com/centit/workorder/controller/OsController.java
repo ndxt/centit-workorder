@@ -41,10 +41,11 @@ public class OsController extends BaseController {
     }
 
     /**
-     * 列出系统所有os信息
+     * 根据id获取os信息
      * @param osId osId
      */
     @RequestMapping(value = "/{osId}", method = {RequestMethod.GET})
+    @WrapUpResponseBody
     public OsInfo getOs(@PathVariable String osId) {
         return integrationEnvironment.getOsInfo(osId);
     }
