@@ -127,9 +127,12 @@ public class HelpDocManagerImpl
     public void deleteHelpDoc(String docId) {
         HelpDoc helpDoc = helpDocDao.getObjectById(docId);
         helpDocDao.deleteObjectById(docId);
-
-        helpDocDao.deleteObjectById(findChildren(docId));//删除子孙节点
-
+        List<HelpDoc> helpDocs = findChildren(docId);
+        if(helpDocs !=null && helpDocs.size()>0) {
+            for(HelpDoc doc : helpDocs) {
+                helpDocDao.deleteObjectById(doc);//删除子孙节点
+            }
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
         List<HelpDocVersion> versions = helpDocVersionDao.listObjects(map);
