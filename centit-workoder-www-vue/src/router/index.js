@@ -1,7 +1,7 @@
 import iView from 'iview'
 import Router from 'vue-router'
 import store from '../store'
-
+import workorder from './workorder'
 import dictionary from './dictionary'
 import role from './role'
 import login from './login'
@@ -17,12 +17,13 @@ import task from './task'
 import log from './log'
 import temp from './temp'
 import shanxi from './shanxi'
-
 import {
   checkLogin,
   goLogin
 } from '@/api/login'
 
+// const knowledgeBase = () => import('@/modules/knowledgeBase/knowledgeBase')
+const PageKnowedgeBase = () => import('@/modules/knowedgeBase/PageKnowedgeBase')
 const routers = new Router({
   // mode: 'history',
   routes: [
@@ -63,6 +64,16 @@ const routers = new Router({
     ...task,
 
     ...shanxi,
+    {
+      path: '/knowledgeBase',
+      name: 'knowledgeBase',
+      component: PageKnowedgeBase,
+      meta: {
+        title: '流程定义',
+      },
+    },
+
+    ...workorder
 
   ]
 })

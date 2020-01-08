@@ -26,7 +26,10 @@
         controllerAs: 'vm',
         resolve: {
           os: function() {
-            return osResolve(os)
+            // return osResolve(os)
+            return {
+              osId: 'N002'
+            }
           },
           catalog: function() {
             return catalogResolve(os, catalog)
