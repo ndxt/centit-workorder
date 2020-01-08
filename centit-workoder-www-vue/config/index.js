@@ -23,6 +23,7 @@ function proxyTableFactory(contextPath, serviceName) {
   }
 }
 
+
 module.exports = {
   dev: {
 
@@ -31,6 +32,11 @@ module.exports = {
     assetsPublicPath: '/',
 
     proxyTable: {
+      '/api/workorder': {
+        changeOrigin: true,
+        target: 'http://192.168.134.3:19000',
+        pathRewrite: {'^/api': ''}
+      },
       '/api': {
         changeOrigin: true,
         target: 'http://ceshi.centit.com',

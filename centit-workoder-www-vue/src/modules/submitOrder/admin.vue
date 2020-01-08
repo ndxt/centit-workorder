@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button icon="md-add" class="add-order-category" @click=" addOrderModal = true ">新增一级工单类别</Button>
+        <AddOrderCategoryOperator/>
         <Card style="width:350px">
         <p slot="title">
             <Icon type="ios-film-outline"></Icon>
@@ -20,28 +20,32 @@
             </li>
         </ul> -->
         </Card>
-        <Modal
-        v-model="addOrderModal"
-        title="新增一级工单类型"
-        @on-ok="ok"
-        @on-cancel="cancel">
-        <p>Content of dialog</p>
-        <p>Content of dialog</p>
-        <p>Content of dialog</p>
-    </Modal>
     </div>
 </template>
 <script>
 // 做成选择。。。选择。。。的形式
+import AddOrderCategoryOperator from './components/AddOrderCategoryOperator'
+
 export default {
   name: 'admin',
+  components: {
+    AddOrderCategoryOperator
+  },
   data() {
     return {
-      addOrderModal: false
+      addOrderModal: false,
+      nameVal: '',
+      sortVal: '',
+      describeVal: ''
     }
   },
   methods: {
     ok () {
+      //         catalogDescribe: "234"
+      // catalogName: "bbbb"
+      // icon: "glyphicon-home"
+      // osId: "N002"
+      // sort: "1"
       this.$Message.info('Clicked ok');
     },
     cancel () {
