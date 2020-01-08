@@ -7,7 +7,7 @@
   /** @ngInject */
   function DashboardController(
     $stateParams,ConfirmModalService,
-    CatalogAPI,isAdmin
+    CatalogAPI
   ) {
     const vm = this;
     const osId = $stateParams.osId;
@@ -16,7 +16,7 @@
     vm.create = create
     vm.remove = remove
     vm.queryCatalogs = queryCatalogs
-    vm.isAdmin = isAdmin
+    // vm.isAdmin = isAdmin
 
     activate()
 

@@ -1,7 +1,7 @@
 import iView from 'iview'
 import Router from 'vue-router'
 import store from '../store'
-
+import workorder from './workorder'
 import dictionary from './dictionary'
 import role from './role'
 import login from './login'
@@ -72,6 +72,8 @@ const routers = new Router({
         title: '流程定义',
       },
     },
+
+    ...workorder
 
   ]
 })
