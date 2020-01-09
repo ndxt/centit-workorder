@@ -8,7 +8,7 @@
     <zpa-text-input
       required
       label="排序"
-      v-model="value.stageName"
+      v-model="value.sort"
     />
     <zpa-textarea
       label="描述"

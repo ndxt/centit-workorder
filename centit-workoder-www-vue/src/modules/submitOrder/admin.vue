@@ -1,45 +1,81 @@
 <template>
-    <div>
-        <AddOrderCategoryOperator/>
-        <Card style="width:350px">
-        <p slot="title">
-            <Icon type="ios-film-outline"></Icon>
-            Classic film1
-        </p>
-        <a href="#" slot="extra" @click.prevent="changeLimit">
-            <Icon type="ios-loop-strong"></Icon>
-            Change
-        </a>
-        <!-- <ul>
-            <li v-for="item in randomMovieList">
-                <a :href="item.url" target="_blank">{{ item.name }}</a>
-                <span>
-                    <Icon type="ios-star" v-for="n in 4" :key="n"></Icon><Icon type="ios-star" v-if="item.rate >= 9.5"></Icon><Icon type="ios-star-half" v-else></Icon>
-                    {{ item.rate }}
-                </span>
-            </li>
-        </ul> -->
-        </Card>
-    </div>
+<SearchLayout>
+        <AddOrderCategoryOperator @success="reloadTable"/>
+        
+          <DataList
+      ref="Table"
+      isHidePage
+      :checkbox="false"
+      :columns="listColumns"
+      :query="getRankList"
+      :data="data"
+      :operWidth="300"
+      idField="catalogId"
+    >
+    <template slot-scope="props">
+        <ViewSubOrderListOperator :reloadParentTable="reloadTable" v-model="props.row"/>
+        <AddSubOrderOperator v-model="props.row" @success="reloadTable"/>
+        <EditOrderOperator v-model="props.row" @success="reloadTable"/>
+        <RemoveOrderOperator v-model="props.row" @success="reloadTable"/>
+    </template>
+    </DataList>
+  </SearchLayout>
 </template>
 <script>
 // 做成选择。。。选择。。。的形式
+import ViewSubOrderListOperator from './components/ViewSubOrderListOperator'
 import AddOrderCategoryOperator from './components/AddOrderCategoryOperator'
-
+import AddSubOrderOperator from './components/AddSubOrderOperator'
+import RemoveOrderOperator from './components/RemoveOrderOperator'
+import EditOrderOperator from './components/EditOrderOperator'
+import { getRankList } from '@/api/workorder.js'
 export default {
   name: 'admin',
   components: {
-    AddOrderCategoryOperator
+    ViewSubOrderListOperator,
+    AddOrderCategoryOperator,
+    RemoveOrderOperator,
+    EditOrderOperator,
+    AddSubOrderOperator
+  },
+  mounted() {
+    this.$refs['Table'].load({params: {
+      osId: 'N002'
+    }})
   },
   data() {
     return {
       addOrderModal: false,
       nameVal: '',
       sortVal: '',
-      describeVal: ''
+      describeVal: '',
+      listColumns: [
+        {
+          title: '类别名称',
+          key: 'catalogName',
+          minWidth: 150,
+        },
+        {
+          title: '类别排序',
+          key: 'sort',
+          minWidth: 50,
+        },
+        {
+          title: '类别描述',
+          key: 'catalogDescribe',
+          minWidth: 300,
+        },
+      ],
+      data: [],
     }
   },
   methods: {
+    getRankList,
+    reloadTable() {
+      this.$refs['Table'].load({params: {
+        osId: 'N002'
+      }})
+    },
     ok () {
       //         catalogDescribe: "234"
       // catalogName: "bbbb"
