@@ -146,13 +146,22 @@ export default {
           isInToolbar: 'Y',
           pid: 'APPRFORM',
           text: '知识库',
-          url: '/knowledgeBase'}, {
+          url: '/knowledgeBase'}, 
+        {
           icon: 'ios-crop',
-          id: 'RoleFormula',
+          id: 'AdminOrder',
           isInToolbar: 'Y',
           pid: 'APPRFORM',
           text: '提交工单',
           url: '/admin/SubmitOrder'
+        },
+        {
+          icon: 'ios-crop',
+          id: 'UserOrder',
+          isInToolbar: 'Y',
+          pid: 'APPRFORM',
+          text: '普通用户的提交工单',
+          url: '/user/SubmitOrder'
         },
         {
           icon: 'ios-crop',

@@ -26,3 +26,7 @@ export function removeOrder(data) {
 export function changeOrder(data) {
   return api.put(`/workorder/os/${data.osId}/catalogs/${data.catalogId}`, data).then(res => res.data)
 }
+
+export function docSearch(data) {
+  return api.get(`/workorder/os/${data.osId}/documents/fullTextSearch/${data.catalogId}`, data).then(res => res.data)
+}
