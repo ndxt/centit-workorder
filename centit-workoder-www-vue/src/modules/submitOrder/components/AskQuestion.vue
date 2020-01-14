@@ -1,7 +1,16 @@
 <template>
   <ModalOperator  ref="ModalOperator" text="提问" title="提问">
     <zpa-form ref="Form">
-      <AskQuestionForm v-model="data" :docList="docList"/>
+      <zpa-form-group>
+    <Divider>您可能需要的文章</Divider>
+    <ul class="doc-list">
+      <li v-for="doc in docList" :key="doc.docId">
+        {{doc.title}}
+      </li>
+    </ul>
+    <Button type="primary" @click="showQuestionForm = true" long>我有其它问题</Button>
+    <QuestionForm v-show="showQuestionForm" v-model="questionInfo" :catalogName="value.catalogName"/>
+  </zpa-form-group>
     </zpa-form>
   </ModalOperator>
 </template>
@@ -9,8 +18,8 @@
 <script>
 
 import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import AskQuestionForm from './AskQuestionForm'
-import { addSubOrder, docSearch } from '@/api/workorder.js'
+import QuestionForm from './QuestionForm'
+import { docSearch, addQuestion } from '@/api/workorder.js'
 export default {
   name: 'AddSubOrderOperator',
 
@@ -21,11 +30,17 @@ export default {
   data() {
     return {
       docList: [],
+      showQuestionForm: false,
+      questionInfo: {
+        questionTitle: '',
+        catalogId: this.value.catalogId,
+        questionContent: ''
+      }
     }
   },
 
   components: {
-    AskQuestionForm,
+    QuestionForm
   },
 
   methods: {
@@ -49,10 +64,11 @@ export default {
       // sort: "1"
       let submitForm = {
         osId: 'N002',
-        icon: 'glyphicon-home'
+        questionInfo: this.questionInfo
       }
-
-      addSubOrder(Object.assign({ parentId: this.value.catalogId }, submitForm, this.data))
+      if (this.showQuestionForm) {
+        addQuestion(submitForm)
+      }
     },
   },
 }

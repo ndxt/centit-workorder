@@ -66,6 +66,7 @@ module.exports = {
     iview: 'iview',
     axios: 'axios',
     echarts: 'echarts',
+    'vue-ueditor-wrap': 'VueUeditorWrap'
   },
 
   module: {

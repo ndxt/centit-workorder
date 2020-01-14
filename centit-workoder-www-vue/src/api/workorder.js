@@ -13,7 +13,14 @@ export function addSubOrder(data) {
   return api.post(`/workorder/os/${data.osId}/catalogs`, data)
     .then(res => res.data)
 }
-
+export function addQuestion(data) {
+  return api.post(`/workorder/os/${data.osId}/questions`, data.questionInfo)
+    .then(res => res.data)
+}
+export function searchQuestion({params}) {
+  return api.get(`/workorder/os/${params.osId}/questions?${params.searchStr}`)
+    .then(res => res.data)
+}
 export function getRankList({params}) {
   return api.get(`/workorder/os/${params.osId}/catalogs/rankList`)
     .then(res => res.data)

@@ -43,6 +43,7 @@ import 'babel-polyfill'
 import es6Promise from 'es6-promise'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 
 import VueCron from 'vue-cron'
 
@@ -84,7 +85,7 @@ Vue.component('UserSelect', UserSelect)
 Vue.component('RoleSelect', RoleSelect)
 Vue.component('UnitTreeSelect', UnitTreeSelect)
 Vue.component('MenuTreeSelect', MenuTreeSelect)
-
+Vue.component('vue-ueditor-wrap', VueUeditorWrap)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

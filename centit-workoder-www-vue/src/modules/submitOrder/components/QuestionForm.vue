@@ -3,36 +3,49 @@
     <zpa-text-input
       required
       label="标题"
-      v-model="value.catalogName"
+      v-model="value.questionTitle"
     />
     <zpa-text-input
       required
+      disabled
       label="类型"
-      v-model="category.catalogName"
+      v-model="catalogName"
     />
-    <zpa-textarea
-      label="描述"
-      :rows="4"
-      v-model="value.catalogDescribe"
-    />
+    <label class="editor-label">描述</label>
+    <vue-ueditor-wrap v-model="value.questionContent" :config="myConfig"></vue-ueditor-wrap>
   </zpa-form-group>
 </template>
 
 <script>
-import {
-  listFlowOptInfo,
-} from '@/api/workflow/flowDefine'
 
 export default {
   name: 'QuestionForm',
-
+  data() {
+    return {
+      myConfig: {
+        // autoHeightEnabled: false,
+        initialFrameHeight: 240,
+        initialFrameWidth: '100%',
+        imageUrl: '/ueditor/jsp/imageUp.jsp',
+        // 上传文件接口
+        // UE.getEditor('editor', { zIndex: 100});
+        zIndex: 99999,
+      }
+    }
+  },
   props: {
     value: Object,
-    category: Object
+    catalogName: String
   },
 
   methods: {
-    listFlowOptInfo,
   },
 }
 </script>
+<style scoped>
+.editor-label {
+    width: 80px;
+    padding: 0 4px 2px 0;
+    text-align: right;
+}
+</style>

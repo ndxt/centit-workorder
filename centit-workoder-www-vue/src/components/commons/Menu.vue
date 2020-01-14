@@ -165,6 +165,14 @@ export default {
         },
         {
           icon: 'ios-crop',
+          id: 'UserQuestion',
+          isInToolbar: 'Y',
+          pid: 'APPRFORM',
+          text: '普通用户的我的工单',
+          url: '/user/questions'
+        },
+        {
+          icon: 'ios-crop',
           id: 'MATERIALMODULE',
           isInToolbar: 'Y',
           pid: 'ARPRO',
