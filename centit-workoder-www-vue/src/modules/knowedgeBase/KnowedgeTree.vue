@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AddKnowedge @onSumbit='sumbitTreeDoc' :docVal='docVal'></AddKnowedge>
+    <AddKnowedge @onSumbit='sumbitTreeDoc'></AddKnowedge>
     <Tree :key='keyVal' slot="aside" :data="treeData" :render='renderContent'></Tree>
   </div>
 </template>
@@ -30,20 +30,23 @@ export default {
     this.getTreeData();
   },
   methods: {
-    
     search() {
       knowedgeSeach(this.params);
     },
     async getTreeData() {
       let _treeData = await knowedgeTreeData();
-      this.treeData = this.treeDataSet(_treeData);
+      this.treeData = this.treeDataSet(_treeData, true);
     },
-    treeDataSet(data) {
-      data.forEach(item => {
+    treeDataSet(data, fritst) {
+      data.forEach((item, index) => {
         item.text = item.label || item.docTitle;
         item.title = item.label || item.docTitle;
+        if (index === 0 && fritst) {
+          item.expand = true;
+          !item.children && this.$emit('getDoc', item);
+        }
         if (item.children) {
-          this.treeDataSet(item.children);
+          this.treeDataSet(item.children, index === 0);
         }
       });
       return data;
@@ -54,7 +57,8 @@ export default {
         {
           style: {
             display: 'inline-block',
-            width: '90%',
+            justifyContent: 'space-between',
+            width: '98%',
             height: '30px',
             lineHeight: '30px',
             fontSize: '14px',
@@ -63,25 +67,45 @@ export default {
           },
           on: {
             mouseover: () => {
-              this.nowDoc = data.docId;              
+              this.nowDoc = data.docId;
             },
             mouseout: () => {
               this.nowDoc = '';
             },
-            'click': () => {
-              !data.children && console.log(22)
+            click: () => {
+              !data.children && this.$emit('getDoc', data);
             }
           }
         },
         [
-          h('span', [h('span', data.title)]),
+          h(
+            'span',
+            {
+              style: {
+                width: 'calc(98% - 168px)',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis'
+              }
+            },
+            [
+              h(
+                'span',
+                {
+                  style: {
+                    display: 'inline-block'
+                  }
+                },
+                data.title
+              )
+            ]
+          ),
           h(
             'span',
             {
               style: {
                 display: this.nowDoc === data.docId ? 'inline-block' : 'none',
-                float: 'right',
-                marginRight: '32px'
+                float: 'right'
               }
             },
             [
@@ -108,7 +132,7 @@ export default {
               // 修改
               h(AddKnowedge, {
                 props: {
-                  docVal: { docTitle: data.docTitle || data.title },
+                  docVal: { docTitle: data.docTitle },
                   label: '',
                   icon: 'md-create'
                 },
@@ -124,9 +148,9 @@ export default {
               }),
               // 删除
               h('Button', {
-                props: Object.assign({}, this.buttonProps, {
+                props: {
                   icon: 'ios-remove'
-                }),
+                },
                 on: {
                   click: () => {
                     this.remove(root, node, data);
@@ -148,8 +172,9 @@ export default {
       if (data) {
         // 添加子节点
         const children = data.children || [];
-        retDocVal.text = retDocVal.docTitle
-        retDocVal.title = retDocVal.docTitle 
+        retDocVal.text = retDocVal.docTitle;
+        retDocVal.title = retDocVal.docTitle;
+        retDocVal.expand = true;
         children.push(retDocVal);
         this.$set(data, 'children', children);
       } else {
@@ -158,7 +183,7 @@ export default {
       this.docVal.docTitle = '';
     },
     async editTreeDoc(params, data, root, node) {
-      await eidtTreeDoc({...params, docId: data.docId});
+      await eidtTreeDoc({ ...params, docId: data.docId });
       let parentDoc = this.treeData.find(el => el.docId === data.docId);
       let index = -1;
       if (parentDoc) {
@@ -167,10 +192,12 @@ export default {
         this.treeData.splice(index, 1, parentDoc);
       } else {
         // 子节点修改
-        let parentKey = root.find(el => el === node);
-        let index = root.indexOf(parentKey);
-        parentKey.node.title = params.docTitle;
-        root.splice(index, 1, parentKey);
+        data.docTitle = params.docTitle;
+        data.title = params.docTitle;
+        // let parentKey = root.find(el => el === node);
+        // let index = root.indexOf(parentKey);
+        // parentKey.node.title = params.docTitle;
+        // root.splice(index, 1, parentKey);
       }
     },
     remove(root, node, data) {
@@ -182,23 +209,26 @@ export default {
         onOk: async function() {
           await deleteTreeDoc({ docId: data.docId });
           _this.$Modal.remove();
-          let parentKey = root.find(el => el === node).parent
-            ? root.find(el => el === node).parent
-            : root.find(el => el === node);
-          let index = -1;
-          let parent = {};
+          _this.getTreeData();
+          // let parentKey = root.find(el => el === node).parent
+          //   ? root.find(el => el === node).parent
+          //   : root.find(el => el === node);
+          // let index = -1;
+          // let parent = {};
 
-          if (typeof parentKey === 'number') {
-            // 子节点
-            parent = root.find(el => el.nodeKey === parentKey).node;
-            index = parent.children.indexOf(data);
-            parent.children.splice(index, 1);
-          } else {
-            // 顶层节点
-            // index = root.indexOf(parentKey);
-            let treeIndex = _this.treeData.indexOf(parentKey.node);
-            _this.treeData.splice(treeIndex, 1);
-          }
+          // if (typeof parentKey === 'number') {
+          //   // 子节点
+          //   parent = root.find(el => el.nodeKey === parentKey).node;
+          //   index = parent.children.indexOf(data);
+          //   parent.children.splice(index, 1);
+          //   //  _this.treeData.splice(index, 1,par);
+          //   console.log(_this.treeData)
+          // } else {
+          //   // 顶层节点
+          //   // index = root.indexOf(parentKey);
+          //   let treeIndex = _this.treeData.indexOf(parentKey.node);
+          //   _this.treeData.splice(treeIndex, 1);
+          // }
         }
       });
     }

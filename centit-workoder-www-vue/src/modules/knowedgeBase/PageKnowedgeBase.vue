@@ -1,31 +1,24 @@
 <template>
   <SearchLayout>
 
-    <div style="clear:both;">
-      <div style="float:left;width:36%;padding: 10px;">
-
-        <knowedgeTree />
+    <div>
+      <div class="konwedgeTreeBox" >
+        <knowedgeTree @getDoc='getDocFun' />
       </div>
-      <knowedgeDoc style="float:left;padding:10px;"></knowedgeDoc>
+      <knowedgeDoc class="knowedgeDoc" style="" v-model="docObject"></knowedgeDoc>
     </div>
   </SearchLayout>
 </template>
 <script>
-//  :show-checkbox="checkbox"
-//       :multiple="multiple"
-//       @on-check-change="checkChange"
-//       @on-select-change="selectChange"
-
 import knowedgeDoc from './KnowedgeDoc';
 import knowedgeTree from './KnowedgeTree';
-import { knowedgeSeach } from '@/api/knowedge/knowedge';
+import { knowedgeSeach, getDoc } from '@/api/knowedge/knowedge';
 export default {
   name: 'PageKnowedgeBase',
   data() {
     return {
-      docData: [],
       params: {},
-      docVal: {}
+      docObject: {}
     };
   },
   components: {
@@ -40,8 +33,9 @@ export default {
 
   mounted() {},
   methods: {
-    open() {
-      this.modalOpen = true;
+    async getDocFun(params) {
+      this.docObject = await getDoc(params);
+      console.log(params, this.docObject);
     },
     search() {
       knowedgeSeach(this.params);
@@ -49,3 +43,21 @@ export default {
   }
 };
 </script>
+<style scoped>
+.konwedgeTreeBox {
+  width: calc(30% - 40px);
+  padding: 20px;
+  border: 1px dashed #ddd;
+  margin: 20px;
+  height: calc(100% - 40px);
+  position: absolute;
+}
+.knowedgeDoc {
+  position: absolute;
+  left: 30%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+}
+</style>

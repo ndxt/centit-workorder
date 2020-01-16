@@ -21,7 +21,7 @@ export default {
     docVal: {
       type: Object,
       default: function() {
-        return {}
+        return {docTitle: ''}
       }
     },
     label: String,
@@ -31,7 +31,6 @@ export default {
   mounted() {},
   methods: {
     beforeSubmit() {
-      console.log(this.docVal)
       return this.$refs['Form'].validate();
     },
 
@@ -39,11 +38,12 @@ export default {
       this.$emit('onSumbit', {
         ...this.docVal
       });
-      // this.docVal.docTitle = '';
+      this.docVal.docTitle = ''
     },
     onCancel() {
-      // this.docVal.docTitle = '';
+      this.docVal.docTitle = ''
     }
+
   }
 };
 </script>

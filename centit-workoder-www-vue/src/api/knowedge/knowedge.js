@@ -36,3 +36,17 @@ export function eidtTreeDoc(parms = {}) {
   console.log(parms)
   return apiFactory('workorder', {}, 'application/json;charset=UTF-8').put(`/workorder/os/N002/documents/${parms.docId}`, parms).then(res => res.data);
 }
+
+/**
+ * 获取文档
+ */
+export function getDoc(parms = {}) {
+  return api.get(`/workorder/os/N002/documents/${parms.docId}`).then(res => res.data);
+}
+
+/**
+ * 编辑文档
+ */
+export function editDoc(parms = {}) {
+  return apiFactory('workorder', {}, 'application/json;charset=UTF-8').put(`/workorder/os/N002/documents/${parms.docId}/content`, parms).then(res => res.data)
+}
