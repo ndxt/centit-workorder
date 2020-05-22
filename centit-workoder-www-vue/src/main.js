@@ -86,6 +86,7 @@ Vue.component('RoleSelect', RoleSelect)
 Vue.component('UnitTreeSelect', UnitTreeSelect)
 Vue.component('MenuTreeSelect', MenuTreeSelect)
 Vue.component('vue-ueditor-wrap', VueUeditorWrap)
+Vue.osId = 'FILE_SVR'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

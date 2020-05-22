@@ -41,6 +41,14 @@ module.exports = {
         changeOrigin: true,
         target: 'http://ceshi.centit.com',
       },
+      '/utf8-jsp': {
+        changeOrigin: true,
+        target: 'http://localhost:8080',
+      },
+      '/ueditor': {
+        changeOrigin: true,
+        target: 'http://localhost:8080/utf8-jsp',
+      }
     },
 
     // Various Dev Server settings

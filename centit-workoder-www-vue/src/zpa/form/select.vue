@@ -20,6 +20,7 @@
       :clearable="clearable"
       :filterable="filterable"
       :readonly="readonly"
+      :placeholder="placeholder"
       :disabled="disabled"
       :loading="isLoading"
       @on-change="onInputChange"

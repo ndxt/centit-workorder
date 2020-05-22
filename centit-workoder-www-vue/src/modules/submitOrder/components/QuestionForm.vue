@@ -26,7 +26,7 @@ export default {
         // autoHeightEnabled: false,
         initialFrameHeight: 240,
         initialFrameWidth: '100%',
-        imageUrl: '/ueditor/jsp/imageUp.jsp',
+        imageUrl: 'http://localhost:8080/utf8-jsp/',
         // 上传文件接口
         // UE.getEditor('editor', { zIndex: 100});
         zIndex: 99999,

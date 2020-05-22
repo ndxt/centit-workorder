@@ -84,10 +84,10 @@
 import {
   mapState,
 } from 'vuex'
-import {
-  queryMenus,
-  querySubMenus,
-} from '@/api/menus'
+// import {
+//   queryMenus,
+//   querySubMenus,
+// } from '@/api/menus'
 
 export default {
   name: 'Menu',
@@ -121,24 +121,24 @@ export default {
       this.loading = false
       sub = sub || this.$route.query.menu
 
-      this.carte = !sub ? await queryMenus() : await querySubMenus(sub)
-      this.carte.forEach(v => {
-        if (v.children) {
-          v.children.forEach(k => {
-            if (this.path === k.url) {
-              this.$set(v, 'state', true)
-            }
-            if (k.children) {
-              k.children.forEach(j => {
-                if (this.path === j.url) {
-                  this.$set(k, 'state', true)
-                  this.$set(v, 'state', true)
-                }
-              })
-            }
-          })
-        }
-      })
+      // this.carte = !sub ? await queryMenus() : await querySubMenus(sub)
+      // this.carte.forEach(v => {
+      //   if (v.children) {
+      //     v.children.forEach(k => {
+      //       if (this.path === k.url) {
+      //         this.$set(v, 'state', true)
+      //       }
+      //       if (k.children) {
+      //         k.children.forEach(j => {
+      //           if (this.path === j.url) {
+      //             this.$set(k, 'state', true)
+      //             this.$set(v, 'state', true)
+      //           }
+      //         })
+      //       }
+      //     })
+      //   }
+      // })
       // 菜单写死
       let _menuAry = [
         { icon: 'ios-flag',
@@ -173,11 +173,11 @@ export default {
         },
         {
           icon: 'ios-crop',
-          id: 'MATERIALMODULE',
+          id: 'AdminQuestion',
           isInToolbar: 'Y',
           pid: 'ARPRO',
           text: '我的工单',
-          url: '/MaterialModule',
+          url: '/admin/questions',
         }]
       Array.prototype.push.apply(this.carte, _menuAry);
 

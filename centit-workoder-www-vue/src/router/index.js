@@ -80,8 +80,7 @@ const routers = new Router({
 
 let confirm = false
 routers.beforeEach((to, from, next) => {
-  iView.LoadingBar.start()
-
+  iView.LoadingBar.start()  
   const {needLogin} = to.meta
 
   if (needLogin === false) {

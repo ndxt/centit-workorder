@@ -30,6 +30,8 @@
       idField="catalogId"
     >
     <template slot-scope="props">
+        <EditQuestionOperator v-model="props.row" @success="search"/>
+        <ViewQuestionOperator v-model="props.row"/>
         <RemoveQuestionOperator v-model="props.row" @success="search"/>
     </template>
     </DataList>
@@ -37,7 +39,9 @@
 </template>
 <script>
 // 做成选择。。。选择。。。的形式
-// import UserViewSubOrderListOperator from './components/UserViewSubOrderListOperator'
+import RemoveQuestionOperator from './components/RemoveQuestionOperator'
+import EditQuestionOperator from './components/EditQuestionOperator'
+import ViewQuestionOperator from './components/ViewQuestionOperator'
 import { searchQuestion } from '@/api/workorder.js'
 
 const orderStates = [
@@ -65,7 +69,9 @@ const orderStates = [
 export default {
   name: 'admin',
   components: {
-    // UserViewSubOrderListOperator,
+    RemoveQuestionOperator,
+    EditQuestionOperator,
+    ViewQuestionOperator
   },
   mounted() {
     this.search()
@@ -80,15 +86,15 @@ export default {
       listColumns: [
         {
           title: '状态',
-          key: 'editState',
+          key: 'questionState',
           minWidth: 150,
           render: (h, params) => {
             let stateName
-            switch (params.row.editState) {
-              case 'N':
+            switch (params.row.questionState) {
+              case 'U':
                 stateName = '未处理'
                 break
-              case 'Y':
+              case 'H':
                 stateName = '已受理'
                 break
               case 'C':

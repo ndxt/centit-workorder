@@ -9,7 +9,7 @@
 
 <script>
 import {
-  removeOrder,
+  removeQuestion,
 } from '@/api/workorder'
 
 import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
@@ -23,15 +23,15 @@ export default {
 
   computed: {
     content() {
-      return `确认删除工单${this.value.catalogName}吗？`
+      return `确认删除工单${this.value.questionTitle}吗？`
     },
   },
 
   methods: {
     onSubmit() {
-      return removeOrder({
+      return removeQuestion({
         osId: 'N002',
-        id: this.value.catalogId
+        id: this.value.questionId
       })
     },
   },

@@ -14,7 +14,16 @@
             <Icon type="ios-lock" :size="20"></Icon>
             <input style="font-size: 15px;" placeholder="密码" v-model="obj.password" type="password" autocomplete="off"/>
           </div>
-
+          <zpa-select
+              label=""
+              style="margin:0 17px;"
+              @input="changeSystem"
+              v-model="obj.select"
+              :placeholder="'请选择系统'"
+              :values="systemList"
+              textField="osName"
+      valueField="osId"
+          ></zpa-select>
           <div class="field-submit">
             <Button class="submitBtn" @click.prevent="login">
               登录
@@ -42,7 +51,8 @@ import {
   loginAsAdmin,
   getCurrposition,
 } from '@/api/login'
-
+import Vue from 'vue'
+import { getOsList } from '@/api/workorder.js'
 import _ from 'lodash'
 import routers from '@/router/index'
 
@@ -52,14 +62,21 @@ export default {
   data() {
     return {
       obj: {},
+      systemList: []
     }
   },
 
+  async mounted() {
+    this.systemList = await getOsList()
+  },
   props: {
     admin: Boolean,
   },
 
   methods: {
+    changeSystem(e) {
+      Vue.osId = e
+    },
     login: _.debounce(function () {
       if (this.admin) {
         loginAsAdmin(this.obj)
