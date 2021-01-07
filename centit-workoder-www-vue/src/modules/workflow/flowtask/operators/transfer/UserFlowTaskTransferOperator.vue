@@ -27,17 +27,12 @@
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex'
-import {
-  moveFlowTaskTransfer,
-  moveFlowTaskTransferSelect,
-} from '@/api/workflow/flowTask'
+  import {mapState,} from 'vuex'
+  import {moveFlowTaskTransfer, moveFlowTaskTransferSelect,} from '@/api/workflow/flowTask'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'UserFlowTaskTransferOperator',
 
   mixins: [

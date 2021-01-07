@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import inputMixin from './mixins/input'
+  import inputMixin from './mixins/input'
 
-export default {
+  export default {
   name: 'zpaTextarea',
 
   mixins: [inputMixin],

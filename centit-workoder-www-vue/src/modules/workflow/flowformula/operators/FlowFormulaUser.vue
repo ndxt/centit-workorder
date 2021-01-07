@@ -14,11 +14,9 @@
 </template>
 
 <script>
-import {
-  viewFlowFormulaUser,
-} from '@/api/workflow/flowFormula'
+  import {viewFlowFormulaUser,} from '@/api/workflow/flowFormula'
 
-export default {
+  export default {
   name: 'FlowFormulaUser',
 
   props: {

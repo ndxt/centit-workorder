@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import {
-  addFlowDefineVariable,
-} from '@/api/workflow/flowDefine'
+  import {addFlowDefineVariable,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowDefineVariableOperator',
 
   mixins: [

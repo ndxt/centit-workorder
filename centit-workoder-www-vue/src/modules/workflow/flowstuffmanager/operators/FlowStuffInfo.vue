@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import AddFlowStuffGroupOperator from './AddFlowStuffGroupOperator';
-import GroupList from './GroupList';
+  import AddFlowStuffGroupOperator from './AddFlowStuffGroupOperator';
+  import GroupList from './GroupList';
 
-export default {
+  export default {
   name: 'FlowStuffInfo',
 
   data() {

@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import AssignFormulaUserOperator from './AssignFormulaUserOperator'
-import AssignFormulaUnitOperator from './AssignFormulaUnitOperator'
+  import AssignFormulaUserOperator from './AssignFormulaUserOperator'
+  import AssignFormulaUnitOperator from './AssignFormulaUnitOperator'
 
-export default {
+  export default {
   name: 'FlowFormulaInfo',
 
   components: {

@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-import RoleBaseInfo from '../RoleBaseInfo';
-import { addRole, createSubSysRole, createDepartmentRole } from '@/api/admin/role';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import RoleBaseInfo from '../RoleBaseInfo';
+  import {addRole, createDepartmentRole, createSubSysRole} from '@/api/admin/role';
 
-export default {
+  export default {
   name: 'AddRoleOperator',
 
   inject: ['top'],

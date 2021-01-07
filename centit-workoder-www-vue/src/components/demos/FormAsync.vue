@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import demo from './demo'
+  import demo from './demo'
 
-export default {
+  export default {
   name: 'FormAsyncDemo',
 
   mixins: [demo],

@@ -24,15 +24,15 @@
 </template>
 
 <script>
-import { queryFlowStuff } from '@/api/workflow/flowStuffManager';
+  import {queryFlowStuff} from '@/api/workflow/flowStuffManager';
 
-import flowStuffManagerColumns from './flowStuffManagerColumns';
+  import flowStuffManagerColumns from './flowStuffManagerColumns';
 
-import AddFlowStuffOperator from './operators/AddFlowStuffOperator';
-import EditFlowStuffOperator from './operators/EditFlowStuffOperator';
-import RemoveFlowStuffOperator from './operators/RemoveFlowStuffOperator';
+  import AddFlowStuffOperator from './operators/AddFlowStuffOperator';
+  import EditFlowStuffOperator from './operators/EditFlowStuffOperator';
+  import RemoveFlowStuffOperator from './operators/RemoveFlowStuffOperator';
 
-export default {
+  export default {
   name: 'PageFlowStuffManager',
 
   data() {

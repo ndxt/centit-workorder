@@ -9,13 +9,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  getUnitPower,
-  saveUnitPower,
-} from '@/api/admin/unit'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {getUnitPower, saveUnitPower,} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'UnitPowerOperator',
 
   mixins: [

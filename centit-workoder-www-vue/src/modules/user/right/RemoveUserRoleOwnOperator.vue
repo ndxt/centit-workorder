@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import { removeUserRoleOwn } from '@/api/admin/user'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeUserRoleOwn} from '@/api/admin/user'
 
-export default {
+  export default {
   name: 'RemoveRoleUserOperator',
 
   mixins: [

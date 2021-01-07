@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import {
-  restartFlowManagerNode,
-} from '@/api/workflow/flowManager'
+  import {restartFlowManagerNode,} from '@/api/workflow/flowManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RestartFlowManagerNodeOperator',
 
   mixins: [

@@ -1,6 +1,6 @@
 // 数据字典相关 API
 
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 // const api = apiFactory('appr')
 const api = apiFactory('admin')
 

@@ -10,8 +10,9 @@
 </template>
 
 <script>
-import { getCurrposition } from '@/api/login';
-export default {
+  import {getCurrposition} from '@/api/login';
+
+  export default {
   name: 'Header',
   methods: {
     showMsg() {

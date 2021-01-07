@@ -29,15 +29,10 @@
 </template>
 
 <script>
-import {
-  queryPower,
-  queryPowerRange,
-} from '@/api/admin/power'
-import {
-  walkTree
-} from '@/tool'
+  import {queryPower, queryPowerRange,} from '@/api/admin/power'
+  import {walkTree} from '@/tool'
 
-export default {
+  export default {
   name: 'PowerList',
 
   data() {

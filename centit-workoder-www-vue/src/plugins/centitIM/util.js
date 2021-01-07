@@ -1,4 +1,5 @@
 import $ from 'jQuery'
+
 const USER_AVATAR = 'http://tva3.sinaimg.cn/crop.0.0.180.180.180/7f5f6861jw1e8qgp5bmzyj2050050aa8.jpg'
 
 export const _getContextPath = () => {

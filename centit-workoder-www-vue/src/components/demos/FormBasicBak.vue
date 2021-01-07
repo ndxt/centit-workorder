@@ -145,9 +145,9 @@
 </template>
 
 <script>
-import demo from './demo'
+  import demo from './demo'
 
-export default {
+  export default {
   name: 'FormBasicDemo',
 
   mixins: [demo],

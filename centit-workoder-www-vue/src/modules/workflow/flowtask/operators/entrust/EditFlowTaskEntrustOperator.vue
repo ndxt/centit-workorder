@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  saveFlowTaskEntrust,
-} from '@/api/workflow/flowTask'
+  import {saveFlowTaskEntrust,} from '@/api/workflow/flowTask'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowTaskEntrustBaseInfo from './FlowTaskEntrustBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowTaskEntrustBaseInfo from './FlowTaskEntrustBaseInfo'
 
-export default {
+  export default {
   name: 'EditFlowTaskEntrustOperator',
 
   mixins: [

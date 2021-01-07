@@ -81,9 +81,9 @@
 </template>
 
 <script>
-import Uploader from '../../components/uploader';
+  import Uploader from '../../components/uploader';
 
-export default {
+  export default {
   name: 'zpaUpload',
 
   data() {

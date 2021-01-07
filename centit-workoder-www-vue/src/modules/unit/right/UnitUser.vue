@@ -25,12 +25,13 @@
 </template>
 
 <script>
-import {queryUnitUser} from '@/api/admin/unit'
-import AddUserOperator from '../rightOperators/AddUserOperator'
-import EditUserOperator from '../rightOperators/EditUserOperator'
-import RemoveUserOperator from '../rightOperators/RemoveUserOperator'
-import columns from './userColumns'
-export default {
+  import {queryUnitUser} from '@/api/admin/unit'
+  import AddUserOperator from '../rightOperators/AddUserOperator'
+  import EditUserOperator from '../rightOperators/EditUserOperator'
+  import RemoveUserOperator from '../rightOperators/RemoveUserOperator'
+  import columns from './userColumns'
+
+  export default {
   name: 'UnitUser',
 
   data() {

@@ -8,8 +8,9 @@
   </ModalOperator>
 </template>
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+
+  export default {
   name: 'Addknowedge',
   data() {
     return {

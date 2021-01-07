@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import { checkRoleNameUnique } from '@/api/admin/role';
+  import {checkRoleNameUnique} from '@/api/admin/role';
 
-export default {
+  export default {
   name: 'RoleBaseInfo',
 
   inject: ['top'],

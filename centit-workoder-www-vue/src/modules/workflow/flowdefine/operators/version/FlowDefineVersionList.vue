@@ -14,15 +14,13 @@
 </template>
 
 <script>
-import {
-  queryAllVersions,
-} from '@/api/workflow/flowDefine'
+  import {queryAllVersions,} from '@/api/workflow/flowDefine'
 
-import flowDefineVersionColumns from './flowDefineVersionColumns'
+  import flowDefineVersionColumns from './flowDefineVersionColumns'
 
-import ChangeFlowDefineVersionOperator from './ChangeFlowDefineVersionOperator'
+  import ChangeFlowDefineVersionOperator from './ChangeFlowDefineVersionOperator'
 
-export default {
+  export default {
   name: 'FlowDefineVersionList',
 
   components: {

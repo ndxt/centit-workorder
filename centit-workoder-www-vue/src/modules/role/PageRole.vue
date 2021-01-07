@@ -38,18 +38,18 @@
 </template>
 
 <script>
-import roleColumns from './columns/roleColumns';
+  import roleColumns from './columns/roleColumns';
 
-import AddRoleOperator from './operators/AddRoleOperator';
-import EditRoleOperator from './operators/EditRoleOperator';
-import RolePowerOperator from './operators/RolePowerOperator';
-import RemoveRoleOperator from './operators/removeRoleOperator';
+  import AddRoleOperator from './operators/AddRoleOperator';
+  import EditRoleOperator from './operators/EditRoleOperator';
+  import RolePowerOperator from './operators/RolePowerOperator';
+  import RemoveRoleOperator from './operators/removeRoleOperator';
 
-import PageRoleAside from './PageRoleAside';
+  import PageRoleAside from './PageRoleAside';
 
-import { queryRole, queryDeptRole, querySubSysRole } from '@/api/admin/role';
+  import {queryDeptRole, queryRole, querySubSysRole} from '@/api/admin/role';
 
-export default {
+  export default {
   name: 'PageRole',
 
   props: {

@@ -23,17 +23,15 @@
 </template>
 
 <script>
-import {
-  queryDatabase,
-} from '@/api/admin/business'
+  import {queryDatabase,} from '@/api/admin/business'
 
-import databaseColumns from './columns/databaseColumns'
+  import databaseColumns from './columns/databaseColumns'
 
-import AddDatabaseOperator from './operators/AddDatabaseOperator'
-import EditDatabaseOperator from './operators/EditDatabaseOperator'
-import RemoveDatabaseOperator from './operators/RemoveDatabaseOperator'
+  import AddDatabaseOperator from './operators/AddDatabaseOperator'
+  import EditDatabaseOperator from './operators/EditDatabaseOperator'
+  import RemoveDatabaseOperator from './operators/RemoveDatabaseOperator'
 
-export default {
+  export default {
   name: 'PageDatabase',
 
   components: {

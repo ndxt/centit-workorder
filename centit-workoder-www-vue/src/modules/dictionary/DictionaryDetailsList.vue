@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import AddDictionaryDetailOperator from './operators/AddDictionaryDetailOperator'
-import EditDictionaryDetailOperator from './operators/EditDictionaryDetailOperator'
-import RemoveDictionaryDetailOperator from './operators/RemoveDictionaryDetailOperator'
+  import AddDictionaryDetailOperator from './operators/AddDictionaryDetailOperator'
+  import EditDictionaryDetailOperator from './operators/EditDictionaryDetailOperator'
+  import RemoveDictionaryDetailOperator from './operators/RemoveDictionaryDetailOperator'
 
-export default {
+  export default {
   name: 'DictionaryDetailsList',
 
   components: {

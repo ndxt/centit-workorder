@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  removeFlowStuff,
-} from '@/api/workflow/flowStuffManager'
+  import {removeFlowStuff,} from '@/api/workflow/flowStuffManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowStuffOperator',
 
   mixins: [

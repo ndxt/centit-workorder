@@ -10,9 +10,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import router from '@/router/index'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import router from '@/router/index'
+
+  export default {
   name: 'Quit',
   mixins: [
     ModalOperatorMixin,

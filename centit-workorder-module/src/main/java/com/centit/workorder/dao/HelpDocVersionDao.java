@@ -26,15 +26,13 @@ public class HelpDocVersionDao extends BaseDaoImpl<HelpDocVersion,String> {
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("docId" , "docId = :docId");
-            filterField.put("docVersion" , "docVersion = :docVersion");
-            filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("docId" , "docId = :docId");
+        filterField.put("docVersion" , "docVersion = :docVersion");
+        filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 }

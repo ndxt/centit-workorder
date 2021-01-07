@@ -1,9 +1,9 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryMenuTree} from '@/api/admin/cp'
-import Base from '../../zpa/form/tree-select'
+  import {createHOC} from 'vue-hoc'
+  import {queryMenuTree} from '@/api/admin/cp'
+  import Base from '../../zpa/form/tree-select'
 
-const options = {
+  const options = {
   name: 'MenuTreeSelect',
 
   props: {

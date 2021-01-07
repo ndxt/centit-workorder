@@ -5,15 +5,10 @@
   </div>
 </template>
 <script>
-import {
-  knowedgeTreeData,
-  knowedgeSeach,
-  deleteTreeDoc,
-  addTreeDoc,
-  eidtTreeDoc
-} from '@/api/knowedge/knowedge';
-import AddKnowedge from './AddKnowedge';
-export default {
+  import {addTreeDoc, deleteTreeDoc, eidtTreeDoc, knowedgeSeach, knowedgeTreeData} from '@/api/knowedge/knowedge';
+  import AddKnowedge from './AddKnowedge';
+
+  export default {
   name: 'KnowedgeTree',
   data() {
     return {

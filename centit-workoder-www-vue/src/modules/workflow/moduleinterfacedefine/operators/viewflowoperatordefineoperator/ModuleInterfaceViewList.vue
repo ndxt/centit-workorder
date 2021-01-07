@@ -41,16 +41,14 @@
 </template>
 
 <script>
-import {
-  queryInterFacesList
-} from '@/api/workflow/flowBusiness'
+  import {queryInterFacesList} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import AddInterfaceOperator from './AddInterfaceOperator'
-import UrlParamViewList from './viewinterfaceparams/UrlParamViewList'
-import RemoveInterfaceOperator from './RemoveInterfaceOperator'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import AddInterfaceOperator from './AddInterfaceOperator'
+  import UrlParamViewList from './viewinterfaceparams/UrlParamViewList'
+  import RemoveInterfaceOperator from './RemoveInterfaceOperator'
 
-export default {
+  export default {
   name: 'ModuleInterfaceViewList',
 
   mixins: [

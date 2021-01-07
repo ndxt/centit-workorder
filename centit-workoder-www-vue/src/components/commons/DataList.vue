@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import _ from 'lodash';
+  import _ from 'lodash';
 
-const defaultSort = {
+  const defaultSort = {
   sort: 'updateDate',
   order: 'desc'
 };

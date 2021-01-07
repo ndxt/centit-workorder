@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import roleUserInheritColumns from './columns/roleUserInheritColumns'
-import {
-  queryRoleUserInherit,
-} from '@/api/admin/role'
+  import roleUserInheritColumns from './columns/roleUserInheritColumns'
+  import {queryRoleUserInherit,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'PageRoleUserInherit',
 
   data() {

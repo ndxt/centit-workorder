@@ -7,15 +7,12 @@
 </template>
 
 <script>
-import {
-  modifyOs,
-  getOs,
-} from '@/api/admin/business'
+  import {getOs, modifyOs,} from '@/api/admin/business'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import OsBaseInfo from '../OsBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import OsBaseInfo from '../OsBaseInfo'
 
-export default {
+  export default {
   name: 'EditOsOperator',
 
   mixins: [

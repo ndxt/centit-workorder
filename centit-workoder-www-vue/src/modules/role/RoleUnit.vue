@@ -31,17 +31,13 @@
 </template>
 
 <script>
-import roleUnitColumns from './columns/roleUnitColumns'
-import roleUserInheritColumns from './columns/roleUserInheritColumns'
-import AddRoleUnitOperator from './operators/AddRoleUnitOperator'
-import RemoveRoleUnitOperator from './operators/RemoveRoleUnitOperator'
-import {
-  queryRoleUnit,
-  queryDeptRoleUnit,
-  queryRoleUserInherit,
-} from '@/api/admin/role'
+  import roleUnitColumns from './columns/roleUnitColumns'
+  import roleUserInheritColumns from './columns/roleUserInheritColumns'
+  import AddRoleUnitOperator from './operators/AddRoleUnitOperator'
+  import RemoveRoleUnitOperator from './operators/RemoveRoleUnitOperator'
+  import {queryDeptRoleUnit, queryRoleUnit, queryRoleUserInherit,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'RoleUnit',
 
   inject: ['top'],

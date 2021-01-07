@@ -19,17 +19,15 @@
 </template>
 
 <script>
-import {
-  queryFlowFormula,
-} from '@/api/workflow/flowFormula'
+  import {queryFlowFormula,} from '@/api/workflow/flowFormula'
 
-import flowFormulaColumns from './flowFormulaColumns'
+  import flowFormulaColumns from './flowFormulaColumns'
 
-import AddFlowFormulaOperator from './operators/AddFlowFormulaOperator'
-import EditFlowFormulaOperator from './operators/EditFlowFormulaOperator'
-import RemoveFlowFormulaOperator from './operators/RemoveFlowFormulaOperator'
+  import AddFlowFormulaOperator from './operators/AddFlowFormulaOperator'
+  import EditFlowFormulaOperator from './operators/EditFlowFormulaOperator'
+  import RemoveFlowFormulaOperator from './operators/RemoveFlowFormulaOperator'
 
-export default {
+  export default {
   name: 'PageFlowFormula',
 
   components: {

@@ -20,12 +20,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  addFlowRole,
-} from '@/api/workflow/flowroledefine'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {addFlowRole,} from '@/api/workflow/flowroledefine'
 
-export default {
+  export default {
   name: 'AddFlowRoleOperator',
 
   mixins: [

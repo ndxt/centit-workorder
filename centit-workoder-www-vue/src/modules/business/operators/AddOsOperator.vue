@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  addOs,
-} from '@/api/admin/business'
+  import {addOs,} from '@/api/admin/business'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import OsBaseInfo from '../OsBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import OsBaseInfo from '../OsBaseInfo'
 
-export default {
+  export default {
   name: 'AddOsOperator',
 
   mixins: [

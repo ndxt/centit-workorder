@@ -23,15 +23,12 @@
 </template>
 
 <script>
-import roleUserColumns from './columns/roleUserColumns'
-import AddRoleUserOperator from './operators/AddRoleUserOperator'
-import RemoveRoleUserOperator from './operators/RemoveRoleUserOperator'
-import {
-  queryRoleUser,
-  queryDeptRoleUser,
-} from '@/api/admin/role'
+  import roleUserColumns from './columns/roleUserColumns'
+  import AddRoleUserOperator from './operators/AddRoleUserOperator'
+  import RemoveRoleUserOperator from './operators/RemoveRoleUserOperator'
+  import {queryDeptRoleUser, queryRoleUser,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'PageRoleUser',
 
   inject: ['top'],

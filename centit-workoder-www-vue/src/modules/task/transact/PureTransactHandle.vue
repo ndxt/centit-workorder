@@ -27,22 +27,15 @@
 </template>
 
 <script>
-// import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import TransactFlowChart from './model/TransactFlowChart'
-import TransactCensorLog from './model/TransactCensorLog'
-import TransactCensor from './model/TransactCensor'
+  // import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import TransactFlowChart from './model/TransactFlowChart'
+  import TransactCensorLog from './model/TransactCensorLog'
+  import TransactCensor from './model/TransactCensor'
 
-import {
-  mapState
-} from 'vuex'
-import {
-  getTransact,
-  queryTransactInit,
-  queryTransactSubmit,
-  queryTransactSave,
-} from '@/api/task/transact'
+  import {mapState} from 'vuex'
+  import {getTransact, queryTransactInit, queryTransactSave, queryTransactSubmit,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'PureTransactHandle',
 
   // mixins: [

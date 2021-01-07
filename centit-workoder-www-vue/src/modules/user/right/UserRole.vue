@@ -31,12 +31,13 @@
 </template>
 
 <script>
-import InheritedColumns from './UserRoleInheritedColumns'
-import OwnColumns from './UserRoleOwnColumns'
-import AddUserRoleOwnOperator from './AddUserRoleOwnOperator'
-import RemoveUserRoleOwnOperator from './RemoveUserRoleOwnOperator'
-import { getUserRolesInherited, getUserRolesOwn, getDeptUserOwn } from '@/api/admin/user'
-export default {
+  import InheritedColumns from './UserRoleInheritedColumns'
+  import OwnColumns from './UserRoleOwnColumns'
+  import AddUserRoleOwnOperator from './AddUserRoleOwnOperator'
+  import RemoveUserRoleOwnOperator from './RemoveUserRoleOwnOperator'
+  import {getDeptUserOwn, getUserRolesInherited, getUserRolesOwn} from '@/api/admin/user'
+
+  export default {
   name: 'UserRole',
   data() {
     return {

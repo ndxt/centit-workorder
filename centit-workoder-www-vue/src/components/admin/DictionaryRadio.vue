@@ -1,9 +1,9 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryDictionaryDetails} from '@/api/admin/cp'
-import Base from '../../zpa/form/radio-group'
+  import {createHOC} from 'vue-hoc'
+  import {queryDictionaryDetails} from '@/api/admin/cp'
+  import Base from '../../zpa/form/radio-group'
 
-const options = {
+  const options = {
   name: 'DictionaryRadio',
 
   props: {

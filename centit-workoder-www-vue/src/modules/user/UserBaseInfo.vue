@@ -28,24 +28,24 @@
           v-model="userInfo.regEmail"
           :readonly="value.readonly"
         />
-        <UnitTreeSelect 
-          label="主机构" 
-          v-model="userInfo.primaryUnit" 
+        <UnitTreeSelect
+          label="主机构"
+          v-model="userInfo.primaryUnit"
           :department="top.dept"
           :required="!value.readonly"
           :disabled="value.readonly"
           />
-        <DictionarySelect 
-          code="RankType" 
-          label="行政职务" 
+        <DictionarySelect
+          code="RankType"
+          label="行政职务"
           v-model="userUnit.userRank"
           :required ="!value.readonly"
           :disabled ="value.readonly"
           />
-        <DictionarySelect 
-          code="StationType" 
-          label="岗位" 
-          v-model="userUnit.userStation" 
+        <DictionarySelect
+          code="StationType"
+          label="岗位"
+          v-model="userUnit.userStation"
           :required="!value.readonly"
           :disabled="value.readonly"
           />
@@ -55,12 +55,12 @@
           :readonly="value.readonly"
           :required="!value.readonly"
         />
-        <zpa-switch 
-          label="是否在用" 
-          v-model="userInfo.isValid" 
-          true-value="T" 
-          false-value="F" 
-          :disabled="value.readonly" 
+        <zpa-switch
+          label="是否在用"
+          v-model="userInfo.isValid"
+          true-value="T"
+          false-value="F"
+          :disabled="value.readonly"
           />
         <zpa-textarea
           v-if="userInfo.userDesc"
@@ -75,10 +75,10 @@
 </template>
 
 <script>
-import {checkUserLoginNameUnique} from '@/api/admin/user'
-import {queryDictionaryDetails} from '@/api/admin/cp'
+  import {checkUserLoginNameUnique} from '@/api/admin/user'
+  import {queryDictionaryDetails} from '@/api/admin/cp'
 
-export default {
+  export default {
   name: 'UserBaseInfo',
   computed: {
     userInfo() {

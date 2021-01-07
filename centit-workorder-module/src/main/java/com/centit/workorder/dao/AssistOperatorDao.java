@@ -23,12 +23,10 @@ public class AssistOperatorDao extends BaseDaoImpl<AssistOperator,String> {
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("questionId" , "questionId =:questionId");
-            filterField.put("operatorCode" , "operatorCode = :operatorCode");
-            filterField.put("createDate" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("questionId" , "questionId =:questionId");
+        filterField.put("operatorCode" , "operatorCode = :operatorCode");
+        filterField.put("createDate" , CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 

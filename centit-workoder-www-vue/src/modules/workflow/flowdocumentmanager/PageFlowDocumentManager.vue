@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import { queryFlowDocument } from '@/api/workflow/flowDocumentManager'
+  import {queryFlowDocument} from '@/api/workflow/flowDocumentManager'
 
-import flowDocumentManagerColumns from './flowDocumentManagerColumns'
+  import flowDocumentManagerColumns from './flowDocumentManagerColumns'
 
-export default {
+  export default {
   name: 'PageFlowDocumentManager',
 
   data() {

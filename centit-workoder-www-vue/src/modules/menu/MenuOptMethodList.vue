@@ -11,10 +11,11 @@
 </template>
 
 <script>
-import AddOptMethodOperator from './operators/AddOptMethodOperator';
-import EditOptMethodOperator from './operators/EditOptMethodOperator';
-import RemoveOptMethodOperator from './operators/RemoveOptMethodOperator';
-export default {
+  import AddOptMethodOperator from './operators/AddOptMethodOperator';
+  import EditOptMethodOperator from './operators/EditOptMethodOperator';
+  import RemoveOptMethodOperator from './operators/RemoveOptMethodOperator';
+
+  export default {
   name: 'optMethodList',
   data() {
     return {

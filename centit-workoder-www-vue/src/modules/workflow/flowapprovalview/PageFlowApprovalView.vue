@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import { queryWatchList } from '@/api/workflow/flowApprovalModule';
-import flowApprovalViewColumns from './flowApprovalViewColumns';
-import WatchFlowChartOperator from './operators/WatchFlowChartOperator';
+  import {queryWatchList} from '@/api/workflow/flowApprovalModule';
+  import flowApprovalViewColumns from './flowApprovalViewColumns';
+  import WatchFlowChartOperator from './operators/WatchFlowChartOperator';
 
-export default {
+  export default {
   name: 'PageFlowApprovalView',
 
   data() {

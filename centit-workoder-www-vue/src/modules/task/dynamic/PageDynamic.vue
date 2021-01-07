@@ -24,15 +24,13 @@
 </template>
 
 <script>
-import dynamicColumns from './columns/dynamicColumns'
+  import dynamicColumns from './columns/dynamicColumns'
 
-import EditDynamicHandleOperator from './operators/EditDynamicHandleOperator'
+  import EditDynamicHandleOperator from './operators/EditDynamicHandleOperator'
 
-import {
-  queryDynamic,
-} from '@/api/task/dynamic'
+  import {queryDynamic,} from '@/api/task/dynamic'
 
-export default {
+  export default {
   name: 'PageDynamic',
 
   data() {

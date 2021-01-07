@@ -27,15 +27,13 @@ public class HelpDocCommentDao extends BaseDaoImpl<HelpDocComment, String>
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("commentId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docComment" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("commentId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docComment" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 }

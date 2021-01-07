@@ -19,20 +19,16 @@
 </template>
 
 <script>
-import {
-  queryFlowDefineByCode,
-  createNewFlow,
-  copyFlowDefine,
-} from '@/api/workflow/flowDefine'
+  import {copyFlowDefine, createNewFlow, queryFlowDefineByCode,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowDefineBaseInfo from '../FlowDefineBaseInfo'
-import FlowDefineStageList from './stage/FlowDefineStageList'
-import FlowDefineRoleList from './role/FlowDefineRoleList'
-import FlowDefineVariableList from './variable/FlowDefineVariableList'
-import FlowDefineVersionList from './version/FlowDefineVersionList'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowDefineBaseInfo from '../FlowDefineBaseInfo'
+  import FlowDefineStageList from './stage/FlowDefineStageList'
+  import FlowDefineRoleList from './role/FlowDefineRoleList'
+  import FlowDefineVariableList from './variable/FlowDefineVariableList'
+  import FlowDefineVersionList from './version/FlowDefineVersionList'
 
-export default {
+  export default {
   name: 'CopyFlowDefineOperator',
 
   mixins: [

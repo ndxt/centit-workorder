@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  addFlowDefineStage,
-} from '@/api/workflow/flowDefine'
+  import {addFlowDefineStage,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowDefineStageBaseInfo from './FlowDefineStageBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowDefineStageBaseInfo from './FlowDefineStageBaseInfo'
 
-export default {
+  export default {
   name: 'AddFlowDefineOperator',
 
   mixins: [

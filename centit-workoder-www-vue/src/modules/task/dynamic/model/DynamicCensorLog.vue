@@ -16,13 +16,11 @@
 </template>
 
 <script>
-import dynamicCensorLogColumns from '../columns/dynamicCensorLogColumns'
+  import dynamicCensorLogColumns from '../columns/dynamicCensorLogColumns'
 
-import {
-  queryDynamicCensorLog,
-} from '@/api/task/dynamic'
+  import {queryDynamicCensorLog,} from '@/api/task/dynamic'
 
-export default {
+  export default {
   name: 'DynamicCensorLog',
 
   props: {

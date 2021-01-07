@@ -1,9 +1,9 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryDictionaryDetails} from '@/api/admin/cp'
-import Base from '../../zpa/form/select'
+  import {createHOC} from 'vue-hoc'
+  import {queryDictionaryDetails} from '@/api/admin/cp'
+  import Base from '../../zpa/form/select'
 
-const options = {
+  const options = {
   name: 'DictionarySelect',
 
   props: {

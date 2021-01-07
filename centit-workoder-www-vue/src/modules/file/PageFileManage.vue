@@ -10,13 +10,11 @@
 </template>
 
 <script>
-import fileManageColumns from './columns/fileManageColumns'
+  import fileManageColumns from './columns/fileManageColumns'
 
-import {
-  queryManage,
-} from '@/api/admin/file'
+  import {queryManage,} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'PageFileManage',
 
   data() {

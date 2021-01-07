@@ -55,14 +55,11 @@
 </template>
 
 <script>
-import {
-  wakeFlowManager,
-  pauseFlowManager,
-} from '@/api/workflow/flowManager'
+  import {pauseFlowManager, wakeFlowManager,} from '@/api/workflow/flowManager'
 
-import StopRestartFlowManagerOperator from './StopRestartFlowManagerOperator'
+  import StopRestartFlowManagerOperator from './StopRestartFlowManagerOperator'
 
-export default {
+  export default {
   name: 'FlowManagerBaseInfo',
 
   components: {

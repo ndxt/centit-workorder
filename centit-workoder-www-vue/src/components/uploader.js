@@ -1,10 +1,6 @@
 import BMF from '@/bmf/dist/index.cjs.js'
 // import {createUrlParams} from '../api'
-import {
-  getFileRange,
-  uploadFileRange,
-  uploadFile,
-} from '../api/admin/file'
+import {getFileRange, uploadFile, uploadFileRange,} from '../api/admin/file'
 
 let index = 1
 

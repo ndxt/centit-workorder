@@ -36,19 +36,15 @@
 </template>
 
 <script>
-import {
-  getOptInfo,
-  editOptInfo,
-  listOptPages,
-} from '@/api/workflow/flowBusiness'
+  import {editOptInfo, getOptInfo, listOptPages,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowBusinessBaseInfo from './FlowBusinessBaseInfo'
-import AddFlowBusinessOptOperator from './optOperators/AddFlowBusinessOptOperator'
-import EditFlowBusinessOptOperator from './optOperators/EditFlowBusinessOptOperator'
-import RemoveFlowBusinessOptOperator from './optOperators/RemoveFlowBusinessOptOperator'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowBusinessBaseInfo from './FlowBusinessBaseInfo'
+  import AddFlowBusinessOptOperator from './optOperators/AddFlowBusinessOptOperator'
+  import EditFlowBusinessOptOperator from './optOperators/EditFlowBusinessOptOperator'
+  import RemoveFlowBusinessOptOperator from './optOperators/RemoveFlowBusinessOptOperator'
 
-export default {
+  export default {
   name: 'EditFlowBusinessOperator',
 
   mixins: [

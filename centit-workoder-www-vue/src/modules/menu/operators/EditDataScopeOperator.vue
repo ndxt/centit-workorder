@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import DataScopeInfo from '../DataScopeInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import DataScopeInfo from '../DataScopeInfo'
 
-export default {
+  export default {
   name: 'EditOptMethodOperator',
 
   mixins: [

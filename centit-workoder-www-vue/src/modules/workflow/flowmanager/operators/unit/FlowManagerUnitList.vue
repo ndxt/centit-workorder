@@ -17,16 +17,14 @@
 </template>
 
 <script>
-import {
-  queryFlowManagerUnit,
-} from '@/api/workflow/flowManager'
+  import {queryFlowManagerUnit,} from '@/api/workflow/flowManager'
 
-import flowManagerUnitColumns from './flowManagerUnitColumns'
+  import flowManagerUnitColumns from './flowManagerUnitColumns'
 
-import AddFlowManagerUnitOperator from './AddFlowManagerUnitOperator'
-import RemoveFlowManagerUnitOperator from './RemoveFlowManagerUnitOperator'
+  import AddFlowManagerUnitOperator from './AddFlowManagerUnitOperator'
+  import RemoveFlowManagerUnitOperator from './RemoveFlowManagerUnitOperator'
 
-export default {
+  export default {
   name: 'FlowManagerUnitList',
 
   components: {

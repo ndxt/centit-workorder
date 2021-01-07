@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import { addUser } from '@/api/admin/user'
+  import {addUser} from '@/api/admin/user'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import UserBaseInfo from '../UserBaseInfo'
-/* import DictionaryFieldInfo from '../UserFieldInfo' */
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import UserBaseInfo from '../UserBaseInfo'
+  /* import DictionaryFieldInfo from '../UserFieldInfo' */
 
 export default {
   name: 'AddUserOperator',

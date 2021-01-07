@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import {
-  removeDatabase,
-} from '@/api/admin/business'
+  import {removeDatabase,} from '@/api/admin/business'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveDatabaseOperator',
 
   mixins: [

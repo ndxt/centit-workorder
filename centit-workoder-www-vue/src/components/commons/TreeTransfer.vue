@@ -62,11 +62,9 @@
 </template>
 
 <script>
-import {
-  buildTree
-} from '@/zpa/utils'
+  import {buildTree} from '@/zpa/utils'
 
-export default {
+  export default {
   name: 'TreeTransfer',
 
   data() {

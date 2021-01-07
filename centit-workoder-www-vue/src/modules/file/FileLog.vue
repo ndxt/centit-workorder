@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import fileLogColumns from './columns/fileLogColumns'
-import {
-  queryLog,
-} from '@/api/admin/file'
+  import fileLogColumns from './columns/fileLogColumns'
+  import {queryLog,} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'FileLog',
 
   data() {

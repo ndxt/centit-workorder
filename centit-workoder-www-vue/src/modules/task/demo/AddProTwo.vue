@@ -14,9 +14,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {demoSubmit, } from '@/api/task/apprdemo'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {demoSubmit,} from '@/api/task/apprdemo'
+
+  export default {
   name: 'AddProTwo',
   mixins: [
     ModalOperatorMixin,

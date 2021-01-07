@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import fileInfoColumns from './columns/fileInfoColumns'
-import {
-  queryInfo,
-} from '@/api/admin/file'
+  import fileInfoColumns from './columns/fileInfoColumns'
+  import {queryInfo,} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'FileInfo',
 
   data() {

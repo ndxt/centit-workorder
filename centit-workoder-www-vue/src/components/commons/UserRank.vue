@@ -13,15 +13,11 @@
   </ModalOperator>
 </template>
 <script>
-import {
-  queryPositions,
-  getCurrposition,
-  setPosition,
-} from '@/api/login'
+  import {getCurrposition, queryPositions, setPosition,} from '@/api/login'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'UserRank',
 
   mixins: [

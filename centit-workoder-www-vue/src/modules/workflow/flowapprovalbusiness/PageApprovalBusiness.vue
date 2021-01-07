@@ -23,17 +23,15 @@
 </template>
 
 <script>
-import {
-  queryApprovalBusiness,
-} from '@/api/workflow/flowApprovalBusiness'
+  import {queryApprovalBusiness,} from '@/api/workflow/flowApprovalBusiness'
 
-import approvalBusinessColumns from './approvalBusinessColumns'
+  import approvalBusinessColumns from './approvalBusinessColumns'
 
-import AddApprovalBusinessOperator from './operators/AddApprovalBusinessOperator'
-import EditApprovalBusinessOperator from './operators/EditApprovalBusinessOperator'
-import RemoveApprovalBusinessOperator from './operators/RemoveApprovalBusinessOperator'
+  import AddApprovalBusinessOperator from './operators/AddApprovalBusinessOperator'
+  import EditApprovalBusinessOperator from './operators/EditApprovalBusinessOperator'
+  import RemoveApprovalBusinessOperator from './operators/RemoveApprovalBusinessOperator'
 
-export default {
+  export default {
   name: 'PageApprovalBusiness',
 
   data() {

@@ -1,10 +1,10 @@
 <template>
   <SearchLayout>
     <SearchBox slot="search" @search="search" @reset="reset">
-      <UserSelect 
-        :filterable="true" 
-        label="操作用户" 
-        v-model="params.userCode" 
+      <UserSelect
+        :filterable="true"
+        label="操作用户"
+        v-model="params.userCode"
         />
       <zpa-text-input label="操作模块" v-model="params.optId"/>
       <zpa-text-input label="操作方法" v-model="params.optMethod"/>
@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import {queryLog} from '@/api/admin/log'
-import ViewLogOperator from './ViewLogOperator'
-import columns from './columns'
+  import {queryLog} from '@/api/admin/log'
+  import ViewLogOperator from './ViewLogOperator'
+  import columns from './columns'
 
-export default {
+  export default {
   name: 'PageLog',
 
   components: {

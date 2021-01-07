@@ -78,23 +78,18 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import {
-  mapState,
-  mapMutations,
-} from 'vuex'
-import {
-  getCurrposition,
-} from '@/api/login'
+  import _ from 'lodash'
+  import {mapMutations, mapState,} from 'vuex'
+  import {getCurrposition,} from '@/api/login'
 
-import MainLayout from './components/layout/MainLayout'
-import Header from './components/commons/Header'
-import Menu from './components/commons/Menu'
-import ChangePwd from './components/commons/ChangePwd'
-import Message from './components/commons/Message'
-import Quit from './components/commons/Quit'
-import UserRank from './components/commons/UserRank'
-// import layui from '../layui/layui.js'
+  import MainLayout from './components/layout/MainLayout'
+  import Header from './components/commons/Header'
+  import Menu from './components/commons/Menu'
+  import ChangePwd from './components/commons/ChangePwd'
+  import Message from './components/commons/Message'
+  import Quit from './components/commons/Quit'
+  import UserRank from './components/commons/UserRank'
+  // import layui from '../layui/layui.js'
 
 // layui.use('layim', function(im) {
 //   console.log('im is', im)

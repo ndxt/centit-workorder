@@ -1,7 +1,7 @@
 <template>
 <SearchLayout>
         <AddOrderCategoryOperator @success="reloadTable"/>
-        
+
           <DataList
       ref="Table"
       isHidePage
@@ -22,14 +22,15 @@
   </SearchLayout>
 </template>
 <script>
-// 做成选择。。。选择。。。的形式
-import ViewSubOrderListOperator from './components/ViewSubOrderListOperator'
-import AddOrderCategoryOperator from './components/AddOrderCategoryOperator'
-import AddSubOrderOperator from './components/AddSubOrderOperator'
-import RemoveOrderOperator from './components/RemoveOrderOperator'
-import EditOrderOperator from './components/EditOrderOperator'
-import { getRankList } from '@/api/workorder.js'
-export default {
+  // 做成选择。。。选择。。。的形式
+  import ViewSubOrderListOperator from './components/ViewSubOrderListOperator'
+  import AddOrderCategoryOperator from './components/AddOrderCategoryOperator'
+  import AddSubOrderOperator from './components/AddSubOrderOperator'
+  import RemoveOrderOperator from './components/RemoveOrderOperator'
+  import EditOrderOperator from './components/EditOrderOperator'
+  import {getRankList} from '@/api/workorder.js'
+
+  export default {
   name: 'admin',
   components: {
     ViewSubOrderListOperator,

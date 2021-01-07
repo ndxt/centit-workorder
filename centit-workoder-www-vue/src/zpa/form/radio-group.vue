@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import inputMixin from './mixins/input'
-import queryMixin from './mixins/query'
-import valueTextMixin from './mixins/value-text'
+  import inputMixin from './mixins/input'
+  import queryMixin from './mixins/query'
+  import valueTextMixin from './mixins/value-text'
 
-export default {
+  export default {
   name: 'zpaRadioGroup',
 
   mixins: [

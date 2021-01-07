@@ -112,9 +112,9 @@
 </template>
 
 <script>
-import EditDynamicCensorOperator from '../operators/EditDynamicCensorOperator'
+  import EditDynamicCensorOperator from '../operators/EditDynamicCensorOperator'
 
-export default {
+  export default {
   name: 'DynamicCensor',
 
   props: {

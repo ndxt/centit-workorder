@@ -11,8 +11,6 @@ import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.po.HelpDocComment;
 import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.service.HelpDocManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +36,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/documents")
 public class HelpDocController  extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
     private HelpDocManager helpDocMag;

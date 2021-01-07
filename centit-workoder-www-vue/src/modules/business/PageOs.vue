@@ -28,19 +28,17 @@
 </template>
 
 <script>
-import {
-  queryOs,
-} from '@/api/admin/business'
+  import {queryOs,} from '@/api/admin/business'
 
-import osColumns from './columns/osColumns'
+  import osColumns from './columns/osColumns'
 
-import AddOsOperator from './operators/AddOsOperator'
-import AllRefreshOsOperator from './operators/AllRefreshOsOperator'
-import EditOsOperator from './operators/EditOsOperator'
-import SingleRefreshOsOperator from './operators/SingleRefreshOsOperator'
-import RemoveOsOperator from './operators/RemoveOsOperator'
+  import AddOsOperator from './operators/AddOsOperator'
+  import AllRefreshOsOperator from './operators/AllRefreshOsOperator'
+  import EditOsOperator from './operators/EditOsOperator'
+  import SingleRefreshOsOperator from './operators/SingleRefreshOsOperator'
+  import RemoveOsOperator from './operators/RemoveOsOperator'
 
-export default {
+  export default {
   name: 'PageOs',
 
   components: {

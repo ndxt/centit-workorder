@@ -24,11 +24,9 @@
 </template>
 
 <script>
-import {
-  listFlowOptInfo,
-} from '@/api/workflow/flowDefine'
+  import {listFlowOptInfo,} from '@/api/workflow/flowDefine'
 
-export default {
+  export default {
   name: 'SubOrderBaseInfo',
 
   props: {

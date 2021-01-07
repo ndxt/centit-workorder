@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import {
-  resetUserPassWord,
-} from '@/api/admin/user'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {resetUserPassWord,} from '@/api/admin/user'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'ResetPassWordOperator',
 
   mixins: [

@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  removeFlowTaskEntrust,
-} from '@/api/workflow/flowTask'
+  import {removeFlowTaskEntrust,} from '@/api/workflow/flowTask'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowTaskEntrustOperator',
 
   mixins: [

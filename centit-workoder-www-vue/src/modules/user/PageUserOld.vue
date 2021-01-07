@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import {queryUser, getUser, queryDept, getDeptUser} from '@/api/admin/user'
+  import {getDeptUser, getUser, queryDept, queryUser} from '@/api/admin/user'
   import userColumns from './userColumns'
   import AddUserOperator from './operators/AddUserOperator'
   import EditUserOperator from './operators/EditUserOperator'

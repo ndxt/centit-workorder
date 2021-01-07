@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import {
-  goBackFlowManagerNode,
-} from '@/api/workflow/flowManager'
+  import {goBackFlowManagerNode,} from '@/api/workflow/flowManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'GoBackFlowManagerNodeOperator',
 
   mixins: [

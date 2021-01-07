@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import {addUserUnit, } from '@/api/admin/user'
+  import {addUserUnit,} from '@/api/admin/user'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'AddUserUnitOperator',
 
   mixins: [

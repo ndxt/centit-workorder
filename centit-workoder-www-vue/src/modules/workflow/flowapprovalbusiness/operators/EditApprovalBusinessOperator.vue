@@ -33,14 +33,11 @@
 </template>
 
 <script>
-import {
-  addApprovalBusiness,
-  getApprovalBusiness,
-} from '@/api/workflow/flowApprovalBusiness'
+  import {addApprovalBusiness, getApprovalBusiness,} from '@/api/workflow/flowApprovalBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'EditApprovalBusinessOperator',
 
   mixins: [

@@ -40,21 +40,15 @@
 </template>
 
 <script>
-import fileLocalColumns from './columns/fileLocalColumns'
+  import fileLocalColumns from './columns/fileLocalColumns'
 
-import UploadFileOperator from './operators/UploadFileOperator'
+  import UploadFileOperator from './operators/UploadFileOperator'
 
-import PageFileAside from './PageFileAside'
+  import PageFileAside from './PageFileAside'
 
-import {
-  queryLocal,
-  queryUserLocal,
-  queryUserVerLocal,
-  queryDeptLocal,
-  queryDeptVerLocal,
-} from '@/api/admin/file'
+  import {queryDeptLocal, queryDeptVerLocal, queryLocal, queryUserLocal, queryUserVerLocal,} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'PageFileLocal',
 
   data() {

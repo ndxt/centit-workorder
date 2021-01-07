@@ -1,12 +1,8 @@
 import _ from 'lodash'
 import router from '../router'
 
-import {
-  Modal,
-} from 'iview'
-import {
-  apiFactory,
-} from './index'
+import {Modal,} from 'iview'
+import {apiFactory,} from './index'
 
 const api = apiFactory('admin')
 

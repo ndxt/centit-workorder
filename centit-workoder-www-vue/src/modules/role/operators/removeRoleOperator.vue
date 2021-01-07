@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  removeRole,
-} from '@/api/admin/role'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeRole,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'RemoveRoleOperator',
 
   mixins: [

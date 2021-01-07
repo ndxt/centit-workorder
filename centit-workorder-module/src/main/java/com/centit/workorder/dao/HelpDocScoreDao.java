@@ -27,16 +27,13 @@ public class HelpDocScoreDao extends BaseDaoImpl<HelpDocScore, String>
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("scoreId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docScore" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("scoreId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docScore" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 }

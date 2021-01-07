@@ -1,10 +1,10 @@
 <script>
-import _ from 'lodash'
-import {createHOC} from 'vue-hoc'
-import {Upload} from 'iview'
-import Uploader from '../../components/uploader'
+  import _ from 'lodash'
+  import {createHOC} from 'vue-hoc'
+  import {Upload} from 'iview'
+  import Uploader from '../../components/uploader'
 
-const options = {
+  const options = {
   name: 'zpaUpload',
 
   data() {

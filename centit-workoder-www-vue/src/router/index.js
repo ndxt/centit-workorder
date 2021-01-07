@@ -17,10 +17,7 @@ import task from './task'
 import log from './log'
 import temp from './temp'
 import shanxi from './shanxi'
-import {
-  checkLogin,
-  goLogin
-} from '@/api/login'
+import {checkLogin, goLogin} from '@/api/login'
 
 // const knowledgeBase = () => import('@/modules/knowledgeBase/knowledgeBase')
 const PageKnowedgeBase = () => import('@/modules/knowedgeBase/PageKnowedgeBase')

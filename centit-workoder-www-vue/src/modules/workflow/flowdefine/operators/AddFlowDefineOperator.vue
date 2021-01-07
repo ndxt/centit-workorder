@@ -7,15 +7,12 @@
 </template>
 
 <script>
-import {
-  addFlowDefine,
-  createNewFlow,
-} from '@/api/workflow/flowDefine'
+  import {addFlowDefine, createNewFlow,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowDefineBaseInfo from '../FlowDefineBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowDefineBaseInfo from '../FlowDefineBaseInfo'
 
-export default {
+  export default {
   name: 'AddFlowDefineOperator',
 
   mixins: [

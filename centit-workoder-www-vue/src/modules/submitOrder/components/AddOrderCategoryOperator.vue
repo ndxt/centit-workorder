@@ -8,10 +8,11 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import OrderBaseInfo from './OrderBaseInfo'
-import { addOrder } from '@/api/workorder.js'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import OrderBaseInfo from './OrderBaseInfo'
+  import {addOrder} from '@/api/workorder.js'
+
+  export default {
   name: 'AddOrderCategoryOperator',
 
   mixins: [

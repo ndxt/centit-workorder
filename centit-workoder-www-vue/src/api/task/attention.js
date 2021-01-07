@@ -1,5 +1,5 @@
 // 我的关注
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 
 const api = apiFactory('appr')
 

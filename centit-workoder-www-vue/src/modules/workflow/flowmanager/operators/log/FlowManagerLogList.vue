@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  queryFlowManagerLog,
-} from '@/api/workflow/flowManager'
+  import {queryFlowManagerLog,} from '@/api/workflow/flowManager'
 
-import flowManagerLogColumns from './flowManagerLogColumns'
+  import flowManagerLogColumns from './flowManagerLogColumns'
 
-export default {
+  export default {
   name: 'FlowManagerLogList',
 
   data() {

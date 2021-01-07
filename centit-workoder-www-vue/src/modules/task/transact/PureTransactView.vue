@@ -16,19 +16,14 @@
 </template>
 
 <script>
-// import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import TransactFlowChart from './model/TransactFlowChart'
-import TransactCensorLog from './model/TransactCensorLog'
+  // import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import TransactFlowChart from './model/TransactFlowChart'
+  import TransactCensorLog from './model/TransactCensorLog'
 
-import {
-  mapState
-} from 'vuex'
-import {
-  getTransact,
-  queryTransactInit,
-} from '@/api/task/transact'
+  import {mapState} from 'vuex'
+  import {getTransact, queryTransactInit,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'PureTransactView',
 
   data() {

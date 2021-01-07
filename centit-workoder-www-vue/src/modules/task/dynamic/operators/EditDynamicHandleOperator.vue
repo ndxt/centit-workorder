@@ -21,20 +21,15 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import DynamicFlowChart from '../model/DynamicFlowChart'
-import DynamicCensorLog from '../model/DynamicCensorLog'
-import DynamicCensor from '../model/DynamicCensor'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import DynamicFlowChart from '../model/DynamicFlowChart'
+  import DynamicCensorLog from '../model/DynamicCensorLog'
+  import DynamicCensor from '../model/DynamicCensor'
 
-import {
-  mapState
-} from 'vuex'
-import {
-  queryDynamicInit,
-  queryDynamicSubmit,
-} from '@/api/task/dynamic'
+  import {mapState} from 'vuex'
+  import {queryDynamicInit, queryDynamicSubmit,} from '@/api/task/dynamic'
 
-export default {
+  export default {
   name: 'EditDynamicHandleOperator',
 
   mixins: [

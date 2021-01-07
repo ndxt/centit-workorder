@@ -42,24 +42,17 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import TransactFlowChart from '../model/TransactFlowChart'
-import TransactCensorLog from '../model/TransactCensorLog'
-import TransactCensor from '../model/TransactCensor'
-import TransactFileUpload from '../model/TransactFileUpload'
-import AttentionMaterialList from '@/modules/task/attention/model/AttentionMaterialList'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import TransactFlowChart from '../model/TransactFlowChart'
+  import TransactCensorLog from '../model/TransactCensorLog'
+  import TransactCensor from '../model/TransactCensor'
+  import TransactFileUpload from '../model/TransactFileUpload'
+  import AttentionMaterialList from '@/modules/task/attention/model/AttentionMaterialList'
 
-import {
-  mapState
-} from 'vuex'
-import {
-  queryTransactInit,
-  queryTransactSubmit,
-  queryTransactSave,
-  businessFormSubmit,
-} from '@/api/task/transact'
+  import {mapState} from 'vuex'
+  import {businessFormSubmit, queryTransactInit, queryTransactSave, queryTransactSubmit,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'EditTransactHandleOperator',
 
   mixins: [

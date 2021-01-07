@@ -18,7 +18,7 @@
       :labelWidth="labelWidth"
       v-model="params.questionTitle"
     />
-    </SearchBox>     
+    </SearchBox>
     <DataList
       ref="Table"
       isHidePage
@@ -38,13 +38,13 @@
   </SearchLayout>
 </template>
 <script>
-// 做成选择。。。选择。。。的形式
-import RemoveQuestionOperator from './components/RemoveQuestionOperator'
-import EditQuestionOperator from './components/EditQuestionOperator'
-import ViewQuestionOperator from './components/ViewQuestionOperator'
-import { searchQuestion } from '@/api/workorder.js'
+  // 做成选择。。。选择。。。的形式
+  import RemoveQuestionOperator from './components/RemoveQuestionOperator'
+  import EditQuestionOperator from './components/EditQuestionOperator'
+  import ViewQuestionOperator from './components/ViewQuestionOperator'
+  import {searchQuestion} from '@/api/workorder.js'
 
-const orderStates = [
+  const orderStates = [
   {
     value: '',
     text: '全部',
@@ -104,7 +104,7 @@ export default {
                 stateName = '已完结'
                 break
             }
-            
+
             return h('div', stateName)
           }
         },
@@ -147,10 +147,10 @@ export default {
           text: '去年',
         },
       ],
-      params: {    
+      params: {
         questionState: '',
         timeState: 'TY',
-        questionTitle: ''       
+        questionTitle: ''
       }
     }
   },
@@ -193,7 +193,7 @@ export default {
         month = (100 + month + '').slice(1, 3)
         day = (100 + day + '').slice(1, 3)
         return year + '-' + month + '-' + day
-      } 
+      }
       switch (this.params.timeState) {
         case 'TM':
           beginTime = JOIN_TIME(currentYear, currentMonth, 1)
@@ -210,7 +210,7 @@ export default {
         case 'LS':
           beginTime = JOIN_TIME(lastQuarterYear, lastQuarterBeginMonth, 1)
           endTime = JOIN_TIME(lastQuarterYear, lastQuarterEndMonth, lastQuarterEndMonthLastDay)
-          break 
+          break
         case 'TY':
           beginTime = JOIN_TIME(currentYear, 1, 1)
           endTime = JOIN_TIME(currentYear, 12, 31)
@@ -218,9 +218,9 @@ export default {
         case 'LY':
           beginTime = JOIN_TIME(currentYear - 1, 1, 1)
           endTime = JOIN_TIME(currentYear - 1, 12, 31)
-          break          
+          break
       }
-      
+
       return `begin=${beginTime}&end=${endTime}`
     },
     search() {

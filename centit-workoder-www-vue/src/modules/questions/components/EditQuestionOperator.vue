@@ -6,12 +6,13 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import QuestionForm from '@/modules/submitOrder/components/QuestionForm'
-import { editOuestion, getOrder } from '@/api/workorder.js'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import QuestionForm from '@/modules/submitOrder/components/QuestionForm'
+  import {editOuestion, getOrder} from '@/api/workorder.js'
+
+  export default {
   name: 'EditQuestionOperator',
-  
+
   mixins: [
     ModalOperatorMixin,
   ],

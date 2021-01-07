@@ -31,16 +31,14 @@
 </template>
 
 <script>
-import {
-  queryFlowManagerNode,
-} from '@/api/workflow/flowManager'
+  import {queryFlowManagerNode,} from '@/api/workflow/flowManager'
 
-import flowManagerNodeColumns from './flowManagerNodeColumns'
+  import flowManagerNodeColumns from './flowManagerNodeColumns'
 
-import GoBackFlowManagerNodeOperator from './GoBackFlowManagerNodeOperator'
-import TaskFlowManagerNodeOperator from './TaskFlowManagerNodeOperator'
-import SubmitFlowManagerNodeOperator from './SubmitFlowManagerNodeOperator'
-// import RestartFlowManagerNodeOperator from './RestartFlowManagerNodeOperator'
+  import GoBackFlowManagerNodeOperator from './GoBackFlowManagerNodeOperator'
+  import TaskFlowManagerNodeOperator from './TaskFlowManagerNodeOperator'
+  import SubmitFlowManagerNodeOperator from './SubmitFlowManagerNodeOperator'
+  // import RestartFlowManagerNodeOperator from './RestartFlowManagerNodeOperator'
 
 export default {
   name: 'FlowManagerNodeList',

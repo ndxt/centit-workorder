@@ -36,9 +36,10 @@
   </ModalOperator>
 </template>
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {getCurrentuser, changepwd, checkpwd, } from '@/api/login'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {changepwd, checkpwd, getCurrentuser,} from '@/api/login'
+
+  export default {
   name: 'ChangePwd',
 
   mixins: [

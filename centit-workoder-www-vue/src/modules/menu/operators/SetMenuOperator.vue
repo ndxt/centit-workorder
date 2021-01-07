@@ -14,17 +14,14 @@
 </template>
 
 <script>
-import {
-  getMenu,
-  setMenuJurisdiction,
-} from '@/api/admin/menu'
+  import {getMenu, setMenuJurisdiction,} from '@/api/admin/menu'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import MenuSetInfo from '../MenuSetInfo'
-import dataScope from '../MenuDataScopeList'
-import optMethod from '../MenuOptMethodList'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import MenuSetInfo from '../MenuSetInfo'
+  import dataScope from '../MenuDataScopeList'
+  import optMethod from '../MenuOptMethodList'
 
-export default {
+  export default {
   name: 'SetMenuOperator',
   data() {
     return {

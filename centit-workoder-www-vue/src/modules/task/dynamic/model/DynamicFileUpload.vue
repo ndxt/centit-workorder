@@ -12,9 +12,7 @@
 <script>
   // import dynamicCensorLogColumns from '../columns/dynamicCensorLogColumns'
 
-  import {
-    queryDynamicCensorLog,
-  } from '@/api/task/dynamic'
+  import {queryDynamicCensorLog,} from '@/api/task/dynamic'
 
   export default {
     name: 'DynamicFileUpload',

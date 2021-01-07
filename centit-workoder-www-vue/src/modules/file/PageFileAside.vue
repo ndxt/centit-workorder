@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import FileInfo from './FileInfo'
-import FileLog from './FileLog'
+  import FileInfo from './FileInfo'
+  import FileLog from './FileLog'
 
-export default {
+  export default {
   name: 'PageFileAside',
 
   components: {

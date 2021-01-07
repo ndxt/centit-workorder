@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import {queryUserLocal} from '@/api/admin/file'
+  import {queryUserLocal} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'FileDemo',
 
   async mounted() {

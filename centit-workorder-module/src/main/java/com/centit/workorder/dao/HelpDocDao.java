@@ -26,22 +26,20 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc, String>
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docLevel" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docPath" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("optId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("optMethod" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("parentId", "docPath like :parentId");
-            filterField.put(CodeBook.ORDER_BY_HQL_ID , "size(helpDocComments)");
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("docId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docTitle" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docLevel" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docPath" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("docFile" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("optId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("optMethod" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("updateUser" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("parentId", "docPath like :parentId");
+        filterField.put(CodeBook.ORDER_BY_HQL_ID , "size(helpDocComments)");
         return filterField;
     }
 

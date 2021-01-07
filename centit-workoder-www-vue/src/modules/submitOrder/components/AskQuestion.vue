@@ -17,10 +17,11 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import QuestionForm from './QuestionForm'
-import { docSearch, addQuestion } from '@/api/workorder.js'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import QuestionForm from './QuestionForm'
+  import {addQuestion, docSearch} from '@/api/workorder.js'
+
+  export default {
   name: 'AddSubOrderOperator',
 
   mixins: [

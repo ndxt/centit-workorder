@@ -20,13 +20,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  editFlowRole
-} from '@/api/workflow/flowroledefine'
-import ZpaNumberInput from '../../../../zpa/form/input-number.vue';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {editFlowRole} from '@/api/workflow/flowroledefine'
+  import ZpaNumberInput from '../../../../zpa/form/input-number.vue';
 
-export default {
+  export default {
   components: {ZpaNumberInput},
   name: 'EditFlowRoleOperator',
 

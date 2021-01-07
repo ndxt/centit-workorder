@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  addFlowDefineRole,
-} from '@/api/workflow/flowDefine'
+  import {addFlowDefineRole,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowDefineRoleOperator',
 
   mixins: [

@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import flowDefineVariableColumns from './flowDefineVariableColumns'
+  import flowDefineVariableColumns from './flowDefineVariableColumns'
 
-import AddFlowDefineVariableOperator from './AddFlowDefineVariableOperator'
-import RemoveFlowDefineVariableOperator from './RemoveFlowDefineVariableOperator'
+  import AddFlowDefineVariableOperator from './AddFlowDefineVariableOperator'
+  import RemoveFlowDefineVariableOperator from './RemoveFlowDefineVariableOperator'
 
-export default {
+  export default {
   name: 'FlowDefineVariableList',
 
   components: {

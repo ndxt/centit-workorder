@@ -40,13 +40,12 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import AddFlowRoleDefineOperator from './AddFlowRoleDefineOperator'
-import RemoveFlowRoleDefineOperator from './RemoveFlowRoleDefineOperator'
-import {
-  queryFlowRoleDefineList,
-} from '@/api/workflow/flowroledefine'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import AddFlowRoleDefineOperator from './AddFlowRoleDefineOperator'
+  import RemoveFlowRoleDefineOperator from './RemoveFlowRoleDefineOperator'
+  import {queryFlowRoleDefineList,} from '@/api/workflow/flowroledefine'
+
+  export default {
   name: 'FlowRoleDefineViewList',
   mixins: [
     ModalOperatorMixin,

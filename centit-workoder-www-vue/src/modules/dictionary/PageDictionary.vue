@@ -25,16 +25,14 @@
 </template>
 
 <script>
-import columns from './columns'
-import AddDictionaryOperator from './operators/AddDictionaryOperator'
-import RemoveDictionaryOperator from './operators/RemoveDictionaryOperator'
-import EditDictionaryOperator from './operators/EditDictionaryOperator'
+  import columns from './columns'
+  import AddDictionaryOperator from './operators/AddDictionaryOperator'
+  import RemoveDictionaryOperator from './operators/RemoveDictionaryOperator'
+  import EditDictionaryOperator from './operators/EditDictionaryOperator'
 
-import {
-  queryDictionary
-} from '@/api/admin/dictionary'
+  import {queryDictionary} from '@/api/admin/dictionary'
 
-export default {
+  export default {
   name: 'PageDictionary',
 
   data() {

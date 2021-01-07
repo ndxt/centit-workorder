@@ -17,17 +17,15 @@
 </template>
 
 <script>
-import {
-  queryFlowTaskEntrust,
-} from '@/api/workflow/flowTask'
+  import {queryFlowTaskEntrust,} from '@/api/workflow/flowTask'
 
-import flowTaskEntrustColumns from './flowTaskEntrustColumns'
+  import flowTaskEntrustColumns from './flowTaskEntrustColumns'
 
-import AddFlowTaskEntrustOperator from './operators/entrust/AddFlowTaskEntrustOperator'
-import EditFlowTaskEntrustOperator from './operators/entrust/EditFlowTaskEntrustOperator'
-import RemoveFlowTaskEntrustOperator from './operators/entrust/RemoveFlowTaskEntrustOperator'
+  import AddFlowTaskEntrustOperator from './operators/entrust/AddFlowTaskEntrustOperator'
+  import EditFlowTaskEntrustOperator from './operators/entrust/EditFlowTaskEntrustOperator'
+  import RemoveFlowTaskEntrustOperator from './operators/entrust/RemoveFlowTaskEntrustOperator'
 
-export default {
+  export default {
   name: 'FlowTaskEntrustList',
 
   components: {

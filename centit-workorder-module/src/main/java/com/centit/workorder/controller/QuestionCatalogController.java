@@ -9,8 +9,6 @@ import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.QuestionCatalogManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +33,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("os/{osId}/catalogs")
 public class QuestionCatalogController  extends BaseController {
-    private static final Log logger = LogFactory.getLog(QuestionCatalogController.class);
+    //private static final Log logger = LogFactory.getLog(QuestionCatalogController.class);
 
     @Resource
     private QuestionCatalogManager questionCatalogMag;

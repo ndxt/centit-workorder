@@ -23,16 +23,14 @@
 </template>
 
 <script>
-import {
-  addFlowFormula,
-} from '@/api/workflow/flowFormula'
+  import {addFlowFormula,} from '@/api/workflow/flowFormula'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowFormulaInfo from './FlowFormulaInfo'
-import FlowFormulaExplan from './FlowFormulaExplan'
-import FlowFormulaUser from './FlowFormulaUser'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowFormulaInfo from './FlowFormulaInfo'
+  import FlowFormulaExplan from './FlowFormulaExplan'
+  import FlowFormulaUser from './FlowFormulaUser'
 
-export default {
+  export default {
   name: 'AddFlowFormulaOperator',
 
   mixins: [

@@ -1,14 +1,8 @@
 import _ from 'lodash'
 
-import {
-  getUuid,
-} from '../../utils'
+import {getUuid,} from '../../utils'
 
-import {
-  validate,
-  parseValidators2Rules,
-  getRules,
-} from '../validator'
+import {getRules, parseValidators2Rules, validate,} from '../validator'
 
 export const layoutProps = {
   span: Number,

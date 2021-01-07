@@ -29,18 +29,16 @@
 </template>
 
 <script>
-import {
-  queryModuleInterFaceConfigs,
-} from '@/api/workflow/flowBusiness'
+  import {queryModuleInterFaceConfigs,} from '@/api/workflow/flowBusiness'
 
-import moduleInterfaceDefineColumns from './moduleInterfaceDefineColumns'
+  import moduleInterfaceDefineColumns from './moduleInterfaceDefineColumns'
 
-import AddModuleInterfaceConfig from './operators/AddModuleInterfaceConfig'
-import EditModuleInterfaceConfig from './operators/EditModuleInterfaceConfig'
-import ModuleInterfaceViewList from './operators/viewflowoperatordefineoperator/ModuleInterfaceViewList'
-import RemoveModuleInterfaceConfig from './operators/RemoveModuleInterfaceConfig'
+  import AddModuleInterfaceConfig from './operators/AddModuleInterfaceConfig'
+  import EditModuleInterfaceConfig from './operators/EditModuleInterfaceConfig'
+  import ModuleInterfaceViewList from './operators/viewflowoperatordefineoperator/ModuleInterfaceViewList'
+  import RemoveModuleInterfaceConfig from './operators/RemoveModuleInterfaceConfig'
 
-export default {
+  export default {
   name: 'ModuleInterfaceConfig',
 
   data() {

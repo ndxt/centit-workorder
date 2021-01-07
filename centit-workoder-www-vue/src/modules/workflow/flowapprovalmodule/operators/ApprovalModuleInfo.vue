@@ -223,15 +223,15 @@
 </template>
 
 <script>
-import {
-  getDictionary,
-  getAllFlow,
-  getAllOptinfo,
-  getAllStuff,
-  getAllDocument
-} from '@/api/workflow/flowApprovalModule';
+  import {
+    getAllDocument,
+    getAllFlow,
+    getAllOptinfo,
+    getAllStuff,
+    getDictionary
+  } from '@/api/workflow/flowApprovalModule';
 
-export default {
+  export default {
   name: 'ApprovalModuleInfo',
 
   data() {

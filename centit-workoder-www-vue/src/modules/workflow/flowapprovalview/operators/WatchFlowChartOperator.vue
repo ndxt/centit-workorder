@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import { queryOptidea } from '@/api/workflow/flowApprovalModule';
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import {queryOptidea} from '@/api/workflow/flowApprovalModule';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
 
-import WatchFlowChartInfo from './WatchFlowChartInfo';
+  import WatchFlowChartInfo from './WatchFlowChartInfo';
 
-export default {
+  export default {
   name: 'WatchFlowChartOperator',
 
   mixins: [ModalOperatorMixin],

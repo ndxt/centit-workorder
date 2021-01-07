@@ -37,16 +37,14 @@
 </template>
 
 <script>
-import {
-  queryFlowTask,
-} from '@/api/workflow/flowTask'
+  import {queryFlowTask,} from '@/api/workflow/flowTask'
 
-import flowTaskTransferColumns from './flowTaskTransferColumns'
+  import flowTaskTransferColumns from './flowTaskTransferColumns'
 
-import TransactFlowTaskTransferOperator from './operators/transfer/TransactFlowTaskTransferOperator'
-import UserFlowTaskTransferOperator from './operators/transfer/UserFlowTaskTransferOperator'
+  import TransactFlowTaskTransferOperator from './operators/transfer/TransactFlowTaskTransferOperator'
+  import UserFlowTaskTransferOperator from './operators/transfer/UserFlowTaskTransferOperator'
 
-export default {
+  export default {
   name: 'FlowTaskTransferList',
 
   components: {

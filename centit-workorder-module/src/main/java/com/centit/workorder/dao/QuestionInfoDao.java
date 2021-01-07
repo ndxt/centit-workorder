@@ -30,26 +30,24 @@ public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String> {
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("questionId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("questionTitle" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("questionContent" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("questionState" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("editState" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("currentOperator" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("acceptTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("completeTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("closedTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("evaluateScore" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("evaluateTime" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("questionId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("questionTitle" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("questionContent" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("questionState" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("editState" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("currentOperator" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("acceptTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("completeTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("closedTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("evaluateScore" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("evaluateTime" , CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 

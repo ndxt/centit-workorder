@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import layoutMixin from './mixin'
+  import layoutMixin from './mixin'
 
-export default {
+  export default {
   name: 'zpaColumn',
 
   mixins: [layoutMixin],

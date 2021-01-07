@@ -13,7 +13,7 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.*;
 import com.centit.workorder.po.*;
 import com.centit.workorder.service.HelpDocManager;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

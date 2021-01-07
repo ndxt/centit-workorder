@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import {removeFlowRoleDefineList, } from '@/api/workflow/flowroledefine'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeFlowRoleDefineList,} from '@/api/workflow/flowroledefine'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowRoleDefineOperator',
 
   mixins: [

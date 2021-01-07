@@ -22,16 +22,14 @@
 </template>
 
 <script>
-import {
-  addDictionary,
-} from '@/api/admin/dictionary'
+  import {addDictionary,} from '@/api/admin/dictionary'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import DictionaryBaseInfo from '../DictionaryBaseInfo'
-import DictionaryFieldInfo from '../DictionaryFieldInfo'
-import DictionaryDetailsList from '../DictionaryDetailsList'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import DictionaryBaseInfo from '../DictionaryBaseInfo'
+  import DictionaryFieldInfo from '../DictionaryFieldInfo'
+  import DictionaryDetailsList from '../DictionaryDetailsList'
 
-export default {
+  export default {
   name: 'AddDictionaryOperator',
 
   mixins: [

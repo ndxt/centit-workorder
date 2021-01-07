@@ -18,13 +18,13 @@
   </Box>
 </template>
 <script>
-import UserUnitColumns from './UserUnitColumns'
-import AddUserUnitOperator from './AddUserUnitOperator'
-import EditUserUnitOperator from './EditUserUnitOperator'
-import RemoveUserUnitOperator from './RemoveUserUnitOperator'
-import {getUserUnitList} from '@/api/admin/user'
+  import UserUnitColumns from './UserUnitColumns'
+  import AddUserUnitOperator from './AddUserUnitOperator'
+  import EditUserUnitOperator from './EditUserUnitOperator'
+  import RemoveUserUnitOperator from './RemoveUserUnitOperator'
+  import {getUserUnitList} from '@/api/admin/user'
 
-export default {
+  export default {
   name: 'UserUnit',
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
   props: {
     value: Object,
   },
-  
+
   methods: {
     getUserUnitList,
     search() {

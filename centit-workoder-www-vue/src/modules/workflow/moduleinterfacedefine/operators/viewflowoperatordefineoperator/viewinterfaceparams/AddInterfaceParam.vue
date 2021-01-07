@@ -37,14 +37,11 @@
 </template>
 
 <script>
-import {
-  newOptCode,
-  addParam,
-} from '@/api/workflow/flowBusiness'
+  import {addParam, newOptCode,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'AddInterfaceOperator',
 
   mixins: [

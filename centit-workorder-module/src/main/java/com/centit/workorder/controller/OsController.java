@@ -1,11 +1,10 @@
 package com.centit.workorder.controller;
 
+import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
-import com.centit.framework.ip.po.OsInfo;
-import com.centit.framework.ip.service.IntegrationEnvironment;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.IOsInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +24,10 @@ import java.util.List;
 @Controller
 @RequestMapping("os")
 public class OsController extends BaseController {
-    private static final Log log = LogFactory.getLog(OsController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
-    protected IntegrationEnvironment integrationEnvironment;
+    protected PlatformEnvironment platformEnvironment;
 
 
     /**
@@ -36,8 +35,8 @@ public class OsController extends BaseController {
      */
     @RequestMapping(method = {RequestMethod.GET})
     @WrapUpResponseBody
-    public List<OsInfo> getOsIdList() {
-        return integrationEnvironment.listOsInfos();
+    public List<? extends IOsInfo> getOsIdList() {
+        return platformEnvironment.listOsInfos();
     }
 
     /**
@@ -46,8 +45,8 @@ public class OsController extends BaseController {
      */
     @RequestMapping(value = "/{osId}", method = {RequestMethod.GET})
     @WrapUpResponseBody
-    public OsInfo getOs(@PathVariable String osId) {
-        return integrationEnvironment.getOsInfo(osId);
+    public IOsInfo getOs(@PathVariable String osId) {
+        return CodeRepositoryUtil.getOsInfo(osId);
     }
 
 }

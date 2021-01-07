@@ -59,15 +59,10 @@
 </template>
 
 <script>
-import {
-  mapState
-} from 'vuex'
-import {
-  queryMenus,
-  querySubMenus,
-} from '@/api/menus'
+  import {mapState} from 'vuex'
+  import {queryMenus, querySubMenus,} from '@/api/menus'
 
-export default {
+  export default {
   name: 'Menu',
 
   data() {

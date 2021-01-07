@@ -46,11 +46,9 @@
 </template>
 
 <script>
-import {
-  checkDictionaryCodeUnique
-} from '@/api/admin/dictionary'
+  import {checkDictionaryCodeUnique} from '@/api/admin/dictionary'
 
-export default {
+  export default {
   name: 'DictionaryBaseInfo',
 
   props: {

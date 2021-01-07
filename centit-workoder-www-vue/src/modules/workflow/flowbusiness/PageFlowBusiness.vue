@@ -30,18 +30,16 @@
 </template>
 
 <script>
-import {
-  queryFlowBusiness,
-} from '@/api/workflow/flowBusiness'
+  import {queryFlowBusiness,} from '@/api/workflow/flowBusiness'
 
-import flowBusinessColumns from './flowBusinessColumns'
+  import flowBusinessColumns from './flowBusinessColumns'
 
-import AddFlowBusinessOperator from './operators/AddFlowBusinessOperator'
-import EditFlowBusinessOperator from './operators/EditFlowBusinessOperator'
-import CreateFlowBusinessOperator from './operators/CreateFlowBusinessOperator'
-import RemoveFlowBusinessOperator from './operators/RemoveFlowBusinessOperator'
+  import AddFlowBusinessOperator from './operators/AddFlowBusinessOperator'
+  import EditFlowBusinessOperator from './operators/EditFlowBusinessOperator'
+  import CreateFlowBusinessOperator from './operators/CreateFlowBusinessOperator'
+  import RemoveFlowBusinessOperator from './operators/RemoveFlowBusinessOperator'
 
-export default {
+  export default {
   name: 'PageFlowBusiness',
 
   components: {

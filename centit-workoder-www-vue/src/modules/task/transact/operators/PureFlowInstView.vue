@@ -23,18 +23,14 @@
 </template>
 
 <script>
-import FlowFrame from '../model/FlowFrame'
-import TransactCensorLog from '../model/TransactCensorLog'
-import AttentionMaterialList from '@/modules/task/attention/model/AttentionMaterialList'
+  import FlowFrame from '../model/FlowFrame'
+  import TransactCensorLog from '../model/TransactCensorLog'
+  import AttentionMaterialList from '@/modules/task/attention/model/AttentionMaterialList'
 
-import {
-  mapState
-} from 'vuex'
-import {
-  queryFlowView,
-} from '@/api/task/transact'
+  import {mapState} from 'vuex'
+  import {queryFlowView,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'PureFlowInstView',
 
   data() {

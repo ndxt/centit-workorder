@@ -26,19 +26,17 @@
 </template>
 
 <script>
-import {
-  saveFlowManager,
-} from '@/api/workflow/flowManager'
+  import {saveFlowManager,} from '@/api/workflow/flowManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowManagerBaseInfo from './FlowManagerBaseInfo'
-import FlowManagerNodeList from './node/FlowManagerNodeList'
-import FlowManagerVariableList from './variable/FlowManagerVariableList'
-import FlowManagerRoleList from './role/FlowManagerRoleList'
-import FlowManagerUnitList from './unit/FlowManagerUnitList'
-import FlowManagerLogList from './log/FlowManagerLogList'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowManagerBaseInfo from './FlowManagerBaseInfo'
+  import FlowManagerNodeList from './node/FlowManagerNodeList'
+  import FlowManagerVariableList from './variable/FlowManagerVariableList'
+  import FlowManagerRoleList from './role/FlowManagerRoleList'
+  import FlowManagerUnitList from './unit/FlowManagerUnitList'
+  import FlowManagerLogList from './log/FlowManagerLogList'
 
-export default {
+  export default {
   name: 'EditFlowManagerOperator',
 
   mixins: [

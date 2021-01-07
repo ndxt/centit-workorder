@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import {getLog} from '@/api/admin/log'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import LogInfo from './LogInfo'
+  import {getLog} from '@/api/admin/log'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import LogInfo from './LogInfo'
 
-export default {
+  export default {
   name: 'ViewLogOperator',
 
   mixins: [

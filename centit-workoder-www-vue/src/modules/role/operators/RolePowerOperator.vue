@@ -9,13 +9,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  getRole,
-  saveRolePower,
-} from '@/api/admin/role'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {getRole, saveRolePower,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'RolePowerOperator',
 
   mixins: [

@@ -36,22 +36,22 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueCodemirror from 'vue-codemirror'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/htmlmixed/htmlmixed.js'
+  import Vue from 'vue'
+  import VueCodemirror from 'vue-codemirror'
+  import 'codemirror/lib/codemirror.css'
+  import 'codemirror/mode/htmlmixed/htmlmixed.js'
 
-import FormMainDemo from './demos/FormMain'
-import FormBasicDemo from './demos/FormBasic'
-import FormBasicBakDemo from './demos/FormBasicBak'
-import FormAsyncDemo from './demos/FormAsync'
-import FormAdminDemo from './demos/FormAdmin'
-import FormLayoutDemo from './demos/FormLayout'
-import FormLabelDemo from './demos/FormLabel'
-import FormValidatorDemo from './demos/FormValidator'
-import FormValidatorAdvanceDemo from './demos/FormValidatorAdvance'
+  import FormMainDemo from './demos/FormMain'
+  import FormBasicDemo from './demos/FormBasic'
+  import FormBasicBakDemo from './demos/FormBasicBak'
+  import FormAsyncDemo from './demos/FormAsync'
+  import FormAdminDemo from './demos/FormAdmin'
+  import FormLayoutDemo from './demos/FormLayout'
+  import FormLabelDemo from './demos/FormLabel'
+  import FormValidatorDemo from './demos/FormValidator'
+  import FormValidatorAdvanceDemo from './demos/FormValidatorAdvance'
 
-Vue.use(VueCodemirror, {
+  Vue.use(VueCodemirror, {
   options: {
     tabSize: 2,
     mode: 'text/html',

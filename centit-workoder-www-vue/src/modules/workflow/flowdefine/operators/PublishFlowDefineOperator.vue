@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import {publishFlow} from '@/api/workflow/flowDefine'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {publishFlow} from '@/api/workflow/flowDefine'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'PublishFlowDefineOperator',
 
   mixins: [

@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import UploadBaseInfo from '../UploadBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import UploadBaseInfo from '../UploadBaseInfo'
 
-export default {
+  export default {
   name: 'UploadFileOperator',
 
   mixins: [

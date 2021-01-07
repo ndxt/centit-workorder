@@ -9,8 +9,6 @@ import com.centit.support.common.ObjectException;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.po.QuestionRound;
 import com.centit.workorder.service.QuestionInfoManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/questions/{questionId}/round")
 public class QuestionRoundController extends BaseController {
-    private static final Log logger = LogFactory.getLog(QuestionRoundController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
     private QuestionInfoManager questionInfoMag;

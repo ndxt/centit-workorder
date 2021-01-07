@@ -1,7 +1,5 @@
 import Vue from 'vue'
-import {
-  apiFactory,
-} from './index'
+import {apiFactory,} from './index'
 
 const api = apiFactory('workorder', {}, true)
 export function addOrder(data) {

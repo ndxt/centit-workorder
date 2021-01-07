@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import inputMixin from './mixins/input'
-import {dateToString} from '../utils'
+  import inputMixin from './mixins/input'
+  import {dateToString} from '../utils'
 
-export default {
+  export default {
   name: 'zpaDateInput',
 
   mixins: [inputMixin],

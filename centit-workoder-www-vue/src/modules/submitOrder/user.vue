@@ -1,5 +1,5 @@
 <template>
-<SearchLayout>     
+<SearchLayout>
     <DataList
       ref="Table"
       isHidePage
@@ -17,10 +17,11 @@
   </SearchLayout>
 </template>
 <script>
-// 做成选择。。。选择。。。的形式
-import UserViewSubOrderListOperator from './components/UserViewSubOrderListOperator'
-import { getRankList } from '@/api/workorder.js'
-export default {
+  // 做成选择。。。选择。。。的形式
+  import UserViewSubOrderListOperator from './components/UserViewSubOrderListOperator'
+  import {getRankList} from '@/api/workorder.js'
+
+  export default {
   name: 'admin',
   components: {
     UserViewSubOrderListOperator,

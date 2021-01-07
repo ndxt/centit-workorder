@@ -6,15 +6,15 @@
         <UnitTreeSelect label="机构" v-model="params.queryByUnit" :department="dept" filterable />
         <zpa-radio-group label="状态" v-model="params.isValid" :values="isValidValues" />
       </SearchBox>
-      <DataList 
-        ref="Table" 
-        index 
-        checkbox 
-        :columns="userColumns" 
+      <DataList
+        ref="Table"
+        index
+        checkbox
+        :columns="userColumns"
         :query="dept ? queryDept : queryUser"
         :operWidth="240"
         @onSelectionChange="getChecked"
-        @on-selected-change="selectedChange" 
+        @on-selected-change="selectedChange"
         >
         <template slot="fab">
           <div class="btn_group">
@@ -44,23 +44,18 @@
 </template>
 
 <script>
-import {
-  queryUser,
-  getLdap,
-  queryDept,
-  getUser
-} from '@/api/admin/user'
-import userColumns from './userColumns'
-import AddUserOperator from './operators/AddUserOperator'
-import EditUserOperator from './operators/EditUserOperator'
-import RemoveUserOperator from './operators/RemoveUserOperator'
-import RemoveUserOperatorChecked from './operators/RemoveUserOperatorChecked'
-import PowerUserOperator from './operators/PowerUserOperator'
-import ResetPassWordOperator from './operators/ResetPassWordOperator'
+  import {getLdap, getUser, queryDept, queryUser} from '@/api/admin/user'
+  import userColumns from './userColumns'
+  import AddUserOperator from './operators/AddUserOperator'
+  import EditUserOperator from './operators/EditUserOperator'
+  import RemoveUserOperator from './operators/RemoveUserOperator'
+  import RemoveUserOperatorChecked from './operators/RemoveUserOperatorChecked'
+  import PowerUserOperator from './operators/PowerUserOperator'
+  import ResetPassWordOperator from './operators/ResetPassWordOperator'
 
-import RightUser from './RightUser'
+  import RightUser from './RightUser'
 
-export default {
+  export default {
   name: 'PageUser',
   props: {
     dept: Boolean

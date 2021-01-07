@@ -10,18 +10,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  queryTransactTeam,
-  queryTransactEngine,
-  queryTransactAttention,
-  queryTransactOrg,
-} from '@/api/task/transact'
-import {
-  buildTree
-} from '@/zpa/utils'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {queryTransactAttention, queryTransactEngine, queryTransactOrg, queryTransactTeam,} from '@/api/task/transact'
+  import {buildTree} from '@/zpa/utils'
 
-export default {
+  export default {
   name: 'EditTransactCensorOperator',
 
   mixins: [

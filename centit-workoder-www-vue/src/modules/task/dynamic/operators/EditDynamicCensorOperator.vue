@@ -10,18 +10,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  queryDynamicTeam,
-  queryDynamicEngine,
-  queryDynamicAttention,
-  queryDynamicOrg,
-} from '@/api/task/dynamic'
-import {
-  buildTree
-} from '@/zpa/utils'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {queryDynamicAttention, queryDynamicEngine, queryDynamicOrg, queryDynamicTeam,} from '@/api/task/dynamic'
+  import {buildTree} from '@/zpa/utils'
 
-export default {
+  export default {
   name: 'EditDynamicCensorOperator',
 
   mixins: [

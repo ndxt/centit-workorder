@@ -10,10 +10,11 @@
   </SearchLayout>
 </template>
 <script>
-import knowedgeDoc from './KnowedgeDoc';
-import knowedgeTree from './KnowedgeTree';
-import { knowedgeSeach, getDoc } from '@/api/knowedge/knowedge';
-export default {
+  import knowedgeDoc from './KnowedgeDoc';
+  import knowedgeTree from './KnowedgeTree';
+  import {getDoc, knowedgeSeach} from '@/api/knowedge/knowedge';
+
+  export default {
   name: 'PageKnowedgeBase',
   data() {
     return {

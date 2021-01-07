@@ -41,8 +41,9 @@
 </template>
 
 <script>
-import {queryOs} from '@/api/admin/business'
-export default {
+  import {queryOs} from '@/api/admin/business'
+
+  export default {
   name: 'DatabaseInfo',
 
   inject: ['top'],

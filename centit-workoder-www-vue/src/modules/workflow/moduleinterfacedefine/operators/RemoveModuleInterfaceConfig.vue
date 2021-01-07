@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  removeModuleByCode,
-} from '@/api/workflow/flowBusiness'
+  import {removeModuleByCode,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveModuleInterfaceConfig',
 
   mixins: [

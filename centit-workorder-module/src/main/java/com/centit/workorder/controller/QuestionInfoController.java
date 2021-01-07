@@ -12,9 +12,7 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.AssistOperator;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.service.QuestionInfoManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jsoup.helper.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +38,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/questions")
 public class QuestionInfoController  extends BaseController {
-    private static final Log log = LogFactory.getLog(QuestionInfoController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
     private QuestionInfoManager questionInfoMag;
@@ -65,7 +63,7 @@ public class QuestionInfoController  extends BaseController {
         Date begin = DatetimeOpt.convertStringToDate(request.getParameter("begin"),"yyyy-MM-dd");
         Date end = DatetimeOpt.convertStringToDate(request.getParameter("end"),"yyyy-MM-dd");
         map.put("osId",osId);
-        if (!StringUtil.isBlank(questionTitle)){
+        if (!StringUtils.isBlank(questionTitle)){
             map.put("questionTitle","%"+questionTitle+"%");
         }
         map.put("questionContent",questionContent);
@@ -262,7 +260,7 @@ public class QuestionInfoController  extends BaseController {
         map.put("currentOperator",currentOperator);
         map.put("editState",editState);
         map.put("questionState",questionState);
-        if (!StringUtil.isBlank(questionTitle)){
+        if (!StringUtils.isBlank(questionTitle)){
             map.put("questionTitle","%"+questionTitle+"%");
         }
         map.put("userCode",userCode);

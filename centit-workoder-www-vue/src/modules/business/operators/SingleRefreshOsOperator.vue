@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import {
-  singleRefreshOs,
-} from '@/api/admin/business'
+  import {singleRefreshOs,} from '@/api/admin/business'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'SingleRefreshOsOperator',
 
   mixins: [

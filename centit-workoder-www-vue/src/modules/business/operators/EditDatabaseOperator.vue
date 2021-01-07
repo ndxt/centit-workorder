@@ -13,16 +13,12 @@
 </template>
 
 <script>
-import {
-  modifyDatabase,
-  getDatabase,
-  testConnectOs,
-} from '@/api/admin/business'
+  import {getDatabase, modifyDatabase, testConnectOs,} from '@/api/admin/business'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import DatabaseBaseInfo from '../DatabaseBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import DatabaseBaseInfo from '../DatabaseBaseInfo'
 
-export default {
+  export default {
   name: 'EditDatabaseOperator',
 
   mixins: [

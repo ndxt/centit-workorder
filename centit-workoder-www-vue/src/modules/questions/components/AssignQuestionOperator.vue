@@ -17,12 +17,13 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import { assignOuestion } from '@/api/workorder.js'
-import { queryUser } from '@/api/admin/user'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {assignOuestion} from '@/api/workorder.js'
+  import {queryUser} from '@/api/admin/user'
+
+  export default {
   name: 'EditQuestionOperator',
-  
+
   mixins: [
     ModalOperatorMixin,
   ],

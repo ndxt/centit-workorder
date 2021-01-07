@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import { getMenu, modifyMenu } from '@/api/admin/menu';
+  import {getMenu, modifyMenu} from '@/api/admin/menu';
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-import MenuBaseInfo from '../MenuBaseInfo';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import MenuBaseInfo from '../MenuBaseInfo';
 
-export default {
+  export default {
   name: 'EditMenuOperator',
 
   mixins: [ModalOperatorMixin],

@@ -7,12 +7,12 @@
     </TabList>
 </template>
 <script>
-import UserBaseInfo from './UserBaseInfo'
-import UserRole from './right/UserRole'
-import UserUnit from './right/UserUnit'
-import UserSetting from './right/UserSetting'
+  import UserBaseInfo from './UserBaseInfo'
+  import UserRole from './right/UserRole'
+  import UserUnit from './right/UserUnit'
+  import UserSetting from './right/UserSetting'
 
-export default {
+  export default {
   name: 'RightUser',
   computed: {
     userInfo() {

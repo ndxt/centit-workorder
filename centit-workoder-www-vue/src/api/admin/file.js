@@ -1,7 +1,6 @@
 import $ from 'jquery'
-
 // 文件
-import { apiFactory, createUrlParams } from '../index'
+import {apiFactory, createUrlParams} from '../index'
 
 const api = apiFactory('file')
 

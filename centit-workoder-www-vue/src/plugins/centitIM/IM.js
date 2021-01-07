@@ -1,6 +1,6 @@
 import jquery from 'jQuery'
 // _parsedata,
-import { _parsedata, _getContextPath, _getTimestamp } from './util'
+import {_getContextPath, _getTimestamp, _parsedata} from './util'
 import MODE from './chatMode.js'
 import Mustache from 'mustache'
 
@@ -11,7 +11,7 @@ class IM {
     this.messageHandler = '';
     this.mine = mine
     this.config = $.extend({}, {}, {layer: window.layui.layer})
-    
+
     // this.layer = config.layer;
     // this.tree = config.tree;
     this.config.mode = MODE.MODE_SERVICE;// 因为在发送消息时会判断是否为'askForService',最好改为在UserIM中重写方法
@@ -135,7 +135,7 @@ class IM {
     let wsHost
 
     wsHost = `ws://localhost:10085/im/im/${id}`
-    
+
     let socket = this.socket = new WebSocket(wsHost)
 
     socket.onopen = this.onWSOpen.bind(this)
@@ -207,7 +207,7 @@ class IM {
 
       layer.open({
         title: '系统通知',
-                    
+
         content: Mustache.render('您已掉线，请<a onclick="window.location.reload();" style="color: RGB(98, 158, 229);cursor: pointer">刷新</a>重新连接')
       });
     });
@@ -282,7 +282,7 @@ class IM {
         console.warn(`未知的数据类型：${data.type}`)
     }
   }
-        
+
   /**
          * WebSocket通道打开事件
          */
@@ -334,15 +334,15 @@ class IM {
   }
   queryService() {
     // let ctx = this.contextPath
-    
+
     return fetch(`/api/message/webimcust/services`)
       .then(res => res.json())
       .then(res => res.data)
     // return new Promise(resolve => resolve())
   }
-  
+
   initIM() {
-    this.mine.avatar = MODE.DEFAULT_AVATAR 
+    this.mine.avatar = MODE.DEFAULT_AVATAR
     let config = {
       init: {
         mine: this.mine,

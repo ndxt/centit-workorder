@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import { addMenu } from '@/api/admin/menu';
+  import {addMenu} from '@/api/admin/menu';
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-import MenuBaseInfo from '../MenuBaseInfo';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import MenuBaseInfo from '../MenuBaseInfo';
 
-export default {
+  export default {
   name: 'AddMenuOperator',
 
   mixins: [ModalOperatorMixin],

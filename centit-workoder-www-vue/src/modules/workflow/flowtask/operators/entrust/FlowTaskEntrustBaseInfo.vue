@@ -42,11 +42,9 @@
 </template>
 
 <script>
-import {
-  getFlowTaskUserRole,
-} from '@/api/workflow/flowTask'
+  import {getFlowTaskUserRole,} from '@/api/workflow/flowTask'
 
-export default {
+  export default {
   name: 'FlowTaskEntrustBaseInfo',
 
   data() {

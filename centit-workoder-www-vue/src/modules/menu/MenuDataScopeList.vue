@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import AddDataScopeOperator from './operators/AddDataScopeOperator';
-import EditDataScopeOperator from './operators/EditDataScopeOperator';
-import RemoveDataScopeOperator from './operators/RemoveDataScopeOperator';
+  import AddDataScopeOperator from './operators/AddDataScopeOperator';
+  import EditDataScopeOperator from './operators/EditDataScopeOperator';
+  import RemoveDataScopeOperator from './operators/RemoveDataScopeOperator';
 
-export default {
+  export default {
   name: 'dataScopeList',
   data() {
     return {

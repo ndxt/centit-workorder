@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-import RoleBaseInfo from '../RoleBaseInfo';
-import { getRole, saveRole, updateDepartmentRole } from '@/api/admin/role';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import RoleBaseInfo from '../RoleBaseInfo';
+  import {getRole, saveRole, updateDepartmentRole} from '@/api/admin/role';
 
-export default {
+  export default {
   name: 'EditRoleOperator',
 
   mixins: [ModalOperatorMixin],

@@ -122,9 +122,9 @@
 </template>
 
 <script>
-import $ from 'jquery'
+  import $ from 'jquery'
 
-export default {
+  export default {
   methods: {
     reload() {
       const w = document.documentElement.clientWidth

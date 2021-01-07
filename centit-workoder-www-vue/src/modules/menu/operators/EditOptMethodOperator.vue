@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import OptMethodInfo from '../OptMethodInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import OptMethodInfo from '../OptMethodInfo'
 
-export default {
+  export default {
   name: 'EditOptMethodOperator',
 
   mixins: [

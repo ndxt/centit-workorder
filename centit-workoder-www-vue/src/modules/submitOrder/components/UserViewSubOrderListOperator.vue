@@ -8,7 +8,7 @@
       :query="getSubRankList"
     >
     <template slot-scope="props">
-    
+
         <AskQuestion v-model="props.row" @success="reloadParentTable"/>
     </template>
     </DataList>
@@ -17,9 +17,10 @@
 
 <script>
 
-import AskQuestion from './AskQuestion'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-export default {
+  import AskQuestion from './AskQuestion'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+
+  export default {
   name: 'UserViewSubOrderListOperator',
 
   components: {
@@ -30,13 +31,13 @@ export default {
     ModalOperatorMixin,
   ],
   mounted() {
-    
+
   },
   props: {
     reloadParentTable: Function
   },
   data() {
-    return { 
+    return {
       listColumns: [
         {
           title: '工单名称',
@@ -74,7 +75,7 @@ export default {
       this.$refs['Table'].load()
     },
     beforeSubmit() {
-      
+
     },
 
   },

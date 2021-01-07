@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import { removeMenu } from '@/api/admin/menu';
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import {removeMenu} from '@/api/admin/menu';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
 
-export default {
+  export default {
   name: 'RemoveMenuOperator',
 
   mixins: [ModalOperatorMixin],

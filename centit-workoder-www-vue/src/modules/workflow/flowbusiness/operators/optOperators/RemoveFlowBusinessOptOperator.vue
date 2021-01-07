@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  removeOptPage,
-} from '@/api/workflow/flowBusiness'
+  import {removeOptPage,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveFlowBusinessOptOperator',
 
   mixins: [

@@ -5,15 +5,12 @@
 </template>
 
 <script>
-import {
-  getUser,
-  modifyUser,
-} from '@/api/admin/user'
+  import {getUser, modifyUser,} from '@/api/admin/user'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import UserBaseInfo from '../UserBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import UserBaseInfo from '../UserBaseInfo'
 
-export default {
+  export default {
   name: 'EditUserOperator',
 
   mixins: [

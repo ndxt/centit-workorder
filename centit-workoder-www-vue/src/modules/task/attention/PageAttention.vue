@@ -25,19 +25,15 @@
 </template>
 
 <script>
-import attentionColumns from './columns/attentionColumns'
+  import attentionColumns from './columns/attentionColumns'
 
-import ViewAttentionOperator from './operators/ViewAttentionOperator'
+  import ViewAttentionOperator from './operators/ViewAttentionOperator'
 
-import {
-  queryAttention,
-} from '@/api/task/attention'
+  import {queryAttention,} from '@/api/task/attention'
 
-import {
-  openInfo,
-} from '@/api/workflow/flowManager'
+  import {openInfo,} from '@/api/workflow/flowManager'
 
-export default {
+  export default {
   name: 'PageAttention',
 
   data() {

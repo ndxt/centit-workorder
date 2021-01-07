@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import FlowTaskTransferList from './FlowTaskTransferList'
-import FlowTaskEntrustList from './FlowTaskEntrustList'
+  import FlowTaskTransferList from './FlowTaskTransferList'
+  import FlowTaskEntrustList from './FlowTaskEntrustList'
 
-export default {
+  export default {
   name: 'PageFlowTask',
 
   components: {

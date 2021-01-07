@@ -61,12 +61,9 @@
 </template>
 
 <script>
-import {
-  checkUnitWordUnique,
-  checkUnitUpdateWordUnique
-} from '@/api/admin/unit'
+  import {checkUnitUpdateWordUnique, checkUnitWordUnique} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'UnitBaseInfo',
 
   props: {

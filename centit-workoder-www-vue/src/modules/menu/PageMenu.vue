@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import { queryMenu } from '@/api/admin/menu';
-import menuColumns from './menuColumns';
-import AddMenuOperator from './operators/AddMenuOperator';
-import EditMenuOperator from './operators/EditMenuOperator';
-import RemoveMenuOperator from './operators/RemoveMenuOperator';
-import SetMenuOperator from './operators/SetMenuOperator';
+  import {queryMenu} from '@/api/admin/menu';
+  import menuColumns from './menuColumns';
+  import AddMenuOperator from './operators/AddMenuOperator';
+  import EditMenuOperator from './operators/EditMenuOperator';
+  import RemoveMenuOperator from './operators/RemoveMenuOperator';
+  import SetMenuOperator from './operators/SetMenuOperator';
 
-export default {
+  export default {
   name: 'PageMenu',
 
   data() {

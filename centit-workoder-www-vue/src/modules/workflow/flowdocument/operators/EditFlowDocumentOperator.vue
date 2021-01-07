@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import { getFlowDocument, saveFlowDocument } from '@/api/workflow/flowDocument';
+  import {getFlowDocument, saveFlowDocument} from '@/api/workflow/flowDocument';
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
-import FlowDocumentInfo from './FlowDocumentInfo';
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin';
+  import FlowDocumentInfo from './FlowDocumentInfo';
 
-export default {
+  export default {
   name: 'EditFlowDocumentOperator',
 
   mixins: [ModalOperatorMixin],

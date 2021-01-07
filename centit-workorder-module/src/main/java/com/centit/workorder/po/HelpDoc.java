@@ -5,7 +5,7 @@ import com.centit.search.document.ObjectDocument;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
-import org.jsoup.helper.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -320,7 +320,7 @@ public class HelpDoc implements java.io.Serializable {
         jsonObject.put("docPath", this.getDocPath());
         document.setOptUrl(jsonObject.toString());
         document.setTitle(this.getDocTitle());
-        if (!StringUtil.isBlank(this.getDocFile())){
+        if (!StringUtils.isBlank(this.getDocFile())){
             document.setContent(filterTag(this.getDocFile()));
         }
         return document;

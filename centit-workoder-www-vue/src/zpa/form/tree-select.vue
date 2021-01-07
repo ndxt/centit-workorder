@@ -46,14 +46,14 @@
 </template>
 
 <script>
-import inputMixin from './mixins/input'
-import queryMixin from './mixins/query'
-import valueTextMixin from './mixins/value-text'
-import stringifyMixin from './mixins/stringify'
-import {flatTree} from '../utils'
-import TreeHandler from './tree-handler'
+  import inputMixin from './mixins/input'
+  import queryMixin from './mixins/query'
+  import valueTextMixin from './mixins/value-text'
+  import stringifyMixin from './mixins/stringify'
+  import {flatTree} from '../utils'
+  import TreeHandler from './tree-handler'
 
-export default {
+  export default {
   name: 'zpaTreeSelect',
 
   mixins: [

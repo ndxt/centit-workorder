@@ -30,16 +30,15 @@
   </SearchLayout>
 </template>
 <script>
-import columns from './flowRoleDefineColumns'
-import AddFlowRoleOperator from './operators/AddFlowRoleOperator'
-import EditFlowRoleOperator from './operators/EditFlowRoleOperator'
-import RemoveFlowRoleOperator from './operators/RemoveFlowRoleOperator'
-import SyncFlowRoleOperator from './operators/SyncFlowRoleOperator'
-import FlowRoleDefineViewList from './operators/viewflowroledefineoperator/FlowRoleDefineViewList'
-import {
-  queryFlowRoleList,
-} from '@/api/workflow/flowroledefine'
-export default {
+  import columns from './flowRoleDefineColumns'
+  import AddFlowRoleOperator from './operators/AddFlowRoleOperator'
+  import EditFlowRoleOperator from './operators/EditFlowRoleOperator'
+  import RemoveFlowRoleOperator from './operators/RemoveFlowRoleOperator'
+  import SyncFlowRoleOperator from './operators/SyncFlowRoleOperator'
+  import FlowRoleDefineViewList from './operators/viewflowroledefineoperator/FlowRoleDefineViewList'
+  import {queryFlowRoleList,} from '@/api/workflow/flowroledefine'
+
+  export default {
   name: 'PageFlowRoleDefine',
   data() {
     return {

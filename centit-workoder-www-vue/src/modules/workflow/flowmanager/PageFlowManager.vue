@@ -40,18 +40,15 @@
 </template>
 
 <script>
-import {
-  queryFlowManager,
-  openFlowView,
-} from '@/api/workflow/flowManager'
+  import {openFlowView, queryFlowManager,} from '@/api/workflow/flowManager'
 
-import flowManagerColumns from './flowManagerColumns'
+  import flowManagerColumns from './flowManagerColumns'
 
-import EditFlowManagerOperator from './operators/EditFlowManagerOperator'
-import PauseWakeFlowManagerOperator from './operators/PauseWakeFlowManagerOperator'
-import StopRestartFlowManagerOperator from './operators/StopRestartFlowManagerOperator'
+  import EditFlowManagerOperator from './operators/EditFlowManagerOperator'
+  import PauseWakeFlowManagerOperator from './operators/PauseWakeFlowManagerOperator'
+  import StopRestartFlowManagerOperator from './operators/StopRestartFlowManagerOperator'
 
-export default {
+  export default {
   name: 'PageFlowManager',
 
   data() {

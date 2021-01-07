@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import flowDefineRoleColumns from './flowDefineRoleColumns'
+  import flowDefineRoleColumns from './flowDefineRoleColumns'
 
-import AddFlowDefineRoleOperator from './AddFlowDefineRoleOperator'
-import RemoveFlowDefineRoleOperator from './RemoveFlowDefineRoleOperator'
+  import AddFlowDefineRoleOperator from './AddFlowDefineRoleOperator'
+  import RemoveFlowDefineRoleOperator from './RemoveFlowDefineRoleOperator'
 
-export default {
+  export default {
   name: 'FlowDefineRoleList',
 
   components: {

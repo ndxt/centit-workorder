@@ -1,10 +1,10 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryUnitTree} from '@/api/admin/cp'
-import {queryDepartmentUnit} from '@/api/admin/unit'
-import Base from '../../zpa/form/tree-select'
+  import {createHOC} from 'vue-hoc'
+  import {queryUnitTree} from '@/api/admin/cp'
+  import {queryDepartmentUnit} from '@/api/admin/unit'
+  import Base from '../../zpa/form/tree-select'
 
-const options = {
+  const options = {
   name: 'UnitTreeSelect',
 
   props: {

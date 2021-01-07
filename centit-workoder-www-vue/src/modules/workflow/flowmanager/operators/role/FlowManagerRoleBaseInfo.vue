@@ -31,11 +31,9 @@
 </template>
 
 <script>
-import {
-  getFlowManagerRole,
-} from '@/api/workflow/flowManager'
+  import {getFlowManagerRole,} from '@/api/workflow/flowManager'
 
-export default {
+  export default {
   name: 'FlowManagerRoleBaseInfo',
 
   props: {

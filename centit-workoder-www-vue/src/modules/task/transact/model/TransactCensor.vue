@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import EditTransactCensorOperator from '../operators/EditTransactCensorOperator'
+  import EditTransactCensorOperator from '../operators/EditTransactCensorOperator'
 
-export default {
+  export default {
   name: 'TransactCensor',
 
   props: {

@@ -1,10 +1,10 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryUser} from '@/api/admin/cp'
-import {queryDepartmentUser} from '@/api/admin/user'
-import Base from '../../zpa/form/select'
+  import {createHOC} from 'vue-hoc'
+  import {queryUser} from '@/api/admin/cp'
+  import {queryDepartmentUser} from '@/api/admin/user'
+  import Base from '../../zpa/form/select'
 
-const options = {
+  const options = {
   name: 'UserSelect',
 
   props: {

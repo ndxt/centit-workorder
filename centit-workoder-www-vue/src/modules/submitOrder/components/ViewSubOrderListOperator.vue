@@ -17,17 +17,18 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import EditSubOrderOperator from './EditSubOrderOperator'
-import RemoveSubOrderOperator from './RemoveSubOrderOperator'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import EditSubOrderOperator from './EditSubOrderOperator'
+  import RemoveSubOrderOperator from './RemoveSubOrderOperator'
+
+  export default {
   name: 'ViewSubOrderListOperator',
 
   mixins: [
     ModalOperatorMixin,
   ],
   mounted() {
-    
+
   },
   props: {
     reloadParentTable: Function
@@ -37,7 +38,7 @@ export default {
     RemoveSubOrderOperator
   },
   data() {
-    return { 
+    return {
       listColumns: [
         {
           title: '类别名称',
@@ -75,7 +76,7 @@ export default {
       this.$refs['Table'].load()
     },
     beforeSubmit() {
-      
+
     },
 
   },

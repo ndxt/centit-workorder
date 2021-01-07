@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  addFlowStuff,
-} from '@/api/workflow/flowStuffManager'
+  import {addFlowStuff,} from '@/api/workflow/flowStuffManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowStuffInfo from './FlowStuffInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowStuffInfo from './FlowStuffInfo'
 
-export default {
+  export default {
   name: 'AddApprovalModuleOperator',
 
   mixins: [

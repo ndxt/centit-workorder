@@ -46,17 +46,13 @@
 </template>
 
 <script>
-import {
-  login,
-  loginAsAdmin,
-  getCurrposition,
-} from '@/api/login'
-import Vue from 'vue'
-import { getOsList } from '@/api/workorder.js'
-import _ from 'lodash'
-import routers from '@/router/index'
+  import {getCurrposition, login, loginAsAdmin,} from '@/api/login'
+  import Vue from 'vue'
+  import {getOsList} from '@/api/workorder.js'
+  import _ from 'lodash'
+  import routers from '@/router/index'
 
-export default {
+  export default {
   name: 'Login',
 
   data() {

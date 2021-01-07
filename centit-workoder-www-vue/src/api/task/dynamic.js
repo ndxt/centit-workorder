@@ -1,5 +1,5 @@
 // 动态待办
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 
 const api = apiFactory('appr')
 const apiPayload = apiFactory('appr', {}, true)

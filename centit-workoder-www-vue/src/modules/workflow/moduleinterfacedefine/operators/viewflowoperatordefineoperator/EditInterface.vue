@@ -45,14 +45,11 @@
 </template>
 
 <script>
-import {
-  getInterfaceOperator,
-  AddInterfaceOperator,
-} from '@/api/workflow/flowBusiness'
+  import {AddInterfaceOperator, getInterfaceOperator,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'EditInterface',
 
   mixins: [

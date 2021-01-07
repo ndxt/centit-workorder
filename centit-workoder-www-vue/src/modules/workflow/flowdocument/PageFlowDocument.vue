@@ -24,14 +24,14 @@
 </template>
 
 <script>
-import { queryFlowDocument } from '@/api/workflow/flowDocument';
-import flowDocumentColumns from './flowDocumentColumns';
+  import {queryFlowDocument} from '@/api/workflow/flowDocument';
+  import flowDocumentColumns from './flowDocumentColumns';
 
-import AddFlowDocumentOperator from './operators/AddFlowDocumentOperator';
-import EditFlowDocumentOperator from './operators/EditFlowDocumentOperator';
-import RemoveFlowDocumentOperator from './operators/RemoveFlowDocumentOperator';
+  import AddFlowDocumentOperator from './operators/AddFlowDocumentOperator';
+  import EditFlowDocumentOperator from './operators/EditFlowDocumentOperator';
+  import RemoveFlowDocumentOperator from './operators/RemoveFlowDocumentOperator';
 
-export default {
+  export default {
   name: 'PageFlowStuffManager',
 
   data() {

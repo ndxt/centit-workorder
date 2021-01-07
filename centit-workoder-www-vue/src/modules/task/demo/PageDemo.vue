@@ -14,15 +14,13 @@
 </template>
 
 <script>
-import AddProOne from './AddProOne'
-import AddProTwo from './AddProTwo'
-import AddProThree from './AddProThree'
+  import AddProOne from './AddProOne'
+  import AddProTwo from './AddProTwo'
+  import AddProThree from './AddProThree'
 
-import {
-  loadDemoList,
-} from '@/api/task/apprdemo'
+  import {loadDemoList,} from '@/api/task/apprdemo'
 
-export default {
+  export default {
   name: 'PageDemo',
 
   data() {

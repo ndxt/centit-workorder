@@ -29,14 +29,11 @@
 </template>
 
 <script>
-import {
-  getInterFaceConfig,
-  addInterFaceConfig,
-} from '@/api/workflow/flowBusiness'
+  import {addInterFaceConfig, getInterFaceConfig,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'EditModuleInterfaceConfig',
 
   mixins: [

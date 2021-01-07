@@ -7,13 +7,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import UnitBaseInfo from '../UnitBaseInfo'
-import {
-  addUnit,
-} from '@/api/admin/unit'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import UnitBaseInfo from '../UnitBaseInfo'
+  import {addUnit,} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'AddNextUnitOperator',
 
   mixins: [

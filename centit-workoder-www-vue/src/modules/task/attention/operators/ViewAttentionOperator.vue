@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import AttentionFlowChart from '../model/AttentionFlowChart'
-import AttentionMaterialList from '../model/AttentionMaterialList'
-import AttentionHandleLogList from '../model/AttentionHandleLogList'
+  import AttentionFlowChart from '../model/AttentionFlowChart'
+  import AttentionMaterialList from '../model/AttentionMaterialList'
+  import AttentionHandleLogList from '../model/AttentionHandleLogList'
 
-export default {
+  export default {
   name: 'ViewAttentionOperator',
 
   data() {

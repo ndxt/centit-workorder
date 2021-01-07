@@ -13,15 +13,13 @@
 </template>
 
 <script>
-import {
-  queryFlowManagerVariable,
-} from '@/api/workflow/flowManager'
+  import {queryFlowManagerVariable,} from '@/api/workflow/flowManager'
 
-import flowManagerVariableColumns from './flowManagerVariableColumns'
+  import flowManagerVariableColumns from './flowManagerVariableColumns'
 
-import AddFlowManagerVariableOperator from './AddFlowManagerVariableOperator'
+  import AddFlowManagerVariableOperator from './AddFlowManagerVariableOperator'
 
-export default {
+  export default {
   name: 'FlowManagerVariableList',
 
   components: {

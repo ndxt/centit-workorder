@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import {checkMenuCodeUnique} from '@/api/admin/menu'
-export default {
+  import {checkMenuCodeUnique} from '@/api/admin/menu'
+
+  export default {
   name: 'MenuBaseInfo',
   data() {
     return {

@@ -12,16 +12,12 @@
 </template>
 
 <script>
-import {
-  listPageByOptCode,
-} from '@/api/workflow/flowBusiness'
-import {
-  getFormaccess,
-} from '@/api/workflow/flowTask'
+  import {listPageByOptCode,} from '@/api/workflow/flowBusiness'
+  import {getFormaccess,} from '@/api/workflow/flowTask'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'TransactFlowTaskTransferOperator',
 
   mixins: [

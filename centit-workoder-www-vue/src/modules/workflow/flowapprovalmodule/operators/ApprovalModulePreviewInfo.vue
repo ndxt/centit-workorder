@@ -69,9 +69,9 @@
 </template>
 
 <script>
-import { getAllStuff } from '@/api/workflow/flowApprovalModule';
+  import {getAllStuff} from '@/api/workflow/flowApprovalModule';
 
-export default {
+  export default {
   name: 'ApprovalModulePreviewInfo',
 
   data() {

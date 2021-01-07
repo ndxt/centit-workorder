@@ -7,12 +7,10 @@
   </ModalOperator>
 </template>
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  getUserRight,
-} from '@/api/admin/user'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {getUserRight,} from '@/api/admin/user'
 
-export default {
+  export default {
   name: 'PowerUserOperator',
 
   mixins: [

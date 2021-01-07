@@ -13,13 +13,11 @@
 </template>
 
 <script>
-import transactCensorLogColumns from '../columns/transactCensorLogColumns'
+  import transactCensorLogColumns from '../columns/transactCensorLogColumns'
 
-import {
-  queryTransactCensorLog,
-} from '@/api/task/transact'
+  import {queryTransactCensorLog,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'TransactCensorLog',
 
   props: {

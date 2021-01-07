@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import {
-  removeDictionary,
-} from '@/api/admin/dictionary'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeDictionary,} from '@/api/admin/dictionary'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveDictionaryOperator',
 
   mixins: [

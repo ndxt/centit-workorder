@@ -47,19 +47,17 @@
 </template>
 
 <script>
-import {
-  queryFlowDefine,
-} from '@/api/workflow/flowDefine'
+  import {queryFlowDefine,} from '@/api/workflow/flowDefine'
 
-import flowDefineColumns from './flowDefineColumns'
+  import flowDefineColumns from './flowDefineColumns'
 
-import AddFlowDefineOperator from './operators/AddFlowDefineOperator'
-import EditFlowDefineOperator from './operators/EditFlowDefineOperator'
-import CopyFlowDefineOperator from './operators/CopyFlowDefineOperator'
-import RemoveFlowDefineOperator from './operators/RemoveFlowDefineOperator'
-import PublishFlowDefineOperator from './operators/PublishFlowDefineOperator'
+  import AddFlowDefineOperator from './operators/AddFlowDefineOperator'
+  import EditFlowDefineOperator from './operators/EditFlowDefineOperator'
+  import CopyFlowDefineOperator from './operators/CopyFlowDefineOperator'
+  import RemoveFlowDefineOperator from './operators/RemoveFlowDefineOperator'
+  import PublishFlowDefineOperator from './operators/PublishFlowDefineOperator'
 
-export default {
+  export default {
   name: 'PageFlowDefine',
 
   components: {

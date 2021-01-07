@@ -7,13 +7,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import RoleBaseInfo from '../right/RoleBaseInfo'
-import {
-  addUnitRole
-} from '@/api/admin/unit'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import RoleBaseInfo from '../right/RoleBaseInfo'
+  import {addUnitRole} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'AddRoleOperator',
 
   components: {

@@ -32,17 +32,16 @@ public class QuestionCatalogDao extends BaseDaoImpl<QuestionCatalog, String>
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("catalogName" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("creator" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("defaultOperator" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("timeLimit" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("catalogKeyWords" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("catalogId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("osId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("catalogName" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("creator" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("defaultOperator" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("timeLimit" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("catalogKeyWords" , CodeBook.EQUAL_HQL_ID);
+
         return filterField;
     }
 

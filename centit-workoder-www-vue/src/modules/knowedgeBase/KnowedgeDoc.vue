@@ -14,8 +14,9 @@
 
 </template>
 <script>
-import { editDoc } from '@/api/knowedge/knowedge';
-export default {
+  import {editDoc} from '@/api/knowedge/knowedge';
+
+  export default {
   name: 'knowedgeDoc',
   data() {
     return {

@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import {
-  removeUnitRole,
-} from '@/api/admin/unit'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeUnitRole,} from '@/api/admin/unit'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveRoleOperator',
 
   mixins: [

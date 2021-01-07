@@ -81,10 +81,8 @@
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex'
-// import {
+  import {mapState,} from 'vuex'
+  // import {
 //   queryMenus,
 //   querySubMenus,
 // } from '@/api/menus'
@@ -116,7 +114,7 @@ export default {
     },
   },
 
-  methods: {  
+  methods: {
     async reload(sub) {
       this.loading = false
       sub = sub || this.$route.query.menu
@@ -146,7 +144,7 @@ export default {
           isInToolbar: 'Y',
           pid: 'APPRFORM',
           text: '知识库',
-          url: '/knowledgeBase'}, 
+          url: '/knowledgeBase'},
         {
           icon: 'ios-crop',
           id: 'AdminOrder',

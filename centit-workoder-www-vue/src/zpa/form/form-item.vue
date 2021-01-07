@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import { findUpProperty } from '../utils'
-import defaultOptions from './options'
+  import {findUpProperty} from '../utils'
+  import defaultOptions from './options'
 
-export default {
+  export default {
   name: 'FormItem',
 
   props: {

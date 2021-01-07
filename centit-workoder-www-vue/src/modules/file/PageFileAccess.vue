@@ -30,16 +30,13 @@
 </template>
 
 <script>
-import fileAccessColumns from './columns/fileAccessColumns'
+  import fileAccessColumns from './columns/fileAccessColumns'
 
-import PageFileAside from './PageFileAside'
+  import PageFileAside from './PageFileAside'
 
-import {
-  queryAccess,
-  queryManage,
-} from '@/api/admin/file'
+  import {queryAccess, queryManage,} from '@/api/admin/file'
 
-export default {
+  export default {
   name: 'PageFileAccess',
 
   data() {

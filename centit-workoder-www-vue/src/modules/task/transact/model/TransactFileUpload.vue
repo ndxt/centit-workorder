@@ -14,11 +14,10 @@
 
 <script>
 
-import ZpaRow from '../../../../zpa/layout/row.vue';
-import {
-  queryNodeInstFiles, deleteFileById
-} from '@/api/task/transact'
-export default {
+  import ZpaRow from '../../../../zpa/layout/row.vue';
+  import {deleteFileById, queryNodeInstFiles} from '@/api/task/transact'
+
+  export default {
   components: {ZpaRow},
   name: 'TransactFileUpload',
   props: {

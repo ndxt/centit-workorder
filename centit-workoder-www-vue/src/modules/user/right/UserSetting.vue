@@ -11,10 +11,10 @@
   </Box>
 </template>
 <script>
-import settingColumns from './settingColumns'
-import { getUserSetting } from '@/api/admin/user'
+  import settingColumns from './settingColumns'
+  import {getUserSetting} from '@/api/admin/user'
 
-export default {
+  export default {
   name: 'UserSetting',
   data() {
     return {

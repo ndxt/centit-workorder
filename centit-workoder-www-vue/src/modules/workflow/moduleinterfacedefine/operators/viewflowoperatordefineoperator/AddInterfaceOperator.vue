@@ -24,13 +24,11 @@
 </template>
 
 <script>
-import {
-  addInterface,
-} from '@/api/workflow/flowBusiness'
+  import {addInterface,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'AddInterfaceOperator',
 
   mixins: [

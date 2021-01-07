@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  addFlowDefineRole,
-} from '@/api/workflow/flowDefine'
+  import {addFlowDefineRole,} from '@/api/workflow/flowDefine'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowDefineRoleBaseInfo from './FlowDefineRoleBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowDefineRoleBaseInfo from './FlowDefineRoleBaseInfo'
 
-export default {
+  export default {
   name: 'AddFlowDefineRoleOperator',
 
   mixins: [

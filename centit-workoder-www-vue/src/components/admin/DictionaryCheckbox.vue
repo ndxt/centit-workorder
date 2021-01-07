@@ -1,9 +1,9 @@
 <script>
-import {createHOC} from 'vue-hoc'
-import {queryDictionaryDetails} from '@/api/admin/cp'
-import Base from '../../zpa/form/checkbox-group'
+  import {createHOC} from 'vue-hoc'
+  import {queryDictionaryDetails} from '@/api/admin/cp'
+  import Base from '../../zpa/form/checkbox-group'
 
-const options = {
+  const options = {
   name: 'DictionaryCheckbox',
 
   props: {

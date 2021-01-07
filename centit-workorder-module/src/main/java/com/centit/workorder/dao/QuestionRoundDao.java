@@ -27,20 +27,19 @@ public class QuestionRoundDao extends BaseDaoImpl<QuestionRound, String>
 
     @Override
     public Map<String, String> getFilterField() {
-        if( filterField == null){
-            filterField = new HashMap<>();
-            filterField.put("roundId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("questionId" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("roundContent" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("editState" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("roundState" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("orA" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
-            filterField.put("showUser" , CodeBook.EQUAL_HQL_ID);
-        }
+        Map<String, String> filterField = new HashMap<>();
+        filterField.put("roundId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("questionId" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("roundContent" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("editState" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("roundState" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("orA" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("createTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userCode" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("userName" , CodeBook.EQUAL_HQL_ID);
+        filterField.put("showUser" , CodeBook.EQUAL_HQL_ID);
+
         return filterField;
     }
 

@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import DictionaryDetailInfo from '../DictionaryDetailInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import DictionaryDetailInfo from '../DictionaryDetailInfo'
 
-export default {
+  export default {
   name: 'EditDictionaryDetailOperator',
 
   mixins: [

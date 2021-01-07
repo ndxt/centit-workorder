@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import inputMixin from './mixins/input'
-import queryMixin from './mixins/query'
-import valueTextMixin from './mixins/value-text'
-import stringifyMixin from './mixins/stringify'
+  import inputMixin from './mixins/input'
+  import queryMixin from './mixins/query'
+  import valueTextMixin from './mixins/value-text'
+  import stringifyMixin from './mixins/stringify'
 
-export default {
+  export default {
   name: 'zpaSelect',
 
   mixins: [

@@ -24,12 +24,13 @@
 </template>
 
 <script>
-import {queryUnitRole, queryCurrentUnitRole} from '@/api/admin/unit'
-import AddRoleOperator from '../rightOperators/AddRoleOperator'
-import RemoveRoleOperator from '../rightOperators/RemoveRoleOperator'
+  import {queryCurrentUnitRole, queryUnitRole} from '@/api/admin/unit'
+  import AddRoleOperator from '../rightOperators/AddRoleOperator'
+  import RemoveRoleOperator from '../rightOperators/RemoveRoleOperator'
 
-import columns from './roleColumns'
-export default {
+  import columns from './roleColumns'
+
+  export default {
   name: 'UnitRole',
 
   data() {

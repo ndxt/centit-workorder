@@ -1,5 +1,6 @@
 // 审批角色
-import {apiFactory, addSearchParamsPrefix} from '../index'
+import {addSearchParamsPrefix, apiFactory} from '../index'
+
 const api = apiFactory('workflow')
 const apiJson = apiFactory('workflow', {}, true)
 

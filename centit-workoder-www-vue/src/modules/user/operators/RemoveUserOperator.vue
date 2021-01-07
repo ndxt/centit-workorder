@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import {
-  removeUser,
-} from '@/api/admin/user'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {removeUser,} from '@/api/admin/user'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveUserOperator',
 
   mixins: [

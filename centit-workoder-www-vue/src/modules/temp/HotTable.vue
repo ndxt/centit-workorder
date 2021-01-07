@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import { HotTable } from '@handsontable/vue';
-import Handsontable from 'handsontable'
+  import {HotTable} from '@handsontable/vue';
+  import Handsontable from 'handsontable'
 
-export default {
+  export default {
   data: function() {
     return {
       hotSettings: {

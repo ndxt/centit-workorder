@@ -7,12 +7,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  syncFlowRole,
-} from '@/api/workflow/flowroledefine'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {syncFlowRole,} from '@/api/workflow/flowroledefine'
 
-export default {
+  export default {
   name: 'SyncFlowRoleOperator',
 
   mixins: [

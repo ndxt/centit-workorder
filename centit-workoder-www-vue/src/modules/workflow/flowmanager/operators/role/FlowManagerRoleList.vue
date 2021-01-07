@@ -17,16 +17,14 @@
 </template>
 
 <script>
-import {
-  queryFlowManagerRole,
-} from '@/api/workflow/flowManager'
+  import {queryFlowManagerRole,} from '@/api/workflow/flowManager'
 
-import flowManagerRoleColumns from './flowManagerRoleColumns'
+  import flowManagerRoleColumns from './flowManagerRoleColumns'
 
-import AddFlowManagerRoleOperator from './AddFlowManagerRoleOperator'
-import RemoveFlowManagerRoleOperator from './RemoveFlowManagerRoleOperator'
+  import AddFlowManagerRoleOperator from './AddFlowManagerRoleOperator'
+  import RemoveFlowManagerRoleOperator from './RemoveFlowManagerRoleOperator'
 
-export default {
+  export default {
   name: 'FlowManagerRoleList',
 
   components: {

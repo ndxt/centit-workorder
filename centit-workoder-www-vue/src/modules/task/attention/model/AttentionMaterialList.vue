@@ -15,13 +15,11 @@
 </template>
 
 <script>
-import attentionMaterialColumns from '../columns/attentionMaterialColumns'
+  import attentionMaterialColumns from '../columns/attentionMaterialColumns'
 
-import {
-  queryAttentionMaterial,
-} from '@/api/task/attention'
+  import {queryAttentionMaterial,} from '@/api/task/attention'
 
-export default {
+  export default {
   name: 'AttentionMaterialList',
 
   props: {

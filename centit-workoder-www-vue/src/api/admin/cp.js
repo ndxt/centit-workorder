@@ -1,6 +1,6 @@
 /** @module cp */
 
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 import {makeTree} from '../../tool'
 
 const api = apiFactory('admin')

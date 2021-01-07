@@ -16,7 +16,7 @@
     <span>{{value.createTime}}</span></div>
     <div class="question-info-field"><span class="label">状态:</span>
     <span>{{transferState2CN(value.questionState)}}</span></div>
-    
+
     <div class="question-info-field"><span class="label">问题描述:</span></div>
     <div class="question-des" v-html="value.questionContent"></div>
     </div>
@@ -25,11 +25,12 @@
 
 <script>
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import { editOuestion, getOrder } from '@/api/workorder.js'
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {editOuestion, getOrder} from '@/api/workorder.js'
+
+  export default {
   name: 'ViewQuestionOperator',
-  
+
   mixins: [
     ModalOperatorMixin,
   ],
@@ -62,7 +63,7 @@ export default {
           stateName = '已完结'
           break
       }
-      return stateName     
+      return stateName
     },
     transferState2Code(state) {
       let stateName

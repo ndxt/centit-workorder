@@ -28,19 +28,14 @@
 </template>
 
 <script>
-import transactColumns from './columns/transactColumns'
-import EditTransactHandleOperator from './operators/EditTransactHandleOperator'
-import PureFlowInstView from './operators/PureFlowInstView'
+  import transactColumns from './columns/transactColumns'
+  import EditTransactHandleOperator from './operators/EditTransactHandleOperator'
+  import PureFlowInstView from './operators/PureFlowInstView'
 
-import {
-  queryTransact,
-} from '@/api/task/transact'
-import {
-  openlink,
-  openInfo,
-} from '@/api/workflow/flowManager'
+  import {queryTransact,} from '@/api/task/transact'
+  import {openInfo, openlink,} from '@/api/workflow/flowManager'
 
-export default {
+  export default {
   name: 'PageTransact',
 
   data() {

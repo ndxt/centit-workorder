@@ -1,5 +1,5 @@
 // 角色管理
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 
 const api = apiFactory('admin')
 

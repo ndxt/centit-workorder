@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import props from './form-props'
+  import props from './form-props'
 
-export default {
+  export default {
   name: 'zpaFormGroup',
 
   props: {

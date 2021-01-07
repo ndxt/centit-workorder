@@ -7,13 +7,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import UserBaseInfo from '../right/UserBaseInfo'
-import {
-  editUnitUser
-} from '@/api/admin/unit'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import UserBaseInfo from '../right/UserBaseInfo'
+  import {editUnitUser} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'EditUserOperator',
 
   components: {

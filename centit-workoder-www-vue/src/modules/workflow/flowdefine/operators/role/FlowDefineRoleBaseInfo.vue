@@ -34,14 +34,10 @@
 </template>
 
 <script>
-import {
-  queryDictionaryDetails,
-} from '@/api/admin/cp'
-import {
-  queryFlowFormula,
-} from '@/api/workflow/flowFormula'
+  import {queryDictionaryDetails,} from '@/api/admin/cp'
+  import {queryFlowFormula,} from '@/api/workflow/flowFormula'
 
-export default {
+  export default {
   name: 'FlowDefineRoleBaseInfo',
 
   data() {

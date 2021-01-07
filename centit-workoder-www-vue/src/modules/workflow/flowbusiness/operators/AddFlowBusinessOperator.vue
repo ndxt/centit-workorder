@@ -7,15 +7,12 @@
 </template>
 
 <script>
-import {
-  // getNewOptId,
-  addOptInfo,
-} from '@/api/workflow/flowBusiness'
+  import {addOptInfo,} from '@/api/workflow/flowBusiness'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowBusinessBaseInfo from './FlowBusinessBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowBusinessBaseInfo from './FlowBusinessBaseInfo'
 
-export default {
+  export default {
   name: 'AddFlowBusinessOperator',
 
   mixins: [

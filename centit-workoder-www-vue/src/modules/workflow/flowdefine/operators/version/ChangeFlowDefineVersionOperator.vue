@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import {
-  changeFlowVersion,
-} from '@/api/workflow/flowDefine'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {changeFlowVersion,} from '@/api/workflow/flowDefine'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'ChangeFlowDefineVersionOperator',
 
   mixins: [

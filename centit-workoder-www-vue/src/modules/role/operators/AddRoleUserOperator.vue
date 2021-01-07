@@ -33,12 +33,10 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {
-  addRoleUser,
-} from '@/api/admin/role'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {addRoleUser,} from '@/api/admin/role'
 
-export default {
+  export default {
   name: 'AddRoleUserOperator',
 
   inject: ['top'],

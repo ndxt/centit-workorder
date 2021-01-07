@@ -1,4 +1,5 @@
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
+
 let api = apiFactory('workorder')
 
 /**

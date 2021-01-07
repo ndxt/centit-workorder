@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import { addApprovalModule } from '@/api/workflow/flowApprovalModule';
+  import {addApprovalModule} from '@/api/workflow/flowApprovalModule';
 
-import ApprovalModuleInfo from './ApprovalModuleInfo';
+  import ApprovalModuleInfo from './ApprovalModuleInfo';
 
-export default {
+  export default {
   name: 'AddApprovalModuleOperator',
 
   data() {

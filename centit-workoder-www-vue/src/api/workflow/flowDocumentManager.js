@@ -1,4 +1,4 @@
-import { apiFactory } from '../index'
+import {apiFactory} from '../index'
 
 const api = apiFactory('appr')
 // const apiJson = apiFactory('appr', {}, true)

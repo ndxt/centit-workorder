@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import RoleUserInheritList from './RoleUserInheritList'
-import RoleUserList from './RoleUserList'
-import RoleUnit from './RoleUnit'
+  import RoleUserInheritList from './RoleUserInheritList'
+  import RoleUserList from './RoleUserList'
+  import RoleUnit from './RoleUnit'
 
-export default {
+  export default {
   name: 'PageRoleAside',
 
   components: {

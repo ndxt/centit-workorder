@@ -40,16 +40,16 @@
 </template>
 
 <script>
-import { queryApprovalModule } from '@/api/workflow/flowApprovalModule';
+  import {queryApprovalModule} from '@/api/workflow/flowApprovalModule';
 
-import approvalModuleColumns from './approvalModuleColumns';
+  import approvalModuleColumns from './approvalModuleColumns';
 
-import AddApprovalModuleOperator from './operators/AddApprovalModuleOperator';
-import PreviewApprovalModuleOperator from './operators/PreviewApprovalModuleOperator';
-import EditApprovalModuleOperator from './operators/EditApprovalModuleOperator';
-import RemoveApprovalModuleOperator from './operators/RemoveApprovalModuleOperator';
+  import AddApprovalModuleOperator from './operators/AddApprovalModuleOperator';
+  import PreviewApprovalModuleOperator from './operators/PreviewApprovalModuleOperator';
+  import EditApprovalModuleOperator from './operators/EditApprovalModuleOperator';
+  import RemoveApprovalModuleOperator from './operators/RemoveApprovalModuleOperator';
 
-export default {
+  export default {
   name: 'PageApprovalModule',
 
   data() {

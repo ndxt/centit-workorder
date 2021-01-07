@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {
-  removeApprovalModule,
-} from '@/api/workflow/flowApprovalModule'
+  import {removeApprovalModule,} from '@/api/workflow/flowApprovalModule'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
 
-export default {
+  export default {
   name: 'RemoveApprovalModuleOperator',
 
   mixins: [

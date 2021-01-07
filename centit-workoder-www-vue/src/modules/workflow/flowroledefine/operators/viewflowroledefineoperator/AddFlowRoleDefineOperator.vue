@@ -24,10 +24,11 @@
 </template>
 
 <script>
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import {addFlowRoleDefine, } from '@/api/workflow/flowroledefine'
-import DictionaryBaseInfo from '../../../../dictionary/DictionaryBaseInfo.vue';
-export default {
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import {addFlowRoleDefine,} from '@/api/workflow/flowroledefine'
+  import DictionaryBaseInfo from '../../../../dictionary/DictionaryBaseInfo.vue';
+
+  export default {
   components: {DictionaryBaseInfo},
   name: 'AddFlowRoleDefineOperator',
   mixins: [

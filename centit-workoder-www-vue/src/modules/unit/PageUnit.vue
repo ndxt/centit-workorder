@@ -38,21 +38,18 @@
 </template>
 
 <script>
-import unitColumns from './unitColumns'
-import AddUnitOperator from './operators/AddUnitOperator'
-import AddNextUnitOperator from './operators/AddNextUnitOperator'
-import EditUnitOperator from './operators/EditUnitOperator'
-import UnitPowerOperator from './operators/UnitPowerOperator'
-import RemoverUnitOperator from './operators/RemoverUnitOperator'
+  import unitColumns from './unitColumns'
+  import AddUnitOperator from './operators/AddUnitOperator'
+  import AddNextUnitOperator from './operators/AddNextUnitOperator'
+  import EditUnitOperator from './operators/EditUnitOperator'
+  import UnitPowerOperator from './operators/UnitPowerOperator'
+  import RemoverUnitOperator from './operators/RemoverUnitOperator'
 
-import RightUnit from './RightUnit'
+  import RightUnit from './RightUnit'
 
-import {
-  queryUnit,
-  querySubUnit
-} from '@/api/admin/unit'
+  import {querySubUnit, queryUnit} from '@/api/admin/unit'
 
-export default {
+  export default {
   name: 'PageUnit',
 
   components: {

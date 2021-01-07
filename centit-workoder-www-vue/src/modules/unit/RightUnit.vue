@@ -5,9 +5,10 @@
     </TabList>
 </template>
 <script>
-import unitUser from './right/UnitUser'
-import unitRole from './right/UnitRole'
-export default {
+  import unitUser from './right/UnitUser'
+  import unitRole from './right/UnitRole'
+
+  export default {
   name: 'RightUnit',
   data() {
     return {

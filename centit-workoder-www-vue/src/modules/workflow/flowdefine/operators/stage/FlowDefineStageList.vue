@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import flowDefineStageColumns from './flowDefineStageColumns'
+  import flowDefineStageColumns from './flowDefineStageColumns'
 
-import AddFlowDefineStageOperator from './AddFlowDefineStageOperator'
-import RemoveFlowDefineStageOperator from './RemoveFlowDefineStageOperator'
+  import AddFlowDefineStageOperator from './AddFlowDefineStageOperator'
+  import RemoveFlowDefineStageOperator from './RemoveFlowDefineStageOperator'
 
-export default {
+  export default {
   name: 'FlowDefineStageList',
 
   components: {

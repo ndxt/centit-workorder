@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import {
-  addFlowManagerUnit,
-} from '@/api/workflow/flowManager'
+  import {addFlowManagerUnit,} from '@/api/workflow/flowManager'
 
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import FlowManagerUnitBaseInfo from './FlowManagerUnitBaseInfo'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import FlowManagerUnitBaseInfo from './FlowManagerUnitBaseInfo'
 
-export default {
+  export default {
   name: 'AddFlowManagerUnitOperator',
 
   mixins: [

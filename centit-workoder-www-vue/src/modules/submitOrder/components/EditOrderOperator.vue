@@ -7,13 +7,11 @@
 </template>
 
 <script>
-import {
-  changeOrder
-} from '@/api/workorder'
-import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
-import OrderBaseInfo from './OrderBaseInfo'
+  import {changeOrder} from '@/api/workorder'
+  import ModalOperatorMixin from '@/components/commons/ModalOperatorMixin'
+  import OrderBaseInfo from './OrderBaseInfo'
 
-export default {
+  export default {
   name: 'EditOrderOperator',
 
   mixins: [

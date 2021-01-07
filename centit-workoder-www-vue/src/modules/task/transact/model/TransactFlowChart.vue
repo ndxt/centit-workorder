@@ -6,11 +6,9 @@
 </template>
 
 <script>
-import {
-  queryTransactFormDefById,
-} from '@/api/task/transact'
+  import {queryTransactFormDefById,} from '@/api/task/transact'
 
-export default {
+  export default {
   name: 'TransactFlowChart',
 
   props: {

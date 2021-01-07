@@ -12,13 +12,11 @@
 </template>
 
 <script>
-import attentionHandleLogColumns from '../columns/attentionHandleLogColumns'
+  import attentionHandleLogColumns from '../columns/attentionHandleLogColumns'
 
-import {
-  queryAttentionHandleLog,
-} from '@/api/task/attention'
+  import {queryAttentionHandleLog,} from '@/api/task/attention'
 
-export default {
+  export default {
   name: 'AttentionHandleLogList',
 
   props: {
