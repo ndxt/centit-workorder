@@ -7,10 +7,12 @@ import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +62,7 @@ public class HelpDoc implements java.io.Serializable {
     //@Length(max = 500, message = "字段长度不能大于{max}")
     private String  docPath;
     /**
-     * 文件ID null
+     * 副文本 CLOB 字段
      */
     @Column(name = "DOC_FILE")
     private String docFile;
@@ -83,12 +85,26 @@ public class HelpDoc implements java.io.Serializable {
     @Column(name = "OPT_METHOD")
     //@Length(max = 64, message = "字段长度不能大于{max}")
     private String  optMethod;
+
+    /**
+     * 归属人员 null， 他有管理权
+     */
+    @Column(name = "OWNER_USER")
+    //@Length(max = 32, message = "字段长度不能大于{max}")
+    private String  ownerUser;
+
     /**
      * 编辑人员 null
      */
     @Column(name = "UPDATE_USER")
     //@Length(max = 32, message = "字段长度不能大于{max}")
     private String  updateUser;
+    /**
+     * 是否开放编辑，默认为true
+     */
+    @Column(name = "OPEN_EDIT")
+    //@Length(max = 1, message = "字段长度不能大于{max}")
+    private boolean  openEdit;
     /**
      * 编辑时间 null
      */
@@ -97,11 +113,6 @@ public class HelpDoc implements java.io.Serializable {
             condition = GeneratorCondition.ALWAYS, value = "today()")
     private Date  lastUpdateTime;
 
-    /**
-     * 评价
-     */
-    @OneToMany(mappedBy="docId",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<HelpDocComment> helpDocComments;
 
     // Constructors
     /** default constructor */
@@ -117,22 +128,6 @@ public class HelpDoc implements java.io.Serializable {
         this.optId= optId;
     }
 
-    /** full constructor */
-    public HelpDoc(String docId, String catalogId, String docTitle, int docLevel, String docPath, String docFile,
-                   String osId, String optId, String optMethod, String updateUser, Date lastUpdateTime) {
-
-        this.docId = docId;
-        this.catalogId= catalogId;
-        this.docTitle= docTitle;
-        this.docLevel= docLevel;
-        this.docPath= docPath;
-        this.docFile= docFile;
-        this.osId= osId;
-        this.optId= optId;
-        this.optMethod= optMethod;
-        this.updateUser= updateUser;
-        this.lastUpdateTime= lastUpdateTime;
-    }
 
     public String getDocId() {
         return this.docId;
@@ -227,14 +222,6 @@ public class HelpDoc implements java.io.Serializable {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public List<HelpDocComment> getHelpDocComments() {
-        return helpDocComments;
-    }
-
-    public void setHelpDocComments(List<HelpDocComment> helpDocComments) {
-        this.helpDocComments = helpDocComments;
-    }
-
     public HelpDoc copy(HelpDoc other){
 
         this.setDocId(other.getDocId());
@@ -297,17 +284,6 @@ public class HelpDoc implements java.io.Serializable {
         return this;
     }
 
-    public HelpDocVersion generateVersion(int docVersion){
-        HelpDocVersion helpDocVersion = new HelpDocVersion();
-        helpDocVersion.setDocId(this.getDocId());
-        helpDocVersion.setDocVersion(docVersion);
-        helpDocVersion.setDocFile(this.getDocFile());
-        helpDocVersion.setDocTitle(this.getDocTitle());
-        helpDocVersion.setUpdateUser(this.getUpdateUser());
-        helpDocVersion.setLastUpdateTime(this.getLastUpdateTime());
-
-        return helpDocVersion;
-    }
 
     public ObjectDocument generateObjectDocument(){
         ObjectDocument document = new ObjectDocument();

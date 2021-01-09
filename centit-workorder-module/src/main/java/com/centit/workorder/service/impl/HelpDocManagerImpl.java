@@ -2,16 +2,16 @@ package com.centit.workorder.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centit.framework.core.dao.DictionaryMapUtils;
-import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.workorder.dao.*;
-import com.centit.workorder.po.*;
+import com.centit.workorder.dao.HelpDocDao;
+import com.centit.workorder.dao.QuestionCatalogDao;
+import com.centit.workorder.po.HelpDoc;
+import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.HelpDocManager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,19 +41,10 @@ public class HelpDocManagerImpl
     public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
     @Resource
-    private HelpDocScoreDao helpDocScoreDao;
-
-    @Resource
-    private HelpDocCommentDao helpDocCommentDao;
-
-    @Resource
     private Searcher esSearcher;
 
     @Resource
     private Indexer esIndexer;
-
-    @Resource
-    private HelpDocVersionDao helpDocVersionDao;
 
     @Resource
     private QuestionCatalogDao questionCatalogDao;
@@ -140,41 +130,19 @@ public class HelpDocManagerImpl
         }
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
-        List<HelpDocVersion> versions = helpDocVersionDao.listObjects(map);
-        for (HelpDocVersion version : versions) {
-            helpDocVersionDao.deleteObject(version);//删除所有历史版本
-        }
 
-        helpDocCommentDao.deleteObjectById(docId);//删除评论
-        helpDocScoreDao.deleteObjectById(docId);//删除评分
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.deleteDocument(objectDocument);
     }
 
-    @Override
-    @Transactional
-    public void comment(String docId, HelpDocComment helpDocComment) {
 
-        helpDocComment.setDocId(docId);
-        helpDocCommentDao.saveNewObject(helpDocComment);
-    }
-
-    @Override
-    @Transactional
-    public void score(String docId, HelpDocScore helpDocScore) {
-
-        helpDocScore.setDocId(docId);
-        helpDocScoreDao.saveNewObject(helpDocScore);
-    }
 
     @Override
     @Transactional
     public HelpDoc editContent(String docId, String content, String userCode) {
         HelpDoc helpDoc = helpDocDao.getObjectById(docId);
         //保存旧版本
-        int docVersion = DatabaseOptUtils.getSequenceNextValue(helpDocVersionDao, "DOC_VERSION").intValue();
-        helpDocVersionDao.saveNewObject(helpDoc.generateVersion(docVersion));
         helpDoc.setDocFile(content);
         helpDoc.setUpdateUser(userCode);
         helpDocDao.updateObject(helpDoc);
@@ -226,37 +194,7 @@ public class HelpDocManagerImpl
         return helpDocs;
     }
 
-    @Override
-    @Transactional
-    public JSONArray searchComments(String docId) {
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("docId",docId);
-        List<HelpDocComment> list = helpDocCommentDao.listObjects(filterMap);
-        JSONArray array = DictionaryMapUtils.objectsToJSONArray(list);
-        return array;
-    }
 
-    @Override
-    @Transactional
-    public JSONObject searchScores(String docId) {
-        JSONObject obj = new JSONObject();
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("docId",docId);
-        List<HelpDocScore> list = helpDocScoreDao.listObjects(filterMap);
-        int times = list.size();
-        if(times > 0) {
-            obj.put("times", times);
-            int sum = 0;
-            for(int i = 0; i < times; i++){
-                sum += list.get(i).getDocScore();
-            }
-            float score = (float)sum/times;
-            DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
-            String average = df.format(score);//返回的是String类型的
-            obj.put("average", average);
-        }
-        return obj;
-    }
 
     @Override
     @Transactional

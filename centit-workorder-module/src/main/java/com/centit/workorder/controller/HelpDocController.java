@@ -1,15 +1,12 @@
 package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
-import com.centit.workorder.po.HelpDocComment;
-import com.centit.workorder.po.HelpDocScore;
 import com.centit.workorder.service.HelpDocManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,48 +125,6 @@ public class HelpDocController  extends BaseController {
         ResponseMapData resData = new ResponseMapData();
         resData.addResponseData(OBJLIST, listObjects);
         resData.addResponseData(PAGE_DESC, pageDesc);
-        JsonResultUtils.writeResponseDataAsJson(resData, response);
-    }
-
-    /**
-     * 帮助文档评分接口
-     */
-    @RequestMapping(value = "/{docId}/score", method = RequestMethod.POST)
-    public void score(@PathVariable String docId,
-                      @Valid HelpDocScore helpDocScore, HttpServletResponse response) {
-        helpDocMag.score(docId, helpDocScore);
-        JsonResultUtils.writeSuccessJson(response);
-    }
-
-    /**
-     * 帮助文档评价接口
-     */
-    @RequestMapping(value = "/{docId}/comment", method = RequestMethod.POST)
-    public void comment(@PathVariable String docId,
-                        @Valid HelpDocComment helpDocComment, HttpServletResponse response) {
-        helpDocMag.comment(docId, helpDocComment);
-        JsonResultUtils.writeSuccessJson(response);
-    }
-
-    /**
-     * 根据文档ID查询所有评分信息
-     */
-    @RequestMapping(value = "/{docId}/searchScores", method = RequestMethod.GET)
-    public void searchScores(@PathVariable String docId, HttpServletResponse response) {
-        //只返回一个 平均分 和一个 评分次数
-        JSONObject obj = helpDocMag.searchScores(docId);
-        JsonResultUtils.writeSingleDataJson(obj, response);
-    }
-
-    /**
-     * 根据文档ID查询所有评价信息
-     */
-    @RequestMapping(value = "/{docId}/searchComments", method = RequestMethod.GET)
-    public void searchComments(@PathVariable String docId, HttpServletResponse response) {
-        //返回一个评价列表
-        JSONArray listObjects = helpDocMag.searchComments(docId);
-        ResponseMapData resData = new ResponseMapData();
-        resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 
