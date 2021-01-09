@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.workorder.dao.*;
-import com.centit.workorder.po.HelpDoc;
+import com.centit.workorder.dao.HelpDocDao;
+import com.centit.workorder.dao.QuestionCatalogDao;
+import com.centit.workorder.dao.QuestionInfoDao;
+import com.centit.workorder.dao.QuestionRoundDao;
 import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.po.QuestionInfo;
 import com.centit.workorder.service.QuestionCatalogManager;
@@ -43,15 +45,6 @@ public class QuestionCatalogManagerImpl
 
     @Resource(name = "helpDocDao")
     private HelpDocDao helpDocDao ;
-    @Resource
-    private HelpDocScoreDao helpDocScoreDao;
-
-    @Resource
-    private HelpDocCommentDao helpDocCommentDao;
-
-    @Resource
-    private HelpDocVersionDao helpDocVersionDao;
-
 
     private QuestionCatalogDao questionCatalogDao ;
 
@@ -95,16 +88,11 @@ public class QuestionCatalogManagerImpl
         questionCatalogDao.deleteObjectById(catalogId);
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("catalogId",catalogId);
-        List<HelpDoc> helpDocs = helpDocDao.listObjects(filterMap);
+        //List<HelpDoc> helpDocs = helpDocDao.listObjects(filterMap);
         List<QuestionInfo> questionIdList = questionInfoDao.listObjects(filterMap);
         helpDocDao.deleteObjectById(catalogId);
         questionInfoDao.deleteObjectById(catalogId);
-        for (HelpDoc helpDoc:helpDocs){
-            helpDocVersionDao.deleteObjectById( helpDoc.getDocId());//删除所有历史版本
-            helpDocCommentDao.deleteObjectById( helpDoc.getDocId());//删除评论
-            helpDocScoreDao.deleteObjectById(helpDoc.getDocId());//删除评分
-        }
-        for (QuestionInfo questionInfo:questionIdList){
+         for (QuestionInfo questionInfo:questionIdList){
             questionRoundDao.deleteObjectById(questionInfo.getQuestionId());
         }
     }
