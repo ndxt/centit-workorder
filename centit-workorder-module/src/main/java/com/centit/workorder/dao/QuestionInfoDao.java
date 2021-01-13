@@ -7,8 +7,6 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
 import com.centit.workorder.po.QuestionInfo;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -25,9 +23,6 @@ import java.util.Map;
 
 @Repository
 public class QuestionInfoDao extends BaseDaoImpl<QuestionInfo, String> {
-
-    public static final Log log = LogFactory.getLog(QuestionInfoDao.class);
-
     @Override
     public Map<String, String> getFilterField() {
         Map<String, String> filterField = new HashMap<>();

@@ -3,8 +3,6 @@ package com.centit.workorder.dao;
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.workorder.po.QuestionRound;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -20,10 +18,7 @@ import java.util.Map;
 */
 
 @Repository
-public class QuestionRoundDao extends BaseDaoImpl<QuestionRound, String>
-    {
-
-    public static final Log log = LogFactory.getLog(QuestionRoundDao.class);
+public class QuestionRoundDao extends BaseDaoImpl<QuestionRound, String> {
 
     @Override
     public Map<String, String> getFilterField() {

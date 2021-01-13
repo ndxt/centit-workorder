@@ -5,8 +5,6 @@ import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.support.database.utils.DatabaseAccess;
 import com.centit.workorder.po.AssistOperator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -18,9 +16,6 @@ import java.util.Map;
  */
 @Repository
 public class AssistOperatorDao extends BaseDaoImpl<AssistOperator,String> {
-
-    public static final Log log = LogFactory.getLog(AssistOperatorDao.class);
-
     @Override
     public Map<String, String> getFilterField() {
         Map<String, String> filterField = new HashMap<>();
