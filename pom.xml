@@ -15,7 +15,6 @@
         <module>centit-workorder-module</module>
         <module>centit-workorder-view</module>
         <!--<module>centit-workorder-web</module>-->
-        <module>centit-workorder-client</module>
     </modules>
 
     <name>com.centit.product:centit-workorder</name>
