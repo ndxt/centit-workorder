@@ -9,6 +9,7 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.service.HelpDocManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,15 @@ import java.util.Map;
 /**
  * HelpDoc  Controller.
  * create by scaffold 2017-05-08
+ *
  * @author codefan@sina.com
  * 系统帮助文档null
-*/
+ */
 
 
 @Controller
 @RequestMapping("/os/{osId}/documents")
-public class HelpDocController  extends BaseController {
+public class HelpDocController extends BaseController {
     //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
@@ -39,7 +41,8 @@ public class HelpDocController  extends BaseController {
 
     /**
      * 查询单个  系统帮助文档
-     * @param docId  DOC_ID
+     *
+     * @param docId DOC_ID
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
@@ -51,7 +54,8 @@ public class HelpDocController  extends BaseController {
 
     /**
      * 创建 帮助文档条目
-     * @param helpDoc  {@link HelpDoc}
+     *
+     * @param helpDoc {@link HelpDoc}
      */
     @RequestMapping(method = {RequestMethod.POST})
     public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
@@ -65,8 +69,9 @@ public class HelpDocController  extends BaseController {
 
     /**
      * 编辑帮助文档
-     * @param docId  DOC_ID
-     * @param helpDoc  {@link HelpDoc}
+     *
+     * @param docId   DOC_ID
+     * @param helpDoc {@link HelpDoc}
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
     public void updateHelpDoc(@PathVariable String docId, @RequestBody HelpDoc helpDoc,
@@ -91,7 +96,8 @@ public class HelpDocController  extends BaseController {
 
     /**
      * 删除 帮助文档
-     * @param docId  DOC_ID
+     *
+     * @param docId DOC_ID
      */
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
@@ -103,10 +109,18 @@ public class HelpDocController  extends BaseController {
     /**
      * 帮助文档查询接口（按层级查）
      */
-    @RequestMapping(value="/levelSearch", method = RequestMethod.GET)
-    public void levelSearch(@PathVariable String osId,HttpServletResponse response) {
-        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(osId);
+    @RequestMapping(value = "/levelSearch", method = RequestMethod.GET)
+    public void levelSearch(@PathVariable String osId, HttpServletResponse response) {
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("osId", osId);
+        List<HelpDoc> list = helpDocMag.listObjects(filterMap);
         ResponseMapData resData = new ResponseMapData();
+        if (CollectionUtils.isEmpty(list)) {
+            resData.addResponseData("isNew", true);
+        } else {
+            resData.addResponseData("isNew", false);
+        }
+        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(osId);
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
