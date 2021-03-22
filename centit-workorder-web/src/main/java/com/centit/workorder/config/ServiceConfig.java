@@ -2,6 +2,7 @@ package com.centit.workorder.config;
 
 import com.centit.fileserver.common.FileStore;
 import com.centit.fileserver.utils.OsFileStore;
+import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.InitialWebRuntimeEnvironment;
@@ -12,6 +13,7 @@ import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import com.centit.search.document.FileDocument;
+import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
@@ -51,25 +53,21 @@ public class ServiceConfig {
 
     @Bean
     public ESServerConfig esServerConfig(){
-        ESServerConfig config = new ESServerConfig();
-        config.setServerHostIp(this.env.getProperty("workorder.elasticsearch.server.ip"));
-        config.setServerHostPort(this.env.getProperty("workorder.elasticsearch.server.port"));
-        config.setClusterName(this.env.getProperty("workorder.elasticsearch.server.cluster"));
-        config.setOsId(this.env.getProperty("workorder.elasticsearch.osId"));
-        config.setMinScore(NumberBaseOpt.parseFloat(this.env.getProperty("workorder.elasticSearch.minScore"), 0.5F));
-        return config;
+        return IndexerSearcherFactory.loadESServerConfigFormProperties(
+            SysParametersUtils.loadProperties()
+        );
     }
 
     @Bean(name = "esIndexer")
     public ESIndexer esIndexer(@Autowired ESServerConfig esServerConfig){
         return IndexerSearcherFactory.obtainIndexer(
-            esServerConfig, FileDocument.class);
+            esServerConfig, ObjectDocument.class);
     }
 
     @Bean(name = "esSearcher")
     public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig){
         return IndexerSearcherFactory.obtainSearcher(
-            esServerConfig, FileDocument.class);
+            esServerConfig, ObjectDocument.class);
     }
 
     @Bean

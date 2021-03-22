@@ -5,9 +5,11 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.service.HelpDocManager;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +46,7 @@ public class HelpDocController extends BaseController {
      *
      * @param docId DOC_ID
      */
+    @ApiOperation(value = "查询单个 系统帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
     public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
 
@@ -57,6 +60,7 @@ public class HelpDocController extends BaseController {
      *
      * @param helpDoc {@link HelpDoc}
      */
+    @ApiOperation(value = "创建帮助文档条目")
     @RequestMapping(method = {RequestMethod.POST})
     public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
@@ -73,6 +77,7 @@ public class HelpDocController extends BaseController {
      * @param docId   DOC_ID
      * @param helpDoc {@link HelpDoc}
      */
+    @ApiOperation(value = "编辑帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
     public void updateHelpDoc(@PathVariable String docId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
@@ -85,6 +90,7 @@ public class HelpDocController extends BaseController {
     /**
      * 编辑帮助文档内容
      */
+    @ApiOperation(value = "编辑帮助文档内容")
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
     public void editContent(@PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
@@ -99,6 +105,7 @@ public class HelpDocController extends BaseController {
      *
      * @param docId DOC_ID
      */
+    @ApiOperation(value = "删除 帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
     public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
         //全部删除 不可恢复 包括历史版本
@@ -109,6 +116,7 @@ public class HelpDocController extends BaseController {
     /**
      * 帮助文档查询接口（按层级查）
      */
+    @ApiOperation(value = "帮助文档查询接口（按层级查）")
     @RequestMapping(value = "/levelSearch", method = RequestMethod.GET)
     public void levelSearch(@PathVariable String osId, HttpServletResponse response) {
         Map<String, Object> filterMap = new HashMap<>();
@@ -128,6 +136,7 @@ public class HelpDocController extends BaseController {
     /**
      * 帮助文档查询接口（按问题类别）
      */
+    @ApiOperation(value = "帮助文档查询接口（按问题类别）")
     @RequestMapping(method = RequestMethod.GET)
     public void typeSearch(@PathVariable("osId") String osId, String catalogId,
                            PageDesc pageDesc, HttpServletResponse response) {
@@ -145,6 +154,7 @@ public class HelpDocController extends BaseController {
     /**
      * 帮助文档全文检索
      */
+    @ApiOperation(value = "帮助文档全文检索")
     @RequestMapping(value = "/fullTextSearch/{catalogId}", method = RequestMethod.GET)
     public void fullTextSearch(@PathVariable String catalogId, PageDesc pageDesc, HttpServletResponse response) {
         List<Map<String, Object>> result = helpDocMag.fullTextSearch(catalogId, pageDesc);
@@ -154,9 +164,10 @@ public class HelpDocController extends BaseController {
     /**
      * 帮助文档全文检索 关键字查询
      */
+    @ApiOperation(value = "帮助文档全文检索 关键字查询")
     @RequestMapping(value = "/fullSearch/{keyWord}", method = RequestMethod.GET)
-    public void fullSearch(@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
-        List<Map<String, Object>> result = helpDocMag.fullSearch(keyWord, pageDesc);
+    public void fullSearch(@PathVariable String osId,@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
+        List<Map<String, Object>> result = helpDocMag.fullSearch(CollectionsOpt.createHashMap("osId",osId),keyWord, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
 }

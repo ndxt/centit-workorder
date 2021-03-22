@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.search.document.ObjectDocument;
+import com.centit.search.service.Impl.ESIndexer;
+import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
@@ -16,6 +18,7 @@ import com.centit.workorder.service.HelpDocManager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +43,11 @@ public class HelpDocManagerImpl
 
     public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
-    @Resource
-    private Searcher esSearcher;
+    @Autowired(required = false)
+    private ESSearcher esSearcher;
 
-    @Resource
-    private Indexer esIndexer;
+    @Autowired(required = false)
+    private ESIndexer esIndexer;
 
     @Resource
     private QuestionCatalogDao questionCatalogDao;
@@ -222,10 +225,10 @@ public class HelpDocManagerImpl
     }
 
     @Override
-    public List<Map<String, Object>> fullSearch(String keyWord, PageDesc pageDesc){
+    public List<Map<String, Object>> fullSearch(Map<String,Object>searchQuery,String keyWord, PageDesc pageDesc){
  //        List<Map<String, Object>> list = esSearcher.search(
 //                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
-        List<Map<String, Object>> list = esSearcher.search(
+        List<Map<String, Object>> list = esSearcher.search(searchQuery,
                 keyWord,pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
         if (list != null && list.size()>0){
             for (int i=0;i<list.size();i++){
