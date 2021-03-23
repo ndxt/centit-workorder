@@ -98,7 +98,7 @@ public class HelpDocManagerImpl
         dbHelpDoc.copyNotNullProperty(helpDoc);
         helpDocDao.updateObject(dbHelpDoc);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.updateDocument(objectDocument);
+        esIndexer.mergeDocument(objectDocument);
 
         return dbHelpDoc;
     }
@@ -151,7 +151,7 @@ public class HelpDocManagerImpl
         helpDocDao.updateObject(helpDoc);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.updateDocument(objectDocument);
+        esIndexer.mergeDocument(objectDocument);
         return helpDoc;
     }
 
