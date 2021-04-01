@@ -1,6 +1,7 @@
 package com.centit.workorder.po;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.centit.search.document.ObjectDocument;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
@@ -65,6 +66,7 @@ public class HelpDoc implements java.io.Serializable {
      * 副文本 CLOB 字段
      */
     @Column(name = "DOC_FILE")
+    @JSONField(deserialize = false, serialize = false)
     private String docFile;
     /**
      * 业务系统ID null
