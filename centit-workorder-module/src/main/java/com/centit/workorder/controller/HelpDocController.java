@@ -2,13 +2,17 @@ package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
+import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.service.HelpDocManager;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -170,4 +175,41 @@ public class HelpDocController extends BaseController {
         List<Map<String, Object>> result = helpDocMag.fullSearch(CollectionsOpt.createHashMap("osId",osId),keyWord, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
+
+    @ApiOperation(value = "编辑帮助文档的目录")
+    @ApiImplicitParams({@ApiImplicitParam(
+        name = "docId", value = "移动的文档Id",
+        required = true, paramType = "path", dataType = "String"
+    ), @ApiImplicitParam(
+        name = "targetDocId", value = "移动到的目标文档Id",
+        required = true, paramType = "path", dataType = "String"
+    )})
+    @WrapUpResponseBody
+    @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
+    public ResponseData updateHelpDoc2(@PathVariable String docId,@PathVariable String targetDocId) {
+//        docId  移动的文档
+//        target_docId  目标文档
+        // 移动的文档
+        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
+        // 目标文档
+        HelpDoc targetHelpDoc = helpDocMag.getObjectById(targetDocId);
+        // 要移动文档的下一个文档
+        HelpDoc siblingHelpDoc = helpDocMag.getObjectByProperty("prevDocId", helpDoc.getDocId());
+
+        helpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
+        helpDoc.setLastUpdateTime(new Date());
+        helpDoc.setDocPath(targetHelpDoc.getDocPath());
+        helpDocMag.updateObject(helpDoc);
+
+        targetHelpDoc.setPrevDocId(helpDoc.getDocId());
+        helpDocMag.updateObject(targetHelpDoc);
+
+        if (siblingHelpDoc != null) {
+            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+            helpDocMag.updateObject(siblingHelpDoc);
+        }
+
+        return ResponseData.successResponse;
+    }
+
 }

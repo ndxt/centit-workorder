@@ -115,6 +115,11 @@ public class HelpDoc implements java.io.Serializable {
             condition = GeneratorCondition.ALWAYS, value = "today()")
     private Date  lastUpdateTime;
 
+    /**
+     * 上一个文档id
+     */
+    @Column(name = "PREV_DOCID")
+    private String prevDocId;
 
     // Constructors
     /** default constructor */
@@ -130,6 +135,13 @@ public class HelpDoc implements java.io.Serializable {
         this.optId= optId;
     }
 
+    public String getPrevDocId() {
+        return prevDocId;
+    }
+
+    public void setPrevDocId(String prevDocId) {
+        this.prevDocId = prevDocId;
+    }
 
     public String getDocId() {
         return this.docId;
