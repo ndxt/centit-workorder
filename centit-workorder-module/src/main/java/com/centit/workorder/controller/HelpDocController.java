@@ -129,6 +129,7 @@ public class HelpDocController extends BaseController {
     public void levelSearch(@PathVariable String osId, HttpServletResponse response) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", osId);
+        filterMap.put("prevId","1");
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
         ResponseMapData resData = new ResponseMapData();
         if (CollectionUtils.isEmpty(list)) {

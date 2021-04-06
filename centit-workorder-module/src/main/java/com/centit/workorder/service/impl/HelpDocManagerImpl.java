@@ -9,6 +9,7 @@ import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.Indexer;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.dao.QuestionCatalogDao;
@@ -25,21 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * HelpDoc  Service.
  * create by scaffold 2017-05-08
+ *
  * @author codefan@sina.com
  * 系统帮助文档null
-*/
+ */
 @Service
 public class HelpDocManagerImpl
-        extends BaseEntityManagerImpl<HelpDoc,String,HelpDocDao>
-    implements HelpDocManager{
+    extends BaseEntityManagerImpl<HelpDoc, String, HelpDocDao>
+    implements HelpDocManager {
 
     public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
 
@@ -52,12 +51,11 @@ public class HelpDocManagerImpl
     @Resource
     private QuestionCatalogDao questionCatalogDao;
 
-    private HelpDocDao helpDocDao ;
+    private HelpDocDao helpDocDao;
 
     @Resource(name = "helpDocDao")
     @NotNull
-    public void setHelpDocDao(HelpDocDao baseDao)
-    {
+    public void setHelpDocDao(HelpDocDao baseDao) {
         this.helpDocDao = baseDao;
         setBaseDao(this.helpDocDao);
     }
@@ -65,6 +63,7 @@ public class HelpDocManagerImpl
 
     /**
      * 创建帮助文档
+     *
      * @param helpDoc
      */
     @Override
@@ -74,11 +73,11 @@ public class HelpDocManagerImpl
         String parentDocId = helpDoc.getDocPath();
 
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
-        if(parentDoc != null){
+        if (parentDoc != null) {
             helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
-                    parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
+                parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
             helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
-        }else{
+        } else {
             helpDoc.setDocPath("0");
             helpDoc.setDocLevel(1);
         }
@@ -103,16 +102,16 @@ public class HelpDocManagerImpl
         return dbHelpDoc;
     }
 
-    private List<HelpDoc> findChildren(String parentId){
+    private List<HelpDoc> findChildren(String parentId) {
         List<HelpDoc> result = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("parentId", "%"+parentId);
+        map.put("parentId", "%" + parentId);
         List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
-        if(helpDocs != null && helpDocs.size()>0) {
+        if (helpDocs != null && helpDocs.size() > 0) {
             result.addAll(helpDocs);
             for (HelpDoc h : helpDocs) {
                 List<HelpDoc> subDocs = findChildren(h.getDocId());
-                if(subDocs!=null && subDocs.size()>0) {
+                if (subDocs != null && subDocs.size() > 0) {
                     result.addAll(subDocs);
                 }
             }
@@ -126,8 +125,8 @@ public class HelpDocManagerImpl
         HelpDoc helpDoc = helpDocDao.getObjectById(docId);
         helpDocDao.deleteObjectById(docId);
         List<HelpDoc> helpDocs = findChildren(docId);
-        if(helpDocs !=null && helpDocs.size()>0) {
-            for(HelpDoc doc : helpDocs) {
+        if (helpDocs != null && helpDocs.size() > 0) {
+            for (HelpDoc doc : helpDocs) {
                 helpDocDao.deleteObjectById(doc);//删除子孙节点
             }
         }
@@ -138,7 +137,6 @@ public class HelpDocManagerImpl
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.deleteDocument(objectDocument);
     }
-
 
 
     @Override
@@ -155,28 +153,46 @@ public class HelpDocManagerImpl
         return helpDoc;
     }
 
-    @Override
-    @Transactional
-    public JSONArray searchHelpdocByLevel(List<HelpDoc> list) {
-        /*Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("osId",osId);
-        List<HelpDoc> list = helpDocDao.listObjects(filterMap);*/
-        return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
-                String parent = p.getDocId();
-                String child = c.getDocPath();
-                if(child.lastIndexOf("/") != -1) {
-                    String temp = child.substring(child.lastIndexOf("/")+1, child.length());
-
-                    return parent.equals(temp);
-                }else{
-                    return false;
+    private static LinkedList<HelpDoc> sortList(List<HelpDoc> list) {
+        LinkedList<HelpDoc> linkedList = new LinkedList<>();
+        for (HelpDoc helpDoc : list) {
+            linkedList.add(helpDoc);
+            if (linkedList.size() > 1) {
+                for (int i = 0; i < linkedList.size(); i++) {
+                    HelpDoc tempDoc = linkedList.get(i);
+                    for (int j = i + 1; j < linkedList.size(); j++) {
+                        if (tempDoc.getPrevDocId() != null &&
+                            linkedList.get(j).getDocId().equals(tempDoc.getPrevDocId())) {
+                            linkedList.add(j + 1, tempDoc);
+                            linkedList.remove(i);
+                            break;
+                        }
+                    }
                 }
-            }, "children");
+            }
+        }
+        return linkedList;
     }
 
     @Override
-    @Transactional(propagation= Propagation.REQUIRED)
-    public List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc) {
+    @Transactional
+    public JSONArray searchHelpdocByLevel(List<HelpDoc> list) {
+        return CollectionsOpt.srotAsTreeAndToJSON(sortList(list), (p, c) -> {
+            String parent = p.getDocId();
+            String child = c.getDocPath();
+            if (child.lastIndexOf("/") != -1) {
+                String temp = child.substring(child.lastIndexOf("/") + 1, child.length());
+
+                return parent.equals(temp);
+            } else {
+                return false;
+            }
+        }, "children");
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<HelpDoc> searchHelpdocByType(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
 //        String queryStatement =
 //                "select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
 //                +" from f_help_doc h left join "
@@ -198,24 +214,23 @@ public class HelpDocManagerImpl
     }
 
 
-
     @Override
     @Transactional
-    public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc){
+    public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc) {
 
         QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
-        if(questionCatalog != null){
-            if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())){
+        if (questionCatalog != null) {
+            if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())) {
 //                List<Map<String, Object>> list = searcher.search(
 ////                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
                 List<Map<String, Object>> list = esSearcher.search(
-                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
+                    questionCatalog.getCatalogKeyWords(), pageDesc.getPageNo(), pageDesc.getPageSize()).getRight();
 
-                if (list != null && list.size()>0){
-                    for (int i=0;i<list.size();i++){
+                if (list != null && list.size() > 0) {
+                    for (int i = 0; i < list.size(); i++) {
                         JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
-                        list.get(i).put("docId",json.get("docId").toString());
-                        list.get(i).put("docPath",json.get("docPath").toString());
+                        list.get(i).put("docId", json.get("docId").toString());
+                        list.get(i).put("docPath", json.get("docPath").toString());
                     }
                 }
                 return list;
@@ -225,19 +240,19 @@ public class HelpDocManagerImpl
     }
 
     @Override
-    public List<Map<String, Object>> fullSearch(Map<String,Object>searchQuery,String keyWord, PageDesc pageDesc){
- //        List<Map<String, Object>> list = esSearcher.search(
+    public List<Map<String, Object>> fullSearch(Map<String, Object> searchQuery, String keyWord, PageDesc pageDesc) {
+        //        List<Map<String, Object>> list = esSearcher.search(
 //                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
         List<Map<String, Object>> list = esSearcher.search(searchQuery,
-                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize()).getRight();
-        if (list != null && list.size()>0){
-            for (int i=0;i<list.size();i++){
+            keyWord, pageDesc.getPageNo(), pageDesc.getPageSize()).getRight();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
                 JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
-                list.get(i).put("docId",json.get("docId").toString());
-                list.get(i).put("docPath",json.get("docPath").toString());
+                list.get(i).put("docId", json.get("docId").toString());
+                list.get(i).put("docPath", json.get("docPath").toString());
                 HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
-                if (helpDoc != null){
-                    list.get(i).put("lastUpdateTime",helpDoc.getLastUpdateTime());
+                if (helpDoc != null) {
+                    list.get(i).put("lastUpdateTime", helpDoc.getLastUpdateTime());
                 }
             }
         }
