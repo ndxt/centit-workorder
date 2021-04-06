@@ -1,6 +1,7 @@
 package com.centit.workorder.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.ResponseMapData;
@@ -14,6 +15,8 @@ import com.centit.workorder.service.HelpDocManager;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +44,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/os/{osId}/documents")
 public class HelpDocController extends BaseController {
-    //private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HelpDocController.class);
 
     @Resource
     private HelpDocManager helpDocMag;
@@ -133,7 +136,7 @@ public class HelpDocController extends BaseController {
         } else {
             resData.addResponseData("isNew", false);
         }
-        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(osId);
+        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(list);
         resData.addResponseData(OBJLIST, listObjects);
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
@@ -186,9 +189,7 @@ public class HelpDocController extends BaseController {
     )})
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
-    public ResponseData updateHelpDoc2(@PathVariable String docId,@PathVariable String targetDocId) {
-//        docId  移动的文档
-//        target_docId  目标文档
+    public ResponseData moveAfter(@PathVariable String docId,@PathVariable String targetDocId) {
         // 移动的文档
         HelpDoc helpDoc = helpDocMag.getObjectById(docId);
         // 目标文档
@@ -196,7 +197,12 @@ public class HelpDocController extends BaseController {
         // 要移动文档的下一个文档
         HelpDoc siblingHelpDoc = helpDocMag.getObjectByProperty("prevDocId", helpDoc.getDocId());
 
+        if (siblingHelpDoc != null) {
+            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+            helpDocMag.updateObject(siblingHelpDoc);
+        }
         helpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
+        helpDoc.setDocLevel(targetHelpDoc.getDocLevel());
         helpDoc.setLastUpdateTime(new Date());
         helpDoc.setDocPath(targetHelpDoc.getDocPath());
         helpDocMag.updateObject(helpDoc);
@@ -204,12 +210,36 @@ public class HelpDocController extends BaseController {
         targetHelpDoc.setPrevDocId(helpDoc.getDocId());
         helpDocMag.updateObject(targetHelpDoc);
 
-        if (siblingHelpDoc != null) {
-            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
-            helpDocMag.updateObject(siblingHelpDoc);
-        }
 
         return ResponseData.successResponse;
     }
 
+    /**
+     * 帮助文档目录初始化
+     */
+    @ApiOperation(value = "帮助文档目录初始化")
+    @WrapUpResponseBody
+    @RequestMapping(value = "/catalogInit", method = RequestMethod.GET)
+    public JSONArray catalogInit(@PathVariable String osId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("osId", osId);
+        List<HelpDoc> list = helpDocMag.listObjects(filterMap);
+
+        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(list);
+        JSONArray docArray = new JSONArray();
+        for (int i = 0; i < listObjects.size(); i++) {
+            JSONObject doc = listObjects.getJSONObject(i);
+            helpDocMag.orderByPrevDoc(doc,docArray);
+        }
+        for (int i = 1; i < docArray.size(); i++) {
+            JSONObject docJson = docArray.getJSONObject(i);
+            JSONObject prevDocJson = docArray.getJSONObject(i-1);
+            HelpDoc helpDoc = helpDocMag.getObjectById(docJson.getString("docId"));
+            logger.info("修改 【{}】 的上一个doc为 【{}】 ",helpDoc.getDocTitle(),prevDocJson.getString("docTitle"));
+            helpDoc.setPrevDocId(prevDocJson.getString("docId"));
+            helpDocMag.updateObject(helpDoc);
+        }
+
+        return docArray;
+    }
 }

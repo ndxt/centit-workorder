@@ -1,6 +1,7 @@
 package com.centit.workorder.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.jdbc.service.BaseEntityManager;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
@@ -25,7 +26,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     HelpDoc editContent(String docId, String content, String userCode);
 
-    JSONArray searchHelpdocByLevel(String osId);
+    JSONArray searchHelpdocByLevel(List<HelpDoc> list);
 //    JSONArray treeSearch(String osId);
 
     List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
@@ -34,4 +35,5 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     List<Map<String, Object>> fullSearch(Map<String,Object>searchQuery,String catalogId, PageDesc pageDesc);
 
+    void orderByPrevDoc(JSONObject doc, JSONArray docArray);
 }

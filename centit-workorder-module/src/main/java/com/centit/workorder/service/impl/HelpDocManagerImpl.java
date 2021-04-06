@@ -157,10 +157,10 @@ public class HelpDocManagerImpl
 
     @Override
     @Transactional
-    public JSONArray searchHelpdocByLevel(String osId) {
-        Map<String, Object> filterMap = new HashMap<>();
+    public JSONArray searchHelpdocByLevel(List<HelpDoc> list) {
+        /*Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId",osId);
-        List<HelpDoc> list = helpDocDao.listObjects(filterMap);
+        List<HelpDoc> list = helpDocDao.listObjects(filterMap);*/
         return CollectionsOpt.srotAsTreeAndToJSON(list, ( p,  c) -> {
                 String parent = p.getDocId();
                 String child = c.getDocPath();
@@ -243,5 +243,17 @@ public class HelpDocManagerImpl
         }
         return list;
     }
+
+    @Override
+    public void orderByPrevDoc(JSONObject doc,JSONArray docArray) {
+        docArray.add(doc);
+        JSONArray childrenDoc = doc.getJSONArray("children");
+        if (childrenDoc != null) {
+            for (int i = 0; i < childrenDoc.size(); i++) {
+                orderByPrevDoc(childrenDoc.getJSONObject(i),docArray);
+            }
+        }
+    }
+
 }
 
