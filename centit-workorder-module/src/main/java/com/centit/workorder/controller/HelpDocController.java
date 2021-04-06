@@ -220,26 +220,11 @@ public class HelpDocController extends BaseController {
     @ApiOperation(value = "帮助文档目录初始化")
     @WrapUpResponseBody
     @RequestMapping(value = "/catalogInit", method = RequestMethod.GET)
-    public JSONArray catalogInit(@PathVariable String osId) {
+    public ResponseData catalogInit(@PathVariable String osId) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", osId);
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
-
-        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(list);
-        JSONArray docArray = new JSONArray();
-        for (int i = 0; i < listObjects.size(); i++) {
-            JSONObject doc = listObjects.getJSONObject(i);
-            helpDocMag.orderByPrevDoc(doc,docArray);
-        }
-        for (int i = 1; i < docArray.size(); i++) {
-            JSONObject docJson = docArray.getJSONObject(i);
-            JSONObject prevDocJson = docArray.getJSONObject(i-1);
-            HelpDoc helpDoc = helpDocMag.getObjectById(docJson.getString("docId"));
-            logger.info("修改 【{}】 的上一个doc为 【{}】 ",helpDoc.getDocTitle(),prevDocJson.getString("docTitle"));
-            helpDoc.setPrevDocId(prevDocJson.getString("docId"));
-            helpDocMag.updateObject(helpDoc);
-        }
-
-        return docArray;
+        helpDocMag.updatePrevDoc(list);
+        return ResponseData.successResponse;
     }
 }

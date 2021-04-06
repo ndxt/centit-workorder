@@ -35,5 +35,9 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     List<Map<String, Object>> fullSearch(Map<String,Object>searchQuery,String catalogId, PageDesc pageDesc);
 
-    void orderByPrevDoc(JSONObject doc, JSONArray docArray);
+    /**
+     * 帮助文档增加目录自定义排序功能，更新文档的 prevDicId
+     * @param list
+     */
+    void updatePrevDoc(List<HelpDoc> list);
 }
