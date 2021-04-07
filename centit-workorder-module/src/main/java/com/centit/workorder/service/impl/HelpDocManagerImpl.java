@@ -75,7 +75,7 @@ public class HelpDocManagerImpl
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if (parentDoc != null) {
             helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
-                parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
+                parentDoc.getDocPath() + "/" + parentDocId : "0/" + parentDocId);
             helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
         } else {
             helpDoc.setDocPath("0");
@@ -257,6 +257,51 @@ public class HelpDocManagerImpl
             }
         }
         return list;
+    }
+
+    @Override
+    public void moveAfter(String docId, String targetDocId) {
+        // 移动的文档(A)
+        HelpDoc helpDoc = this.getObjectById(docId);
+        // 目标文档(B)，修改文档的prevDocId
+        HelpDoc targetHelpDoc = this.getObjectById(targetDocId);
+        // 要移动文档的下一个文档(C)，修改文档的prevDocId
+        HelpDoc siblingHelpDoc = this.getObjectByProperty("prevDocId", helpDoc.getDocId());
+        // 移动文档的children文档(A1,A11,A111……)，修改children文档的path和level
+        List<HelpDoc> childrenHelpDocs = this.findChildren(docId);
+
+        if (!childrenHelpDocs.isEmpty()) {
+            // 如果children数据比较多,改用sql的方式来修改
+            int levelMinus  = helpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
+            String oldDocPath = helpDoc.getDocPath() + "/";
+            String newDocPath = targetHelpDoc.getDocPath() + "/";
+            for (HelpDoc childrenHelpDoc : childrenHelpDocs) {
+                String childrenDocPath = childrenHelpDoc.getDocPath();
+                if (childrenDocPath.contains(oldDocPath)) {
+                    // 正常情况
+                    childrenDocPath = childrenDocPath.replace(oldDocPath,newDocPath);
+                } else {
+                    // 非正常情况，可能是原来的path不对了
+                    logger.warn("文档【{}】 的path不正确",childrenHelpDoc.getDocTitle());
+                }
+                childrenHelpDoc.setDocPath(childrenDocPath);
+                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel()-levelMinus);
+                this.updateObject(childrenHelpDoc);
+            }
+        }
+
+        if (siblingHelpDoc != null) {
+            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+            this.updateObject(siblingHelpDoc);
+        }
+        helpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
+        helpDoc.setDocLevel(targetHelpDoc.getDocLevel());
+        helpDoc.setLastUpdateTime(new Date());
+        helpDoc.setDocPath(targetHelpDoc.getDocPath());
+        this.updateObject(helpDoc);
+
+        targetHelpDoc.setPrevDocId(helpDoc.getDocId());
+        this.updateObject(targetHelpDoc);
     }
 
     @Override

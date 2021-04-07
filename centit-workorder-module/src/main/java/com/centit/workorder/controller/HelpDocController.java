@@ -190,27 +190,7 @@ public class HelpDocController extends BaseController {
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
     public ResponseData moveAfter(@PathVariable String docId,@PathVariable String targetDocId) {
-        // 移动的文档
-        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
-        // 目标文档
-        HelpDoc targetHelpDoc = helpDocMag.getObjectById(targetDocId);
-        // 要移动文档的下一个文档
-        HelpDoc siblingHelpDoc = helpDocMag.getObjectByProperty("prevDocId", helpDoc.getDocId());
-
-        if (siblingHelpDoc != null) {
-            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
-            helpDocMag.updateObject(siblingHelpDoc);
-        }
-        helpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
-        helpDoc.setDocLevel(targetHelpDoc.getDocLevel());
-        helpDoc.setLastUpdateTime(new Date());
-        helpDoc.setDocPath(targetHelpDoc.getDocPath());
-        helpDocMag.updateObject(helpDoc);
-
-        targetHelpDoc.setPrevDocId(helpDoc.getDocId());
-        helpDocMag.updateObject(targetHelpDoc);
-
-
+        helpDocMag.moveAfter(docId,targetDocId);
         return ResponseData.successResponse;
     }
 
