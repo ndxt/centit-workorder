@@ -136,8 +136,10 @@ public class HelpDocManagerImpl
 
         // 修改删除文档的下一个文档 的prevDocId
         HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", helpDoc.getDocId());
-        siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
-        helpDocDao.updateObject(siblingHelpDoc);
+        if (siblingHelpDoc != null) {
+            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+            helpDocDao.updateObject(siblingHelpDoc);
+        }
 
         helpDocDao.deleteObjectById(docId);
         List<HelpDoc> helpDocs = findChildren(docId);
