@@ -69,9 +69,7 @@ public class HelpDocManagerImpl
     @Override
     @Transactional
     public HelpDoc createHelpDoc(HelpDoc helpDoc) {
-
         String parentDocId = helpDoc.getDocPath();
-
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if (parentDoc != null) {
             helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
@@ -81,6 +79,18 @@ public class HelpDocManagerImpl
             helpDoc.setDocPath("0");
             helpDoc.setDocLevel(1);
         }
+
+        // 设置prevDocId
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("osId", helpDoc.getOsId());
+        filterMap.put("docLevel",helpDoc.getDocLevel());
+        filterMap.put("docPath",helpDoc.getDocPath());
+        // 获取children文档
+        List<HelpDoc> list = this.listObjects(filterMap);
+        LinkedList<HelpDoc> sortHelpDocs = sortList(list);
+        // 排序后找到最后一个文档，将其设置为新增目录的prevDocId
+        String prevDocId = sortHelpDocs.get(sortHelpDocs.size() - 1).getDocId();
+        helpDoc.setPrevDocId(prevDocId);
         helpDocDao.saveNewObject(helpDoc);
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
@@ -123,6 +133,12 @@ public class HelpDocManagerImpl
     @Transactional
     public void deleteHelpDoc(String docId) {
         HelpDoc helpDoc = helpDocDao.getObjectById(docId);
+
+        // 修改删除文档的下一个文档 的prevDocId
+        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", helpDoc.getDocId());
+        siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+        helpDocDao.updateObject(siblingHelpDoc);
+
         helpDocDao.deleteObjectById(docId);
         List<HelpDoc> helpDocs = findChildren(docId);
         if (helpDocs != null && helpDocs.size() > 0) {
@@ -132,7 +148,6 @@ public class HelpDocManagerImpl
         }
         Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
-
 
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.deleteDocument(objectDocument);
