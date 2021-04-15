@@ -39,7 +39,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
      * 帮助文档增加目录自定义排序功能，更新文档的 prevDicId
      * @param list
      */
-    void updatePrevDoc(List<HelpDoc> list);
+    void updatePrevDoc(List<HelpDoc> list, String action);
 
-    void moveAfter(String docId, String targetDocId);
+    void moveAfter(String docId, String targetDocId, HelpDoc helpDoc);
 }

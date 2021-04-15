@@ -174,8 +174,8 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "帮助文档全文检索 关键字查询")
     @RequestMapping(value = "/fullSearch/{keyWord}", method = RequestMethod.GET)
-    public void fullSearch(@PathVariable String osId,@PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
-        List<Map<String, Object>> result = helpDocMag.fullSearch(CollectionsOpt.createHashMap("osId",osId),keyWord, pageDesc);
+    public void fullSearch(@PathVariable String osId, @PathVariable String keyWord, PageDesc pageDesc, HttpServletResponse response) {
+        List<Map<String, Object>> result = helpDocMag.fullSearch(CollectionsOpt.createHashMap("osId", osId), keyWord, pageDesc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
 
@@ -189,8 +189,10 @@ public class HelpDocController extends BaseController {
     )})
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
-    public ResponseData moveAfter(@PathVariable String docId,@PathVariable String targetDocId) {
-        helpDocMag.moveAfter(docId,targetDocId);
+    public ResponseData moveAfter(@PathVariable String docId, @PathVariable String targetDocId,
+                                  @RequestBody HelpDoc helpDoc, HttpServletRequest request) {
+        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
+        helpDocMag.moveAfter(docId, targetDocId, helpDoc);
         return ResponseData.successResponse;
     }
 
@@ -200,11 +202,11 @@ public class HelpDocController extends BaseController {
     @ApiOperation(value = "帮助文档目录初始化")
     @WrapUpResponseBody
     @RequestMapping(value = "/catalogInit", method = RequestMethod.GET)
-    public ResponseData catalogInit(@PathVariable String osId) {
+    public ResponseData catalogInit(@PathVariable String osId, String action) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", osId);
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
-        helpDocMag.updatePrevDoc(list);
+        helpDocMag.updatePrevDoc(list, action);
         return ResponseData.successResponse;
     }
 }

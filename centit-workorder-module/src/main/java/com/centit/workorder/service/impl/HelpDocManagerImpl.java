@@ -73,7 +73,7 @@ public class HelpDocManagerImpl
         HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
         if (parentDoc != null) {
             helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
-                parentDoc.getDocPath() + "/" + parentDocId : "0/" + parentDocId);
+                parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
             helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
         } else {
             helpDoc.setDocPath("0");
@@ -83,10 +83,10 @@ public class HelpDocManagerImpl
         // 设置prevDocId
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", helpDoc.getOsId());
-        filterMap.put("docLevel",helpDoc.getDocLevel());
-        filterMap.put("docPath",helpDoc.getDocPath());
-        // 获取children文档
-        List<HelpDoc> list = this.listObjects(filterMap);
+        filterMap.put("docLevel", helpDoc.getDocLevel());
+        filterMap.put("docPath", helpDoc.getDocPath());
+        // 获取同一层级的所有文档
+        List<HelpDoc> list = helpDocDao.listObjects(filterMap);
         LinkedList<HelpDoc> sortHelpDocs = sortList(list);
         // 排序后找到最后一个文档，将其设置为新增目录的prevDocId
         String prevDocId = sortHelpDocs.get(sortHelpDocs.size() - 1).getDocId();
@@ -104,7 +104,40 @@ public class HelpDocManagerImpl
     public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
 
+        // 除了修改名字外还移动了文档的位置（修改了目录）
+        if (helpDoc.getDocPath() != null && !helpDoc.getDocPath().equals(dbHelpDoc.getDocPath())) {
+            // （1）修改移动文档的下一个文档 的prevDocId
+            HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", helpDoc.getDocId());
+            if (siblingHelpDoc != null) {
+                siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+                helpDocDao.updateObject(siblingHelpDoc);
+            }
+
+            // （2）修改移动文档的prevDocId docLevel docPath
+            // 先获取移动后的父文档
+            String parentDocId = helpDoc.getDocPath().substring(helpDoc.getDocPath().lastIndexOf("/") + 1);
+            HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
+            Map<String, Object> filterMap = new HashMap<>();
+            filterMap.put("osId", parentDoc.getOsId());
+            filterMap.put("docLevel", parentDoc.getDocLevel() + 1);
+            if ("0".equals(parentDoc.getDocPath())) {
+                filterMap.put("docPath", "/" + parentDoc.getDocId());
+            } else {
+                filterMap.put("docPath", parentDoc.getDocPath() + "/" + parentDoc.getDocId());
+            }
+            // 获取子一层级的所有文档
+            List<HelpDoc> list = helpDocDao.listObjects(filterMap);
+            if (list != null && !list.isEmpty()) {
+                LinkedList<HelpDoc> sortHelpDocs = sortList(list);
+                // 排序后找到子一层级的最后一个文档
+                HelpDoc endDoc = sortHelpDocs.get(sortHelpDocs.size() - 1);
+                helpDoc.setPrevDocId(endDoc.getDocId());
+                helpDoc.setDocLevel(endDoc.getDocLevel());
+                helpDoc.setDocPath(endDoc.getDocPath());
+            }
+        }
         dbHelpDoc.copyNotNullProperty(helpDoc);
+
         helpDocDao.updateObject(dbHelpDoc);
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.mergeDocument(objectDocument);
@@ -277,54 +310,68 @@ public class HelpDocManagerImpl
     }
 
     @Override
-    public void moveAfter(String docId, String targetDocId) {
+    public void moveAfter(String docId, String targetDocId, HelpDoc helpDoc) {
         // 移动的文档(A)
-        HelpDoc helpDoc = this.getObjectById(docId);
+        HelpDoc dbHelpDoc = this.getObjectById(docId);
+        dbHelpDoc.copyNotNullProperty(helpDoc);
         // 目标文档(B)，修改文档的prevDocId
         HelpDoc targetHelpDoc = this.getObjectById(targetDocId);
         // 要移动文档的下一个文档(C)，修改文档的prevDocId
-        HelpDoc siblingHelpDoc = this.getObjectByProperty("prevDocId", helpDoc.getDocId());
+        HelpDoc siblingHelpDoc = this.getObjectByProperty("prevDocId", dbHelpDoc.getDocId());
         // 移动文档的children文档(A1,A11,A111……)，修改children文档的path和level
         List<HelpDoc> childrenHelpDocs = this.findChildren(docId);
 
         if (!childrenHelpDocs.isEmpty()) {
             // 如果children数据比较多,改用sql的方式来修改
-            int levelMinus  = helpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
-            String oldDocPath = helpDoc.getDocPath() + "/";
+            int levelMinus = dbHelpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
+            String oldDocPath = dbHelpDoc.getDocPath() + "/";
             String newDocPath = targetHelpDoc.getDocPath() + "/";
             for (HelpDoc childrenHelpDoc : childrenHelpDocs) {
                 String childrenDocPath = childrenHelpDoc.getDocPath();
                 if (childrenDocPath.contains(oldDocPath)) {
                     // 正常情况
-                    childrenDocPath = childrenDocPath.replace(oldDocPath,newDocPath);
+                    childrenDocPath = childrenDocPath.replace(oldDocPath, newDocPath);
                 } else {
                     // 非正常情况，可能是原来的path不对了
-                    logger.warn("文档【{}】 的path不正确",childrenHelpDoc.getDocTitle());
+                    logger.warn("文档【{}】 的path不正确", childrenHelpDoc.getDocTitle());
                 }
                 childrenHelpDoc.setDocPath(childrenDocPath);
-                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel()-levelMinus);
+                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel() - levelMinus);
                 this.updateObject(childrenHelpDoc);
             }
         }
 
         if (siblingHelpDoc != null) {
-            siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
+            siblingHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
             this.updateObject(siblingHelpDoc);
         }
-        helpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
-        helpDoc.setDocLevel(targetHelpDoc.getDocLevel());
-        helpDoc.setLastUpdateTime(new Date());
-        helpDoc.setDocPath(targetHelpDoc.getDocPath());
-        this.updateObject(helpDoc);
+        dbHelpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
+        dbHelpDoc.setDocLevel(targetHelpDoc.getDocLevel());
+        dbHelpDoc.setLastUpdateTime(new Date());
+        dbHelpDoc.setDocPath(targetHelpDoc.getDocPath());
+        this.updateObject(dbHelpDoc);
 
-        targetHelpDoc.setPrevDocId(helpDoc.getDocId());
+        targetHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
         this.updateObject(targetHelpDoc);
     }
 
     @Override
-    public void updatePrevDoc(List<HelpDoc> list) {
-        JSONArray listObjects = this.searchHelpdocByLevel(list);
-        updatePrevDoc(listObjects);
+    public void updatePrevDoc(List<HelpDoc> list, String actino) {
+        if (actino == null) {
+            // 更新 PrevDoc
+            JSONArray listObjects = this.searchHelpdocByLevel(list);
+            updatePrevDoc(listObjects);
+        } else {
+            // 更新 level
+            for (HelpDoc helpDoc : list) {
+                int level = helpDoc.getDocPath().split("/").length;
+                if (level != helpDoc.getDocLevel()) {
+                    logger.info("将【{}】 的level从【{}】改为【{}】 ", helpDoc.getDocTitle(),helpDoc.getDocLevel(), level);
+                    helpDoc.setDocLevel(level);
+                    helpDocDao.updateObject(helpDoc);
+                }
+            }
+        }
     }
 
     private void updatePrevDoc(JSONArray docArray) {
@@ -332,24 +379,27 @@ public class HelpDocManagerImpl
         final String docTitle_str = "docTitle";
         for (int i = 1; i < docArray.size(); i++) {
             JSONObject docJson = docArray.getJSONObject(i);
-            JSONObject prevDocJson = docArray.getJSONObject(i-1);
+            JSONObject prevDocJson = docArray.getJSONObject(i - 1);
             HelpDoc helpDoc = this.getObjectById(docJson.getString(docId_str));
-            logger.info("修改 【{}】 的上一个doc为 【{}】 ",helpDoc.getDocTitle(),prevDocJson.getString(docTitle_str));
-            helpDoc.setPrevDocId(prevDocJson.getString(docId_str));
-            this.updateObject(helpDoc);
+            if (helpDoc.getPrevDocId() == null || !helpDoc.getPrevDocId().equals(prevDocJson.getString(docId_str))) {
+                logger.info("修改 【{}】 的上一个doc为 【{}】 ", helpDoc.getDocTitle(), prevDocJson.getString(docTitle_str));
+                helpDoc.setPrevDocId(prevDocJson.getString(docId_str));
+                this.updateObject(helpDoc);
+            }
             JSONArray childrenDoc = prevDocJson.getJSONArray("children");
             if (childrenDoc != null) {
                 String docTitle = childrenDoc.getJSONObject(0).getString(docTitle_str);
                 String docId = childrenDoc.getJSONObject(0).getString(docId_str);
                 HelpDoc childrenHelpDoc = this.getObjectById(docId);
-                childrenHelpDoc.setPrevDocId(prevDocJson.getString(docId_str));
-                logger.info("修改 【{}】 的上一个doc为 【{}】 ",docTitle,prevDocJson.getString(docTitle_str));
-                this.updateObject(childrenHelpDoc);
+                if (!childrenHelpDoc.getPrevDocId().equals(prevDocJson.getString(docId_str))) {
+                    logger.info("修改 【{}】 的上一个doc为 【{}】 ", docTitle, prevDocJson.getString(docTitle_str));
+                    childrenHelpDoc.setPrevDocId(prevDocJson.getString(docId_str));
+                    this.updateObject(childrenHelpDoc);
+                }
                 updatePrevDoc(childrenDoc);
             }
         }
     }
-
 
 }
 

@@ -278,6 +278,9 @@ public class HelpDoc implements java.io.Serializable {
             this.updateUser= other.getUpdateUser();
         if( other.getLastUpdateTime() != null)
             this.lastUpdateTime= other.getLastUpdateTime();
+        if (other.getPrevDocId() != null) {
+            this.setPrevDocId(other.getPrevDocId());
+        }
 
         return this;
     }
