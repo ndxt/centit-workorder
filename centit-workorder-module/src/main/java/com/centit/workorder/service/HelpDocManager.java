@@ -41,5 +41,5 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
      */
     void updatePrevDoc(List<HelpDoc> list, String action);
 
-    void moveAfter(String docId, String targetDocId, HelpDoc helpDoc);
+    void catalog(String docId, String targetDocId, String action);
 }

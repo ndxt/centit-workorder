@@ -66,7 +66,7 @@ public class HelpDoc implements java.io.Serializable {
      * 副文本 CLOB 字段
      */
     @Column(name = "DOC_FILE")
-    @JSONField(deserialize = false, serialize = false)
+//    @JSONField(deserialize = false, serialize = false)
     private String docFile;
     /**
      * 业务系统ID null

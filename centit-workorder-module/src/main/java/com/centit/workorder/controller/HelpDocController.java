@@ -19,10 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -55,12 +52,10 @@ public class HelpDocController extends BaseController {
      * @param docId DOC_ID
      */
     @ApiOperation(value = "查询单个 系统帮助文档")
+    @WrapUpResponseBody
     @RequestMapping(value = "/{docId}", method = {RequestMethod.GET})
-    public void getHelpDoc(@PathVariable String docId, HttpServletResponse response) {
-
-        HelpDoc helpDoc = helpDocMag.getObjectById(docId);
-
-        JsonResultUtils.writeSingleDataJson(helpDoc, response);
+    public HelpDoc getHelpDoc(@PathVariable String docId) {
+        return helpDocMag.getObjectById(docId);
     }
 
     /**
@@ -186,13 +181,24 @@ public class HelpDocController extends BaseController {
     ), @ApiImplicitParam(
         name = "targetDocId", value = "移动到的目标文档Id",
         required = true, paramType = "path", dataType = "String"
+    ), @ApiImplicitParam(
+        name = "action", value = "inner：移动到文档的子文档  before：移动到文档之前  after：移动到文档之后"
     )})
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
-    public ResponseData moveAfter(@PathVariable String docId, @PathVariable String targetDocId,
-                                  @RequestBody HelpDoc helpDoc, HttpServletRequest request) {
-        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
-        helpDocMag.moveAfter(docId, targetDocId, helpDoc);
+    public ResponseData catalog(@PathVariable String docId, @PathVariable String targetDocId,
+                                @RequestBody JSONObject jsonObject, HttpServletRequest request) {
+        String action = jsonObject.getString("action");
+        if ("before".equals(action) || "after".equals(action)) {
+            helpDocMag.catalog(docId, targetDocId, action);
+        } else if ("inner".equals(action)) {
+            HelpDoc targetHelpDoc = helpDocMag.getObjectById(targetDocId);
+            HelpDoc helpDoc = helpDocMag.getObjectById(docId);
+            helpDoc.setPrevDocId(targetDocId);
+            helpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
+            helpDocMag.editHelpDoc(docId, helpDoc);
+        }
+
         return ResponseData.successResponse;
     }
 
