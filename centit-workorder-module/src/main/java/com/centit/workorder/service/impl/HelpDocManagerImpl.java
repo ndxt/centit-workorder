@@ -367,8 +367,8 @@ public class HelpDocManagerImpl
     }
 
     @Override
-    public void updatePrevDoc(List<HelpDoc> list, String actino) {
-        if (actino == null) {
+    public void updatePrevDoc(List<HelpDoc> list, String action) {
+        if (action == null) {
             // 更新 PrevDoc
             JSONArray listObjects = this.searchHelpdocByLevel(list);
             updatePrevDoc(listObjects);
@@ -396,16 +396,20 @@ public class HelpDocManagerImpl
                 logger.info("修改 【{}】 的上一个doc为 【{}】 ", helpDoc.getDocTitle(), prevDocJson.getString(docTitle_str));
                 helpDoc.setPrevDocId(prevDocJson.getString(docId_str));
                 this.updateObject(helpDoc);
+            } else {
+                logger.info("无需修改-- 【{}】 ", helpDoc.getDocTitle());
             }
             JSONArray childrenDoc = prevDocJson.getJSONArray("children");
             if (childrenDoc != null) {
                 String docTitle = childrenDoc.getJSONObject(0).getString(docTitle_str);
                 String docId = childrenDoc.getJSONObject(0).getString(docId_str);
                 HelpDoc childrenHelpDoc = this.getObjectById(docId);
-                if (!childrenHelpDoc.getPrevDocId().equals(prevDocJson.getString(docId_str))) {
+                if (childrenHelpDoc.getPrevDocId() == null || !childrenHelpDoc.getPrevDocId().equals(prevDocJson.getString(docId_str))) {
                     logger.info("修改 【{}】 的上一个doc为 【{}】 ", docTitle, prevDocJson.getString(docTitle_str));
                     childrenHelpDoc.setPrevDocId(prevDocJson.getString(docId_str));
                     this.updateObject(childrenHelpDoc);
+                } else {
+                    logger.info("无需修改--- 【{}】 ", docTitle);
                 }
                 updatePrevDoc(childrenDoc);
             }
