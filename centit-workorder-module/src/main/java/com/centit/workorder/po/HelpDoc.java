@@ -1,17 +1,13 @@
 package com.centit.workorder.po;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.centit.search.document.ObjectDocument;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -67,6 +63,7 @@ public class HelpDoc implements java.io.Serializable {
      */
     @Column(name = "DOC_FILE")
 //    @JSONField(deserialize = false, serialize = false)
+    @Basic(fetch = FetchType.LAZY)
     private String docFile;
     /**
      * 业务系统ID null
