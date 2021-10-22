@@ -31,7 +31,6 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);
 
-    List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc);
 
     List<Map<String, Object>> fullSearch(Map<String,Object>searchQuery,String catalogId, PageDesc pageDesc);
 

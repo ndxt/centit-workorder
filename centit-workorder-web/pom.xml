@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-workorder</artifactId>
         <groupId>com.centit.product</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -29,36 +29,25 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>fileserver-utils</artifactId>
-            <version>${centit.fileserver.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
             <artifactId>centit-workorder-module</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>centit-workorder-view</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-app</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-app-config</artifactId>
+            <artifactId>centit-ip-dubbo-client-config</artifactId>
+            <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-ip-app-base-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.centit.framework</groupId>
@@ -84,7 +73,10 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-session-redis</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

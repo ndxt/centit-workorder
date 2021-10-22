@@ -1,13 +1,12 @@
 package com.centit.workorder.config;
 
-import com.centit.fileserver.common.FileStore;
-import com.centit.fileserver.utils.OsFileStore;
+
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.InitialWebRuntimeEnvironment;
 import com.centit.framework.config.SpringSecurityDaoConfig;
-import com.centit.framework.ip.app.config.IPOrStaticAppSystemBeanConfig;
+
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
@@ -29,7 +28,7 @@ import org.springframework.core.env.Environment;
  */
 @ComponentScan(basePackages = "com.centit",
         excludeFilters = @ComponentScan.Filter(value = org.springframework.stereotype.Controller.class))
-@Import({IPOrStaticAppSystemBeanConfig.class,
+@Import({
         JdbcConfig.class,
         SpringSecurityDaoConfig.class})
 @Configuration
@@ -68,16 +67,6 @@ public class ServiceConfig {
     public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig){
         return IndexerSearcherFactory.obtainSearcher(
             esServerConfig, ObjectDocument.class);
-    }
-
-    @Bean
-    public FileStore fileStore(){
-        //String fileStoreType= env.getProperty("filestore.type","os");
-        String baseHome = env.getProperty("os.file.base.dir");
-        if(StringUtils.isBlank(baseHome)) {
-            baseHome = env.getProperty("app.home") + "/upload";
-        }
-        return new OsFileStore(baseHome);
     }
 
     @Bean

@@ -5,15 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.centit.framework</groupId>
-        <artifactId>framework-release-dependencies</artifactId>
-        <version>1.3.2101</version>
+        <artifactId>framework-snapshot-dependencies</artifactId>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-workorder</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>5.2-SNAPSHOT</version>
     <modules>
         <module>centit-workorder-module</module>
-        <module>centit-workorder-view</module>
         <module>centit-workorder-web</module>
     </modules>
 
@@ -23,9 +22,7 @@
     <url>https://github.com/ndxt/centit-workorder</url>
 
     <properties>
-        <centit.search.version>1.2-SNAPSHOT</centit.search.version>
-        <centit.fileserver.version>3.2-SNAPSHOT</centit.fileserver.version>
-        <aliyun-sdk-oss.version>2.8.1</aliyun-sdk-oss.version>
+        <centit.search.version>5.2-SNAPSHOT</centit.search.version>
     </properties>
 
     <licenses>
@@ -119,7 +116,7 @@
                     <encoding>UTF-8</encoding>
                     <compilerArguments>
                         <verbose />
-                        <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+<!--                        <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>-->
                     </compilerArguments>
                 </configuration>
             </plugin>

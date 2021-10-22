@@ -155,16 +155,6 @@ public class HelpDocController extends BaseController {
     }
 
     /**
-     * 帮助文档全文检索
-     */
-    @ApiOperation(value = "帮助文档全文检索")
-    @RequestMapping(value = "/fullTextSearch/{catalogId}", method = RequestMethod.GET)
-    public void fullTextSearch(@PathVariable String catalogId, PageDesc pageDesc, HttpServletResponse response) {
-        List<Map<String, Object>> result = helpDocMag.fullTextSearch(catalogId, pageDesc);
-        JsonResultUtils.writeSingleDataJson(result, response);
-    }
-
-    /**
      * 帮助文档全文检索 关键字查询
      */
     @ApiOperation(value = "帮助文档全文检索 关键字查询")

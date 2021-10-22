@@ -6,17 +6,11 @@ import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
-import com.centit.search.service.Indexer;
-import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.CollectionsOpt;
-import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
-import com.centit.workorder.dao.QuestionCatalogDao;
 import com.centit.workorder.po.HelpDoc;
-import com.centit.workorder.po.QuestionCatalog;
 import com.centit.workorder.service.HelpDocManager;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +42,6 @@ public class HelpDocManagerImpl
     @Autowired(required = false)
     private ESIndexer esIndexer;
 
-    @Resource
-    private QuestionCatalogDao questionCatalogDao;
 
     private HelpDocDao helpDocDao;
 
@@ -263,36 +255,8 @@ public class HelpDocManagerImpl
         return helpDocs;
     }
 
-
-    @Override
-    @Transactional
-    public List<Map<String, Object>> fullTextSearch(String catalogId, PageDesc pageDesc) {
-
-        QuestionCatalog questionCatalog = questionCatalogDao.getObjectById(catalogId);
-        if (questionCatalog != null) {
-            if (StringUtils.isNotBlank(questionCatalog.getCatalogKeyWords())) {
-//                List<Map<String, Object>> list = searcher.search(
-////                        questionCatalog.getCatalogKeyWords(),pageDesc.getPageNo(),pageDesc.getPageSize());
-                List<Map<String, Object>> list = esSearcher.search(
-                    questionCatalog.getCatalogKeyWords(), pageDesc.getPageNo(), pageDesc.getPageSize()).getRight();
-
-                if (list != null && list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
-                        list.get(i).put("docId", json.get("docId").toString());
-                        list.get(i).put("docPath", json.get("docPath").toString());
-                    }
-                }
-                return list;
-            }
-        }
-        return null;
-    }
-
     @Override
     public List<Map<String, Object>> fullSearch(Map<String, Object> searchQuery, String keyWord, PageDesc pageDesc) {
-        //        List<Map<String, Object>> list = esSearcher.search(
-//                keyWord,pageDesc.getPageNo(),pageDesc.getPageSize());
         List<Map<String, Object>> list = esSearcher.search(searchQuery,
             keyWord, pageDesc.getPageNo(), pageDesc.getPageSize()).getRight();
         if (list != null && list.size() > 0) {
