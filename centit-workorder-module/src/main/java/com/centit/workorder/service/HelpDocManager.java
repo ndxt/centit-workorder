@@ -19,6 +19,7 @@ import java.util.Map;
 public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     HelpDoc createHelpDoc(HelpDoc helpDoc);
+    HelpDoc saveHelpDoc(HelpDoc helpDoc);
 
     HelpDoc editHelpDoc(String docId, HelpDoc helpDoc);
 

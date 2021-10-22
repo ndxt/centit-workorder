@@ -3,10 +3,14 @@ package com.centit.workorder.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.IOptInfo;
+import com.centit.framework.system.po.OptInfo;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.po.HelpDoc;
@@ -44,6 +48,8 @@ public class HelpDocManagerImpl
 
 
     private HelpDocDao helpDocDao;
+    @Autowired(required = false)
+    private PlatformEnvironment platformEnvironment;
 
     @Resource(name = "helpDocDao")
     @NotNull
@@ -88,6 +94,22 @@ public class HelpDocManagerImpl
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.saveNewDocument(objectDocument);
 
+        return helpDoc;
+    }
+
+    @Override
+    public HelpDoc saveHelpDoc(HelpDoc helpDoc) {
+        if (StringBaseOpt.isNvl(helpDoc.getDocId())) {
+            createHelpDoc(helpDoc);
+            if (platformEnvironment != null && helpDoc.getOptId() != null) {
+                OptInfo optInfo = new OptInfo();
+                optInfo.setOptId(helpDoc.getOptId());
+                optInfo.setDocId(helpDoc.getDocId());
+                platformEnvironment.updateOptInfo(optInfo);
+            }
+        } else {
+            editHelpDoc(helpDoc.getDocId(), helpDoc);
+        }
         return helpDoc;
     }
 
