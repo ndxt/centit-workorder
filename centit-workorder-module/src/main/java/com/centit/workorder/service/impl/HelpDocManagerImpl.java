@@ -87,7 +87,10 @@ public class HelpDocManagerImpl
         List<HelpDoc> list = helpDocDao.listObjects(filterMap);
         LinkedList<HelpDoc> sortHelpDocs = sortList(list);
         // 排序后找到最后一个文档，将其设置为新增目录的prevDocId
-        String prevDocId = sortHelpDocs.get(sortHelpDocs.size() - 1).getDocId();
+        String prevDocId ="0";
+        if(sortHelpDocs.size()>0) {
+            prevDocId = sortHelpDocs.get(sortHelpDocs.size() - 1).getDocId();
+        }
         helpDoc.setPrevDocId(prevDocId);
         helpDocDao.saveNewObject(helpDoc);
 
