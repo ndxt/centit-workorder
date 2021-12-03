@@ -86,9 +86,5 @@ public class ServiceConfig {
         return operationLog;
     }
 
-   @Bean
-   public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
-       return new InstantiationServiceBeanPostProcessor();
-   }
 }
 

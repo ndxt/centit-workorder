@@ -63,17 +63,7 @@ public class HelpDocController extends BaseController {
      *
      * @param helpDoc {@link HelpDoc}
      */
-    @ApiOperation(value = "创建帮助文档条目")
-    @RequestMapping(method = {RequestMethod.POST})
-    public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
-                              HttpServletRequest request, HttpServletResponse response) {
-
-        helpDoc.setOsId(osId);
-        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
-        HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
-        JsonResultUtils.writeSingleDataJson(result, response);
-    }
-    @ApiOperation(value = "merge帮助文档")
+    @ApiOperation(value = "创建帮助文档")
     @RequestMapping(method = {RequestMethod.POST})
     public void saveHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
