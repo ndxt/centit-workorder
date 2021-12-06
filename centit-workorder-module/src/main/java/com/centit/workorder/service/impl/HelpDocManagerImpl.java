@@ -68,14 +68,16 @@ public class HelpDocManagerImpl
     @Transactional
     public HelpDoc createHelpDoc(HelpDoc helpDoc) {
         String parentDocId = helpDoc.getDocPath();
-        HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
-        if (parentDoc != null) {
-            helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
-                parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
-            helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
-        } else {
-            helpDoc.setDocPath("0");
-            helpDoc.setDocLevel(1);
+        if(parentDocId!=null) {
+            HelpDoc parentDoc = helpDocDao.getObjectById(parentDocId);
+            if (parentDoc != null) {
+                helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
+                    parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
+                helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
+            } else {
+                helpDoc.setDocPath("0");
+                helpDoc.setDocLevel(1);
+            }
         }
 
         // 设置prevDocId
