@@ -110,6 +110,7 @@ public class HelpDocManagerImpl
                 OptInfo optInfo = new OptInfo();
                 optInfo.setOptId(helpDoc.getOptId());
                 optInfo.setDocId(helpDoc.getDocId());
+                optInfo.setTopOptId(helpDoc.getOsId());
                 platformEnvironment.updateOptInfo(optInfo);
             }
         } else {
