@@ -206,8 +206,18 @@ public class HelpDocManagerImpl
         LinkedList<HelpDoc> linkedList = new LinkedList<>();
         addNextNode(list, linkedList, null);
         if (list.size() != linkedList.size()) {
-            linkedList.clear();
-            linkedList.addAll(list);
+            for (HelpDoc helpDoc : list) {
+                boolean find = false;
+                for (HelpDoc helpDoc1 : linkedList) {
+                    if (helpDoc1.getDocId().equals(helpDoc.getDocId())) {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find) {
+                    linkedList.add(helpDoc);
+                }
+            }
         }
         return linkedList;
     }
@@ -324,12 +334,15 @@ public class HelpDocManagerImpl
         HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
         String oldPath = dbHelpDoc.getDocPath();
-        targetHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
+        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", dbHelpDoc.getDocId());
+        if (siblingHelpDoc != null) {
+            siblingHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
+            helpDocDao.updateObject(siblingHelpDoc);
+        }
         dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
         dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
         dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
         helpDocDao.updateObject(dbHelpDoc);
-        helpDocDao.updateObject(targetHelpDoc);
         int i = DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
             new String[]{dbHelpDoc.getDocId(), dbHelpDoc.getDocId(), dbHelpDoc.getOsId(), dbHelpDoc.getDocPath()});
         logger.debug("更新了" + i + "条");
