@@ -27,7 +27,7 @@ public interface HelpDocManager extends BaseEntityManager<HelpDoc,String> {
 
     HelpDoc editContent(String docId, String content, String userCode);
 
-    JSONArray searchHelpdocByLevel(List<HelpDoc> list);
+    List<HelpDoc> searchHelpDocByLevel(List<HelpDoc> list);
 //    JSONArray treeSearch(String osId);
 
     List<HelpDoc> searchHelpdocByType(Map<String,Object>queryParamsMap, PageDesc pageDesc);

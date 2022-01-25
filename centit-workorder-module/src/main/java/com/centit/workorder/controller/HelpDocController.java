@@ -155,8 +155,8 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "帮助文档查询接口（按层级查）")
     @RequestMapping(value = "/levelSearch", method = RequestMethod.GET)
-    public void levelSearch(@PathVariable String osId, HttpServletResponse response) {
-        Map<String, Object> filterMap = new HashMap<>();
+    public void levelSearch(@PathVariable String osId,HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> filterMap = BaseController.collectRequestParameters(request);
         filterMap.put("osId", osId);
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
         ResponseMapData resData = new ResponseMapData();
@@ -165,8 +165,7 @@ public class HelpDocController extends BaseController {
         } else {
             resData.addResponseData("isNew", false);
         }
-        JSONArray listObjects = helpDocMag.searchHelpdocByLevel(list);
-        resData.addResponseData(OBJLIST, listObjects);
+        resData.addResponseData(OBJLIST, helpDocMag.searchHelpDocByLevel(list));
         JsonResultUtils.writeResponseDataAsJson(resData, response);
     }
 

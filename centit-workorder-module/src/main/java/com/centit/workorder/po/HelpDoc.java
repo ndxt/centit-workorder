@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,6 +118,17 @@ public class HelpDoc implements java.io.Serializable {
      */
     @Column(name = "PREV_DOCID")
     private String prevDocId;
+
+    public List<HelpDoc> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<HelpDoc> children) {
+        this.children = children;
+    }
+
+    @Transient
+    private List<HelpDoc> children;
 
     // Constructors
     /** default constructor */
