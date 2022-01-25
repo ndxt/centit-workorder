@@ -215,11 +215,7 @@ public class HelpDocController extends BaseController {
         if ("before".equals(action) || "after".equals(action)) {
             helpDocMag.catalog(docId, targetDocId, action);
         } else if ("inner".equals(action)) {
-            HelpDoc targetHelpDoc = helpDocMag.getObjectById(targetDocId);
-            HelpDoc helpDoc = helpDocMag.getObjectById(docId);
-            helpDoc.setPrevDocId(targetDocId);
-            helpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
-            helpDocMag.editHelpDoc(docId, helpDoc);
+            helpDocMag.innerCatalog(docId,targetDocId);
         }
 
         return ResponseData.successResponse;

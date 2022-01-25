@@ -84,7 +84,7 @@ public class HelpDocManagerImpl
         helpDocDao.saveNewObject(helpDoc);
         int i = DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
             new String[]{helpDoc.getDocId(), helpDoc.getDocId(), helpDoc.getOsId(), helpDoc.getDocPath()});
-        logger.info("更新了" + i + "条");
+        logger.debug("更新了" + i + "条");
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.saveNewDocument(objectDocument);
         return helpDoc;
@@ -121,7 +121,7 @@ public class HelpDocManagerImpl
     private List<HelpDoc> findChildren(String parentId) {
         List<HelpDoc> result = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("parentId", "%" + parentId);
+        map.put("parentId", "%/" + parentId);
         List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
         if (helpDocs != null && helpDocs.size() > 0) {
             result.addAll(helpDocs);
@@ -285,33 +285,13 @@ public class HelpDocManagerImpl
     public void catalog(String docId, String targetDocId, String action) {
         // 移动的文档(A)
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
+        String oldPath = dbHelpDoc.getDocPath();
 //        dbHelpDoc.copyNotNullProperty(helpDoc);
         // 目标文档(B)，修改文档的prevDocId
         HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
         // 要移动文档的下一个文档(C)，修改文档的prevDocId
         HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", dbHelpDoc.getDocId());
         // 移动文档的children文档(A1,A11,A111……)，修改children文档的path和level
-        List<HelpDoc> childrenHelpDocs = this.findChildren(docId);
-
-        if (!childrenHelpDocs.isEmpty()) {
-            // 如果children数据比较多,改用sql的方式来修改
-            int levelMinus = dbHelpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
-            String oldDocPath = dbHelpDoc.getDocPath() + "/";
-            String newDocPath = targetHelpDoc.getDocPath() + "/";
-            for (HelpDoc childrenHelpDoc : childrenHelpDocs) {
-                String childrenDocPath = childrenHelpDoc.getDocPath();
-                if (childrenDocPath.contains(oldDocPath)) {
-                    // 正常情况
-                    childrenDocPath = childrenDocPath.replace(oldDocPath, newDocPath);
-                } else {
-                    // 非正常情况，可能是原来的path不对了
-                    logger.warn("文档【{}】 的path不正确", childrenHelpDoc.getDocTitle());
-                }
-                childrenHelpDoc.setDocPath(childrenDocPath);
-                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel() - levelMinus);
-                helpDocDao.updateObject(childrenHelpDoc);
-            }
-        }
 
         if (siblingHelpDoc != null) {
             siblingHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
@@ -336,6 +316,47 @@ public class HelpDocManagerImpl
         dbHelpDoc.setLastUpdateTime(new Date());
         dbHelpDoc.setDocPath(targetHelpDoc.getDocPath());
         helpDocDao.updateObject(dbHelpDoc);
+        updateChildren(oldPath, targetHelpDoc, dbHelpDoc);
+    }
+
+    @Override
+    public void innerCatalog(String docId, String targetDocId) {
+        HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
+        HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
+        String oldPath = dbHelpDoc.getDocPath();
+        targetHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
+        dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
+        dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
+        dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
+        helpDocDao.updateObject(dbHelpDoc);
+        helpDocDao.updateObject(targetHelpDoc);
+        int i = DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
+            new String[]{dbHelpDoc.getDocId(), dbHelpDoc.getDocId(), dbHelpDoc.getOsId(), dbHelpDoc.getDocPath()});
+        logger.debug("更新了" + i + "条");
+        updateChildren(oldPath, targetHelpDoc, dbHelpDoc);
+    }
+
+    private void updateChildren(String oldPath, HelpDoc targetHelpDoc, HelpDoc helpDoc) {
+        List<HelpDoc> childrenHelpDocs = this.findChildren(helpDoc.getDocId());
+        if (!childrenHelpDocs.isEmpty()) {
+            // 如果children数据比较多,改用sql的方式来修改
+            int levelMinus = helpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
+            String oldDocPath = oldPath + "/";
+            String newDocPath = helpDoc.getDocPath() + "/";
+            for (HelpDoc childrenHelpDoc : childrenHelpDocs) {
+                String childrenDocPath = childrenHelpDoc.getDocPath();
+                if (childrenDocPath.contains(oldDocPath)) {
+                    // 正常情况
+                    childrenDocPath = childrenDocPath.replace(oldDocPath, newDocPath);
+                } else {
+                    // 非正常情况，可能是原来的path不对了
+                    logger.warn("文档【{}】 的path不正确", childrenHelpDoc.getDocTitle());
+                }
+                childrenHelpDoc.setDocPath(childrenDocPath);
+                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel() + levelMinus);
+                helpDocDao.updateObject(childrenHelpDoc);
+            }
+        }
     }
 
     @Override
@@ -361,7 +382,7 @@ public class HelpDocManagerImpl
         final String docTitle_str = "docTitle";
         for (int i = 1; i < docArray.size(); i++) {
             HelpDoc helpDoc = this.getObjectById(docArray.get(i).getDocId());
-            HelpDoc prevHelpDoc = this.getObjectById(docArray.get(i-1).getDocId());
+            HelpDoc prevHelpDoc = this.getObjectById(docArray.get(i - 1).getDocId());
             if (helpDoc.getPrevDocId() == null || !helpDoc.getPrevDocId().equals(prevHelpDoc.getDocId())) {
                 logger.info("修改 【{}】 的上一个doc为 【{}】 ", helpDoc.getDocTitle(), prevHelpDoc.getDocTitle());
                 helpDoc.setPrevDocId(prevHelpDoc.getDocId());
