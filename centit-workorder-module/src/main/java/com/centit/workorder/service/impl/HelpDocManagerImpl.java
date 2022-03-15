@@ -186,19 +186,21 @@ public class HelpDocManagerImpl
         for (Object o : jsonArray) {
             helpDocs.add(JSONObject.toJavaObject((JSONObject) o, HelpDoc.class));
         }
-        sortHelpList(helpDocs);
-        return helpDocs;
+        HelpDoc helpDoc = new HelpDoc();
+        helpDoc.setChildren(helpDocs);
+        sortHelpList(helpDoc);
+        return helpDoc.getChildren();
     }
 
-    private void sortHelpList(List<HelpDoc> helpDocs) {
-        for (HelpDoc helpDoc : helpDocs) {
-            List<HelpDoc> children = helpDoc.getChildren();
-            if (children == null) {
-                continue;
-            }
-            LinkedList<HelpDoc> linkedList = sortChildren(children);
-            helpDoc.setChildren(linkedList);
-            sortHelpList(helpDoc.getChildren());
+    private void sortHelpList(HelpDoc helpDoc) {
+        List<HelpDoc> children = helpDoc.getChildren();
+        if (children == null) {
+            return;
+        }
+        LinkedList<HelpDoc> linkedList = sortChildren(children);
+        helpDoc.setChildren(linkedList);
+        for(HelpDoc helpDoc1:helpDoc.getChildren()){
+            sortHelpList(helpDoc1);
         }
     }
 
