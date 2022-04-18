@@ -15,6 +15,7 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.service.HelpDocManager;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +181,7 @@ public class HelpDocManagerImpl
     @Override
     @Transactional
     public List<HelpDoc> searchHelpDocByLevel(List<HelpDoc> list) {
+        //list.sort();
         CollectionsOpt.sortAsTree(list, getHelpDocParentChild());
         JSONArray jsonArray = CollectionsOpt.treeToJSONArray(list, getHelpDocParentChild(), "children");
         List<HelpDoc> helpDocs = new ArrayList<>();
@@ -240,7 +242,8 @@ public class HelpDocManagerImpl
 
     private CollectionsOpt.ParentChild<HelpDoc> getHelpDocParentChild() {
         return (p, c) -> {
-            String parent = p.getDocId();
+            return StringUtils.equals(p.getDocId(), c.getCatalogId());
+            /*String parent = p.getDocId();
             String child = c.getDocPath();
             if (child.lastIndexOf("/") != -1) {
                 String temp = child.substring(child.lastIndexOf("/") + 1);
@@ -248,7 +251,7 @@ public class HelpDocManagerImpl
                 return parent.equals(temp);
             } else {
                 return false;
-            }
+            }*/
         };
     }
 
