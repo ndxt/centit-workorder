@@ -76,16 +76,19 @@ public class HelpDocManagerImpl
                 helpDoc.setDocPath(parentDoc.getDocPath().contains("/") ?
                     parentDoc.getDocPath() + "/" + parentDocId : "/" + parentDocId);
                 helpDoc.setDocLevel(parentDoc.getDocLevel() + 1);
+                helpDoc.setCatalogId(parentDocId);
             } else {
                 helpDoc.setDocPath(FIRST_PREV_DOC_ID);
                 helpDoc.setDocLevel(1);
+                helpDoc.setCatalogId(FIRST_PREV_DOC_ID);
             }
         }
         helpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
         helpDocDao.saveNewObject(helpDoc);
-        int i = DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
+        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
             new String[]{helpDoc.getDocId(), helpDoc.getDocId(), helpDoc.getOsId(), helpDoc.getDocPath()});
-        logger.debug("更新了" + i + "条");
+        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where doc_id<>? and catalog_id=?",
+            new String[]{helpDoc.getDocId(), helpDoc.getCatalogId()});
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.saveNewDocument(objectDocument);
         return helpDoc;
@@ -181,99 +184,18 @@ public class HelpDocManagerImpl
     @Override
     @Transactional
     public List<HelpDoc> searchHelpDocByLevel(List<HelpDoc> list) {
-        //list.sort();
-        CollectionsOpt.sortAsTree(list, getHelpDocParentChild());
-        JSONArray jsonArray = CollectionsOpt.treeToJSONArray(list, getHelpDocParentChild(), "children");
-        List<HelpDoc> helpDocs = new ArrayList<>();
-        for (Object o : jsonArray) {
-            helpDocs.add(JSONObject.toJavaObject((JSONObject) o, HelpDoc.class));
-        }
-        HelpDoc helpDoc = new HelpDoc();
-        helpDoc.setChildren(helpDocs);
-        sortHelpList(helpDoc);
-        return helpDoc.getChildren();
-    }
-
-    private void sortHelpList(HelpDoc helpDoc) {
-        List<HelpDoc> children = helpDoc.getChildren();
-        if (children == null) {
-            return;
-        }
-        LinkedList<HelpDoc> linkedList = sortChildren(children);
-        helpDoc.setChildren(linkedList);
-        for(HelpDoc helpDoc1:helpDoc.getChildren()){
-            sortHelpList(helpDoc1);
-        }
-    }
-
-    private static LinkedList<HelpDoc> sortChildren(List<HelpDoc> list) {
-        LinkedList<HelpDoc> linkedList = new LinkedList<>();
-        addNextNode(list, linkedList, null);
-        if (list.size() != linkedList.size()) {
-            for (HelpDoc helpDoc : list) {
-                boolean find = false;
-                for (HelpDoc helpDoc1 : linkedList) {
-                    if (helpDoc1.getDocId().equals(helpDoc.getDocId())) {
-                        find = true;
-                        break;
-                    }
-                }
-                if (!find) {
-                    linkedList.add(helpDoc);
-                }
-            }
-        }
-        return linkedList;
-    }
-
-    private static void addNextNode(List<HelpDoc> list, LinkedList<HelpDoc> linkedList, HelpDoc helpDoc) {
-        if (list.size() == linkedList.size()) {
-            return;
-        }
-        for (HelpDoc compareHelpDoc : list) {
-            boolean check = (helpDoc == null && FIRST_PREV_DOC_ID.equals(compareHelpDoc.getPrevDocId()))
-                || (helpDoc != null && compareHelpDoc.getPrevDocId().equals(helpDoc.getDocId()));
-            if (check) {
-                linkedList.add(compareHelpDoc);
-                addNextNode(list, linkedList, compareHelpDoc);
-            }
-        }
+        list.sort(Comparator.comparing(HelpDoc::getOrderInd));
+        CollectionsOpt.storedAsTree(list, getHelpDocParentChild());
+        return list;
     }
 
     private CollectionsOpt.ParentChild<HelpDoc> getHelpDocParentChild() {
-        return (p, c) -> {
-            return StringUtils.equals(p.getDocId(), c.getCatalogId());
-            /*String parent = p.getDocId();
-            String child = c.getDocPath();
-            if (child.lastIndexOf("/") != -1) {
-                String temp = child.substring(child.lastIndexOf("/") + 1);
-
-                return parent.equals(temp);
-            } else {
-                return false;
-            }*/
-        };
+        return (p, c) -> StringUtils.equals(p.getDocId(), c.getCatalogId());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<HelpDoc> searchHelpdocByType(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-//        String queryStatement =
-//                "select h.DOC_ID,h.DOC_TITLE, h.DOC_FILE, h.DOC_LEVEL, h.DOC_PATH "
-//                +" from f_help_doc h left join "
-//                +" (select c.DOC_ID,count(c.COMMENT_ID) count"
-//                +" from f_help_doc_comment c"
-//                +" group by c.DOC_ID) m "
-//                +" on h.DOC_ID = m.DOC_ID "
-//                +" where 1=1 "
-//                + " [ :catalogId | and h.CATALOG_ID = :catalogId ]"
-//                + " [ :osId | and h.OS_ID = :osId ]"
-//                + " order by count desc";
-//
-//        QueryAndNamedParams qap = QueryUtils.translateQuery(queryStatement,queryParamsMap);
-//        JSONArray dataList = DatabaseOptUtils.findObjectsAsJSONBySql(baseDao,
-//                    qap.getQuery(), qap.getParams(), pageDesc);
-
         List<HelpDoc> helpDocs = listObjects(queryParamsMap);
         return helpDocs;
     }
@@ -314,24 +236,38 @@ public class HelpDocManagerImpl
         }
 
         // 判断是移动到目标文档之前，还是移动到目标文档之后
-        if ("after".equals(action)) {
-            dbHelpDoc.setPrevDocId(targetHelpDoc.getDocId());
-            siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", targetHelpDoc.getDocId());
-            if (siblingHelpDoc != null) {
-                siblingHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
-                helpDocDao.updateObject(siblingHelpDoc);
-            }
-        } else {
-            dbHelpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
-            targetHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
+        if (dbHelpDoc.getCatalogId().equals(targetHelpDoc.getCatalogId())) {
+            int dbOrderInd = dbHelpDoc.getOrderInd();
+            dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
+            targetHelpDoc.setOrderInd(dbOrderInd);
             helpDocDao.updateObject(targetHelpDoc);
+        } else {
+            DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
+                new Object[]{dbHelpDoc.getCatalogId(), dbHelpDoc.getOrderInd()});
+            if ("after".equals(action)) {
+                dbHelpDoc.setPrevDocId(targetHelpDoc.getDocId());
+                siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", targetHelpDoc.getDocId());
+                if (siblingHelpDoc != null) {
+                    siblingHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
+                    helpDocDao.updateObject(siblingHelpDoc);
+                }
+                dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd() + 1);
+                DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=? and order_ind>?",
+                    new Object[]{targetHelpDoc.getCatalogId(), targetHelpDoc.getOrderInd()});
+            } else {
+                dbHelpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
+                targetHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
+                helpDocDao.updateObject(targetHelpDoc);
+                dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
+                DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=? and order_ind>=?",
+                    new Object[]{targetHelpDoc.getCatalogId(), targetHelpDoc.getOrderInd()});
+            }
         }
-
+        dbHelpDoc.setCatalogId(targetHelpDoc.getCatalogId());
         dbHelpDoc.setDocLevel(targetHelpDoc.getDocLevel());
         dbHelpDoc.setLastUpdateTime(new Date());
         dbHelpDoc.setDocPath(targetHelpDoc.getDocPath());
         helpDocDao.updateObject(dbHelpDoc);
-        updateChildren(oldPath, targetHelpDoc, dbHelpDoc);
     }
 
     @Override
@@ -347,34 +283,15 @@ public class HelpDocManagerImpl
         dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
         dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
         dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
+        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=?",
+            new Object[]{targetHelpDoc.getCatalogId()});
+        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
+            new Object[]{dbHelpDoc.getCatalogId(),dbHelpDoc.getOrderInd()});
+        dbHelpDoc.setOrderInd(0);
+        dbHelpDoc.setCatalogId(targetDocId);
         helpDocDao.updateObject(dbHelpDoc);
-        int i = DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
+        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
             new String[]{dbHelpDoc.getDocId(), dbHelpDoc.getDocId(), dbHelpDoc.getOsId(), dbHelpDoc.getDocPath()});
-        logger.debug("更新了" + i + "条");
-        updateChildren(oldPath, targetHelpDoc, dbHelpDoc);
-    }
-
-    private void updateChildren(String oldPath, HelpDoc targetHelpDoc, HelpDoc helpDoc) {
-        List<HelpDoc> childrenHelpDocs = this.findChildren(helpDoc.getDocId());
-        if (!childrenHelpDocs.isEmpty()) {
-            // 如果children数据比较多,改用sql的方式来修改
-            int levelMinus = helpDoc.getDocLevel() - targetHelpDoc.getDocLevel();
-            String oldDocPath = oldPath + "/";
-            String newDocPath = helpDoc.getDocPath() + "/";
-            for (HelpDoc childrenHelpDoc : childrenHelpDocs) {
-                String childrenDocPath = childrenHelpDoc.getDocPath();
-                if (childrenDocPath.contains(oldDocPath)) {
-                    // 正常情况
-                    childrenDocPath = childrenDocPath.replace(oldDocPath, newDocPath);
-                } else {
-                    // 非正常情况，可能是原来的path不对了
-                    logger.warn("文档【{}】 的path不正确", childrenHelpDoc.getDocTitle());
-                }
-                childrenHelpDoc.setDocPath(childrenDocPath);
-                childrenHelpDoc.setDocLevel(childrenHelpDoc.getDocLevel() + levelMinus);
-                helpDocDao.updateObject(childrenHelpDoc);
-            }
-        }
     }
 
     @Override

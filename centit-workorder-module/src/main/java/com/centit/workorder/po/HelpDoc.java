@@ -16,14 +16,15 @@ import java.util.regex.Pattern;
 
 /**
  * create by scaffold 2017-05-08
+ *
  * @author codefan@sina.com
-
-  系统帮助文档null
-*/
+ * <p>
+ * 系统帮助文档null
+ */
 @Entity
 @Table(name = "F_HELP_DOC")
 public class HelpDoc implements java.io.Serializable {
-    private static final long serialVersionUID =  1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 文档ID null
@@ -38,27 +39,27 @@ public class HelpDoc implements java.io.Serializable {
      */
     @Column(name = "CATALOG_ID")
     //@Length(max = 32, message = "字段长度不能大于{max}")
-    private String  catalogId;
+    private String catalogId;
     /**
      * 文档标题 null
      */
     @Column(name = "DOC_TITLE")
     @NotBlank(message = "字段不能为空")
     //@Length(max = 500, message = "字段长度不能大于{max}")
-    private String  docTitle;
+    private String docTitle;
     /**
      * 文档层级 null
      */
     @Column(name = "DOC_LEVEL")
 //    @NotBlank(message = "字段不能为空")
-    private int  docLevel;
+    private int docLevel;
     /**
      * 文档路径 null
      */
     @Column(name = "DOC_PATH")
     @NotBlank(message = "字段不能为空")
     //@Length(max = 500, message = "字段长度不能大于{max}")
-    private String  docPath;
+    private String docPath;
     /**
      * 副文本 CLOB 字段
      */
@@ -72,52 +73,57 @@ public class HelpDoc implements java.io.Serializable {
     @Column(name = "OS_ID")
     @NotBlank(message = "字段不能为空")
     //@Length(max = 20, message = "字段长度不能大于{max}")
-    private String  osId;
+    private String osId;
     /**
      * 业务项目模块 模块，或者表
      */
     @Column(name = "OPT_ID")
     //@Length(max = 64, message = "字段长度不能大于{max}")
-    private String  optId;
+    private String optId;
     /**
      * 业务操作方法 方法，或者字段
      */
     @Column(name = "OPT_METHOD")
     //@Length(max = 64, message = "字段长度不能大于{max}")
-    private String  optMethod;
+    private String optMethod;
 
     /**
      * 归属人员 null， 他有管理权
      */
     @Column(name = "OWNER_USER")
     //@Length(max = 32, message = "字段长度不能大于{max}")
-    private String  ownerUser;
+    private String ownerUser;
 
     /**
      * 编辑人员 null
      */
     @Column(name = "UPDATE_USER")
     //@Length(max = 32, message = "字段长度不能大于{max}")
-    private String  updateUser;
+    private String updateUser;
     /**
      * 是否开放编辑，默认为true
      */
     @Column(name = "OPEN_EDIT")
     //@Length(max = 1, message = "字段长度不能大于{max}")
-    private boolean  openEdit;
+    private boolean openEdit;
     /**
      * 编辑时间 null
      */
     @Column(name = "LAST_UPDATE_TIME")
     @ValueGenerator(strategy = GeneratorType.FUNCTION,
-            condition = GeneratorCondition.ALWAYS, value = "today()")
-    private Date  lastUpdateTime;
+        condition = GeneratorCondition.ALWAYS, value = "today()")
+    private Date lastUpdateTime;
 
     /**
      * 上一个文档id
      */
     @Column(name = "PREV_DOCID")
     private String prevDocId;
+
+    @Column(name = "ORDER_IND")
+    @ValueGenerator(strategy = GeneratorType.CONSTANT,
+        condition = GeneratorCondition.ALWAYS, value = "0")
+    private Integer orderInd;
 
     public List<HelpDoc> getChildren() {
         return children;
@@ -131,17 +137,30 @@ public class HelpDoc implements java.io.Serializable {
     private List<HelpDoc> children;
 
     // Constructors
-    /** default constructor */
+
+    /**
+     * default constructor
+     */
     public HelpDoc() {
     }
 
-    /** minimal constructor */
+    /**
+     * minimal constructor
+     */
     public HelpDoc(String docId, String docTitle, int docLevel, String docPath, String optId) {
         this.docId = docId;
-        this.docTitle= docTitle;
-        this.docLevel= docLevel;
-        this.docPath= docPath;
-        this.optId= optId;
+        this.docTitle = docTitle;
+        this.docLevel = docLevel;
+        this.docPath = docPath;
+        this.optId = optId;
+    }
+
+    public Integer getOrderInd() {
+        return orderInd;
+    }
+
+    public void setOrderInd(Integer orderInd) {
+        this.orderInd = orderInd;
     }
 
     public String getPrevDocId() {
@@ -245,7 +264,7 @@ public class HelpDoc implements java.io.Serializable {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public HelpDoc copy(HelpDoc other){
+    public HelpDoc copy(HelpDoc other) {
 
         this.setDocId(other.getDocId());
         this.catalogId = other.getCatalogId();
@@ -262,56 +281,56 @@ public class HelpDoc implements java.io.Serializable {
         return this;
     }
 
-    public HelpDoc copyNotNullProperty(HelpDoc other){
+    public HelpDoc copyNotNullProperty(HelpDoc other) {
 
-        if( other.getDocId() != null)
+        if (other.getDocId() != null)
             this.setDocId(other.getDocId());
 
-        if( other.getCatalogId() != null)
-            this.catalogId= other.getCatalogId();
-        if( other.getDocTitle() != null)
-            this.docTitle= other.getDocTitle();
-        if( other.getDocLevel() != -1)
-            this.docLevel= other.getDocLevel();
-        if( other.getDocPath() != null)
-            this.docPath= other.getDocPath();
-        if( other.getDocFile() != null)
-            this.docFile= other.getDocFile();
-        if( other.getOsId() != null)
-            this.osId= other.getOsId();
-        if( other.getOptId() != null)
-            this.optId= other.getOptId();
-        if( other.getOptMethod() != null)
-            this.optMethod= other.getOptMethod();
-        if( other.getUpdateUser() != null)
-            this.updateUser= other.getUpdateUser();
-        if( other.getLastUpdateTime() != null)
-            this.lastUpdateTime= other.getLastUpdateTime();
+        if (other.getCatalogId() != null)
+            this.catalogId = other.getCatalogId();
+        if (other.getDocTitle() != null)
+            this.docTitle = other.getDocTitle();
+        if (other.getDocLevel() != -1)
+            this.docLevel = other.getDocLevel();
+        if (other.getDocPath() != null)
+            this.docPath = other.getDocPath();
+        if (other.getDocFile() != null)
+            this.docFile = other.getDocFile();
+        if (other.getOsId() != null)
+            this.osId = other.getOsId();
+        if (other.getOptId() != null)
+            this.optId = other.getOptId();
+        if (other.getOptMethod() != null)
+            this.optMethod = other.getOptMethod();
+        if (other.getUpdateUser() != null)
+            this.updateUser = other.getUpdateUser();
+        if (other.getLastUpdateTime() != null)
+            this.lastUpdateTime = other.getLastUpdateTime();
         if (other.getPrevDocId() != null) {
             this.setPrevDocId(other.getPrevDocId());
         }
+        this.setOrderInd(other.getOrderInd());
+        return this;
+    }
+
+    public HelpDoc clearProperties() {
+
+        this.catalogId = null;
+        this.docTitle = null;
+        this.docLevel = -1;
+        this.docPath = null;
+        this.docFile = null;
+        this.osId = null;
+        this.optId = null;
+        this.optMethod = null;
+        this.updateUser = null;
+        this.lastUpdateTime = null;
 
         return this;
     }
 
-    public HelpDoc clearProperties(){
 
-        this.catalogId= null;
-        this.docTitle= null;
-        this.docLevel= -1;
-        this.docPath= null;
-        this.docFile= null;
-        this.osId= null;
-        this.optId= null;
-        this.optMethod= null;
-        this.updateUser= null;
-        this.lastUpdateTime= null;
-
-        return this;
-    }
-
-
-    public ObjectDocument generateObjectDocument(){
+    public ObjectDocument generateObjectDocument() {
         ObjectDocument document = new ObjectDocument();
         document.setOsId(this.getOsId());
         document.setOptId(this.getDocId());
@@ -322,23 +341,23 @@ public class HelpDoc implements java.io.Serializable {
         jsonObject.put("docPath", this.getDocPath());
         document.setOptUrl(jsonObject.toString());
         document.setTitle(this.getDocTitle());
-        if (!StringUtils.isBlank(this.getDocFile())){
+        if (!StringUtils.isBlank(this.getDocFile())) {
             document.setContent(filterTag(this.getDocFile()));
         }
         return document;
     }
 
-    private String filterTag(String content){
-        String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
-        String regEx_html="<[^>]+>"; //定义HTML标签的正则表达式
+    private String filterTag(String content) {
+        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
+        String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
 
-        Pattern p_style=Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
-        Matcher m_style=p_style.matcher(content);
-        content=m_style.replaceAll(""); //过滤style标签
+        Pattern p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
+        Matcher m_style = p_style.matcher(content);
+        content = m_style.replaceAll(""); //过滤style标签
 
-        Pattern p_html=Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
-        Matcher m_html=p_html.matcher(content);
-        content=m_html.replaceAll(""); //过滤html标签
+        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(content);
+        content = m_html.replaceAll(""); //过滤html标签
 
         return content.trim(); //返回文本字符串
 
