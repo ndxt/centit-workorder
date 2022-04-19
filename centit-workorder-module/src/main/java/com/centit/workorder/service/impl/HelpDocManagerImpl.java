@@ -85,8 +85,6 @@ public class HelpDocManagerImpl
         }
         helpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
         helpDocDao.saveNewObject(helpDoc);
-        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
-            new String[]{helpDoc.getDocId(), helpDoc.getDocId(), helpDoc.getOsId(), helpDoc.getDocPath()});
         DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where doc_id<>? and catalog_id=?",
             new String[]{helpDoc.getDocId(), helpDoc.getCatalogId()});
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
