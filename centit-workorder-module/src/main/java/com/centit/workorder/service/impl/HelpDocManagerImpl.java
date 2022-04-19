@@ -11,6 +11,7 @@ import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
+import com.centit.support.common.TreeNode;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.po.HelpDoc;
@@ -180,11 +181,38 @@ public class HelpDocManagerImpl
 
 
     @Override
-    @Transactional
     public List<HelpDoc> searchHelpDocByLevel(List<HelpDoc> list) {
         list.sort(Comparator.comparing(HelpDoc::getOrderInd));
-        CollectionsOpt.storedAsTree(list, getHelpDocParentChild());
-        return list;
+        return storedAsTree(list, getHelpDocParentChild());
+    }
+
+    private   List<HelpDoc> storedAsTree(List<HelpDoc> list, CollectionsOpt.ParentChild<HelpDoc> c) {
+        List<HelpDoc> treeList = new ArrayList<HelpDoc>();
+        for (HelpDoc m : list) {
+            treeList.add(m);
+        }
+        for (HelpDoc cNode : treeList) {
+            for (HelpDoc pNode : treeList) {
+                if (pNode != cNode && c.parentAndChild(pNode, cNode)) {
+                    List<HelpDoc> childList;
+                    if(pNode.getChildren()==null){
+                         childList= new ArrayList<HelpDoc>();
+                    }else{
+                        childList=pNode.getChildren();
+                    }
+                    childList.add(cNode);
+                    pNode.setChildren(childList);
+                    break;
+                }
+            }
+        }
+        List<HelpDoc> resList = new ArrayList<HelpDoc>();
+        for (HelpDoc node : treeList) {
+            if ("0".equals(node.getCatalogId())) {
+                resList.add(node);
+            }
+        }
+        return resList;
     }
 
     private CollectionsOpt.ParentChild<HelpDoc> getHelpDocParentChild() {
@@ -296,7 +324,7 @@ public class HelpDocManagerImpl
     public void updatePrevDoc(List<HelpDoc> list, String action) {
         if (action == null) {
             // 更新 PrevDoc
-            updatePrevDoc(searchHelpDocByLevel(list));
+            updatePrevDoc(list);
         } else {
             // 更新 level
             for (HelpDoc helpDoc : list) {
