@@ -121,8 +121,6 @@ public class HelpDoc implements java.io.Serializable {
     private String prevDocId;
 
     @Column(name = "ORDER_IND")
-    @ValueGenerator(strategy = GeneratorType.CONSTANT,
-        condition = GeneratorCondition.ALWAYS, value = "0")
     private Integer orderInd;
 
     public List<HelpDoc> getChildren() {

@@ -85,6 +85,7 @@ public class HelpDocManagerImpl
             }
         }
         helpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
+        helpDoc.setOrderInd(0);
         helpDocDao.saveNewObject(helpDoc);
         DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where doc_id<>? and catalog_id=?",
             new String[]{helpDoc.getDocId(), helpDoc.getCatalogId()});
@@ -114,8 +115,14 @@ public class HelpDocManagerImpl
     @Transactional
     public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
+        String oldPath=dbHelpDoc.getDocPath();
         dbHelpDoc.copyNotNullProperty(helpDoc);
-        helpDocDao.updateObject(dbHelpDoc);
+        if (!oldPath.equals(helpDoc.getDocPath())) {
+            String[] docPaths = helpDoc.getDocPath().split("/");
+            innerCatalog(docId, docPaths[docPaths.length - 1]);
+        }else {
+            helpDocDao.updateObject(dbHelpDoc);
+        }
         ObjectDocument objectDocument = helpDoc.generateObjectDocument();
         esIndexer.mergeDocument(objectDocument);
         return dbHelpDoc;
@@ -186,7 +193,7 @@ public class HelpDocManagerImpl
         return storedAsTree(list, getHelpDocParentChild());
     }
 
-    private   List<HelpDoc> storedAsTree(List<HelpDoc> list, CollectionsOpt.ParentChild<HelpDoc> c) {
+    private List<HelpDoc> storedAsTree(List<HelpDoc> list, CollectionsOpt.ParentChild<HelpDoc> c) {
         List<HelpDoc> treeList = new ArrayList<HelpDoc>();
         for (HelpDoc m : list) {
             treeList.add(m);
@@ -195,10 +202,10 @@ public class HelpDocManagerImpl
             for (HelpDoc pNode : treeList) {
                 if (pNode != cNode && c.parentAndChild(pNode, cNode)) {
                     List<HelpDoc> childList;
-                    if(pNode.getChildren()==null){
-                         childList= new ArrayList<HelpDoc>();
-                    }else{
-                        childList=pNode.getChildren();
+                    if (pNode.getChildren() == null) {
+                        childList = new ArrayList<HelpDoc>();
+                    } else {
+                        childList = pNode.getChildren();
                     }
                     childList.add(cNode);
                     pNode.setChildren(childList);
@@ -245,45 +252,31 @@ public class HelpDocManagerImpl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void catalog(String docId, String targetDocId, String action) {
-        // 移动的文档(A)
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
-        String oldPath = dbHelpDoc.getDocPath();
-//        dbHelpDoc.copyNotNullProperty(helpDoc);
-        // 目标文档(B)，修改文档的prevDocId
         HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
-        // 要移动文档的下一个文档(C)，修改文档的prevDocId
-        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", dbHelpDoc.getDocId());
-        // 移动文档的children文档(A1,A11,A111……)，修改children文档的path和level
-
-        if (siblingHelpDoc != null) {
-            siblingHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
-            helpDocDao.updateObject(siblingHelpDoc);
-        }
-
-        // 判断是移动到目标文档之前，还是移动到目标文档之后
         if (dbHelpDoc.getCatalogId().equals(targetHelpDoc.getCatalogId())) {
             int dbOrderInd = dbHelpDoc.getOrderInd();
-            dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
-            targetHelpDoc.setOrderInd(dbOrderInd);
-            helpDocDao.updateObject(targetHelpDoc);
+            if ("after".equals(action)) {
+                dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
+                DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>? and order_ind<=?",
+                    new Object[]{targetHelpDoc.getCatalogId(), dbOrderInd, targetHelpDoc.getOrderInd()});
+            } else {
+                dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
+                DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=? and order_ind>=? and order_ind<?",
+                    new Object[]{targetHelpDoc.getCatalogId(), targetHelpDoc.getOrderInd(), dbOrderInd});
+            }
         } else {
             DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
                 new Object[]{dbHelpDoc.getCatalogId(), dbHelpDoc.getOrderInd()});
             if ("after".equals(action)) {
                 dbHelpDoc.setPrevDocId(targetHelpDoc.getDocId());
-                siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", targetHelpDoc.getDocId());
-                if (siblingHelpDoc != null) {
-                    siblingHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
-                    helpDocDao.updateObject(siblingHelpDoc);
-                }
                 dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd() + 1);
                 DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=? and order_ind>?",
                     new Object[]{targetHelpDoc.getCatalogId(), targetHelpDoc.getOrderInd()});
             } else {
                 dbHelpDoc.setPrevDocId(targetHelpDoc.getPrevDocId());
-                targetHelpDoc.setPrevDocId(dbHelpDoc.getDocId());
-                helpDocDao.updateObject(targetHelpDoc);
                 dbHelpDoc.setOrderInd(targetHelpDoc.getOrderInd());
                 DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=? and order_ind>=?",
                     new Object[]{targetHelpDoc.getCatalogId(), targetHelpDoc.getOrderInd()});
@@ -300,24 +293,16 @@ public class HelpDocManagerImpl
     public void innerCatalog(String docId, String targetDocId) {
         HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
-        String oldPath = dbHelpDoc.getDocPath();
-        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", dbHelpDoc.getDocId());
-        if (siblingHelpDoc != null) {
-            siblingHelpDoc.setPrevDocId(dbHelpDoc.getPrevDocId());
-            helpDocDao.updateObject(siblingHelpDoc);
-        }
         dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
         dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
         dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
         DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=?",
-            new Object[]{targetHelpDoc.getCatalogId()});
+            new Object[]{targetDocId});
         DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
-            new Object[]{dbHelpDoc.getCatalogId(),dbHelpDoc.getOrderInd()});
+            new Object[]{dbHelpDoc.getCatalogId(), dbHelpDoc.getOrderInd()});
         dbHelpDoc.setOrderInd(0);
         dbHelpDoc.setCatalogId(targetDocId);
         helpDocDao.updateObject(dbHelpDoc);
-        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set PREV_DOCID=? where doc_id<>? and PREV_DOCID='0' and OS_ID=? and DOC_PATH=?",
-            new String[]{dbHelpDoc.getDocId(), dbHelpDoc.getDocId(), dbHelpDoc.getOsId(), dbHelpDoc.getDocPath()});
     }
 
     @Override

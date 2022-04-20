@@ -1,0 +1,4 @@
+update f_help_doc set CATALOG_ID=substring_index(doc_path,'/',-1)
+
+update f_help_doc b,(select if(@catalog=a.catalog_id,@ind:=@ind+1,@ind:=1) as ind,@catalog:=a.catalog_id
+,a.doc_id from (select @catalog:=null,@ind:=0) r,f_help_doc a order by a.CATALOG_ID,a.DOC_TITLE) c set b.order_ind=c.ind where b.doc_id=c.doc_id
