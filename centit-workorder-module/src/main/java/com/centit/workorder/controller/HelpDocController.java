@@ -8,7 +8,9 @@ import com.centit.framework.common.ResponseMapData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
 import com.centit.workorder.service.HelpDocManager;
@@ -17,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +50,8 @@ public class HelpDocController extends BaseController {
 
     @Resource
     private HelpDocManager helpDocMag;
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
 
     /**
      * 查询单个  系统帮助文档
@@ -70,8 +75,10 @@ public class HelpDocController extends BaseController {
     public void createHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
 
+        String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
         helpDoc.setOsId(osId);
-        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
+        helpDoc.setUpdateUser(userCode);
         HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -81,6 +88,7 @@ public class HelpDocController extends BaseController {
     @WrapUpResponseBody
     public HelpDoc searchAndCreateHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                                           HttpServletRequest request) {
+
         String docId;
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", osId);
@@ -90,8 +98,10 @@ public class HelpDocController extends BaseController {
         if (list.size() > 0) {
             docId = list.get(0).getDocId();
         } else {
+            String userCode = WebOptUtils.getCurrentUserCode(request);
+            checkPower(osId,userCode);
             helpDoc.setOsId(osId);
-            helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
+            helpDoc.setUpdateUser(userCode);
             HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
             docId = result.getDocId();
         }
@@ -102,8 +112,10 @@ public class HelpDocController extends BaseController {
     @RequestMapping(value = "/merge", method = {RequestMethod.POST})
     public void saveHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                             HttpServletRequest request, HttpServletResponse response) {
+        String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
         helpDoc.setOsId(osId);
-        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
+        helpDoc.setUpdateUser(userCode);
         HelpDoc result = helpDocMag.saveHelpDoc(helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -116,10 +128,12 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "编辑帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
-    public void updateHelpDoc(@PathVariable String docId, @RequestBody HelpDoc helpDoc,
+    public void updateHelpDoc(@PathVariable String osId,@PathVariable String docId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
-        helpDoc.setUpdateUser(WebOptUtils.getCurrentUserCode(request));
+        String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
+        helpDoc.setUpdateUser(userCode);
         HelpDoc result = helpDocMag.editHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -129,10 +143,11 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "编辑帮助文档内容")
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String docId, @RequestBody Map<String, String> content,
+    public void editContent(@PathVariable String osId,@PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
         // 保存 历史版本，
         String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
         HelpDoc result = helpDocMag.editContent(docId, content.get("content"), userCode);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -144,8 +159,10 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "删除 帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
-    public void deleteHelpDoc(@PathVariable String docId, HttpServletResponse response) {
+    public void deleteHelpDoc(@PathVariable String osId,@PathVariable String docId,HttpServletRequest request, HttpServletResponse response) {
         //全部删除 不可恢复 包括历史版本
+        String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
         helpDocMag.deleteHelpDoc(docId);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -210,8 +227,10 @@ public class HelpDocController extends BaseController {
     )})
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
-    public ResponseData catalog(@PathVariable String docId, @PathVariable String targetDocId,
+    public ResponseData catalog(@PathVariable String osId,@PathVariable String docId, @PathVariable String targetDocId,
                                 @RequestBody JSONObject jsonObject, HttpServletRequest request) {
+        String userCode = WebOptUtils.getCurrentUserCode(request);
+        checkPower(osId,userCode);
         String action = jsonObject.getString("action");
         if ("before".equals(action) || "after".equals(action)) {
             helpDocMag.catalog(docId, targetDocId, action);
@@ -234,5 +253,11 @@ public class HelpDocController extends BaseController {
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
         helpDocMag.updatePrevDoc(list, action);
         return ResponseData.successResponse;
+    }
+
+    private void  checkPower(String osId,String userCode){
+        if (!platformEnvironment.loginUserIsExistWorkGroup(osId, userCode)) {
+            throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限！");
+        }
     }
 }
