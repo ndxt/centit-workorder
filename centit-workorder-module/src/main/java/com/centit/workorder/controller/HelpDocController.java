@@ -10,6 +10,7 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.po.HelpDoc;
@@ -116,6 +117,12 @@ public class HelpDocController extends BaseController {
         checkPower(osId,userCode);
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(userCode);
+        if(StringBaseOpt.isNvl(helpDoc.getDocId())) {
+            List<HelpDoc> helpList = helpDocMag.listObjects(CollectionsOpt.createHashMap("optId", helpDoc.getOptId()));
+            if (helpList != null) {
+                helpDoc.setDocId(helpList.get(0).getDocId());
+            }
+        }
         HelpDoc result = helpDocMag.saveHelpDoc(helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
