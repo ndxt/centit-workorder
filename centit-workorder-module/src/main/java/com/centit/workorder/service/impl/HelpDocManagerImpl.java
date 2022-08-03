@@ -1,6 +1,5 @@
 package com.centit.workorder.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
@@ -11,7 +10,6 @@ import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
-import com.centit.support.common.TreeNode;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workorder.dao.HelpDocDao;
 import com.centit.workorder.po.HelpDoc;
