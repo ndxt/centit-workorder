@@ -76,7 +76,7 @@ public class HelpDocController extends BaseController {
                               HttpServletRequest request, HttpServletResponse response) {
 
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(userCode);
         HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
@@ -99,7 +99,7 @@ public class HelpDocController extends BaseController {
             docId = list.get(0).getDocId();
         } else {
             String userCode = WebOptUtils.getCurrentUserCode(request);
-            checkPower(osId,userCode);
+            checkPower(osId, userCode);
             helpDoc.setOsId(osId);
             helpDoc.setUpdateUser(userCode);
             HelpDoc result = helpDocMag.createHelpDoc(helpDoc);
@@ -113,12 +113,12 @@ public class HelpDocController extends BaseController {
     public void saveHelpDoc(@PathVariable String osId, @RequestBody HelpDoc helpDoc,
                             HttpServletRequest request, HttpServletResponse response) {
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(userCode);
-        if(StringBaseOpt.isNvl(helpDoc.getDocId())) {
+        if (StringBaseOpt.isNvl(helpDoc.getDocId())) {
             List<HelpDoc> helpList = helpDocMag.listObjects(CollectionsOpt.createHashMap("optId", helpDoc.getOptId()));
-            if (helpList != null) {
+            if (helpList != null && helpList.size() > 0) {
                 helpDoc.setDocId(helpList.get(0).getDocId());
             }
         }
@@ -134,11 +134,11 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "编辑帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.PUT})
-    public void updateHelpDoc(@PathVariable String osId,@PathVariable String docId, @RequestBody HelpDoc helpDoc,
+    public void updateHelpDoc(@PathVariable String osId, @PathVariable String docId, @RequestBody HelpDoc helpDoc,
                               HttpServletRequest request, HttpServletResponse response) {
         //不保存 历史版本
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         helpDoc.setUpdateUser(userCode);
         HelpDoc result = helpDocMag.editHelpDoc(docId, helpDoc);
         JsonResultUtils.writeSingleDataJson(result, response);
@@ -149,11 +149,11 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "编辑帮助文档内容")
     @RequestMapping(value = "/{docId}/content", method = {RequestMethod.PUT})
-    public void editContent(@PathVariable String osId,@PathVariable String docId, @RequestBody Map<String, String> content,
+    public void editContent(@PathVariable String osId, @PathVariable String docId, @RequestBody Map<String, String> content,
                             HttpServletRequest request, HttpServletResponse response) {
         // 保存 历史版本，
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         HelpDoc result = helpDocMag.editContent(docId, content.get("content"), userCode);
         JsonResultUtils.writeSingleDataJson(result, response);
     }
@@ -165,10 +165,10 @@ public class HelpDocController extends BaseController {
      */
     @ApiOperation(value = "删除 帮助文档")
     @RequestMapping(value = "/{docId}", method = {RequestMethod.DELETE})
-    public void deleteHelpDoc(@PathVariable String osId,@PathVariable String docId,HttpServletRequest request, HttpServletResponse response) {
+    public void deleteHelpDoc(@PathVariable String osId, @PathVariable String docId, HttpServletRequest request, HttpServletResponse response) {
         //全部删除 不可恢复 包括历史版本
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         helpDocMag.deleteHelpDoc(docId);
         JsonResultUtils.writeSuccessJson(response);
     }
@@ -179,7 +179,7 @@ public class HelpDocController extends BaseController {
     @ApiOperation(value = "帮助文档查询接口（按层级查）")
     @RequestMapping(value = "/levelSearch", method = RequestMethod.GET)
     @WrapUpResponseBody
-    public ResponseMapData levelSearch(@PathVariable String osId,HttpServletRequest request, HttpServletResponse response) {
+    public ResponseMapData levelSearch(@PathVariable String osId, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> filterMap = BaseController.collectRequestParameters(request);
         filterMap.put("osId", osId);
         List<HelpDoc> list = helpDocMag.listObjects(filterMap);
@@ -233,15 +233,15 @@ public class HelpDocController extends BaseController {
     )})
     @WrapUpResponseBody
     @RequestMapping(value = "/catalog/moveAfter/{docId}/{targetDocId}", method = {RequestMethod.PUT})
-    public ResponseData catalog(@PathVariable String osId,@PathVariable String docId, @PathVariable String targetDocId,
+    public ResponseData catalog(@PathVariable String osId, @PathVariable String docId, @PathVariable String targetDocId,
                                 @RequestBody JSONObject jsonObject, HttpServletRequest request) {
         String userCode = WebOptUtils.getCurrentUserCode(request);
-        checkPower(osId,userCode);
+        checkPower(osId, userCode);
         String action = jsonObject.getString("action");
         if ("before".equals(action) || "after".equals(action)) {
             helpDocMag.catalog(docId, targetDocId, action);
         } else if ("inner".equals(action)) {
-            helpDocMag.innerCatalog(docId,targetDocId);
+            helpDocMag.innerCatalog(docId, targetDocId);
         }
 
         return ResponseData.successResponse;
@@ -261,7 +261,7 @@ public class HelpDocController extends BaseController {
         return ResponseData.successResponse;
     }
 
-    private void  checkPower(String osId,String userCode){
+    private void checkPower(String osId, String userCode) {
         if (!platformEnvironment.loginUserIsExistWorkGroup(osId, userCode)) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限！");
         }
