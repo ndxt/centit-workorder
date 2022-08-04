@@ -119,7 +119,7 @@ public class HelpDocController extends BaseController {
         if (StringBaseOpt.isNvl(helpDoc.getDocId())) {
             List<HelpDoc> helpList = helpDocMag.listObjects(CollectionsOpt.createHashMap("optId", helpDoc.getOptId()));
             if (helpList != null && helpList.size() > 0) {
-                helpDoc.setDocId(helpList.get(0).getDocId());
+                helpDoc.copyNotNullProperty(helpList.get(0));
             }
         }
         HelpDoc result = helpDocMag.saveHelpDoc(helpDoc);

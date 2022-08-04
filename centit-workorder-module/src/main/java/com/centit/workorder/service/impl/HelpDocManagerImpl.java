@@ -289,18 +289,20 @@ public class HelpDocManagerImpl
 
     @Override
     public void innerCatalog(String docId, String targetDocId) {
-        HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
-        HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
-        dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
-        dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
-        dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
-        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=?",
-            new Object[]{targetDocId});
-        DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
-            new Object[]{dbHelpDoc.getCatalogId(), dbHelpDoc.getOrderInd()});
-        dbHelpDoc.setOrderInd(0);
-        dbHelpDoc.setCatalogId(targetDocId);
-        helpDocDao.updateObject(dbHelpDoc);
+        if(!StringBaseOpt.isNvl(targetDocId)) {
+            HelpDoc targetHelpDoc = helpDocDao.getObjectById(targetDocId);
+            HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
+            dbHelpDoc.setPrevDocId(FIRST_PREV_DOC_ID);
+            dbHelpDoc.setDocLevel(dbHelpDoc.getDocLevel() + 1);
+            dbHelpDoc.setDocPath(targetHelpDoc.getDocPath() + "/" + targetDocId);
+            DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where catalog_id=?",
+                new Object[]{targetDocId});
+            DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind-1 where catalog_id=? and order_ind>?",
+                new Object[]{dbHelpDoc.getCatalogId(), dbHelpDoc.getOrderInd()});
+            dbHelpDoc.setOrderInd(0);
+            dbHelpDoc.setCatalogId(targetDocId);
+            helpDocDao.updateObject(dbHelpDoc);
+        }
     }
 
     @Override
