@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.centit.framework</groupId>
         <artifactId>framework-snapshot-dependencies</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
     </parent>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-workorder</artifactId>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.3-SNAPSHOT</version>
     <modules>
         <module>centit-workorder-module</module>
         <module>centit-workorder-web</module>

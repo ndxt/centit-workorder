@@ -94,7 +94,7 @@ public class HelpDocController extends BaseController {
         filterMap.put("osId", osId);
         filterMap.put("optId", helpDoc.getOptId());
         filterMap.put("optMethod", helpDoc.getOptMethod());
-        List<HelpDoc> list = helpDocMag.listObjects(filterMap);
+        List<HelpDoc> list = helpDocMag.listObjectsByProperties(filterMap);
         if (list.size() > 0) {
             docId = list.get(0).getDocId();
         } else {
@@ -117,7 +117,8 @@ public class HelpDocController extends BaseController {
         helpDoc.setOsId(osId);
         helpDoc.setUpdateUser(userCode);
         if (StringBaseOpt.isNvl(helpDoc.getDocId())) {
-            List<HelpDoc> helpList = helpDocMag.listObjects(CollectionsOpt.createHashMap("optId", helpDoc.getOptId()));
+            List<HelpDoc> helpList = helpDocMag.listObjectsByProperties(
+                CollectionsOpt.createHashMap("optId", helpDoc.getOptId()));
             if (helpList != null && helpList.size() > 0) {
                 helpDoc.copyNotNullProperty(helpList.get(0));
             }
@@ -182,7 +183,7 @@ public class HelpDocController extends BaseController {
     public ResponseMapData levelSearch(@PathVariable String osId, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> filterMap = BaseController.collectRequestParameters(request);
         filterMap.put("osId", osId);
-        List<HelpDoc> list = helpDocMag.listObjects(filterMap);
+        List<HelpDoc> list = helpDocMag.listObjectsByProperties(filterMap);
         ResponseMapData resData = new ResponseMapData();
         if (CollectionUtils.isEmpty(list)) {
             resData.addResponseData("isNew", true);
@@ -256,7 +257,7 @@ public class HelpDocController extends BaseController {
     public ResponseData catalogInit(@PathVariable String osId, String action) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("osId", osId);
-        List<HelpDoc> list = helpDocMag.listObjects(filterMap);
+        List<HelpDoc> list = helpDocMag.listObjectsByProperties(filterMap);
         helpDocMag.updatePrevDoc(list, action);
         return ResponseData.successResponse;
     }

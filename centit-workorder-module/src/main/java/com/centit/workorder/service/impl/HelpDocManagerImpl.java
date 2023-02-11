@@ -130,7 +130,7 @@ public class HelpDocManagerImpl
         List<HelpDoc> result = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         map.put("parentId", "%/" + parentId);
-        List<HelpDoc> helpDocs = helpDocDao.listObjects(map);
+        List<HelpDoc> helpDocs = helpDocDao.listObjectsByProperties(map);
         if (helpDocs != null && helpDocs.size() > 0) {
             result.addAll(helpDocs);
             for (HelpDoc h : helpDocs) {
@@ -149,7 +149,8 @@ public class HelpDocManagerImpl
         HelpDoc helpDoc = helpDocDao.getObjectById(docId);
 
         // 修改删除文档的下一个文档 的prevDocId
-        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperty("prevDocId", helpDoc.getDocId());
+        HelpDoc siblingHelpDoc = helpDocDao.getObjectByProperties(
+            CollectionsOpt.createHashMap("prevDocId", helpDoc.getDocId()));
         if (siblingHelpDoc != null) {
             siblingHelpDoc.setPrevDocId(helpDoc.getPrevDocId());
             helpDocDao.updateObject(siblingHelpDoc);
@@ -227,7 +228,7 @@ public class HelpDocManagerImpl
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<HelpDoc> searchHelpdocByType(Map<String, Object> queryParamsMap, PageDesc pageDesc) {
-        List<HelpDoc> helpDocs = listObjects(queryParamsMap);
+        List<HelpDoc> helpDocs = listObjectsByProperties(queryParamsMap);
         return helpDocs;
     }
 
