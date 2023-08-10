@@ -1,10 +1,8 @@
 package com.centit.workorder.config;
 
-
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
-import com.centit.framework.config.InitialWebRuntimeEnvironment;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
@@ -36,14 +34,6 @@ public class ServiceConfig {
     @Bean("passwordEncoder")
     public StandardPasswordEncoderImpl passwordEncoder() {
         return  new StandardPasswordEncoderImpl();
-    }
-
-    @Bean
-    @Lazy(value = false)
-    public InitialWebRuntimeEnvironment initialEnvironment() {
-        InitialWebRuntimeEnvironment initialEnvironment = new InitialWebRuntimeEnvironment();
-        initialEnvironment.initialEnvironment();
-        return initialEnvironment;
     }
 
     @Bean
