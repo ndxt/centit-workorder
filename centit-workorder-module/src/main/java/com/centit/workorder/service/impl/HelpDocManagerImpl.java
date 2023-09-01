@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.system.po.OptInfo;
+import com.centit.framework.model.basedata.OptInfo;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
