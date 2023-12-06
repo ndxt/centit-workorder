@@ -2,6 +2,7 @@ package com.centit.workorder.po;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.search.document.ObjectDocument;
+import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -338,10 +339,16 @@ public class HelpDoc implements java.io.Serializable {
         jsonObject.put("docId", this.getDocId());
         jsonObject.put("docPath", this.getDocPath());
         document.setOptUrl(jsonObject.toString());
+        document.setCreateTime(DatetimeOpt.currentUtilDate());
         document.setTitle(this.getDocTitle());
-        if (!StringUtils.isBlank(this.getDocFile())) {
+        if (StringUtils.isNotBlank(this.getDocFile())) {
             document.setContent(filterTag(this.getDocFile()));
+        } else {
+            document.setContent(this.getDocTitle());
         }
+        document.setUserCode( this.getUpdateUser());
+        document.setOptTag(this.getCatalogId());
+        document.setOptMethod("help");
         return document;
     }
 
