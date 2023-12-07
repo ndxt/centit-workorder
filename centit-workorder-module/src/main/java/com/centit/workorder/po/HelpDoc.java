@@ -1,8 +1,9 @@
 package com.centit.workorder.po;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.search.document.ObjectDocument;
-import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.search.annotation.ESField;
+import com.centit.search.annotation.ESType;
+import com.centit.search.document.ESDocument;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -24,7 +25,8 @@ import java.util.regex.Pattern;
  */
 @Entity
 @Table(name = "F_HELP_DOC")
-public class HelpDoc implements java.io.Serializable {
+@ESType(indexName="helpDoc", replicas = 2, shards = 5)
+public class HelpDoc implements ESDocument, java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -32,6 +34,7 @@ public class HelpDoc implements java.io.Serializable {
      */
     @Id
     @Column(name = "DOC_ID")
+    @ESField(type="keyword")
     @ValueGenerator(strategy = GeneratorType.UUID)
     private String docId;
 
@@ -39,6 +42,7 @@ public class HelpDoc implements java.io.Serializable {
      * 类别ID null
      */
     @Column(name = "CATALOG_ID")
+    @ESField(type="keyword")
     //@Length(max = 32, message = "字段长度不能大于{max}")
     private String catalogId;
     /**
@@ -46,7 +50,7 @@ public class HelpDoc implements java.io.Serializable {
      */
     @Column(name = "DOC_TITLE")
     @NotBlank(message = "字段不能为空")
-    //@Length(max = 500, message = "字段长度不能大于{max}")
+    @ESField(type="text", query = true, highlight = true, analyzer = "ik_smart")
     private String docTitle;
     /**
      * 文档层级 null
@@ -58,6 +62,7 @@ public class HelpDoc implements java.io.Serializable {
      * 文档路径 null
      */
     @Column(name = "DOC_PATH")
+    @ESField(type="keyword")
     @NotBlank(message = "字段不能为空")
     //@Length(max = 500, message = "字段长度不能大于{max}")
     private String docPath;
@@ -65,13 +70,14 @@ public class HelpDoc implements java.io.Serializable {
      * 副文本 CLOB 字段
      */
     @Column(name = "DOC_FILE")
-//    @JSONField(deserialize = false, serialize = false)
+    @ESField(type="text", query = true, highlight = true, analyzer = "ik_smart")
     @Basic(fetch = FetchType.LAZY)
     private String docFile;
     /**
      * 业务系统ID null
      */
     @Column(name = "OS_ID")
+    @ESField(type="keyword")
     @NotBlank(message = "字段不能为空")
     //@Length(max = 20, message = "字段长度不能大于{max}")
     private String osId;
@@ -79,12 +85,14 @@ public class HelpDoc implements java.io.Serializable {
      * 业务项目模块 模块，或者表
      */
     @Column(name = "OPT_ID")
+    @ESField(type="keyword")
     //@Length(max = 64, message = "字段长度不能大于{max}")
     private String optId;
     /**
      * 业务操作方法 方法，或者字段
      */
     @Column(name = "OPT_METHOD")
+    @ESField(type="keyword")
     //@Length(max = 64, message = "字段长度不能大于{max}")
     private String optMethod;
 
@@ -92,6 +100,7 @@ public class HelpDoc implements java.io.Serializable {
      * 归属人员 null， 他有管理权
      */
     @Column(name = "OWNER_USER")
+    @ESField(type="keyword")
     //@Length(max = 32, message = "字段长度不能大于{max}")
     private String ownerUser;
 
@@ -99,6 +108,7 @@ public class HelpDoc implements java.io.Serializable {
      * 编辑人员 null
      */
     @Column(name = "UPDATE_USER")
+    @ESField(type="keyword")
     //@Length(max = 32, message = "字段长度不能大于{max}")
     private String updateUser;
     /**
@@ -113,12 +123,14 @@ public class HelpDoc implements java.io.Serializable {
     @Column(name = "LAST_UPDATE_TIME")
     @ValueGenerator(strategy = GeneratorType.FUNCTION,
         condition = GeneratorCondition.ALWAYS, value = "today()")
+    @ESField(type="keyword")
     private Date lastUpdateTime;
 
     /**
      * 上一个文档id
      */
     @Column(name = "PREV_DOCID")
+    @ESField(type="keyword")
     private String prevDocId;
 
     @Column(name = "ORDER_IND")
@@ -328,30 +340,6 @@ public class HelpDoc implements java.io.Serializable {
         return this;
     }
 
-
-    public ObjectDocument generateObjectDocument() {
-        ObjectDocument document = new ObjectDocument();
-        document.setOsId(this.getOsId());
-        document.setOptId(this.getDocId());
-        document.setOptMethod(this.getOptMethod());
-//        document.setOptUrl("/os/"+this.getOsId()+"/documents/"+this.getDocId());
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("docId", this.getDocId());
-        jsonObject.put("docPath", this.getDocPath());
-        document.setOptUrl(jsonObject.toString());
-        document.setCreateTime(DatetimeOpt.currentUtilDate());
-        document.setTitle(this.getDocTitle());
-        if (StringUtils.isNotBlank(this.getDocFile())) {
-            document.setContent(filterTag(this.getDocFile()));
-        } else {
-            document.setContent(this.getDocTitle());
-        }
-        document.setUserCode( this.getUpdateUser());
-        document.setOptTag(this.getCatalogId());
-        document.setOptMethod("help");
-        return document;
-    }
-
     private String filterTag(String content) {
         String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
         String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
@@ -366,5 +354,21 @@ public class HelpDoc implements java.io.Serializable {
 
         return content.trim(); //返回文本字符串
 
+    }
+
+    @Override
+    public String obtainDocumentId() {
+        return docId;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject object = JSONObject.from(this);
+        if (StringUtils.isNotBlank(this.getDocFile())) {
+            object.put("docFile", filterTag(this.getDocFile()));
+        } else {
+            object.put("docFile", this.getDocTitle());
+        }
+        return object;
     }
 }

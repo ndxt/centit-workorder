@@ -1,13 +1,13 @@
 package com.centit.workorder.service.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.OptInfo;
-import com.centit.search.document.ObjectDocument;
+import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
+import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
@@ -41,24 +39,25 @@ public class HelpDocManagerImpl
     public static final Logger logger = LoggerFactory.getLogger(HelpDocManager.class);
     private static final String FIRST_PREV_DOC_ID = "0";
 
-    @Autowired(required = false)
-    private ESSearcher esSearcher;
-
-    @Autowired(required = false)
-    private ESIndexer esIndexer;
-
-
+    @Autowired
+    ESServerConfig esServerConfig;
     private HelpDocDao helpDocDao;
+
     @Autowired(required = false)
     private PlatformEnvironment platformEnvironment;
 
-    @Resource(name = "helpDocDao")
-    @NotNull
-    public void setHelpDocDao(HelpDocDao baseDao) {
+    public void setHelpDocDao(@Autowired HelpDocDao baseDao) {
         this.helpDocDao = baseDao;
         setBaseDao(this.helpDocDao);
     }
 
+    public ESIndexer fetchIndexer() {
+        return IndexerSearcherFactory.obtainIndexer(esServerConfig, HelpDoc.class);
+    }
+
+    public ESSearcher fetchSearcher() {
+        return IndexerSearcherFactory.obtainSearcher(esServerConfig, HelpDoc.class);
+    }
 
     /**
      * 创建帮助文档
@@ -87,8 +86,8 @@ public class HelpDocManagerImpl
         helpDocDao.saveNewObject(helpDoc);
         DatabaseOptUtils.doExecuteSql(helpDocDao, "update f_help_doc set order_ind=order_ind+1 where doc_id<>? and catalog_id=?",
             new String[]{helpDoc.getDocId(), helpDoc.getCatalogId()});
-        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.saveNewDocument(objectDocument);
+
+        fetchIndexer().saveNewDocument(helpDoc);
         return helpDoc;
     }
 
@@ -121,8 +120,7 @@ public class HelpDocManagerImpl
         }else {
             helpDocDao.updateObject(dbHelpDoc);
         }
-        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.mergeDocument(objectDocument);
+        fetchIndexer().mergeDocument(dbHelpDoc);
         return dbHelpDoc;
     }
 
@@ -163,11 +161,7 @@ public class HelpDocManagerImpl
                 helpDocDao.deleteObjectById(doc);//删除子孙节点
             }
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("docId", docId);
-
-        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.deleteDocument(objectDocument);
+        fetchIndexer().deleteDocument(helpDoc);
     }
 
 
@@ -179,9 +173,7 @@ public class HelpDocManagerImpl
         helpDoc.setDocFile(content);
         helpDoc.setUpdateUser(userCode);
         helpDocDao.updateObject(helpDoc);
-
-        ObjectDocument objectDocument = helpDoc.generateObjectDocument();
-        esIndexer.mergeDocument(objectDocument);
+        fetchIndexer().mergeDocument(helpDoc);
         return helpDoc;
     }
 
@@ -234,19 +226,19 @@ public class HelpDocManagerImpl
 
     @Override
     public List<Map<String, Object>> fullSearch(Map<String, Object> searchQuery, String keyWord, PageDesc pageDesc) {
-        List<Map<String, Object>> list = esSearcher.search(searchQuery,
+        List<Map<String, Object>> list = fetchSearcher().search(searchQuery,
             keyWord, pageDesc.getPageNo(), pageDesc.getPageSize()).getRight();
-        if (list != null && list.size() > 0) {
+       /* if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                JSONObject json = JSONObject.parseObject((String) list.get(i).get("optUrl"));
-                list.get(i).put("docId", json.get("docId").toString());
-                list.get(i).put("docPath", json.get("docPath").toString());
+                Map<String, Object> json = list.get(i) ;// JSONObject.parseObject((String) list.get(i).get("optUrl"));
+                //list.get(i).put("docId", json.get("docId").toString());
+                //list.get(i).put("docPath", json.get("docPath").toString());
                 HelpDoc helpDoc = helpDocDao.getObjectById(json.get("docId").toString());
                 if (helpDoc != null) {
                     list.get(i).put("lastUpdateTime", helpDoc.getLastUpdateTime());
                 }
             }
-        }
+        }*/
         return list;
     }
 
