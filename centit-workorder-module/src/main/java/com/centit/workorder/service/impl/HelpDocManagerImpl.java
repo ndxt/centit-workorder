@@ -46,6 +46,7 @@ public class HelpDocManagerImpl
     @Autowired(required = false)
     private PlatformEnvironment platformEnvironment;
 
+    @Autowired
     public void setHelpDocDao(@Autowired HelpDocDao baseDao) {
         this.helpDocDao = baseDao;
         setBaseDao(this.helpDocDao);
