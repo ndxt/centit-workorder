@@ -1,9 +1,16 @@
 package com.centit.workorder;
 
-import com.centit.support.network.HttpExecutor;
-import com.centit.support.network.HttpExecutorContext;
+import com.alibaba.fastjson2.JSON;
+import com.centit.framework.common.SysParametersUtils;
+import com.centit.search.service.ESServerConfig;
+import com.centit.search.service.Impl.ESSearcher;
+import com.centit.search.service.IndexerSearcherFactory;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.workorder.po.HelpDoc;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zou_wy on 2017/8/2.
@@ -14,23 +21,14 @@ public class HelpDocTest {
 
     public static void main(String[] args) throws Exception {
 
-        HelpDoc helpDoc = new HelpDoc();
-        helpDoc.setCatalogId("123");
-        helpDoc.setDocTitle("标题");
-        helpDoc.setDocFile("管理员");
-        helpDoc.setOsId("FILE_SVR");
-        helpDoc.setOptId("search");
-        helpDoc.setOptMethod("search");
+        ESServerConfig esServerConfig = IndexerSearcherFactory.loadESServerConfigFormProperties(
+                SysParametersUtils.loadProperties() );
+        ESSearcher fetchSearcher = IndexerSearcherFactory.obtainSearcher(esServerConfig, HelpDoc.class);
 
-        try(CloseableHttpClient httpClient = HttpExecutor.createHttpClient()) {
-            String jsonStr = HttpExecutor.formPost(
-                    HttpExecutorContext.create(httpClient),
-                    "http://localhost:8384/workorder/service/os/FILE_SVR/documents", helpDoc);
-            System.out.println(jsonStr);
+        Pair<Long, List<Map<String, Object>>> res = fetchSearcher.search(
+            CollectionsOpt.createHashMap("osId", "zp_Qn5R5ROSo4sf-eovoWA"),
+            "流程", 1, 20);
 
-            jsonStr = HttpExecutor.jsonPost(HttpExecutorContext.create(httpClient),
-                    "http://localhost:8384/workorder/service/os/FILE_SVR/documents", helpDoc);
-            System.out.println(jsonStr);
-        }
+        System.out.println(JSON.toJSONString(res));
     }
 }
