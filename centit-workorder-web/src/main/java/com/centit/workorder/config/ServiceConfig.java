@@ -8,10 +8,7 @@ import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
-import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.ESServerConfig;
-import com.centit.search.service.Impl.ESIndexer;
-import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.IndexerSearcherFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -41,18 +38,6 @@ public class ServiceConfig {
         return IndexerSearcherFactory.loadESServerConfigFormProperties(
             SysParametersUtils.loadProperties()
         );
-    }
-
-    @Bean(name = "esIndexer")
-    public ESIndexer esIndexer(@Autowired ESServerConfig esServerConfig){
-        return IndexerSearcherFactory.obtainIndexer(
-            esServerConfig, ObjectDocument.class);
-    }
-
-    @Bean(name = "esSearcher")
-    public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig){
-        return IndexerSearcherFactory.obtainSearcher(
-            esServerConfig, ObjectDocument.class);
     }
 
     @Bean

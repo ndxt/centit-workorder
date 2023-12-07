@@ -40,7 +40,7 @@ public class HelpDocManagerImpl
     private static final String FIRST_PREV_DOC_ID = "0";
 
     @Autowired
-    ESServerConfig esServerConfig;
+    private ESServerConfig esServerConfig;
     private HelpDocDao helpDocDao;
 
     @Autowired(required = false)
