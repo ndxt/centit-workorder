@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  */
 @Entity
 @Table(name = "F_HELP_DOC")
-@ESType(indexName="helpdocs", replicas = 2, shards = 5)
+@ESType(indexName="helpdocs", shards = 3)
 public class HelpDoc implements ESDocument, java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
