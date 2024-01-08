@@ -100,7 +100,8 @@ public class HelpDocManagerImpl
                 OptInfo optInfo = new OptInfo();
                 optInfo.setOptId(helpDoc.getOptId());
                 optInfo.setDocId(helpDoc.getDocId());
-                optInfo.setTopOptId(helpDoc.getOsId());
+                //optInfo.setOsId(helpDoc.getOsId());
+                //optInfo.setTopOptId(helpDoc.getOsId());
                 platformEnvironment.updateOptInfo(optInfo);
             }
         } else {
@@ -134,7 +135,7 @@ public class HelpDocManagerImpl
             result.addAll(helpDocs);
             for (HelpDoc h : helpDocs) {
                 List<HelpDoc> subDocs = findChildren(h.getDocId());
-                if (subDocs != null && subDocs.size() > 0) {
+                if (!subDocs.isEmpty()) {
                     result.addAll(subDocs);
                 }
             }
@@ -157,7 +158,7 @@ public class HelpDocManagerImpl
 
         helpDocDao.deleteObjectById(docId);
         List<HelpDoc> helpDocs = findChildren(docId);
-        if (helpDocs != null && helpDocs.size() > 0) {
+        if (!helpDocs.isEmpty()) {
             for (HelpDoc doc : helpDocs) {
                 helpDocDao.deleteObjectById(doc);//删除子孙节点
             }
