@@ -4,4 +4,10 @@
 **/bower_components
 **/.tmp
 **/dist
-*/target
+**/target
+.mvn
+mvn*
+.settings
+**/~$*
+out.*
+.flattened-pom.xml
