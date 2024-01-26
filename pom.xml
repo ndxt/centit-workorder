@@ -5,12 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.centit.framework</groupId>
-        <artifactId>framework-snapshot-dependencies</artifactId>
-        <version>5.4-SNAPSHOT</version>
+        <artifactId>centit-project-bulid-parent</artifactId>
+        <version>5.5-SNAPSHOT</version>
     </parent>
+
     <groupId>com.centit.product</groupId>
     <artifactId>centit-workorder</artifactId>
-    <version>5.4-SNAPSHOT</version>
+    <version>${revision}</version>
     <modules>
         <module>centit-workorder-module</module>
     </modules>
