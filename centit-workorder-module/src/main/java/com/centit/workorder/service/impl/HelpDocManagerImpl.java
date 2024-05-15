@@ -114,15 +114,22 @@ public class HelpDocManagerImpl
     @Transactional
     public HelpDoc editHelpDoc(String docId, HelpDoc helpDoc) {
         HelpDoc dbHelpDoc = helpDocDao.getObjectById(docId);
-        String oldPath=dbHelpDoc.getDocPath();
-        dbHelpDoc.copyNotNullProperty(helpDoc);
-        if (!oldPath.equals(helpDoc.getDocPath())) {
-            String[] docPaths = helpDoc.getDocPath().split("/");
-            innerCatalog(docId, docPaths[docPaths.length - 1]);
-        }else {
-            helpDocDao.updateObject(dbHelpDoc);
+        if(dbHelpDoc==null){ // 新建文档
+            dbHelpDoc = helpDoc;
+            dbHelpDoc.setDocId(docId);
+            helpDocDao.saveNewObject(dbHelpDoc);
+            fetchIndexer().saveNewDocument(dbHelpDoc);
+        } else {
+            String oldPath = dbHelpDoc.getDocPath();
+            dbHelpDoc.copyNotNullProperty(helpDoc);
+            if (!oldPath.equals(helpDoc.getDocPath())) {
+                String[] docPaths = helpDoc.getDocPath().split("/");
+                innerCatalog(docId, docPaths[docPaths.length - 1]);
+            } else {
+                helpDocDao.updateObject(dbHelpDoc);
+            }
+            fetchIndexer().mergeDocument(dbHelpDoc);
         }
-        fetchIndexer().mergeDocument(dbHelpDoc);
         return dbHelpDoc;
     }
 
