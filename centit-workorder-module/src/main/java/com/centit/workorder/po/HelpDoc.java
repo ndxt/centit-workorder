@@ -116,7 +116,7 @@ public class HelpDoc implements ESDocument, java.io.Serializable {
      */
     @Column(name = "OPEN_EDIT")
     //@Length(max = 1, message = "字段长度不能大于{max}")
-    private boolean openEdit;
+    private Boolean openEdit;
     /**
      * 编辑时间 null
      */
@@ -275,8 +275,23 @@ public class HelpDoc implements ESDocument, java.io.Serializable {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public HelpDoc copy(HelpDoc other) {
+    public String getOwnerUser() {
+        return ownerUser;
+    }
 
+    public void setOwnerUser(String ownerUser) {
+        this.ownerUser = ownerUser;
+    }
+
+    public Boolean isOpenEdit() {
+        return openEdit;
+    }
+
+    public void setOpenEdit(boolean openEdit) {
+        this.openEdit = openEdit;
+    }
+
+    public HelpDoc copy(HelpDoc other) {
         this.setDocId(other.getDocId());
         this.catalogId = other.getCatalogId();
         this.docTitle = other.getDocTitle();
@@ -288,15 +303,14 @@ public class HelpDoc implements ESDocument, java.io.Serializable {
         this.optMethod = other.getOptMethod();
         this.updateUser = other.getUpdateUser();
         this.lastUpdateTime = other.getLastUpdateTime();
-
+        this.openEdit = other.isOpenEdit();
+        this.ownerUser = other.getOwnerUser();
         return this;
     }
 
     public HelpDoc copyNotNullProperty(HelpDoc other) {
-
         if (other.getDocId() != null)
             this.setDocId(other.getDocId());
-
         if (other.getCatalogId() != null)
             this.catalogId = other.getCatalogId();
         if (other.getDocTitle() != null)
@@ -321,11 +335,15 @@ public class HelpDoc implements ESDocument, java.io.Serializable {
             this.setPrevDocId(other.getPrevDocId());
         }
         this.setOrderInd(other.getOrderInd());
+        if (other.isOpenEdit() != null)
+            this.openEdit = other.isOpenEdit();
+        if (other.getOwnerUser() != null) {
+            this.ownerUser = other.getOwnerUser();
+        }
         return this;
     }
 
     public HelpDoc clearProperties() {
-
         this.catalogId = null;
         this.docTitle = null;
         this.docLevel = -1;
@@ -336,7 +354,8 @@ public class HelpDoc implements ESDocument, java.io.Serializable {
         this.optMethod = null;
         this.updateUser = null;
         this.lastUpdateTime = null;
-
+        this.openEdit = false;
+        this.ownerUser = null;
         return this;
     }
 
