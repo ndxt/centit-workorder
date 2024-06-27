@@ -21,10 +21,6 @@
     <description>工单系统用于运维支撑。</description>
     <url>https://github.com/ndxt/centit-workorder</url>
 
-    <properties>
-        <centit.search.version>5.2-SNAPSHOT</centit.search.version>
-    </properties>
-
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
