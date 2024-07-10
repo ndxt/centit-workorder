@@ -34,7 +34,7 @@ public class HelpDocDao extends BaseDaoImpl<HelpDoc, String> {
         filterField.put("lastUpdateTime" , CodeBook.EQUAL_HQL_ID);
         filterField.put("(like)parentId", "(docId like :parentId or docPath like :parentId)");
         filterField.put("parentId","docPath=:parentId");
-        filterField.put(CodeBook.SELF_ORDER_BY , "size(helpDocComments)");
+        //filterField.put(CodeBook.SELF_ORDER_BY , "size(helpDocComments)");
         filterField.put("prevId"," prev_docid is not null ");
         return filterField;
     }
